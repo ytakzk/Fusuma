@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = "Fusuma"
-  s.version          = "0.1.1"
+  s.version          = "0.1.2"
   s.summary          = "Instagram-like photo browser with a few line of code written in Swift"
   s.homepage         = "https://github.com/ytakzk/Fusuma"
   s.license          = 'MIT'
@@ -10,9 +10,9 @@ Pod::Spec.new do |s|
   s.platform     = :ios, '8.0'
   s.requires_arc = true
 
-  s.source_files = 'Pod/Classes/**/*'
+  s.source_files = 'Classes/**/*.png'
   s.resource_bundles = {
-    'Fusuma' => ['Pod/Assets/*.png']
+    'Fusuma' => ['Classes/Assets.xcassets', 'Classes/*.xib']
   }
 
 end
