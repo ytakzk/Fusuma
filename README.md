@@ -37,9 +37,6 @@ Add `github "ytakzk/Fusuma"` to your `Cartfile` and run `carthage update`. If un
 github "ytakzk/Fusuma"
 ```
 
-## Demo
-![Demo](https://raw.githubusercontent.com/wiki/ytakzk/Fusuma/images/demo.gif)
-
 ## Fusuma Usage
 Import Fusuma ```import Fusuma``` then use the following codes in some function except for viewDidLoad and give FusumaDelegate to the view controller.  
 
