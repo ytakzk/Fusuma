@@ -1,0 +1,6 @@
+framework module Fusuma {
+  umbrella header "Fusuma-umbrella.h"
+
+  export *
+  module * { export * }
+}

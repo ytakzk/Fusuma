@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9531" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view hidden="YES" contentMode="scaleToFill" id="iN0-l3-epB" customClass="FSCameraView" customModule="Fusuma_Example" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="400" height="600"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="SZ8-Sp-jjd">
+                    <rect key="frame" x="0.0" y="50" width="400" height="400"/>
+                    <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstAttribute="width" secondItem="SZ8-Sp-jjd" secondAttribute="height" multiplier="1:1" id="dsr-FI-2Hq"/>
+                    </constraints>
+                </view>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="oUi-qP-Neb">
+                    <rect key="frame" x="0.0" y="450" width="400" height="150"/>
+                    <subviews>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="o8l-Ld-Oon">
+                            <rect key="frame" x="166" y="41" width="68" height="68"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="68" id="hsf-ex-pEE"/>
+                                <constraint firstAttribute="width" constant="68" id="rPk-4D-nfg"/>
+                            </constraints>
+                            <inset key="contentEdgeInsets" minX="2" minY="2" maxX="2" maxY="2"/>
+                            <connections>
+                                <action selector="shotButtonPressed:" destination="iN0-l3-epB" eventType="touchUpInside" id="NK4-1d-Pf0"/>
+                            </connections>
+                        </button>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cf2-eo-TZZ">
+                            <rect key="frame" x="15" y="55" width="40" height="40"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="40" id="Wbh-0c-uHY"/>
+                                <constraint firstAttribute="height" constant="40" id="m8M-Pd-ZIT"/>
+                            </constraints>
+                            <inset key="contentEdgeInsets" minX="2" minY="2" maxX="2" maxY="2"/>
+                            <state key="normal" title="Button"/>
+                            <connections>
+                                <action selector="flipButtonPressed:" destination="iN0-l3-epB" eventType="touchUpInside" id="zY0-B4-jSZ"/>
+                            </connections>
+                        </button>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="De1-Cg-kBb">
+                            <rect key="frame" x="345" y="55" width="40" height="40"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="40" id="g0F-ZH-8j6"/>
+                                <constraint firstAttribute="height" constant="40" id="kNB-bN-eie"/>
+                            </constraints>
+                            <inset key="contentEdgeInsets" minX="2" minY="2" maxX="2" maxY="2"/>
+                            <state key="normal" title="Button"/>
+                            <connections>
+                                <action selector="flashButtonPressed:" destination="iN0-l3-epB" eventType="touchUpInside" id="GRd-6l-pEk"/>
+                            </connections>
+                        </button>
+                    </subviews>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstItem="o8l-Ld-Oon" firstAttribute="centerX" secondItem="oUi-qP-Neb" secondAttribute="centerX" id="2uy-UJ-fI0"/>
+                        <constraint firstAttribute="trailing" secondItem="De1-Cg-kBb" secondAttribute="trailing" constant="15" id="7HT-h5-nDc"/>
+                        <constraint firstItem="o8l-Ld-Oon" firstAttribute="centerY" secondItem="oUi-qP-Neb" secondAttribute="centerY" id="8mH-CL-YbA"/>
+                        <constraint firstItem="De1-Cg-kBb" firstAttribute="centerY" secondItem="oUi-qP-Neb" secondAttribute="centerY" id="cU7-qe-tJP"/>
+                        <constraint firstItem="cf2-eo-TZZ" firstAttribute="centerY" secondItem="oUi-qP-Neb" secondAttribute="centerY" id="dIP-Xc-fVX"/>
+                        <constraint firstItem="cf2-eo-TZZ" firstAttribute="leading" secondItem="oUi-qP-Neb" secondAttribute="leading" constant="15" id="qOq-Sy-3cE"/>
+                    </constraints>
+                </view>
+            </subviews>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstAttribute="bottom" secondItem="oUi-qP-Neb" secondAttribute="bottom" id="7zn-vY-NCd"/>
+                <constraint firstAttribute="trailing" secondItem="oUi-qP-Neb" secondAttribute="trailing" id="HM7-dt-RPz"/>
+                <constraint firstItem="oUi-qP-Neb" firstAttribute="top" secondItem="SZ8-Sp-jjd" secondAttribute="bottom" id="KEj-9P-kyb"/>
+                <constraint firstItem="oUi-qP-Neb" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="Lpo-QC-qmm"/>
+                <constraint firstItem="SZ8-Sp-jjd" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="50" id="XnG-nk-Wcr"/>
+                <constraint firstAttribute="trailing" secondItem="SZ8-Sp-jjd" secondAttribute="trailing" id="bms-F5-8H5"/>
+                <constraint firstItem="SZ8-Sp-jjd" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="x7t-wb-WiH"/>
+            </constraints>
+            <nil key="simulatedStatusBarMetrics"/>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <connections>
+                <outlet property="flashButton" destination="De1-Cg-kBb" id="vgA-Pn-IaF"/>
+                <outlet property="flipButton" destination="cf2-eo-TZZ" id="m0O-6p-tPs"/>
+                <outlet property="previewViewContainer" destination="SZ8-Sp-jjd" id="jWl-8h-3MN"/>
+                <outlet property="shotButton" destination="o8l-Ld-Oon" id="kCQ-i4-gDf"/>
+            </connections>
+            <point key="canvasLocation" x="269" y="405"/>
+        </view>
+    </objects>
+</document>
