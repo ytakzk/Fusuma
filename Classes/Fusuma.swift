@@ -40,7 +40,7 @@ public final class Fusuma: UIViewController, FSCameraViewDelegate, FSAlbumViewDe
     var albumView  = FSAlbumView.instance()
     var cameraView = FSCameraView.instance()
     
-    weak var delegate: FusumaDelegate? = nil
+    public weak var delegate: FusumaDelegate? = nil
     
     override public func viewDidLoad() {
         super.viewDidLoad()
