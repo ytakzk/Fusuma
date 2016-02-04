@@ -42,6 +42,12 @@ public final class Fusuma: UIViewController, FSCameraViewDelegate, FSAlbumViewDe
     
     public weak var delegate: FusumaDelegate? = nil
     
+    public static func instance() -> Fusuma {
+        
+        return UINib(nibName: "Fusuma", bundle: NSBundle(forClass: Fusuma.self)).instantiateWithOwner(self, options: nil)[0] as! Fusuma
+        
+    }
+    
     override public func viewDidLoad() {
         super.viewDidLoad()
     

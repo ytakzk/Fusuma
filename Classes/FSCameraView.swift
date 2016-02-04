@@ -30,7 +30,7 @@ final class FSCameraView: UIView, UIGestureRecognizerDelegate {
 
     static func instance() -> FSCameraView {
         
-        return UINib(nibName: "FSCameraView", bundle: nil).instantiateWithOwner(self, options: nil)[0] as! FSCameraView
+        return UINib(nibName: "FSCameraView", bundle: NSBundle(forClass: FSCameraView.self)).instantiateWithOwner(self, options: nil)[0] as! FSCameraView
     }
     
     func initialize() {

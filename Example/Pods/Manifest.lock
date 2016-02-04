@@ -4,7 +4,7 @@ PODS:
   - FBSnapshotTestCase/Core (2.0.7)
   - FBSnapshotTestCase/SwiftSupport (2.0.7):
     - FBSnapshotTestCase/Core
-  - Fusuma (0.1.0)
+  - Fusuma (0.1.7)
 
 DEPENDENCIES:
   - FBSnapshotTestCase
@@ -16,6 +16,6 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   FBSnapshotTestCase: 7e85180d0d141a0cf472352edda7e80d7eaeb547
-  Fusuma: 370927b809138b8b5e3858a635a2e110eebba885
+  Fusuma: 86e82190255befbfe7cce3c11701b6ffda42f67d
 
 COCOAPODS: 0.39.0
