@@ -41,7 +41,7 @@ github "ytakzk/Fusuma"
 Import Fusuma ```import Fusuma``` then use the following codes in some function except for viewDidLoad and give FusumaDelegate to the view controller.  
 
 ```
-let fusuma = Fusuma()
+let fusuma = FusumaViewController()
 fusuma.delegate = self
 self.presentViewController(fusuma, animated: true, completion: nil)
 ```
