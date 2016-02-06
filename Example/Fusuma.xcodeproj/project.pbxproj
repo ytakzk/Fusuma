@@ -16,8 +16,8 @@
 		5293687F1C5E2DE600370B6C /* FSCameraView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 529368751C5E2DE600370B6C /* FSCameraView.xib */; };
 		529368801C5E2DE600370B6C /* FSConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 529368761C5E2DE600370B6C /* FSConstants.swift */; };
 		529368811C5E2DE600370B6C /* FSImageCropView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 529368771C5E2DE600370B6C /* FSImageCropView.swift */; };
-		529368821C5E2DE600370B6C /* Fusuma.swift in Sources */ = {isa = PBXBuildFile; fileRef = 529368781C5E2DE600370B6C /* Fusuma.swift */; };
-		529368831C5E2DE600370B6C /* Fusuma.xib in Resources */ = {isa = PBXBuildFile; fileRef = 529368791C5E2DE600370B6C /* Fusuma.xib */; };
+		529368821C5E2DE600370B6C /* FusumaViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 529368781C5E2DE600370B6C /* FusumaViewController.swift */; };
+		529368831C5E2DE600370B6C /* FusumaViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 529368791C5E2DE600370B6C /* FusumaViewController.xib */; };
 		607FACD61AFB9204008FA782 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACD51AFB9204008FA782 /* AppDelegate.swift */; };
 		607FACD81AFB9204008FA782 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACD71AFB9204008FA782 /* ViewController.swift */; };
 		607FACDB1AFB9204008FA782 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 607FACD91AFB9204008FA782 /* Main.storyboard */; };
@@ -53,8 +53,8 @@
 		529368751C5E2DE600370B6C /* FSCameraView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FSCameraView.xib; sourceTree = "<group>"; };
 		529368761C5E2DE600370B6C /* FSConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FSConstants.swift; sourceTree = "<group>"; };
 		529368771C5E2DE600370B6C /* FSImageCropView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FSImageCropView.swift; sourceTree = "<group>"; };
-		529368781C5E2DE600370B6C /* Fusuma.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Fusuma.swift; sourceTree = "<group>"; };
-		529368791C5E2DE600370B6C /* Fusuma.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Fusuma.xib; sourceTree = "<group>"; };
+		529368781C5E2DE600370B6C /* FusumaViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FusumaViewController.swift; sourceTree = "<group>"; };
+		529368791C5E2DE600370B6C /* FusumaViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FusumaViewController.xib; sourceTree = "<group>"; };
 		556A7EC85EF582AB1B371A93 /* Pods_Fusuma_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Fusuma_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		607FACD01AFB9204008FA782 /* Fusuma_Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Fusuma_Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		607FACD41AFB9204008FA782 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -102,8 +102,8 @@
 				529368751C5E2DE600370B6C /* FSCameraView.xib */,
 				529368761C5E2DE600370B6C /* FSConstants.swift */,
 				529368771C5E2DE600370B6C /* FSImageCropView.swift */,
-				529368781C5E2DE600370B6C /* Fusuma.swift */,
-				529368791C5E2DE600370B6C /* Fusuma.xib */,
+				529368781C5E2DE600370B6C /* FusumaViewController.swift */,
+				529368791C5E2DE600370B6C /* FusumaViewController.xib */,
 				5285CC3C1C5E319E0070B639 /* Assets.xcassets */,
 			);
 			name = Classes;
@@ -289,7 +289,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				5293687F1C5E2DE600370B6C /* FSCameraView.xib in Resources */,
-				529368831C5E2DE600370B6C /* Fusuma.xib in Resources */,
+				529368831C5E2DE600370B6C /* FusumaViewController.xib in Resources */,
 				5285CC3D1C5E319E0070B639 /* Assets.xcassets in Resources */,
 				5293687D1C5E2DE600370B6C /* FSAlbumViewCell.xib in Resources */,
 				607FACDB1AFB9204008FA782 /* Main.storyboard in Resources */,
@@ -406,7 +406,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				529368821C5E2DE600370B6C /* Fusuma.swift in Sources */,
+				529368821C5E2DE600370B6C /* FusumaViewController.swift in Sources */,
 				607FACD81AFB9204008FA782 /* ViewController.swift in Sources */,
 				5293687E1C5E2DE600370B6C /* FSCameraView.swift in Sources */,
 				5293687C1C5E2DE600370B6C /* FSAlbumViewCell.swift in Sources */,

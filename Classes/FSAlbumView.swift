@@ -48,7 +48,7 @@ final class FSAlbumView: UIView, UICollectionViewDataSource, UICollectionViewDel
     
     static func instance() -> FSAlbumView {
         
-        return UINib(nibName: "FSAlbumView", bundle: NSBundle(forClass: Fusuma.classForCoder())).instantiateWithOwner(self, options: nil)[0] as! FSAlbumView
+        return UINib(nibName: "FSAlbumView", bundle: NSBundle(forClass: self.classForCoder())).instantiateWithOwner(self, options: nil)[0] as! FSAlbumView
     }
     
     func initialize() {

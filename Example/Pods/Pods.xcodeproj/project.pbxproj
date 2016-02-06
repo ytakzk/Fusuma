@@ -9,40 +9,40 @@
 /* Begin PBXBuildFile section */
 		163C6E8E5E7CEE1E0BEEB9CA0939DA3A /* UIImage+Diff.m in Sources */ = {isa = PBXBuildFile; fileRef = 73003A0752F3CABAA497D1FD1F5E4E44 /* UIImage+Diff.m */; };
 		18F301611D39BA3FB4821E3F0756A697 /* Pods-Fusuma_Example-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A8D296BC6DB8D37DCEEEA113E211223 /* Pods-Fusuma_Example-dummy.m */; };
-		1B5A38AA064793BC52BE13795ACE5A48 /* FSAlbumView.xib in Resources */ = {isa = PBXBuildFile; fileRef = D4490B30E0C3FE35FDE1B8B804A44794 /* FSAlbumView.xib */; };
 		1F118728B3D74089480152A6B660EA9A /* UIImage+Compare.h in Headers */ = {isa = PBXBuildFile; fileRef = A729E2AD854B4CEB4EF52289C017EB3B /* UIImage+Compare.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		2634DD86B1FF220000A2C58D87A0B114 /* FSAlbumView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 429BF5242B2F71AEDB5250C6592AFE83 /* FSAlbumView.swift */; };
+		24EAF6B0853D8E8DA0363754DB31B295 /* FSCameraView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7488CDDC1ACBB8330BF6E46F910A40F /* FSCameraView.swift */; };
 		28F2071FFF5C5B0E9DEB6C3FE43A30CC /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2393D1A899C707F79A64672C46ED238F /* UIKit.framework */; };
 		2E53AE45FFC635DAAB6422AA6097126D /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D31B096AB4A0164C61B63F0E59AD76C9 /* Foundation.framework */; };
 		35848D70EAC9237246BDF63457729694 /* FBSnapshotTestCase.m in Sources */ = {isa = PBXBuildFile; fileRef = 2523693A8A7BA4278BFC866F16021FFF /* FBSnapshotTestCase.m */; };
+		4080F21417A3527DF90E511CB4FA456B /* Fusuma-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A3736B493524026BBCEE9A0DF18955B /* Fusuma-dummy.m */; };
 		41D8739E2720D3535592391C25507158 /* FBSnapshotTestCasePlatform.h in Headers */ = {isa = PBXBuildFile; fileRef = 12CC4BD9C5F6D514C917D7942DF2D2F4 /* FBSnapshotTestCasePlatform.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		45F261DFBC934AE98F98CC1065799DAF /* FusumaViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B3A182D04A539B7294C2D5493710113 /* FusumaViewController.swift */; };
 		4A5AE3D95F6770E864AE8EFB5882614A /* Pods-Fusuma_Tests-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 73CB20963142B3B807D03C987137B5CE /* Pods-Fusuma_Tests-dummy.m */; };
 		52B0263F90696E7FD87CB146D5C5E2C1 /* UIImage+Diff.h in Headers */ = {isa = PBXBuildFile; fileRef = 7CAAAB29C54DB2D5220028C4110E45E6 /* UIImage+Diff.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		52F7A46AB0053D8BB1D793B917D37BB2 /* SwiftSupport.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDE5208FE4A05C9114818BC72105E5F7 /* SwiftSupport.swift */; };
-		58D2A8EAEEBE844D8F11F02E5F034C31 /* FSImageCropView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75AE95F8609941D51D9EAC40E34A11B1 /* FSImageCropView.swift */; };
+		5CBEE3BB551EB5641C9DC7B32AE13418 /* FSCameraView.xib in Resources */ = {isa = PBXBuildFile; fileRef = B948365C9AD89C8592A3F60CC72566C7 /* FSCameraView.xib */; };
 		5D14695A69EC4A8DF7488D0FC59C105C /* FBSnapshotTestCasePlatform.m in Sources */ = {isa = PBXBuildFile; fileRef = E38041D93EDE9398D62F150F8F25DE47 /* FBSnapshotTestCasePlatform.m */; };
-		6A4E776BD48596C61647A2B944B51A20 /* Fusuma-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A3736B493524026BBCEE9A0DF18955B /* Fusuma-dummy.m */; };
+		5F25B74547D20D7A539D554944BC7A24 /* FSAlbumView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 71016D47D042F61FFA3D11A8D8B0776A /* FSAlbumView.xib */; };
 		723FDDFD804188090511DEFA8309A06B /* UIImage+Snapshot.h in Headers */ = {isa = PBXBuildFile; fileRef = 0345D737618C6A063BD152389ACCBF87 /* UIImage+Snapshot.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		788E3D9458FE9540469981BE9A0B227C /* UIImage+Compare.m in Sources */ = {isa = PBXBuildFile; fileRef = 5999002674B86E70DC7970CEA62F278E /* UIImage+Compare.m */; };
-		7A48FE7BF988FF6D7A4268ED9A94A64D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 81332F392E8B6CD37C87CB30FA76FB57 /* Assets.xcassets */; };
-		7B58D792DDB0402315A484EC3985C0C9 /* FSAlbumViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = BA8A2EF2771647495617855C835923A7 /* FSAlbumViewCell.xib */; };
 		7BEF20E09F0E864478905311672F91AB /* FBSnapshotTestController.h in Headers */ = {isa = PBXBuildFile; fileRef = 4AC2C5814DCFC7590AC8C46AAB7FCEEF /* FBSnapshotTestController.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		821A26883ED14BDCD7EBADD37D671D17 /* FBSnapshotTestCase.h in Headers */ = {isa = PBXBuildFile; fileRef = 0EE4692BF9A76DAAA67A8FF4DABD27E8 /* FBSnapshotTestCase.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		834EE49236ED1780A2FE17CB64538569 /* FSAlbumViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C520C234F18F3CDB57AD3418457C789 /* FSAlbumViewCell.swift */; };
+		880A6FF063C0C0108A4784CB2802071F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 04B49E1259B3D993CFC8D7034E91EA17 /* Assets.xcassets */; };
 		8D549E01DA1D5104335CCEABFF870005 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D31B096AB4A0164C61B63F0E59AD76C9 /* Foundation.framework */; };
-		96CCBD02D88CE36DD45F90C8FD91FF0D /* FSCameraView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5C27A53671B8194C0299BC83FFEAAC19 /* FSCameraView.xib */; };
-		983A58B13DB66D7AE4BCD6ECD28031B9 /* Fusuma.xib in Resources */ = {isa = PBXBuildFile; fileRef = DDEC33ECAE71873519EBD0DB367B1787 /* Fusuma.xib */; };
+		924EADA7D881C4CFF07D233309DB19F1 /* FSImageCropView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9DE901EC549245EB5355C206021DD92 /* FSImageCropView.swift */; };
+		92C828806FE9175E31D3C2E09C063173 /* FSAlbumViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 27BBCE5D4C897622160B0C6F9A637418 /* FSAlbumViewCell.xib */; };
+		A20679609E98F97FD24257DD4AE8CAAD /* FSConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B1F6DEAE7102A519F202C086A4867CB /* FSConstants.swift */; };
 		AA8501741ABB8D75C6C47DE086BACD37 /* FBSnapshotTestController.m in Sources */ = {isa = PBXBuildFile; fileRef = BFFD97972C24EE7435D0E04686569BBE /* FBSnapshotTestController.m */; };
 		AAE9742FF575EAC61C6CC029E5282131 /* Pods-Fusuma_Tests-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 3F4F636BE78ADF7AAB0AD80C64D3F32B /* Pods-Fusuma_Tests-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AD4D905241DED4AEAD67447088ACB23D /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 853C84AC883B6FC690E82525E7ECB377 /* XCTest.framework */; };
+		B2EE518C755CFC40E6D284F3AF252AD2 /* FusumaViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8E3B269D70070E0B83D268FD26AF016A /* FusumaViewController.xib */; };
 		B9AD04E077FB832053198FF52D9DAEA9 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D31B096AB4A0164C61B63F0E59AD76C9 /* Foundation.framework */; };
 		BE13413968B89D5AE6AAA318649E16EE /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D31B096AB4A0164C61B63F0E59AD76C9 /* Foundation.framework */; };
-		C9C9ED4BC7D864BE5454DF47475E90BF /* Fusuma.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DFF98A90C64F53272AA12228E915723 /* Fusuma.swift */; };
+		BE57BFE52C6AD105443C118201D8E57B /* FSAlbumViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91E76936F099C2F6FB78655A67BA17AB /* FSAlbumViewCell.swift */; };
+		C106E73CC52DFF7886501F0B2B87D30C /* FSAlbumView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1BBE08834BDC04D973C0E1F0A4302F6 /* FSAlbumView.swift */; };
 		CC2BD0A04199B280AD93F459968CAFC2 /* FBSnapshotTestCase-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = DF90F95FC2B36AB64D2FB3AF22E996D2 /* FBSnapshotTestCase-dummy.m */; };
 		CF9DB2096C715EA61E263021EE406DB1 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0528444EFC68619AD1FEB8A7CD4A01BA /* QuartzCore.framework */; };
 		D65A4DF004341CFFB1699A61B289600F /* Fusuma-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 5BB4B55871EADF840CDA55AB27505433 /* Fusuma-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		DACD7536F188661A5A8DE6AEBDB80316 /* FSConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1E2DFA22F507E7F908853AC7338BC90 /* FSConstants.swift */; };
-		DC01854FD32B0A9382068100A1135711 /* FSCameraView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F672AA8C6AA1D29D25B51EFE99E91FA /* FSCameraView.swift */; };
 		EB392447B823C18344254D4C13A7320B /* Pods-Fusuma_Example-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = DE9DF6B572BEE3083DA90479E85EDD47 /* Pods-Fusuma_Example-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		EDD91D0CC316AC322E1607D3749F1C0A /* UIImage+Snapshot.m in Sources */ = {isa = PBXBuildFile; fileRef = 5121BCE99CCFB208275F3437CCF6EBB6 /* UIImage+Snapshot.m */; };
 /* End PBXBuildFile section */
@@ -73,23 +73,22 @@
 
 /* Begin PBXFileReference section */
 		0345D737618C6A063BD152389ACCBF87 /* UIImage+Snapshot.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "UIImage+Snapshot.h"; path = "FBSnapshotTestCase/Categories/UIImage+Snapshot.h"; sourceTree = "<group>"; };
+		04B49E1259B3D993CFC8D7034E91EA17 /* Assets.xcassets */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		0528444EFC68619AD1FEB8A7CD4A01BA /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS9.0.sdk/System/Library/Frameworks/QuartzCore.framework; sourceTree = DEVELOPER_DIR; };
 		0EE4692BF9A76DAAA67A8FF4DABD27E8 /* FBSnapshotTestCase.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = FBSnapshotTestCase.h; path = FBSnapshotTestCase/FBSnapshotTestCase.h; sourceTree = "<group>"; };
 		0F01AA0F45B0B5CC535F9884FF44262A /* FBSnapshotTestCase.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = "sourcecode.module-map"; path = FBSnapshotTestCase.modulemap; sourceTree = "<group>"; };
 		0F3709A44207C47436B4545A9F0A09A5 /* Pods-Fusuma_Tests.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = "sourcecode.module-map"; path = "Pods-Fusuma_Tests.modulemap"; sourceTree = "<group>"; };
 		12CC4BD9C5F6D514C917D7942DF2D2F4 /* FBSnapshotTestCasePlatform.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = FBSnapshotTestCasePlatform.h; path = FBSnapshotTestCase/FBSnapshotTestCasePlatform.h; sourceTree = "<group>"; };
+		1B1F6DEAE7102A519F202C086A4867CB /* FSConstants.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = FSConstants.swift; sourceTree = "<group>"; };
 		2393D1A899C707F79A64672C46ED238F /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS9.0.sdk/System/Library/Frameworks/UIKit.framework; sourceTree = DEVELOPER_DIR; };
 		2523693A8A7BA4278BFC866F16021FFF /* FBSnapshotTestCase.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = FBSnapshotTestCase.m; path = FBSnapshotTestCase/FBSnapshotTestCase.m; sourceTree = "<group>"; };
+		27BBCE5D4C897622160B0C6F9A637418 /* FSAlbumViewCell.xib */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = file.xib; path = FSAlbumViewCell.xib; sourceTree = "<group>"; };
 		2A8D296BC6DB8D37DCEEEA113E211223 /* Pods-Fusuma_Example-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-Fusuma_Example-dummy.m"; sourceTree = "<group>"; };
 		2F1D2BF82A1AC5CF0693F6CE80D39B61 /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		39CA496CE8B366E877933631498D4661 /* Pods-Fusuma_Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-Fusuma_Example.release.xcconfig"; sourceTree = "<group>"; };
-		3C520C234F18F3CDB57AD3418457C789 /* FSAlbumViewCell.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = FSAlbumViewCell.swift; sourceTree = "<group>"; };
 		3C6FC4D991F58329540583EBA8217537 /* Fusuma-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Fusuma-prefix.pch"; sourceTree = "<group>"; };
 		3CDD9962E7C6687DEEC40FC2F5F6DC17 /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		3DFF98A90C64F53272AA12228E915723 /* Fusuma.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = Fusuma.swift; sourceTree = "<group>"; };
 		3F4F636BE78ADF7AAB0AD80C64D3F32B /* Pods-Fusuma_Tests-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-Fusuma_Tests-umbrella.h"; sourceTree = "<group>"; };
-		3F672AA8C6AA1D29D25B51EFE99E91FA /* FSCameraView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = FSCameraView.swift; sourceTree = "<group>"; };
-		429BF5242B2F71AEDB5250C6592AFE83 /* FSAlbumView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = FSAlbumView.swift; sourceTree = "<group>"; };
 		42A681D3AF997235908A3089BB9BCB20 /* FBSnapshotTestCase.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = FBSnapshotTestCase.xcconfig; sourceTree = "<group>"; };
 		4AC2C5814DCFC7590AC8C46AAB7FCEEF /* FBSnapshotTestController.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = FBSnapshotTestController.h; path = FBSnapshotTestCase/FBSnapshotTestController.h; sourceTree = "<group>"; };
 		4D6E6B392ED524EFE3B46A4EE86622C2 /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -98,41 +97,42 @@
 		5999002674B86E70DC7970CEA62F278E /* UIImage+Compare.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "UIImage+Compare.m"; path = "FBSnapshotTestCase/Categories/UIImage+Compare.m"; sourceTree = "<group>"; };
 		5A3736B493524026BBCEE9A0DF18955B /* Fusuma-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Fusuma-dummy.m"; sourceTree = "<group>"; };
 		5BB4B55871EADF840CDA55AB27505433 /* Fusuma-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Fusuma-umbrella.h"; sourceTree = "<group>"; };
-		5C27A53671B8194C0299BC83FFEAAC19 /* FSCameraView.xib */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = file.xib; path = FSCameraView.xib; sourceTree = "<group>"; };
+		71016D47D042F61FFA3D11A8D8B0776A /* FSAlbumView.xib */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = file.xib; path = FSAlbumView.xib; sourceTree = "<group>"; };
 		73003A0752F3CABAA497D1FD1F5E4E44 /* UIImage+Diff.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "UIImage+Diff.m"; path = "FBSnapshotTestCase/Categories/UIImage+Diff.m"; sourceTree = "<group>"; };
 		73CB20963142B3B807D03C987137B5CE /* Pods-Fusuma_Tests-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-Fusuma_Tests-dummy.m"; sourceTree = "<group>"; };
-		75AE95F8609941D51D9EAC40E34A11B1 /* FSImageCropView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = FSImageCropView.swift; sourceTree = "<group>"; };
 		7CAAAB29C54DB2D5220028C4110E45E6 /* UIImage+Diff.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "UIImage+Diff.h"; path = "FBSnapshotTestCase/Categories/UIImage+Diff.h"; sourceTree = "<group>"; };
 		801EE0D54A4586911DEBDEB6A26B5485 /* Pods-Fusuma_Example-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-Fusuma_Example-acknowledgements.plist"; sourceTree = "<group>"; };
-		81332F392E8B6CD37C87CB30FA76FB57 /* Assets.xcassets */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		84CFBA2EF6D4CD77AA563A0A5019434D /* Pods-Fusuma_Example-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-Fusuma_Example-frameworks.sh"; sourceTree = "<group>"; };
 		853C84AC883B6FC690E82525E7ECB377 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS9.0.sdk/System/Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
+		8B3A182D04A539B7294C2D5493710113 /* FusumaViewController.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = FusumaViewController.swift; sourceTree = "<group>"; };
+		8E3B269D70070E0B83D268FD26AF016A /* FusumaViewController.xib */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = file.xib; path = FusumaViewController.xib; sourceTree = "<group>"; };
+		91E76936F099C2F6FB78655A67BA17AB /* FSAlbumViewCell.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = FSAlbumViewCell.swift; sourceTree = "<group>"; };
 		926E9D614B299DAEB1BDDA4760AA9EA0 /* Fusuma.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = "sourcecode.module-map"; path = Fusuma.modulemap; sourceTree = "<group>"; };
 		936B47F18032655FEC6CC28CBDE075B1 /* Fusuma.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = Fusuma.xcconfig; sourceTree = "<group>"; };
 		9646EE6ADBD60CAB6CEC25F100CB1807 /* Pods-Fusuma_Example.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = "sourcecode.module-map"; path = "Pods-Fusuma_Example.modulemap"; sourceTree = "<group>"; };
 		9E71E611610DB4B80BB9F4BE76D93463 /* Fusuma.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Fusuma.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		A1BBE08834BDC04D973C0E1F0A4302F6 /* FSAlbumView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = FSAlbumView.swift; sourceTree = "<group>"; };
 		A366361C6FE8F0D9503675269FB9769D /* Pods-Fusuma_Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-Fusuma_Example.debug.xcconfig"; sourceTree = "<group>"; };
 		A4351AD76108362655FE221382161321 /* Pods-Fusuma_Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-Fusuma_Tests.release.xcconfig"; sourceTree = "<group>"; };
 		A590B780507AB1DB52395AEAD1C6A294 /* Pods-Fusuma_Tests-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-Fusuma_Tests-acknowledgements.plist"; sourceTree = "<group>"; };
 		A729E2AD854B4CEB4EF52289C017EB3B /* UIImage+Compare.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "UIImage+Compare.h"; path = "FBSnapshotTestCase/Categories/UIImage+Compare.h"; sourceTree = "<group>"; };
+		A7488CDDC1ACBB8330BF6E46F910A40F /* FSCameraView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = FSCameraView.swift; sourceTree = "<group>"; };
 		A9159462EDC41265390998A43B6D0D8E /* Pods-Fusuma_Tests-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-Fusuma_Tests-frameworks.sh"; sourceTree = "<group>"; };
 		AE3C07BDCD86BECD6BE6006374ED8507 /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B3D08C65AB18ACF0D05C7C79DB5737E4 /* FBSnapshotTestCase-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "FBSnapshotTestCase-prefix.pch"; sourceTree = "<group>"; };
+		B948365C9AD89C8592A3F60CC72566C7 /* FSCameraView.xib */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = file.xib; path = FSCameraView.xib; sourceTree = "<group>"; };
 		BA6428E9F66FD5A23C0A2E06ED26CD2F /* Podfile */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
-		BA8A2EF2771647495617855C835923A7 /* FSAlbumViewCell.xib */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = file.xib; path = FSAlbumViewCell.xib; sourceTree = "<group>"; };
 		BFFD97972C24EE7435D0E04686569BBE /* FBSnapshotTestController.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = FBSnapshotTestController.m; path = FBSnapshotTestCase/FBSnapshotTestController.m; sourceTree = "<group>"; };
 		C1C4D0D8FA0CE85BC7975CB1D6BD33AD /* Pods_Fusuma_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Fusuma_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C1D74261E347B3E0AC83BED50F72C35A /* FBSnapshotTestCase.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = FBSnapshotTestCase.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C55CCA512BC9E4174283BA00EF4D873D /* Pods-Fusuma_Tests-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-Fusuma_Tests-acknowledgements.markdown"; sourceTree = "<group>"; };
 		D31B096AB4A0164C61B63F0E59AD76C9 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS9.0.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
-		D4490B30E0C3FE35FDE1B8B804A44794 /* FSAlbumView.xib */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = file.xib; path = FSAlbumView.xib; sourceTree = "<group>"; };
 		DD32F9ACA7D549946F8FD755BCB0C82C /* Pods-Fusuma_Tests-resources.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-Fusuma_Tests-resources.sh"; sourceTree = "<group>"; };
-		DDEC33ECAE71873519EBD0DB367B1787 /* Fusuma.xib */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = file.xib; path = Fusuma.xib; sourceTree = "<group>"; };
 		DE9DF6B572BEE3083DA90479E85EDD47 /* Pods-Fusuma_Example-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-Fusuma_Example-umbrella.h"; sourceTree = "<group>"; };
 		DF90F95FC2B36AB64D2FB3AF22E996D2 /* FBSnapshotTestCase-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "FBSnapshotTestCase-dummy.m"; sourceTree = "<group>"; };
-		E1E2DFA22F507E7F908853AC7338BC90 /* FSConstants.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = FSConstants.swift; sourceTree = "<group>"; };
 		E38041D93EDE9398D62F150F8F25DE47 /* FBSnapshotTestCasePlatform.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = FBSnapshotTestCasePlatform.m; path = FBSnapshotTestCase/FBSnapshotTestCasePlatform.m; sourceTree = "<group>"; };
 		E66B473CD9E0975235D4ED68F47A8C07 /* Pods-Fusuma_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-Fusuma_Tests.debug.xcconfig"; sourceTree = "<group>"; };
+		E9DE901EC549245EB5355C206021DD92 /* FSImageCropView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = FSImageCropView.swift; sourceTree = "<group>"; };
 		EA1A57DE50ED65ED9390392151A8C8BE /* Pods-Fusuma_Example-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-Fusuma_Example-acknowledgements.markdown"; sourceTree = "<group>"; };
 		FCB521867E6606524950DBEC836D30F8 /* Pods-Fusuma_Example-resources.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-Fusuma_Example-resources.sh"; sourceTree = "<group>"; };
 		FDE5208FE4A05C9114818BC72105E5F7 /* SwiftSupport.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = SwiftSupport.swift; path = FBSnapshotTestCase/SwiftSupport.swift; sourceTree = "<group>"; };
@@ -219,7 +219,7 @@
 		2878C548735DC73D5DDA4C099495BDB4 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				576FC918CDBEADA78CF0BE346F0EC595 /* Classes */,
+				5D7AEF2F82CD91E9B0A2947D5FB871B8 /* Classes */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -243,19 +243,6 @@
 			name = SwiftSupport;
 			sourceTree = "<group>";
 		};
-		469E29129846B10AAD117A2BE96C5455 /* Classes */ = {
-			isa = PBXGroup;
-			children = (
-				429BF5242B2F71AEDB5250C6592AFE83 /* FSAlbumView.swift */,
-				3C520C234F18F3CDB57AD3418457C789 /* FSAlbumViewCell.swift */,
-				3F672AA8C6AA1D29D25B51EFE99E91FA /* FSCameraView.swift */,
-				E1E2DFA22F507E7F908853AC7338BC90 /* FSConstants.swift */,
-				75AE95F8609941D51D9EAC40E34A11B1 /* FSImageCropView.swift */,
-				3DFF98A90C64F53272AA12228E915723 /* Fusuma.swift */,
-			);
-			path = Classes;
-			sourceTree = "<group>";
-		};
 		5060B33D8CFD3C2E88D6F156E54E3265 /* Core */ = {
 			isa = PBXGroup;
 			children = (
@@ -275,14 +262,27 @@
 			name = Core;
 			sourceTree = "<group>";
 		};
-		576FC918CDBEADA78CF0BE346F0EC595 /* Classes */ = {
+		5CFE310AE3E74BF6B488466DBCE5BC94 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
-				81332F392E8B6CD37C87CB30FA76FB57 /* Assets.xcassets */,
-				D4490B30E0C3FE35FDE1B8B804A44794 /* FSAlbumView.xib */,
-				BA8A2EF2771647495617855C835923A7 /* FSAlbumViewCell.xib */,
-				5C27A53671B8194C0299BC83FFEAAC19 /* FSCameraView.xib */,
-				DDEC33ECAE71873519EBD0DB367B1787 /* Fusuma.xib */,
+				A1BBE08834BDC04D973C0E1F0A4302F6 /* FSAlbumView.swift */,
+				91E76936F099C2F6FB78655A67BA17AB /* FSAlbumViewCell.swift */,
+				A7488CDDC1ACBB8330BF6E46F910A40F /* FSCameraView.swift */,
+				1B1F6DEAE7102A519F202C086A4867CB /* FSConstants.swift */,
+				E9DE901EC549245EB5355C206021DD92 /* FSImageCropView.swift */,
+				8B3A182D04A539B7294C2D5493710113 /* FusumaViewController.swift */,
+			);
+			path = Classes;
+			sourceTree = "<group>";
+		};
+		5D7AEF2F82CD91E9B0A2947D5FB871B8 /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				04B49E1259B3D993CFC8D7034E91EA17 /* Assets.xcassets */,
+				71016D47D042F61FFA3D11A8D8B0776A /* FSAlbumView.xib */,
+				27BBCE5D4C897622160B0C6F9A637418 /* FSAlbumViewCell.xib */,
+				B948365C9AD89C8592A3F60CC72566C7 /* FSCameraView.xib */,
+				8E3B269D70070E0B83D268FD26AF016A /* FusumaViewController.xib */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -290,7 +290,7 @@
 		6E6154C33A6D997A41A2D8B99EC941F9 /* Fusuma */ = {
 			isa = PBXGroup;
 			children = (
-				469E29129846B10AAD117A2BE96C5455 /* Classes */,
+				5CFE310AE3E74BF6B488466DBCE5BC94 /* Classes */,
 				2878C548735DC73D5DDA4C099495BDB4 /* Resources */,
 				190BCAD7A0F32B6FAB9A62CB0695D7C9 /* Support Files */,
 			);
@@ -489,9 +489,9 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 456BC59D9DAA1EB4C07DF5C7E5372416 /* Build configuration list for PBXNativeTarget "Fusuma" */;
 			buildPhases = (
-				409CCC9F9AD1C850CD3444CE42B5CAC0 /* Sources */,
+				EBF97F628C950B776AAE7BA9B1039EB2 /* Sources */,
 				2A157C3D77199E01F13D0600DB06A80D /* Frameworks */,
-				E201CAEF0BA1F40E58A609E0E4108A84 /* Resources */,
+				9CFEC14238C1D46391BE1267AFAE6990 /* Resources */,
 				BD25B45C4E21547997C6FA1FCC2F9944 /* Headers */,
 			);
 			buildRules = (
@@ -533,15 +533,15 @@
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		E201CAEF0BA1F40E58A609E0E4108A84 /* Resources */ = {
+		9CFEC14238C1D46391BE1267AFAE6990 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7A48FE7BF988FF6D7A4268ED9A94A64D /* Assets.xcassets in Resources */,
-				1B5A38AA064793BC52BE13795ACE5A48 /* FSAlbumView.xib in Resources */,
-				7B58D792DDB0402315A484EC3985C0C9 /* FSAlbumViewCell.xib in Resources */,
-				96CCBD02D88CE36DD45F90C8FD91FF0D /* FSCameraView.xib in Resources */,
-				983A58B13DB66D7AE4BCD6ECD28031B9 /* Fusuma.xib in Resources */,
+				880A6FF063C0C0108A4784CB2802071F /* Assets.xcassets in Resources */,
+				5F25B74547D20D7A539D554944BC7A24 /* FSAlbumView.xib in Resources */,
+				92C828806FE9175E31D3C2E09C063173 /* FSAlbumViewCell.xib in Resources */,
+				5CBEE3BB551EB5641C9DC7B32AE13418 /* FSCameraView.xib in Resources */,
+				B2EE518C755CFC40E6D284F3AF252AD2 /* FusumaViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -571,25 +571,25 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		409CCC9F9AD1C850CD3444CE42B5CAC0 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				2634DD86B1FF220000A2C58D87A0B114 /* FSAlbumView.swift in Sources */,
-				834EE49236ED1780A2FE17CB64538569 /* FSAlbumViewCell.swift in Sources */,
-				DC01854FD32B0A9382068100A1135711 /* FSCameraView.swift in Sources */,
-				DACD7536F188661A5A8DE6AEBDB80316 /* FSConstants.swift in Sources */,
-				58D2A8EAEEBE844D8F11F02E5F034C31 /* FSImageCropView.swift in Sources */,
-				6A4E776BD48596C61647A2B944B51A20 /* Fusuma-dummy.m in Sources */,
-				C9C9ED4BC7D864BE5454DF47475E90BF /* Fusuma.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		88E187F229695DD39AD3CADAAD46F88C /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 				18F301611D39BA3FB4821E3F0756A697 /* Pods-Fusuma_Example-dummy.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		EBF97F628C950B776AAE7BA9B1039EB2 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C106E73CC52DFF7886501F0B2B87D30C /* FSAlbumView.swift in Sources */,
+				BE57BFE52C6AD105443C118201D8E57B /* FSAlbumViewCell.swift in Sources */,
+				24EAF6B0853D8E8DA0363754DB31B295 /* FSCameraView.swift in Sources */,
+				A20679609E98F97FD24257DD4AE8CAAD /* FSConstants.swift in Sources */,
+				924EADA7D881C4CFF07D233309DB19F1 /* FSImageCropView.swift in Sources */,
+				4080F21417A3527DF90E511CB4FA456B /* Fusuma-dummy.m in Sources */,
+				45F261DFBC934AE98F98CC1065799DAF /* FusumaViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

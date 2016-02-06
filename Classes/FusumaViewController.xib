@@ -5,9 +5,9 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
     </dependencies>
     <objects>
-        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="Fusuma" customModule="Fusuma" customModuleProvider="target">
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="FusumaViewController" customModule="Fusuma" customModuleProvider="target">
             <connections>
-                <outlet property="cameraButton" destination="sCN-QB-mCu" id="ThU-Zu-ovJ"/>
+                <outlet property="cameraButton" destination="sCN-QB-mCu" id="tC3-i4-xpG"/>
                 <outlet property="cameraShotContainer" destination="CFH-FU-LPW" id="gvI-wh-cln"/>
                 <outlet property="closeButton" destination="Dx0-Tt-oZs" id="ci8-ub-48f"/>
                 <outlet property="doneButton" destination="5iB-Jh-kTh" id="jJj-Rx-7ob"/>

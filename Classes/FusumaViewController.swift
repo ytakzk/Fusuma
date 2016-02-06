@@ -1,5 +1,5 @@
 //
-//  Fusuma.swift
+//  FusumaViewController.swift
 //  Fusuma
 //
 //  Created by Yuta Akizuki on 2015/11/14.
@@ -17,7 +17,7 @@ public protocol FusumaDelegate: class {
 public var FSTintColor       = UIColor.hex("#009688", alpha: 1.0)
 public var FSBackgroundColor = UIColor.hex("#212121", alpha: 1.0)
 
-public final class Fusuma: UIViewController, FSCameraViewDelegate, FSAlbumViewDelegate {
+public final class FusumaViewController: UIViewController, FSCameraViewDelegate, FSAlbumViewDelegate {
     
     enum Mode {
         case Camera
@@ -42,10 +42,12 @@ public final class Fusuma: UIViewController, FSCameraViewDelegate, FSAlbumViewDe
     
     public weak var delegate: FusumaDelegate? = nil
     
-    public static func instance() -> Fusuma {
+    override public func loadView() {
         
-        return UINib(nibName: "Fusuma", bundle: NSBundle(forClass: Fusuma.self)).instantiateWithOwner(self, options: nil)[0] as! Fusuma
-        
+        if let view = UINib(nibName: "FusumaViewController", bundle: nil).instantiateWithOwner(FusumaViewController.classForCoder(), options: nil).first as? UIView {
+            
+            self.view = view
+        }
     }
     
     override public func viewDidLoad() {

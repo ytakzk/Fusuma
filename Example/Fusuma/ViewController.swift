@@ -28,7 +28,7 @@ class ViewController: UIViewController, FusumaDelegate {
     @IBAction func showButtonPressed(sender: UIButton) {
         
         // Show Fusuma
-        let fusuma = Fusuma()
+        let fusuma = FusumaViewController()
         fusuma.delegate = self
         self.presentViewController(fusuma, animated: true, completion: nil)
         
