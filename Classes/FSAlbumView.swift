@@ -9,22 +9,22 @@
 import UIKit
 import Photos
 
-protocol FSAlbumViewDelegate: class {
+public protocol FSAlbumViewDelegate: class {
     
     func albumViewCameraRollUnauthorized()
 }
 
 final class FSAlbumView: UIView, UICollectionViewDataSource, UICollectionViewDelegate, PHPhotoLibraryChangeObserver, UIGestureRecognizerDelegate {
-        
+    
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var imageCropView: FSImageCropView!
     @IBOutlet weak var imageCropViewContainer: UIView!
-
+    
     @IBOutlet weak var collectionViewConstraintHeight: NSLayoutConstraint!
     @IBOutlet weak var imageCropViewConstraintTop: NSLayoutConstraint!
     
     weak var delegate: FSAlbumViewDelegate? = nil
-
+    
     var images: PHFetchResult!
     let imageManager = PHCachingImageManager()
     var previousPreheatRect: CGRect = CGRectZero
@@ -41,7 +41,7 @@ final class FSAlbumView: UIView, UICollectionViewDataSource, UICollectionViewDel
     let imageCropViewMinimalVisibleHeight: CGFloat  = 100
     var dragDirection = Direction.Up
     var imaginaryCollectionViewOffsetStartPosY: CGFloat = 0.0
-
+    
     var cropBottomY: CGFloat  = 0.0
     var dragStartPos: CGPoint = CGPointZero
     let dragDiff: CGFloat     = 20.0
@@ -63,7 +63,7 @@ final class FSAlbumView: UIView, UICollectionViewDataSource, UICollectionViewDel
         let panGesture      = UIPanGestureRecognizer(target: self, action: "panned:")
         panGesture.delegate = self
         self.addGestureRecognizer(panGesture)
-
+        
         collectionViewConstraintHeight.constant = self.frame.height - imageCropView.frame.height - imageCropViewOriginalConstraintTop
         imageCropViewConstraintTop.constant = 50
         dragDirection = Direction.Up
@@ -73,11 +73,11 @@ final class FSAlbumView: UIView, UICollectionViewDataSource, UICollectionViewDel
         imageCropViewContainer.layer.shadowOpacity = 0.9
         imageCropViewContainer.layer.shadowOffset  = CGSizeZero
         
-        collectionView.registerNib(UINib(nibName: "FSAlbumViewCell", bundle: nil), forCellWithReuseIdentifier: "FSAlbumViewCell")
+        collectionView.registerNib(UINib(nibName: "FSAlbumViewCell", bundle: NSBundle(forClass: self.classForCoder)), forCellWithReuseIdentifier: "FSAlbumViewCell")
         
         // Never load photos Unless the user allows to access to photo album
         checkPhotoAuth()
-                
+        
         // Sorting condition
         let options = PHFetchOptions()
         options.sortDescriptors = [
@@ -87,21 +87,21 @@ final class FSAlbumView: UIView, UICollectionViewDataSource, UICollectionViewDel
         images = PHAsset.fetchAssetsWithMediaType(.Image, options: options)
         
         if images.count > 0 {
-
+            
             changeImage(images[0] as! PHAsset)
         }
         
         collectionView.reloadData()
         
         PHPhotoLibrary.sharedPhotoLibrary().registerChangeObserver(self)
-
+        
     }
     
     deinit {
         
         if PHPhotoLibrary.authorizationStatus() == PHAuthorizationStatus.Authorized {
             
-            PHPhotoLibrary.sharedPhotoLibrary().unregisterChangeObserver(self)            
+            PHPhotoLibrary.sharedPhotoLibrary().unregisterChangeObserver(self)
         }
     }
     
@@ -113,7 +113,7 @@ final class FSAlbumView: UIView, UICollectionViewDataSource, UICollectionViewDel
     func panned(sender: UITapGestureRecognizer) {
         
         if sender.state == UIGestureRecognizerState.Began {
-           
+            
             let view    = sender.view
             let loc     = sender.locationInView(view)
             let subview = view?.hitTest(loc, withEvent: nil)
@@ -124,7 +124,7 @@ final class FSAlbumView: UIView, UICollectionViewDataSource, UICollectionViewDel
             }
             
             dragStartPos = sender.locationInView(self)
-
+            
             cropBottomY = self.imageCropViewContainer.frame.origin.y + self.imageCropViewContainer.frame.height
             
             // Move
@@ -135,12 +135,12 @@ final class FSAlbumView: UIView, UICollectionViewDataSource, UICollectionViewDel
             
             // Scroll event of CollectionView is preferred.
             if (dragDirection == Direction.Up   && dragStartPos.y < cropBottomY + dragDiff) ||
-               (dragDirection == Direction.Down && dragStartPos.y > cropBottomY) {
-                
-                dragDirection = Direction.Stop
-                
-                imageCropView.changeScrollable(false)
-                
+                (dragDirection == Direction.Down && dragStartPos.y > cropBottomY) {
+                    
+                    dragDirection = Direction.Stop
+                    
+                    imageCropView.changeScrollable(false)
+                    
             } else {
                 
                 imageCropView.changeScrollable(true)
@@ -157,7 +157,7 @@ final class FSAlbumView: UIView, UICollectionViewDataSource, UICollectionViewDel
                 collectionViewConstraintHeight.constant = min(self.frame.height - imageCropViewMinimalVisibleHeight, self.frame.height - imageCropViewConstraintTop.constant - imageCropViewContainer.frame.height)
                 
             } else if dragDirection == Direction.Down && currentPos.y > cropBottomY {
-            
+                
                 imageCropViewConstraintTop.constant = min(imageCropViewOriginalConstraintTop, currentPos.y - imageCropViewContainer.frame.height)
                 
                 collectionViewConstraintHeight.constant = max(self.frame.height - imageCropViewOriginalConstraintTop - imageCropViewContainer.frame.height, self.frame.height - imageCropViewConstraintTop.constant - imageCropViewContainer.frame.height)
@@ -178,9 +178,9 @@ final class FSAlbumView: UIView, UICollectionViewDataSource, UICollectionViewDel
         } else {
             
             imaginaryCollectionViewOffsetStartPosY = 0.0
-
-            if sender.state == UIGestureRecognizerState.Ended && dragDirection == Direction.Stop {
             
+            if sender.state == UIGestureRecognizerState.Ended && dragDirection == Direction.Stop {
+                
                 imageCropView.changeScrollable(true)
                 return
             }
@@ -191,7 +191,7 @@ final class FSAlbumView: UIView, UICollectionViewDataSource, UICollectionViewDel
                 
                 // The largest movement
                 imageCropView.changeScrollable(false)
-
+                
                 imageCropViewConstraintTop.constant = imageCropViewMinimalVisibleHeight - self.imageCropViewContainer.frame.height
                 
                 collectionViewConstraintHeight.constant = self.frame.height - imageCropViewMinimalVisibleHeight
@@ -240,7 +240,7 @@ final class FSAlbumView: UIView, UICollectionViewDataSource, UICollectionViewDel
                 contentMode: .AspectFill,
                 options: options) {
                     result, info in
-
+                    
                     dispatch_async(dispatch_get_main_queue(), {
                         
                         self.imageCropView.imageSize = CGSize(width: asset.pixelWidth, height: asset.pixelHeight)
@@ -270,7 +270,7 @@ final class FSAlbumView: UIView, UICollectionViewDataSource, UICollectionViewDel
                 }
                 
         }
-    
+        
         return cell
     }
     
@@ -343,9 +343,9 @@ final class FSAlbumView: UIView, UICollectionViewDataSource, UICollectionViewDel
     
     //MARK: - PHPhotoLibraryChangeObserver
     func photoLibraryDidChange(changeInstance: PHChange) {
-
-        dispatch_async(dispatch_get_main_queue()) {
         
+        dispatch_async(dispatch_get_main_queue()) {
+            
             let collectionChanges = changeInstance.changeDetailsForFetchResult(self.images)
             if collectionChanges != nil {
                 
@@ -354,11 +354,11 @@ final class FSAlbumView: UIView, UICollectionViewDataSource, UICollectionViewDel
                 let collectionView = self.collectionView!
                 
                 if !collectionChanges!.hasIncrementalChanges || collectionChanges!.hasMoves {
-
+                    
                     collectionView.reloadData()
                     
                 } else {
-
+                    
                     collectionView.performBatchUpdates({
                         let removedIndexes = collectionChanges!.removedIndexes
                         if (removedIndexes?.count ?? 0) != 0 {
@@ -462,7 +462,7 @@ final class FSAlbumView: UIView, UICollectionViewDataSource, UICollectionViewDel
         }
         return assets
     }
-
+    
 }
 
 internal extension UICollectionView {

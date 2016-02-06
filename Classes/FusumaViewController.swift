@@ -44,7 +44,7 @@ public final class FusumaViewController: UIViewController, FSCameraViewDelegate,
     
     override public func loadView() {
         
-        if let view = UINib(nibName: "FusumaViewController", bundle: nil).instantiateWithOwner(FusumaViewController.classForCoder(), options: nil).first as? UIView {
+        if let view = UINib(nibName: "FusumaViewController", bundle: NSBundle(forClass: self.classForCoder)).instantiateWithOwner(self, options: nil).first as? UIView {
             
             self.view = view
         }
@@ -61,13 +61,20 @@ public final class FusumaViewController: UIViewController, FSCameraViewDelegate,
         menuView.backgroundColor = FSBackgroundColor
         menuView.addBottomBorder(UIColor.blackColor(), width: 1.0)
         
-        libraryButton.setImage(UIImage(named: "ic_insert_photo"), forState: .Normal)
-        libraryButton.setImage(UIImage(named: "ic_insert_photo"), forState: .Highlighted)
-        libraryButton.setImage(UIImage(named: "ic_insert_photo"), forState: .Selected)
+        let bundle = NSBundle(forClass: self.classForCoder)
+        
+        let albumImage = UIImage(named: "ic_insert_photo", inBundle: bundle, compatibleWithTraitCollection: nil)
+        let cameraImage = UIImage(named: "ic_photo_camera", inBundle: bundle, compatibleWithTraitCollection: nil)
+        let checkImage = UIImage(named: "ic_check", inBundle: bundle, compatibleWithTraitCollection: nil)
 
-        cameraButton.setImage(UIImage(named: "ic_photo_camera"), forState: .Normal)
-        cameraButton.setImage(UIImage(named: "ic_photo_camera"), forState: .Highlighted)
-        cameraButton.setImage(UIImage(named: "ic_photo_camera"), forState: .Selected)
+        
+        libraryButton.setImage(albumImage, forState: .Normal)
+        libraryButton.setImage(albumImage, forState: .Highlighted)
+        libraryButton.setImage(albumImage, forState: .Selected)
+
+        cameraButton.setImage(cameraImage, forState: .Normal)
+        cameraButton.setImage(cameraImage, forState: .Highlighted)
+        cameraButton.setImage(cameraImage, forState: .Selected)
         
         closeButton.tintColor = UIColor.whiteColor()
         
@@ -84,7 +91,7 @@ public final class FusumaViewController: UIViewController, FSCameraViewDelegate,
         photoLibraryViewerContainer.addSubview(albumView)
         cameraShotContainer.addSubview(cameraView)
         
-        doneButton.setImage(UIImage(named: "ic_check"), forState: .Normal)
+        doneButton.setImage(checkImage, forState: .Normal)
         doneButton.tintColor = UIColor.whiteColor()        
     }
     
@@ -216,7 +223,7 @@ public final class FusumaViewController: UIViewController, FSCameraViewDelegate,
     }
     
     // MARK: FSAlbumViewDelegate
-    func albumViewCameraRollUnauthorized() {
+    public func albumViewCameraRollUnauthorized() {
         
         delegate?.fusumaCameraRollUnauthorized()
     }

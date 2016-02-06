@@ -41,7 +41,7 @@
                     <constraints>
                         <constraint firstAttribute="height" constant="45" id="7VV-4q-BRr"/>
                     </constraints>
-                    <inset key="imageEdgeInsets" minX="2" minY="2" maxX="2" maxY="2"/>
+                    <inset key="imageEdgeInsets" minX="2" minY="3" maxX="2" maxY="2"/>
                     <state key="normal" image="ic_photo_camera"/>
                     <state key="selected" image="ic_photo_camera"/>
                     <state key="highlighted" image="ic_photo_camera"/>

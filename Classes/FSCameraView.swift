@@ -91,10 +91,16 @@ final class FSCameraView: UIView, UIGestureRecognizerDelegate {
         flashButton.tintColor = UIColor.whiteColor()
         flipButton.tintColor  = UIColor.whiteColor()
         shotButton.tintColor  = UIColor.whiteColor()
+        
+        let bundle = NSBundle(forClass: self.classForCoder)
+        
+        let flashImage = UIImage(named: "ic_flash_off", inBundle: bundle, compatibleWithTraitCollection: nil)
+        let flipImage = UIImage(named: "ic_loop", inBundle: bundle, compatibleWithTraitCollection: nil)
+        let shotImage = UIImage(named: "ic_radio_button_checked", inBundle: bundle, compatibleWithTraitCollection: nil)
 
-        flashButton.setImage(UIImage(named: "ic_flash_off"), forState: .Normal)
-        flipButton.setImage(UIImage(named: "ic_loop"), forState: .Normal)
-        shotButton.setImage(UIImage(named: "ic_radio_button_checked"), forState: .Normal)
+        flashButton.setImage(flashImage, forState: .Normal)
+        flipButton.setImage(flipImage, forState: .Normal)
+        shotButton.setImage(shotImage, forState: .Normal)
 
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "willEnterForegroundNotification:", name: UIApplicationWillEnterForegroundNotification, object: nil)
     }
