@@ -84,6 +84,9 @@ FSBackgroundColor: UIColor // background color
 ytakzk  
  [http://ytakzk.me](http://ytakzk.me)
  
+## Donation
+You are welcome support this project using Bitcoin 16485BTK9EoQUqkMmSecJ9xN6E9nhW8ePd
+ 
 ## License
 Fusuma is released under the MIT license.  
 See LICENSE for details.
