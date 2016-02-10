@@ -50,14 +50,15 @@ github "ytakzk/Fusuma"
 ## Fusuma Usage
 Import Fusuma ```import Fusuma``` then use the following codes in some function except for viewDidLoad and give FusumaDelegate to the view controller.  
 
-```
+```Swift
 let fusuma = FusumaViewController()
 fusuma.delegate = self
 self.presentViewController(fusuma, animated: true, completion: nil)
 ```
 
 #### Delegate methods
-```
+
+```Swift
 // Return the image which is selected from camera roll or is taken via the camera.
 func fusumaImageSelected(image: UIImage) {
 
@@ -72,7 +73,8 @@ func fusumaCameraRollUnauthorized() {
 ```
 
 #### Colors
-```
+
+```Swift
 FSTintColor: UIColor // tint color
 
 FSBackgroundColor: UIColor // background color
