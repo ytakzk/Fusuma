@@ -41,6 +41,11 @@ class ViewController: UIViewController, FusumaDelegate {
         imageView.image = image
     }
     
+    func fusumaDismissedWithImage(image: UIImage) {
+        
+        print("Called just after dismissed FusumaViewController")
+    }
+    
     func fusumaCameraRollUnauthorized() {
         
         print("Camera roll unauthorized")

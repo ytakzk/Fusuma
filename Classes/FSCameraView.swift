@@ -40,7 +40,7 @@ final class FSCameraView: UIView, UIGestureRecognizerDelegate {
             return
         }
         
-        self.backgroundColor = FSBackgroundColor
+        self.backgroundColor = fusumaBackgroundColor
         
         self.hidden = false
         
