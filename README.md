@@ -19,7 +19,6 @@ You can use Fusuma instead of UIImagePickerController. It also has a feature to 
 - [x] UIImagePickerController alternative
 - [x] Cropping images in camera roll
 - [x] Taking a square-sized photo using AVFoundation
-- [x] Taking a photo using AVFoundation
 - [x] Flash: On Off 
 - [x] Camera Mode: Front Back 
 
@@ -65,6 +64,12 @@ func fusumaImageSelected(image: UIImage) {
   print("Image selected")
 }
 
+// Return the image but called after is dismissed.
+func fusumaDismissedWithImage(image: UIImage) {
+        
+  print("Called just after FusumaViewController is dismissed.")
+}
+
 // When camera roll is not authorized, this method is called.
 func fusumaCameraRollUnauthorized() {
 
@@ -75,9 +80,9 @@ func fusumaCameraRollUnauthorized() {
 #### Colors
 
 ```Swift
-FSTintColor: UIColor // tint color
+fusumaTintColor: UIColor // tint color
 
-FSBackgroundColor: UIColor // background color
+fusumaBackgroundColor: UIColor // background color
 ```
 
 ## Author
