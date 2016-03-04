@@ -234,6 +234,7 @@ final class FSAlbumView: UIView, UICollectionViewDataSource, UICollectionViewDel
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), {
             
             let options = PHImageRequestOptions()
+            options.networkAccessAllowed = true
             
             self.imageManager.requestImageForAsset(asset,
                 targetSize: CGSize(width: asset.pixelWidth, height: asset.pixelHeight),
