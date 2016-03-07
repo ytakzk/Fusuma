@@ -102,6 +102,8 @@ final class FSCameraView: UIView, UIGestureRecognizerDelegate {
         flipButton.setImage(flipImage, forState: .Normal)
         shotButton.setImage(shotImage, forState: .Normal)
 
+        flashConfiguration()
+        
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "willEnterForegroundNotification:", name: UIApplicationWillEnterForegroundNotification, object: nil)
     }
     
@@ -264,7 +266,6 @@ final class FSCameraView: UIView, UIGestureRecognizerDelegate {
     
     @IBAction func flashButtonPressed(sender: UIButton) {
 
-
         do {
 
             if let device = device {
@@ -290,9 +291,33 @@ final class FSCameraView: UIView, UIGestureRecognizerDelegate {
 
         } catch _ {
 
+            flashButton.setImage(UIImage(named: "ic_flash_off"), forState: .Normal)
             return
         }
  
     }
+}
+
+private extension FSCameraView {
     
+    func flashConfiguration() {
+    
+        do {
+            
+            if let device = device {
+                
+                try device.lockForConfiguration()
+                
+                device.flashMode = AVCaptureFlashMode.Off
+                flashButton.setImage(UIImage(named: "ic_flash_off"), forState: .Normal)
+                
+                device.unlockForConfiguration()
+                
+            }
+            
+        } catch _ {
+            
+            return
+        }
+    }
 }
