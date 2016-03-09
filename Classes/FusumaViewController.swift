@@ -152,6 +152,25 @@ public final class FusumaViewController: UIViewController, FSCameraViewDelegate,
         })
     }
     
+    // MARK: FSCameraViewDelegate
+    func cameraShotFinished(image: UIImage) {
+        
+        delegate?.fusumaImageSelected(image)
+        self.dismissViewControllerAnimated(true, completion: {
+        
+            self.delegate?.fusumaDismissedWithImage(image)
+        })
+    }
+    
+    // MARK: FSAlbumViewDelegate
+    public func albumViewCameraRollUnauthorized() {
+        
+        delegate?.fusumaCameraRollUnauthorized()
+    }
+}
+
+private extension FusumaViewController {
+    
     func changeMode(mode: Mode) {
 
         if self.mode == mode {
@@ -218,21 +237,5 @@ public final class FusumaViewController: UIViewController, FSCameraViewDelegate,
         button.tintColor = fusumaTintColor
         
         button.addBottomBorder(fusumaTintColor, width: 3)
-    }
-    
-    // MARK: FSCameraViewDelegate
-    func cameraShotFinished(image: UIImage) {
-        
-        delegate?.fusumaImageSelected(image)
-        self.dismissViewControllerAnimated(true, completion: {
-        
-            self.delegate?.fusumaDismissedWithImage(image)
-        })
-    }
-    
-    // MARK: FSAlbumViewDelegate
-    public func albumViewCameraRollUnauthorized() {
-        
-        delegate?.fusumaCameraRollUnauthorized()
     }
 }

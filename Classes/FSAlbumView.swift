@@ -227,30 +227,6 @@ final class FSAlbumView: UIView, UICollectionViewDataSource, UICollectionViewDel
     }
     
     
-    private func changeImage(asset: PHAsset) {
-        
-        self.imageCropView.image = nil
-        
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), {
-            
-            let options = PHImageRequestOptions()
-            options.networkAccessAllowed = true
-            
-            self.imageManager.requestImageForAsset(asset,
-                targetSize: CGSize(width: asset.pixelWidth, height: asset.pixelHeight),
-                contentMode: .AspectFill,
-                options: options) {
-                    result, info in
-                    
-                    dispatch_async(dispatch_get_main_queue(), {
-                        
-                        self.imageCropView.imageSize = CGSize(width: asset.pixelWidth, height: asset.pixelHeight)
-                        self.imageCropView.image = result
-                    })
-            }
-        })
-    }
-    
     // MARK: - UICollectionViewDelegate Protocol
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         
@@ -309,29 +285,6 @@ final class FSAlbumView: UIView, UICollectionViewDataSource, UICollectionViewDel
         dragDirection = Direction.Up
     }
     
-    // Check the status of authorization for PHPhotoLibrary
-    private func checkPhotoAuth() {
-        
-        PHPhotoLibrary.requestAuthorization { (status) -> Void in
-            switch status {
-            case .Authorized:
-                
-                if self.images != nil && self.images.count > 0 {
-                    
-                    self.changeImage(self.images[0] as! PHAsset)
-                }
-                
-            case .Restricted, .Denied:
-                dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                    
-                    self.delegate?.albumViewCameraRollUnauthorized()
-                    
-                })
-            default:
-                break
-            }
-        }
-    }
     
     // MARK: - ScrollViewDelegate
     func scrollViewDidScroll(scrollView: UIScrollView) {
@@ -380,7 +333,85 @@ final class FSAlbumView: UIView, UICollectionViewDataSource, UICollectionViewDel
             }
         }
     }
+}
+
+internal extension UICollectionView {
     
+    func aapl_indexPathsForElementsInRect(rect: CGRect) -> [NSIndexPath] {
+        let allLayoutAttributes = self.collectionViewLayout.layoutAttributesForElementsInRect(rect)
+        if (allLayoutAttributes?.count ?? 0) == 0 {return []}
+        var indexPaths: [NSIndexPath] = []
+        indexPaths.reserveCapacity(allLayoutAttributes!.count)
+        for layoutAttributes in allLayoutAttributes! {
+            let indexPath = layoutAttributes.indexPath
+            indexPaths.append(indexPath)
+        }
+        return indexPaths
+    }
+}
+
+internal extension NSIndexSet {
+    
+    func aapl_indexPathsFromIndexesWithSection(section: Int) -> [NSIndexPath] {
+        var indexPaths: [NSIndexPath] = []
+        indexPaths.reserveCapacity(self.count)
+        self.enumerateIndexesUsingBlock {idx, stop in
+            indexPaths.append(NSIndexPath(forItem: idx, inSection: section))
+        }
+        return indexPaths
+    }
+}
+
+private extension FSAlbumView {
+    
+    func changeImage(asset: PHAsset) {
+        
+        self.imageCropView.image = nil
+        
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), {
+            
+            let options = PHImageRequestOptions()
+            options.networkAccessAllowed = true
+            
+            self.imageManager.requestImageForAsset(asset,
+                targetSize: CGSize(width: asset.pixelWidth, height: asset.pixelHeight),
+                contentMode: .AspectFill,
+                options: options) {
+                    result, info in
+                    
+                    dispatch_async(dispatch_get_main_queue(), {
+                        
+                        self.imageCropView.imageSize = CGSize(width: asset.pixelWidth, height: asset.pixelHeight)
+                        self.imageCropView.image = result
+                    })
+            }
+        })
+    }
+    
+    // Check the status of authorization for PHPhotoLibrary
+    private func checkPhotoAuth() {
+        
+        PHPhotoLibrary.requestAuthorization { (status) -> Void in
+            switch status {
+            case .Authorized:
+                
+                if self.images != nil && self.images.count > 0 {
+                    
+                    self.changeImage(self.images[0] as! PHAsset)
+                }
+                
+            case .Restricted, .Denied:
+                dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                    
+                    self.delegate?.albumViewCameraRollUnauthorized()
+                    
+                })
+            default:
+                break
+            }
+        }
+    }
+
     // MARK: - Asset Caching
     
     func resetCachedAssets() {
@@ -388,8 +419,8 @@ final class FSAlbumView: UIView, UICollectionViewDataSource, UICollectionViewDel
         imageManager.stopCachingImagesForAllAssets()
         previousPreheatRect = CGRectZero
     }
-    
-    private func updateCachedAssets() {
+ 
+    func updateCachedAssets() {
         
         var preheatRect = self.collectionView!.bounds
         preheatRect = CGRectInset(preheatRect, 0.0, -0.5 * CGRectGetHeight(preheatRect))
@@ -424,7 +455,7 @@ final class FSAlbumView: UIView, UICollectionViewDataSource, UICollectionViewDel
         }
     }
     
-    private func computeDifferenceBetweenRect(oldRect: CGRect, andRect newRect: CGRect, removedHandler: CGRect->Void, addedHandler: CGRect->Void) {
+    func computeDifferenceBetweenRect(oldRect: CGRect, andRect newRect: CGRect, removedHandler: CGRect->Void, addedHandler: CGRect->Void) {
         if CGRectIntersectsRect(newRect, oldRect) {
             let oldMaxY = CGRectGetMaxY(oldRect)
             let oldMinY = CGRectGetMinY(oldRect)
@@ -452,7 +483,7 @@ final class FSAlbumView: UIView, UICollectionViewDataSource, UICollectionViewDel
         }
     }
     
-    private func assetsAtIndexPaths(indexPaths: [NSIndexPath]) -> [PHAsset] {
+    func assetsAtIndexPaths(indexPaths: [NSIndexPath]) -> [PHAsset] {
         if indexPaths.count == 0 { return [] }
         
         var assets: [PHAsset] = []
@@ -462,31 +493,5 @@ final class FSAlbumView: UIView, UICollectionViewDataSource, UICollectionViewDel
             assets.append(asset)
         }
         return assets
-    }
-    
-}
-
-internal extension UICollectionView {
-    func aapl_indexPathsForElementsInRect(rect: CGRect) -> [NSIndexPath] {
-        let allLayoutAttributes = self.collectionViewLayout.layoutAttributesForElementsInRect(rect)
-        if (allLayoutAttributes?.count ?? 0) == 0 {return []}
-        var indexPaths: [NSIndexPath] = []
-        indexPaths.reserveCapacity(allLayoutAttributes!.count)
-        for layoutAttributes in allLayoutAttributes! {
-            let indexPath = layoutAttributes.indexPath
-            indexPaths.append(indexPath)
-        }
-        return indexPaths
-    }
-}
-
-internal extension NSIndexSet {
-    func aapl_indexPathsFromIndexesWithSection(section: Int) -> [NSIndexPath] {
-        var indexPaths: [NSIndexPath] = []
-        indexPaths.reserveCapacity(self.count)
-        self.enumerateIndexesUsingBlock {idx, stop in
-            indexPaths.append(NSIndexPath(forItem: idx, inSection: section))
-        }
-        return indexPaths
     }
 }

@@ -125,56 +125,6 @@ final class FSCameraView: UIView, UIGestureRecognizerDelegate {
             session?.stopRunning()
         }
     }
-
-    func focus(recognizer: UITapGestureRecognizer) {
-        
-        let point = recognizer.locationInView(self)
-        let viewsize = self.bounds.size
-        let newPoint = CGPoint(x: point.y/viewsize.height, y: 1.0-point.x/viewsize.width)
-        
-        let device = AVCaptureDevice.defaultDeviceWithMediaType(AVMediaTypeVideo)
-        
-        do {
-            
-            try device.lockForConfiguration()
-            
-        } catch _ {
-            
-            return
-        }
-        
-        if device.isFocusModeSupported(AVCaptureFocusMode.AutoFocus) == true {
-
-            device.focusMode = AVCaptureFocusMode.AutoFocus
-            device.focusPointOfInterest = newPoint
-        }
-
-        if device.isExposureModeSupported(AVCaptureExposureMode.ContinuousAutoExposure) == true {
-            
-            device.exposureMode = AVCaptureExposureMode.ContinuousAutoExposure
-            device.exposurePointOfInterest = newPoint
-        }
-        
-        device.unlockForConfiguration()
-        
-        self.focusView?.alpha = 0.0
-        self.focusView?.center = point
-        self.focusView?.backgroundColor = UIColor.clearColor()
-        self.focusView?.layer.borderColor = UIColor.whiteColor().CGColor
-        self.focusView?.layer.borderWidth = 1.0
-        self.focusView!.transform = CGAffineTransformMakeScale(1.0, 1.0)
-        self.addSubview(self.focusView!)
-        
-        UIView.animateWithDuration(0.8, delay: 0.0, usingSpringWithDamping: 0.8,
-            initialSpringVelocity: 3.0, options: UIViewAnimationOptions.CurveEaseIn, // UIViewAnimationOptions.BeginFromCurrentState
-            animations: {
-                self.focusView!.alpha = 1.0
-                self.focusView!.transform = CGAffineTransformMakeScale(0.7, 0.7)
-            }, completion: {(finished) in
-                self.focusView!.transform = CGAffineTransformMakeScale(1.0, 1.0)
-                self.focusView!.removeFromSuperview()
-        })
-    }
     
     @IBAction func shotButtonPressed(sender: UIButton) {
         
@@ -299,6 +249,56 @@ final class FSCameraView: UIView, UIGestureRecognizerDelegate {
 }
 
 private extension FSCameraView {
+    
+    func focus(recognizer: UITapGestureRecognizer) {
+        
+        let point = recognizer.locationInView(self)
+        let viewsize = self.bounds.size
+        let newPoint = CGPoint(x: point.y/viewsize.height, y: 1.0-point.x/viewsize.width)
+        
+        let device = AVCaptureDevice.defaultDeviceWithMediaType(AVMediaTypeVideo)
+        
+        do {
+            
+            try device.lockForConfiguration()
+            
+        } catch _ {
+            
+            return
+        }
+        
+        if device.isFocusModeSupported(AVCaptureFocusMode.AutoFocus) == true {
+
+            device.focusMode = AVCaptureFocusMode.AutoFocus
+            device.focusPointOfInterest = newPoint
+        }
+
+        if device.isExposureModeSupported(AVCaptureExposureMode.ContinuousAutoExposure) == true {
+            
+            device.exposureMode = AVCaptureExposureMode.ContinuousAutoExposure
+            device.exposurePointOfInterest = newPoint
+        }
+        
+        device.unlockForConfiguration()
+        
+        self.focusView?.alpha = 0.0
+        self.focusView?.center = point
+        self.focusView?.backgroundColor = UIColor.clearColor()
+        self.focusView?.layer.borderColor = UIColor.whiteColor().CGColor
+        self.focusView?.layer.borderWidth = 1.0
+        self.focusView!.transform = CGAffineTransformMakeScale(1.0, 1.0)
+        self.addSubview(self.focusView!)
+        
+        UIView.animateWithDuration(0.8, delay: 0.0, usingSpringWithDamping: 0.8,
+            initialSpringVelocity: 3.0, options: UIViewAnimationOptions.CurveEaseIn, // UIViewAnimationOptions.BeginFromCurrentState
+            animations: {
+                self.focusView!.alpha = 1.0
+                self.focusView!.transform = CGAffineTransformMakeScale(0.7, 0.7)
+            }, completion: {(finished) in
+                self.focusView!.transform = CGAffineTransformMakeScale(1.0, 1.0)
+                self.focusView!.removeFromSuperview()
+        })
+    }
     
     func flashConfiguration() {
     
