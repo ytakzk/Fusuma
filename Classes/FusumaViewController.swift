@@ -13,6 +13,7 @@ public protocol FusumaDelegate: class {
     func fusumaImageSelected(image: UIImage)
     func fusumaDismissedWithImage(image: UIImage)
     func fusumaCameraRollUnauthorized()
+    func fusumaDismissedWithoutImage()
 }
 
 public var fusumaTintColor       = UIColor.hex("#009688", alpha: 1.0)
@@ -120,7 +121,9 @@ public final class FusumaViewController: UIViewController, FSCameraViewDelegate,
     
     @IBAction func closeButtonPressed(sender: UIButton) {
 
-        self.dismissViewControllerAnimated(true, completion: nil)
+        self.dismissViewControllerAnimated(true, completion: {
+            fusumaDismissedWithoutImage()
+        })
     }
     
     @IBAction func libraryButtonPressed(sender: UIButton) {
