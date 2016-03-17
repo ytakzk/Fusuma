@@ -15,8 +15,6 @@ public protocol FusumaDelegate: class {
     func fusumaCameraRollUnauthorized()
 }
 
-public var fusumaTintColor       = UIColor.hex("#009688", alpha: 1.0)
-public var fusumaBackgroundColor = UIColor.hex("#212121", alpha: 1.0)
 
 public final class FusumaViewController: UIViewController, FSCameraViewDelegate, FSAlbumViewDelegate {
     
@@ -24,6 +22,9 @@ public final class FusumaViewController: UIViewController, FSCameraViewDelegate,
         case Camera
         case Library
     }
+    
+    public var fusumaTintColor       = UIColor.hex("#009688", alpha: 1.0)
+    public var fusumaBackgroundColor = UIColor.hex("#212121", alpha: 1.0)
     
     var mode: Mode?
     var willFilter = true
