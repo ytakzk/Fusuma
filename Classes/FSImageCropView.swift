@@ -111,7 +111,7 @@ final class FSImageCropView: UIScrollView, UIScrollViewDelegate {
         
         super.init(coder: aDecoder)!
         
-        self.backgroundColor = fusumaBackgroundColor
+        self.backgroundColor = FusumaViewController.fusumaBackgroundColor
         self.frame.size      = CGSizeZero
         self.clipsToBounds   = true
         self.imageView.alpha = 0.0
