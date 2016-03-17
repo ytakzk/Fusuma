@@ -26,7 +26,7 @@ final class FSAlbumView: UIView, UICollectionViewDataSource, UICollectionViewDel
     weak var delegate: FSAlbumViewDelegate? = nil
     
     var images: PHFetchResult!
-    let imageManager = PHCachingImageManager()
+    var imageManager: PHCachingImageManager?
     var previousPreheatRect: CGRect = CGRectZero
     let cellSize = CGSize(width: 100, height: 100)
     
@@ -236,7 +236,7 @@ final class FSAlbumView: UIView, UICollectionViewDataSource, UICollectionViewDel
         cell.tag = currentTag
         
         let asset = self.images[indexPath.item] as! PHAsset
-        self.imageManager.requestImageForAsset(asset,
+        self.imageManager?.requestImageForAsset(asset,
             targetSize: cellSize,
             contentMode: .AspectFill,
             options: nil) {
@@ -373,7 +373,7 @@ private extension FSAlbumView {
             let options = PHImageRequestOptions()
             options.networkAccessAllowed = true
             
-            self.imageManager.requestImageForAsset(asset,
+            self.imageManager?.requestImageForAsset(asset,
                 targetSize: CGSize(width: asset.pixelWidth, height: asset.pixelHeight),
                 contentMode: .AspectFill,
                 options: options) {
@@ -394,7 +394,7 @@ private extension FSAlbumView {
         PHPhotoLibrary.requestAuthorization { (status) -> Void in
             switch status {
             case .Authorized:
-                
+                self.imageManager = PHCachingImageManager()
                 if self.images != nil && self.images.count > 0 {
                     
                     self.changeImage(self.images[0] as! PHAsset)
@@ -416,7 +416,7 @@ private extension FSAlbumView {
     
     func resetCachedAssets() {
         
-        imageManager.stopCachingImagesForAllAssets()
+        imageManager?.stopCachingImagesForAllAssets()
         previousPreheatRect = CGRectZero
     }
  
@@ -442,11 +442,11 @@ private extension FSAlbumView {
             let assetsToStartCaching = self.assetsAtIndexPaths(addedIndexPaths)
             let assetsToStopCaching = self.assetsAtIndexPaths(removedIndexPaths)
             
-            self.imageManager.startCachingImagesForAssets(assetsToStartCaching,
+            self.imageManager?.startCachingImagesForAssets(assetsToStartCaching,
                 targetSize: cellSize,
                 contentMode: .AspectFill,
                 options: nil)
-            self.imageManager.stopCachingImagesForAssets(assetsToStopCaching,
+            self.imageManager?.stopCachingImagesForAssets(assetsToStopCaching,
                 targetSize: cellSize,
                 contentMode: .AspectFill,
                 options: nil)
