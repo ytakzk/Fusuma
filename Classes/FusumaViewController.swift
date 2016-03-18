@@ -12,13 +12,14 @@ import UIKit
     
     func fusumaImageSelected(image: UIImage)
     optional func fusumaDismissedWithImage(image: UIImage)
+    func fusumaVideoCompleted(withFileURL fileURL: NSURL)
     func fusumaCameraRollUnauthorized()
 }
 
 public var fusumaTintColor       = UIColor.hex("#009688", alpha: 1.0)
 public var fusumaBackgroundColor = UIColor.hex("#212121", alpha: 1.0)
 
-public final class FusumaViewController: UIViewController, FSCameraViewDelegate, FSAlbumViewDelegate {
+public final class FusumaViewController: UIViewController {
     
     enum Mode {
         case Camera
@@ -26,7 +27,7 @@ public final class FusumaViewController: UIViewController, FSCameraViewDelegate,
         case Video
     }
     
-    var mode: Mode?
+    var mode: Mode = Mode.Camera
     var willFilter = true
 
     @IBOutlet weak var photoLibraryViewerContainer: UIView!
@@ -62,6 +63,7 @@ public final class FusumaViewController: UIViewController, FSCameraViewDelegate,
         
         cameraView.delegate = self
         albumView.delegate  = self
+        videoView.delegate = self
 
         menuView.backgroundColor = fusumaBackgroundColor
         menuView.addBottomBorder(UIColor.blackColor(), width: 1.0)
@@ -128,6 +130,11 @@ public final class FusumaViewController: UIViewController, FSCameraViewDelegate,
         cameraView.initialize()
         videoView.initialize()
     }
+    
+    public override func viewWillDisappear(animated: Bool) {
+        super.viewWillDisappear(animated)
+        self.stopAll()
+    }
 
     override public func prefersStatusBarHidden() -> Bool {
         
@@ -135,7 +142,6 @@ public final class FusumaViewController: UIViewController, FSCameraViewDelegate,
     }
     
     @IBAction func closeButtonPressed(sender: UIButton) {
-
         self.dismissViewControllerAnimated(true, completion: nil)
     }
     
@@ -168,34 +174,57 @@ public final class FusumaViewController: UIViewController, FSCameraViewDelegate,
         delegate?.fusumaImageSelected(image)
         
         self.dismissViewControllerAnimated(true, completion: {
-            
             self.delegate?.fusumaDismissedWithImage?(image)
         })
     }
+    
+}
+
+extension FusumaViewController: FSAlbumViewDelegate, FSCameraViewDelegate, FSVideoCameraViewDelegate {
     
     // MARK: FSCameraViewDelegate
     func cameraShotFinished(image: UIImage) {
         
         delegate?.fusumaImageSelected(image)
         self.dismissViewControllerAnimated(true, completion: {
-        
+            
             self.delegate?.fusumaDismissedWithImage?(image)
         })
     }
     
     // MARK: FSAlbumViewDelegate
     public func albumViewCameraRollUnauthorized() {
-        
         delegate?.fusumaCameraRollUnauthorized()
     }
+    
+    func videoFinished(withFileURL fileURL: NSURL) {
+        delegate?.fusumaVideoCompleted(withFileURL: fileURL)
+        self.dismissViewControllerAnimated(true, completion: nil)
+    }
+    
 }
 
 private extension FusumaViewController {
+    
+    func stopAll() {
+        self.videoView.stopCamera()
+        self.cameraView.stopCamera()
+    }
     
     func changeMode(mode: Mode) {
 
         if self.mode == mode {
             return
+        }
+        
+        //operate this switch before changing mode to stop cameras
+        switch self.mode {
+        case .Library:
+            break
+        case .Camera:
+            self.cameraView.stopCamera()
+        case .Video:
+            self.videoView.stopCamera()
         }
         
         self.mode = mode
@@ -215,12 +244,14 @@ private extension FusumaViewController {
             
             highlightButton(cameraButton)
             self.view.bringSubviewToFront(cameraShotContainer)
+            cameraView.startCamera()
         case .Video:
             titleLabel.text = "VIDEO"
             doneButton.hidden = true
             
             highlightButton(videoButton)
             self.view.bringSubviewToFront(videoShotContainer)
+            videoView.startCamera()
         }
         self.view.bringSubviewToFront(menuView)
     }

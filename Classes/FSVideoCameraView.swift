@@ -10,7 +10,7 @@ import UIKit
 import AVFoundation
 
 protocol FSVideoCameraViewDelegate: class {
-    func videoFinished(image: UIImage)
+    func videoFinished(withFileURL fileURL: NSURL)
 }
 
 final class FSVideoCameraView: UIView {
@@ -25,8 +25,10 @@ final class FSVideoCameraView: UIView {
     var session: AVCaptureSession?
     var device: AVCaptureDevice?
     var videoInput: AVCaptureDeviceInput?
-    var videoOutput: AVCaptureVideoDataOutput?
+    var videoOutput: AVCaptureMovieFileOutput?
     var focusView: UIView?
+    
+    private var isRecording = false
     
     static func instance() -> FSVideoCameraView {
         
@@ -63,9 +65,18 @@ final class FSVideoCameraView: UIView {
                 
                 session.addInput(videoInput)
                 
-                videoOutput = AVCaptureVideoDataOutput()
+                videoOutput = AVCaptureMovieFileOutput()
+                let totalSeconds = 60.0 //Total Seconds of capture time
+                let timeScale: Int32 = 30 //FPS
                 
-                session.addOutput(videoOutput)
+                let maxDuration = CMTimeMakeWithSeconds(totalSeconds, timeScale)
+                
+                videoOutput?.maxRecordedDuration = maxDuration
+                videoOutput?.minFreeDiskSpaceLimit = 1024 * 1024 //SET MIN FREE SPACE IN BYTES FOR RECORDING TO CONTINUE ON A VOLUME
+                
+                if session.canAddOutput(videoOutput) {
+                    session.addOutput(videoOutput)
+                }
                 
                 let videoLayer = AVCaptureVideoPreviewLayer(session: session)
                 videoLayer.frame = self.previewViewContainer.bounds
@@ -95,7 +106,7 @@ final class FSVideoCameraView: UIView {
         
         let flashImage = UIImage(named: "ic_flash_off", inBundle: bundle, compatibleWithTraitCollection: nil)
         let flipImage = UIImage(named: "ic_loop", inBundle: bundle, compatibleWithTraitCollection: nil)
-        let shotImage = UIImage(named: "ic_radio_button_checked", inBundle: bundle, compatibleWithTraitCollection: nil)
+        let shotImage = UIImage(named: "video_button", inBundle: bundle, compatibleWithTraitCollection: nil)
         
         flashButton.setImage(flashImage, forState: .Normal)
         flipButton.setImage(flipImage, forState: .Normal)
@@ -103,7 +114,7 @@ final class FSVideoCameraView: UIView {
         
         flashConfiguration()
         
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "willEnterForegroundNotification:", name: UIApplicationWillEnterForegroundNotification, object: nil)
+        self.startCamera()
     }
     
     deinit {
@@ -111,7 +122,7 @@ final class FSVideoCameraView: UIView {
         NSNotificationCenter.defaultCenter().removeObserver(self)
     }
     
-    func willEnterForegroundNotification(notification: NSNotification) {
+    func startCamera() {
         
         let status = AVCaptureDevice.authorizationStatusForMediaType(AVMediaTypeVideo)
         
@@ -125,53 +136,56 @@ final class FSVideoCameraView: UIView {
         }
     }
     
+    func stopCamera() {
+        if self.isRecording {
+            self.toggleRecording()
+        }
+        session?.stopRunning()
+    }
+    
     @IBAction func shotButtonPressed(sender: UIButton) {
         
+        self.toggleRecording()
+    }
+    
+    private func toggleRecording() {
         guard let videoOutput = videoOutput else {
-            
             return
         }
         
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), { () -> Void in
+        self.isRecording = !self.isRecording
+        
+        let shotImage: UIImage?
+        if self.isRecording {
+            shotImage = UIImage(named: "video_button_rec", inBundle: NSBundle(forClass: self.classForCoder), compatibleWithTraitCollection: nil)
+        } else {
+            shotImage = UIImage(named: "video_button", inBundle: NSBundle(forClass: self.classForCoder), compatibleWithTraitCollection: nil)
+        }
+        self.shotButton.setImage(shotImage, forState: .Normal)
+        
+        if self.isRecording {
+            let outputPath = "\(NSTemporaryDirectory())output.mov"
+            let outputURL = NSURL.fileURLWithPath(outputPath)
             
-            let videoConnection = videoOutput.connectionWithMediaType(AVMediaTypeVideo)
-            
-//            videoOutput.captureStillImageAsynchronouslyFromConnection(videoConnection, completionHandler: { (buffer, error) -> Void in
-//                
-//                self.session?.stopRunning()
-//                
-//                let data = AVCaptureStillImageOutput.jpegStillImageNSDataRepresentation(buffer)
-//                
-//                if let image = UIImage(data: data), let delegate = self.delegate {
-//                    
-//                    // Image size
-//                    let iw = image.size.width
-//                    let ih = image.size.height
-//                    
-//                    // Frame size
-//                    let sw = self.previewViewContainer.frame.width
-//                    
-//                    // The center coordinate along Y axis
-//                    let rcy = ih*0.5
-//                    
-//                    let imageRef = CGImageCreateWithImageInRect(image.CGImage, CGRect(x: rcy-iw*0.5, y: 0 , width: iw, height: iw))
-//                    
-//                    let resizedImage = UIImage(CGImage: imageRef!, scale: sw/iw, orientation: image.imageOrientation)
-//                    
-//                    dispatch_async(dispatch_get_main_queue(), { () -> Void in
-//                        
-//                        delegate.cameraShotFinished(resizedImage)
-//                        
-//                        self.session     = nil
-//                        self.device      = nil
-//                        self.imageOutput = nil
-//                        
-//                    })
-//                }
-//                
-//            })
-            
-        })
+            let fileManager = NSFileManager.defaultManager()
+            if fileManager.fileExistsAtPath(outputPath) {
+                do {
+                    try fileManager.removeItemAtPath(outputPath)
+                } catch {
+                    print("error removing item at path: \(outputPath)")
+                    self.isRecording = false
+                    return
+                }
+            }
+            self.flipButton.enabled = false
+            self.flashButton.enabled = false
+            videoOutput.startRecordingToOutputFileURL(outputURL, recordingDelegate: self)
+        } else {
+            videoOutput.stopRecording()
+            self.flipButton.enabled = true
+            self.flashButton.enabled = true
+        }
+        return
     }
     
     @IBAction func flipButtonPressed(sender: UIButton) {
@@ -246,6 +260,19 @@ final class FSVideoCameraView: UIView {
         
     }
 
+}
+
+extension FSVideoCameraView: AVCaptureFileOutputRecordingDelegate {
+    
+    func captureOutput(captureOutput: AVCaptureFileOutput!, didStartRecordingToOutputFileAtURL fileURL: NSURL!, fromConnections connections: [AnyObject]!) {
+        print("started recording to: \(fileURL)")
+    }
+    
+    func captureOutput(captureOutput: AVCaptureFileOutput!, didFinishRecordingToOutputFileAtURL outputFileURL: NSURL!, fromConnections connections: [AnyObject]!, error: NSError!) {
+        print("finished recording to: \(outputFileURL)")
+        self.delegate?.videoFinished(withFileURL: outputFileURL)
+    }
+    
 }
 
 extension FSVideoCameraView {

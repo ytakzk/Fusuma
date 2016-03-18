@@ -29,7 +29,10 @@
                                 <constraint firstAttribute="height" constant="40" id="TcK-3W-Kpf"/>
                             </constraints>
                             <inset key="contentEdgeInsets" minX="2" minY="2" maxX="2" maxY="2"/>
-                            <state key="normal" image="ic_insert_photo"/>
+                            <state key="normal" image="ic_loop"/>
+                            <connections>
+                                <action selector="flipButtonPressed:" destination="iN0-l3-epB" eventType="touchUpInside" id="tB8-SP-OGo"/>
+                            </connections>
                         </button>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cpy-ro-bt6">
                             <rect key="frame" x="166" y="41" width="68" height="68"/>
@@ -38,7 +41,10 @@
                                 <constraint firstAttribute="width" constant="68" id="ggw-fN-Nue"/>
                             </constraints>
                             <inset key="contentEdgeInsets" minX="2" minY="2" maxX="2" maxY="2"/>
-                            <state key="normal" image="ic_radio_button_checked"/>
+                            <state key="normal" image="video_button"/>
+                            <connections>
+                                <action selector="shotButtonPressed:" destination="iN0-l3-epB" eventType="touchUpInside" id="sNT-eM-y2G"/>
+                            </connections>
                         </button>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yHq-QZ-jPz">
                             <rect key="frame" x="345" y="55" width="40" height="40"/>
@@ -48,6 +54,9 @@
                             </constraints>
                             <inset key="contentEdgeInsets" minX="2" minY="2" maxX="2" maxY="2"/>
                             <state key="normal" image="ic_flash_off"/>
+                            <connections>
+                                <action selector="flashButtonPressed:" destination="iN0-l3-epB" eventType="touchUpInside" id="nou-7D-EDR"/>
+                            </connections>
                         </button>
                     </subviews>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -83,7 +92,7 @@
     </objects>
     <resources>
         <image name="ic_flash_off" width="48" height="48"/>
-        <image name="ic_insert_photo" width="36" height="36"/>
-        <image name="ic_radio_button_checked" width="40" height="40"/>
+        <image name="ic_loop" width="48" height="48"/>
+        <image name="video_button" width="40" height="40"/>
     </resources>
 </document>
