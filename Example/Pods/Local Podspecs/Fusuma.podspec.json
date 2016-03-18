@@ -1,6 +1,6 @@
 {
   "name": "Fusuma",
-  "version": "0.1.9",
+  "version": "0.2.3",
   "summary": "Instagram-like photo browser with a few line of code written in Swift",
   "homepage": "https://github.com/ytakzk/Fusuma",
   "license": "MIT",
@@ -9,7 +9,7 @@
   },
   "source": {
     "git": "https://github.com/ytakzk/Fusuma.git",
-    "tag": "0.1.9"
+    "tag": "0.2.3"
   },
   "platforms": {
     "ios": "8.0"

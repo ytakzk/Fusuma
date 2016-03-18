@@ -11,10 +11,10 @@ import UIKit
 // Extension
 internal extension UIColor {
     
-    class func hex (var hexStr : NSString, alpha : CGFloat) -> UIColor {
+    class func hex (hexStr : NSString, alpha : CGFloat) -> UIColor {
         
-        hexStr = hexStr.stringByReplacingOccurrencesOfString("#", withString: "")
-        let scanner = NSScanner(string: hexStr as String)
+        let realHexStr = hexStr.stringByReplacingOccurrencesOfString("#", withString: "")
+        let scanner = NSScanner(string: realHexStr as String)
         var color: UInt32 = 0
         if scanner.scanHexInt(&color) {
             let r = CGFloat((color & 0xFF0000) >> 16) / 255.0

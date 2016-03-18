@@ -25,6 +25,8 @@
 		607FACE01AFB9204008FA782 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 607FACDE1AFB9204008FA782 /* LaunchScreen.xib */; };
 		607FACEC1AFB9204008FA782 /* Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACEB1AFB9204008FA782 /* Tests.swift */; };
 		7646EDD969177463E6D60F4F /* Pods_Fusuma_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 556A7EC85EF582AB1B371A93 /* Pods_Fusuma_Tests.framework */; };
+		B412D2081C9C3BDD00BFDE84 /* FSVideoCameraView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B412D2071C9C3BDD00BFDE84 /* FSVideoCameraView.swift */; };
+		B412D20C1C9C3F5400BFDE84 /* FSVideoCameraView.xib in Resources */ = {isa = PBXBuildFile; fileRef = B412D20B1C9C3F5400BFDE84 /* FSVideoCameraView.xib */; };
 		B8F772435E5CB85FC9150D53 /* Pods_Fusuma_Example.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6AFF7D20EACE6B77580D327E /* Pods_Fusuma_Example.framework */; };
 /* End PBXBuildFile section */
 
@@ -69,6 +71,8 @@
 		6AFF7D20EACE6B77580D327E /* Pods_Fusuma_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Fusuma_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		7AE1105051B1337110ECAA2B /* Pods-Fusuma_Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Fusuma_Example.release.xcconfig"; path = "Pods/Target Support Files/Pods-Fusuma_Example/Pods-Fusuma_Example.release.xcconfig"; sourceTree = "<group>"; };
 		9B7C47C5623DBE5CE9204C16 /* Pods-Fusuma_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Fusuma_Tests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Fusuma_Tests/Pods-Fusuma_Tests.debug.xcconfig"; sourceTree = "<group>"; };
+		B412D2071C9C3BDD00BFDE84 /* FSVideoCameraView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FSVideoCameraView.swift; sourceTree = "<group>"; };
+		B412D20B1C9C3F5400BFDE84 /* FSVideoCameraView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FSVideoCameraView.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -100,6 +104,8 @@
 				529368731C5E2DE600370B6C /* FSAlbumViewCell.xib */,
 				529368741C5E2DE600370B6C /* FSCameraView.swift */,
 				529368751C5E2DE600370B6C /* FSCameraView.xib */,
+				B412D2071C9C3BDD00BFDE84 /* FSVideoCameraView.swift */,
+				B412D20B1C9C3F5400BFDE84 /* FSVideoCameraView.xib */,
 				529368761C5E2DE600370B6C /* FSConstants.swift */,
 				529368771C5E2DE600370B6C /* FSImageCropView.swift */,
 				529368781C5E2DE600370B6C /* FusumaViewController.swift */,
@@ -288,6 +294,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B412D20C1C9C3F5400BFDE84 /* FSVideoCameraView.xib in Resources */,
 				5293687F1C5E2DE600370B6C /* FSCameraView.xib in Resources */,
 				529368831C5E2DE600370B6C /* FusumaViewController.xib in Resources */,
 				5285CC3D1C5E319E0070B639 /* Assets.xcassets in Resources */,
@@ -407,6 +414,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				529368821C5E2DE600370B6C /* FusumaViewController.swift in Sources */,
+				B412D2081C9C3BDD00BFDE84 /* FSVideoCameraView.swift in Sources */,
 				607FACD81AFB9204008FA782 /* ViewController.swift in Sources */,
 				5293687E1C5E2DE600370B6C /* FSCameraView.swift in Sources */,
 				5293687C1C5E2DE600370B6C /* FSAlbumViewCell.swift in Sources */,
