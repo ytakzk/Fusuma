@@ -74,5 +74,11 @@ class ViewController: UIViewController, FusumaDelegate {
         
         self.presentViewController(alert, animated: true, completion: nil)
     }
+    
+    func fusumaClosed() {
+     
+        print("Called when the close button is pressed")
+    }
+
 }
 

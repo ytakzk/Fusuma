@@ -14,6 +14,8 @@ import UIKit
     optional func fusumaDismissedWithImage(image: UIImage)
     func fusumaVideoCompleted(withFileURL fileURL: NSURL)
     func fusumaCameraRollUnauthorized()
+    
+    optional func fusumaClosed()
 }
 
 public var fusumaTintColor       = UIColor.hex("#009688", alpha: 1.0)
@@ -142,7 +144,10 @@ public final class FusumaViewController: UIViewController {
     }
     
     @IBAction func closeButtonPressed(sender: UIButton) {
-        self.dismissViewControllerAnimated(true, completion: nil)
+        self.dismissViewControllerAnimated(true, completion: {
+            
+            self.delegate?.fusumaClosed?()
+        })
     }
     
     @IBAction func libraryButtonPressed(sender: UIButton) {
