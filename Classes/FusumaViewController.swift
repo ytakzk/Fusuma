@@ -122,7 +122,7 @@ public final class FusumaViewController: UIViewController, FSCameraViewDelegate,
     @IBAction func closeButtonPressed(sender: UIButton) {
 
         self.dismissViewControllerAnimated(true, completion: {
-            fusumaDismissedWithoutImage()
+            self.delegate?.fusumaDismissedWithoutImage()
         })
     }
     
