@@ -8,10 +8,10 @@
 
 import UIKit
 
-public protocol FusumaDelegate: class {
+@objc public protocol FusumaDelegate: class {
     
     func fusumaImageSelected(image: UIImage)
-    func fusumaDismissedWithImage(image: UIImage)
+    optional func fusumaDismissedWithImage(image: UIImage)
     func fusumaCameraRollUnauthorized()
     func fusumaDismissedWithoutImage()
 }
@@ -151,7 +151,7 @@ public final class FusumaViewController: UIViewController, FSCameraViewDelegate,
         
         self.dismissViewControllerAnimated(true, completion: {
             
-            self.delegate?.fusumaDismissedWithImage(image)
+            self.delegate?.fusumaDismissedWithImage?(image)
         })
     }
     
@@ -161,7 +161,7 @@ public final class FusumaViewController: UIViewController, FSCameraViewDelegate,
         delegate?.fusumaImageSelected(image)
         self.dismissViewControllerAnimated(true, completion: {
         
-            self.delegate?.fusumaDismissedWithImage(image)
+            self.delegate?.fusumaDismissedWithImage?(image)
         })
     }
     
