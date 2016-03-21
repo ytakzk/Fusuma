@@ -67,8 +67,10 @@ class ViewController: UIViewController, FusumaDelegate {
         self.presentViewController(alert, animated: true, completion: nil)
     }
     
-    func fusumaDismissedWithoutImage() {
-        print("Called when press dismiss button after dismissed FusumaViewController")
+    func fusumaClosed() {
+     
+        print("Called when the close button is pressed")
     }
+
 }
 
