@@ -20,14 +20,16 @@ import UIKit
 public var fusumaTintColor       = UIColor.hex("#009688", alpha: 1.0)
 public var fusumaBackgroundColor = UIColor.hex("#212121", alpha: 1.0)
 
+
+public enum FusumaMode {
+    case Camera
+    case Library
+}
+
 public final class FusumaViewController: UIViewController, FSCameraViewDelegate, FSAlbumViewDelegate {
     
-    enum Mode {
-        case Camera
-        case Library
-    }
-    
-    var mode: Mode?
+    var defaultMode: FusumaMode?
+    private var mode: FusumaMode?
     var willFilter = true
 
     @IBOutlet weak var photoLibraryViewerContainer: UIView!
@@ -89,7 +91,7 @@ public final class FusumaViewController: UIViewController, FSCameraViewDelegate,
         cameraButton.clipsToBounds  = true
         libraryButton.clipsToBounds = true
 
-        changeMode(Mode.Library)
+        changeMode(defaultMode ?? FusumaMode.Library)
         
         photoLibraryViewerContainer.addSubview(albumView)
         cameraShotContainer.addSubview(cameraView)
@@ -130,12 +132,12 @@ public final class FusumaViewController: UIViewController, FSCameraViewDelegate,
     
     @IBAction func libraryButtonPressed(sender: UIButton) {
         
-        changeMode(Mode.Library)
+        changeMode(FusumaMode.Library)
     }
     
     @IBAction func photoButtonPressed(sender: UIButton) {
     
-        changeMode(Mode.Camera)
+        changeMode(FusumaMode.Camera)
     }
     
     @IBAction func doneButtonPressed(sender: UIButton) {
@@ -176,7 +178,7 @@ public final class FusumaViewController: UIViewController, FSCameraViewDelegate,
 
 private extension FusumaViewController {
     
-    func changeMode(mode: Mode) {
+    func changeMode(mode: FusumaMode) {
 
         if self.mode == mode {
             
@@ -187,7 +189,7 @@ private extension FusumaViewController {
         
         dishighlightButtons()
         
-        if mode == Mode.Library {
+        if mode == FusumaMode.Library {
             
             titleLabel.text = "CAMERA ROLL"
             doneButton.hidden = false
