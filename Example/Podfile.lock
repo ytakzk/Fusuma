@@ -1,5 +1,5 @@
 PODS:
-  - Fusuma (0.2.5)
+  - Fusuma (0.2.6)
 
 DEPENDENCIES:
   - Fusuma (from `../`)
@@ -9,6 +9,6 @@ EXTERNAL SOURCES:
     :path: "../"
 
 SPEC CHECKSUMS:
-  Fusuma: ac7afe6344ff96e58f6a699021bca0c480daa161
+  Fusuma: 5057699531b31e0fd4a921364b29f880f657c973
 
 COCOAPODS: 0.39.0
