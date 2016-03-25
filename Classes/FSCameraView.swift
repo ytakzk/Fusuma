@@ -13,7 +13,7 @@ protocol FSCameraViewDelegate: class {
     func cameraShotFinished(image: UIImage)
 }
 
-final class FSCameraView: UIView, UIGestureRecognizerDelegate {
+final class FSCameraView: UIView {
 
     @IBOutlet weak var previewViewContainer: UIView!
     @IBOutlet weak var shotButton: UIButton!
@@ -79,8 +79,7 @@ final class FSCameraView: UIView, UIGestureRecognizerDelegate {
             
             // Focus View
             self.focusView         = UIView(frame: CGRect(x: 0, y: 0, width: 90, height: 90))
-            let tapRecognizer      = UITapGestureRecognizer(target: self, action:Selector("focus:"))
-            tapRecognizer.delegate = self
+            let tapRecognizer      = UITapGestureRecognizer(target: self, action: Selector("focus:"))
             self.previewViewContainer.addGestureRecognizer(tapRecognizer)
             
         } catch {
@@ -96,7 +95,7 @@ final class FSCameraView: UIView, UIGestureRecognizerDelegate {
         
         let flashImage = UIImage(named: "ic_flash_off", inBundle: bundle, compatibleWithTraitCollection: nil)
         let flipImage = UIImage(named: "ic_loop", inBundle: bundle, compatibleWithTraitCollection: nil)
-        let shotImage = UIImage(named: "ic_radio_button_checked", inBundle: bundle, compatibleWithTraitCollection: nil)
+        let shotImage = UIImage(named: "shutter_button", inBundle: bundle, compatibleWithTraitCollection: nil)
 
         flashButton.setImage(flashImage, forState: .Normal)
         flipButton.setImage(flipImage, forState: .Normal)
@@ -104,7 +103,7 @@ final class FSCameraView: UIView, UIGestureRecognizerDelegate {
 
         flashConfiguration()
         
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "willEnterForegroundNotification:", name: UIApplicationWillEnterForegroundNotification, object: nil)
+        self.startCamera()
     }
     
     deinit {
@@ -112,7 +111,7 @@ final class FSCameraView: UIView, UIGestureRecognizerDelegate {
         NSNotificationCenter.defaultCenter().removeObserver(self)
     }
     
-    func willEnterForegroundNotification(notification: NSNotification) {
+    func startCamera() {
         
         let status = AVCaptureDevice.authorizationStatusForMediaType(AVMediaTypeVideo)
         
@@ -124,6 +123,10 @@ final class FSCameraView: UIView, UIGestureRecognizerDelegate {
 
             session?.stopRunning()
         }
+    }
+    
+    func stopCamera() {
+        session?.stopRunning()
     }
     
     @IBAction func shotButtonPressed(sender: UIButton) {
@@ -153,7 +156,7 @@ final class FSCameraView: UIView, UIGestureRecognizerDelegate {
                     let sw = self.previewViewContainer.frame.width
                     
                     // The center coordinate along Y axis
-                    let rcy = ih*0.5
+                    let rcy = ih * 0.5
 
                     let imageRef = CGImageCreateWithImageInRect(image.CGImage, CGRect(x: rcy-iw*0.5, y: 0 , width: iw, height: iw))
                     
@@ -248,7 +251,7 @@ final class FSCameraView: UIView, UIGestureRecognizerDelegate {
     }
 }
 
-private extension FSCameraView {
+extension FSCameraView {
     
     func focus(recognizer: UITapGestureRecognizer) {
         

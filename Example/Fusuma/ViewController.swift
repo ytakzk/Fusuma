@@ -13,11 +13,14 @@ class ViewController: UIViewController, FusumaDelegate {
     @IBOutlet weak var imageView: UIImageView!
     
     @IBOutlet weak var showButton: UIButton!
+    
+    @IBOutlet weak var fileUrlLabel: UILabel!
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
         showButton.layer.cornerRadius = 2.0
+        self.fileUrlLabel.text = ""
     }
 
     override func didReceiveMemoryWarning() {
@@ -39,6 +42,11 @@ class ViewController: UIViewController, FusumaDelegate {
         
         print("Image selected")
         imageView.image = image
+    }
+    
+    func fusumaVideoCompleted(withFileURL fileURL: NSURL) {
+        print("video completed and output to file: \(fileURL)")
+        self.fileUrlLabel.text = "file output to: \(fileURL.absoluteString)"
     }
     
     func fusumaDismissedWithImage(image: UIImage) {

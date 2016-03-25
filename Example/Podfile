@@ -7,4 +7,6 @@ end
 
 target 'Fusuma_Tests', :exclusive => true do
   pod 'Fusuma', :path => '../'
+
+  pod 'FBSnapshotTestCase'
 end
