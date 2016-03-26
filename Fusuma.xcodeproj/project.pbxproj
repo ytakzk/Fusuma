@@ -1,0 +1,341 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		52412A971CA6114A0073C4BE /* Fusuma.h in Headers */ = {isa = PBXBuildFile; fileRef = 52412A961CA6114A0073C4BE /* Fusuma.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		52412AAA1CA6116D0073C4BE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 52412A9F1CA6116D0073C4BE /* Assets.xcassets */; };
+		52412AAB1CA6116D0073C4BE /* FSAlbumView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52412AA01CA6116D0073C4BE /* FSAlbumView.swift */; };
+		52412AAC1CA6116D0073C4BE /* FSAlbumView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 52412AA11CA6116D0073C4BE /* FSAlbumView.xib */; };
+		52412AAD1CA6116D0073C4BE /* FSAlbumViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52412AA21CA6116D0073C4BE /* FSAlbumViewCell.swift */; };
+		52412AAE1CA6116D0073C4BE /* FSAlbumViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 52412AA31CA6116D0073C4BE /* FSAlbumViewCell.xib */; };
+		52412AAF1CA6116D0073C4BE /* FSCameraView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52412AA41CA6116D0073C4BE /* FSCameraView.swift */; };
+		52412AB01CA6116D0073C4BE /* FSCameraView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 52412AA51CA6116D0073C4BE /* FSCameraView.xib */; };
+		52412AB11CA6116D0073C4BE /* FSConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52412AA61CA6116D0073C4BE /* FSConstants.swift */; };
+		52412AB21CA6116D0073C4BE /* FSImageCropView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52412AA71CA6116D0073C4BE /* FSImageCropView.swift */; };
+		52412AB31CA6116D0073C4BE /* FusumaViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52412AA81CA6116D0073C4BE /* FusumaViewController.swift */; };
+		52412AB41CA6116D0073C4BE /* FusumaViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 52412AA91CA6116D0073C4BE /* FusumaViewController.xib */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		52412A931CA6114A0073C4BE /* Fusuma.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Fusuma.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		52412A961CA6114A0073C4BE /* Fusuma.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Fusuma.h; sourceTree = "<group>"; };
+		52412A981CA6114A0073C4BE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		52412A9F1CA6116D0073C4BE /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		52412AA01CA6116D0073C4BE /* FSAlbumView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FSAlbumView.swift; sourceTree = "<group>"; };
+		52412AA11CA6116D0073C4BE /* FSAlbumView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FSAlbumView.xib; sourceTree = "<group>"; };
+		52412AA21CA6116D0073C4BE /* FSAlbumViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FSAlbumViewCell.swift; sourceTree = "<group>"; };
+		52412AA31CA6116D0073C4BE /* FSAlbumViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FSAlbumViewCell.xib; sourceTree = "<group>"; };
+		52412AA41CA6116D0073C4BE /* FSCameraView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FSCameraView.swift; sourceTree = "<group>"; };
+		52412AA51CA6116D0073C4BE /* FSCameraView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FSCameraView.xib; sourceTree = "<group>"; };
+		52412AA61CA6116D0073C4BE /* FSConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FSConstants.swift; sourceTree = "<group>"; };
+		52412AA71CA6116D0073C4BE /* FSImageCropView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FSImageCropView.swift; sourceTree = "<group>"; };
+		52412AA81CA6116D0073C4BE /* FusumaViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FusumaViewController.swift; sourceTree = "<group>"; };
+		52412AA91CA6116D0073C4BE /* FusumaViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FusumaViewController.xib; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		52412A8F1CA6114A0073C4BE /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		52412A891CA6114A0073C4BE = {
+			isa = PBXGroup;
+			children = (
+				52412A9E1CA6114F0073C4BE /* Sources */,
+				52412A951CA6114A0073C4BE /* Fusuma */,
+				52412A941CA6114A0073C4BE /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		52412A941CA6114A0073C4BE /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				52412A931CA6114A0073C4BE /* Fusuma.framework */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		52412A951CA6114A0073C4BE /* Fusuma */ = {
+			isa = PBXGroup;
+			children = (
+				52412A961CA6114A0073C4BE /* Fusuma.h */,
+				52412A981CA6114A0073C4BE /* Info.plist */,
+			);
+			path = Fusuma;
+			sourceTree = "<group>";
+		};
+		52412A9E1CA6114F0073C4BE /* Sources */ = {
+			isa = PBXGroup;
+			children = (
+				52412A9F1CA6116D0073C4BE /* Assets.xcassets */,
+				52412AA01CA6116D0073C4BE /* FSAlbumView.swift */,
+				52412AA11CA6116D0073C4BE /* FSAlbumView.xib */,
+				52412AA21CA6116D0073C4BE /* FSAlbumViewCell.swift */,
+				52412AA31CA6116D0073C4BE /* FSAlbumViewCell.xib */,
+				52412AA41CA6116D0073C4BE /* FSCameraView.swift */,
+				52412AA51CA6116D0073C4BE /* FSCameraView.xib */,
+				52412AA61CA6116D0073C4BE /* FSConstants.swift */,
+				52412AA71CA6116D0073C4BE /* FSImageCropView.swift */,
+				52412AA81CA6116D0073C4BE /* FusumaViewController.swift */,
+				52412AA91CA6116D0073C4BE /* FusumaViewController.xib */,
+			);
+			path = Sources;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		52412A901CA6114A0073C4BE /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				52412A971CA6114A0073C4BE /* Fusuma.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		52412A921CA6114A0073C4BE /* Fusuma */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 52412A9B1CA6114A0073C4BE /* Build configuration list for PBXNativeTarget "Fusuma" */;
+			buildPhases = (
+				52412A8E1CA6114A0073C4BE /* Sources */,
+				52412A8F1CA6114A0073C4BE /* Frameworks */,
+				52412A901CA6114A0073C4BE /* Headers */,
+				52412A911CA6114A0073C4BE /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Fusuma;
+			productName = Fusuma;
+			productReference = 52412A931CA6114A0073C4BE /* Fusuma.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		52412A8A1CA6114A0073C4BE /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0730;
+				ORGANIZATIONNAME = ytakzk;
+				TargetAttributes = {
+					52412A921CA6114A0073C4BE = {
+						CreatedOnToolsVersion = 7.3;
+					};
+				};
+			};
+			buildConfigurationList = 52412A8D1CA6114A0073C4BE /* Build configuration list for PBXProject "Fusuma" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 52412A891CA6114A0073C4BE;
+			productRefGroup = 52412A941CA6114A0073C4BE /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				52412A921CA6114A0073C4BE /* Fusuma */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		52412A911CA6114A0073C4BE /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				52412AAE1CA6116D0073C4BE /* FSAlbumViewCell.xib in Resources */,
+				52412AAA1CA6116D0073C4BE /* Assets.xcassets in Resources */,
+				52412AB01CA6116D0073C4BE /* FSCameraView.xib in Resources */,
+				52412AAC1CA6116D0073C4BE /* FSAlbumView.xib in Resources */,
+				52412AB41CA6116D0073C4BE /* FusumaViewController.xib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		52412A8E1CA6114A0073C4BE /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				52412AAB1CA6116D0073C4BE /* FSAlbumView.swift in Sources */,
+				52412AAD1CA6116D0073C4BE /* FSAlbumViewCell.swift in Sources */,
+				52412AB11CA6116D0073C4BE /* FSConstants.swift in Sources */,
+				52412AB31CA6116D0073C4BE /* FusumaViewController.swift in Sources */,
+				52412AAF1CA6116D0073C4BE /* FSCameraView.swift in Sources */,
+				52412AB21CA6116D0073C4BE /* FSImageCropView.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		52412A991CA6114A0073C4BE /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		52412A9A1CA6114A0073C4BE /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		52412A9C1CA6114A0073C4BE /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = Fusuma/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = me.ytakzk.Fusuma;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		52412A9D1CA6114A0073C4BE /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = Fusuma/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = me.ytakzk.Fusuma;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		52412A8D1CA6114A0073C4BE /* Build configuration list for PBXProject "Fusuma" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				52412A991CA6114A0073C4BE /* Debug */,
+				52412A9A1CA6114A0073C4BE /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		52412A9B1CA6114A0073C4BE /* Build configuration list for PBXNativeTarget "Fusuma" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				52412A9C1CA6114A0073C4BE /* Debug */,
+				52412A9D1CA6114A0073C4BE /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 52412A8A1CA6114A0073C4BE /* Project object */;
+}
