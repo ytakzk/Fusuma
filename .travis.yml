@@ -2,6 +2,8 @@ language: objective-c
 osx_image: xcode7
 script:
   - set -o pipefail
+  - xcodebuild -version
+  - xcodebuild -showsdks
   - xcodebuild -workspace Fusuma.xcworkspace -scheme FusumaExample -sdk iphonesimulator -destination 'OS=9.3,name=iPhone 6S Plus' ONLY_ACTIVE_ARCH=NO build
 
 #before_install:
