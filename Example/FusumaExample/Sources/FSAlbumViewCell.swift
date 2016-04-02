@@ -20,4 +20,16 @@ final class FSAlbumViewCell: UICollectionViewCell {
             self.imageView.image = image            
         }
     }
+    
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        self.selected = false
+    }
+    
+    override var selected : Bool {
+        didSet {
+            self.layer.borderColor = selected ? fusumaTintColor.CGColor : UIColor.clearColor().CGColor
+            self.layer.borderWidth = selected ? 3 : 0
+        }
+    }
 }
