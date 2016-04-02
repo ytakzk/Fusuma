@@ -283,6 +283,7 @@ final class FSAlbumView: UIView, UICollectionViewDataSource, UICollectionViewDel
             }, completion: nil)
         
         dragDirection = Direction.Up
+        collectionView.scrollToItemAtIndexPath(indexPath, atScrollPosition: .Top, animated: true)
     }
     
     
