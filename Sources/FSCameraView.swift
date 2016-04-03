@@ -219,6 +219,8 @@ final class FSCameraView: UIView, UIGestureRecognizerDelegate {
         do {
 
             if let device = device {
+                
+                guard device.hasFlash else { return }
             
                 try device.lockForConfiguration()
                 
@@ -305,6 +307,8 @@ private extension FSCameraView {
         do {
             
             if let device = device {
+                
+                guard device.hasFlash else { return }
                 
                 try device.lockForConfiguration()
                 
