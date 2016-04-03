@@ -307,7 +307,9 @@ private extension FSCameraView {
         do {
             
             if let device = device {
+                
                 guard device.hasFlash else { return }
+                
                 try device.lockForConfiguration()
                 
                 device.flashMode = AVCaptureFlashMode.Off
