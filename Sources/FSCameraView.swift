@@ -250,7 +250,7 @@ final class FSCameraView: UIView, UIGestureRecognizerDelegate {
 
 private extension FSCameraView {
     
-    func focus(recognizer: UITapGestureRecognizer) {
+    @objc func focus(recognizer: UITapGestureRecognizer) {
         
         let point = recognizer.locationInView(self)
         let viewsize = self.bounds.size
