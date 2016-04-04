@@ -60,7 +60,7 @@ final class FSAlbumView: UIView, UICollectionViewDataSource, UICollectionViewDel
         
         self.hidden = false
         
-        let panGesture      = UIPanGestureRecognizer(target: self, action: "panned:")
+        let panGesture      = UIPanGestureRecognizer(target: self, action: #selector(panned))
         panGesture.delegate = self
         self.addGestureRecognizer(panGesture)
         
@@ -89,9 +89,9 @@ final class FSAlbumView: UIView, UICollectionViewDataSource, UICollectionViewDel
         if images.count > 0 {
             
             changeImage(images[0] as! PHAsset)
+            collectionView.reloadData()
+            collectionView.selectItemAtIndexPath(NSIndexPath(forRow: 0, inSection: 0), animated: false, scrollPosition: UICollectionViewScrollPosition.None)
         }
-        
-        collectionView.reloadData()
         
         PHPhotoLibrary.sharedPhotoLibrary().registerChangeObserver(self)
         
