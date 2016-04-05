@@ -84,7 +84,7 @@ final class FSCameraView: UIView, UIGestureRecognizerDelegate {
             
             // Focus View
             self.focusView         = UIView(frame: CGRect(x: 0, y: 0, width: 90, height: 90))
-            let tapRecognizer      = UITapGestureRecognizer(target: self, action: #selector(focus))
+            let tapRecognizer      = UITapGestureRecognizer(target: self, action: Selector("focus:"))
             tapRecognizer.delegate = self
             self.previewViewContainer.addGestureRecognizer(tapRecognizer)
             
@@ -109,7 +109,7 @@ final class FSCameraView: UIView, UIGestureRecognizerDelegate {
         
         flashConfiguration()
         
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(willEnterForegroundNotification), name: UIApplicationWillEnterForegroundNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "willEnterForegroundNotification:", name: UIApplicationWillEnterForegroundNotification, object: nil)
     }
     
     deinit {

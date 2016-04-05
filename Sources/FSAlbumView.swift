@@ -60,7 +60,7 @@ final class FSAlbumView: UIView, UICollectionViewDataSource, UICollectionViewDel
         
         self.hidden = false
         
-        let panGesture      = UIPanGestureRecognizer(target: self, action: #selector(panned))
+        let panGesture      = UIPanGestureRecognizer(target: self, action: "panned:")
         panGesture.delegate = self
         self.addGestureRecognizer(panGesture)
         
