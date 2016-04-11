@@ -26,11 +26,17 @@ public enum FusumaMode {
     case Library
 }
 
+public enum FusumaModeOrder {
+    case CameraFirst
+    case LibraryFirst
+}
+
 public final class FusumaViewController: UIViewController, FSCameraViewDelegate, FSAlbumViewDelegate {
-    
-    var defaultMode: FusumaMode?
+
     private var mode: FusumaMode?
-    var willFilter = true
+    public var defaultMode: FusumaMode?
+    public var modeOrder: FusumaModeOrder = .LibraryFirst
+    public var willFilter = true
 
     @IBOutlet weak var photoLibraryViewerContainer: UIView!
     @IBOutlet weak var cameraShotContainer: UIView!
@@ -41,6 +47,9 @@ public final class FusumaViewController: UIViewController, FSCameraViewDelegate,
     @IBOutlet weak var libraryButton: UIButton!
     @IBOutlet weak var cameraButton: UIButton!
     @IBOutlet weak var doneButton: UIButton!
+
+    @IBOutlet var libraryFirstConstraints: [NSLayoutConstraint]!
+    @IBOutlet var cameraFirstConstraints: [NSLayoutConstraint]!
     
     var albumView  = FSAlbumView.instance()
     var cameraView = FSCameraView.instance()
@@ -97,7 +106,12 @@ public final class FusumaViewController: UIViewController, FSCameraViewDelegate,
         cameraShotContainer.addSubview(cameraView)
         
         doneButton.setImage(checkImage, forState: .Normal)
-        doneButton.tintColor = UIColor.whiteColor()        
+        doneButton.tintColor = UIColor.whiteColor()
+
+        if modeOrder != .LibraryFirst {
+            libraryFirstConstraints.forEach { $0.priority = 250 }
+            cameraFirstConstraints.forEach { $0.priority = 1000 }
+        }
     }
     
     override public func viewWillAppear(animated: Bool) {
