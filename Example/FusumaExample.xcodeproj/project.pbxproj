@@ -12,17 +12,17 @@
 		52412AC91CA61C9F0073C4BE /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 52412AC71CA61C9F0073C4BE /* Main.storyboard */; };
 		52412ACB1CA61C9F0073C4BE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 52412ACA1CA61C9F0073C4BE /* Assets.xcassets */; };
 		52412ACE1CA61C9F0073C4BE /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 52412ACC1CA61C9F0073C4BE /* LaunchScreen.storyboard */; };
-		52412AE11CA61CEE0073C4BE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 52412AD61CA61CEE0073C4BE /* Assets.xcassets */; };
-		52412AE21CA61CEE0073C4BE /* FSAlbumView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52412AD71CA61CEE0073C4BE /* FSAlbumView.swift */; };
-		52412AE31CA61CEE0073C4BE /* FSAlbumView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 52412AD81CA61CEE0073C4BE /* FSAlbumView.xib */; };
-		52412AE41CA61CEE0073C4BE /* FSAlbumViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52412AD91CA61CEE0073C4BE /* FSAlbumViewCell.swift */; };
-		52412AE51CA61CEE0073C4BE /* FSAlbumViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 52412ADA1CA61CEE0073C4BE /* FSAlbumViewCell.xib */; };
-		52412AE61CA61CEE0073C4BE /* FSCameraView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52412ADB1CA61CEE0073C4BE /* FSCameraView.swift */; };
-		52412AE71CA61CEE0073C4BE /* FSCameraView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 52412ADC1CA61CEE0073C4BE /* FSCameraView.xib */; };
-		52412AE81CA61CEE0073C4BE /* FSConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52412ADD1CA61CEE0073C4BE /* FSConstants.swift */; };
-		52412AE91CA61CEE0073C4BE /* FSImageCropView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52412ADE1CA61CEE0073C4BE /* FSImageCropView.swift */; };
-		52412AEA1CA61CEE0073C4BE /* FusumaViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52412ADF1CA61CEE0073C4BE /* FusumaViewController.swift */; };
-		52412AEB1CA61CEE0073C4BE /* FusumaViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 52412AE01CA61CEE0073C4BE /* FusumaViewController.xib */; };
+		D77CA2991CBBDEB300C4BAC4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D77CA28E1CBBDEB300C4BAC4 /* Assets.xcassets */; };
+		D77CA29A1CBBDEB300C4BAC4 /* FSAlbumView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D77CA28F1CBBDEB300C4BAC4 /* FSAlbumView.swift */; };
+		D77CA29B1CBBDEB300C4BAC4 /* FSAlbumView.xib in Resources */ = {isa = PBXBuildFile; fileRef = D77CA2901CBBDEB300C4BAC4 /* FSAlbumView.xib */; };
+		D77CA29C1CBBDEB300C4BAC4 /* FSAlbumViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D77CA2911CBBDEB300C4BAC4 /* FSAlbumViewCell.swift */; };
+		D77CA29D1CBBDEB300C4BAC4 /* FSAlbumViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D77CA2921CBBDEB300C4BAC4 /* FSAlbumViewCell.xib */; };
+		D77CA29E1CBBDEB300C4BAC4 /* FSCameraView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D77CA2931CBBDEB300C4BAC4 /* FSCameraView.swift */; };
+		D77CA29F1CBBDEB300C4BAC4 /* FSCameraView.xib in Resources */ = {isa = PBXBuildFile; fileRef = D77CA2941CBBDEB300C4BAC4 /* FSCameraView.xib */; };
+		D77CA2A01CBBDEB300C4BAC4 /* FSConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = D77CA2951CBBDEB300C4BAC4 /* FSConstants.swift */; };
+		D77CA2A11CBBDEB300C4BAC4 /* FSImageCropView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D77CA2961CBBDEB300C4BAC4 /* FSImageCropView.swift */; };
+		D77CA2A21CBBDEB300C4BAC4 /* FusumaViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D77CA2971CBBDEB300C4BAC4 /* FusumaViewController.swift */; };
+		D77CA2A31CBBDEB300C4BAC4 /* FusumaViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = D77CA2981CBBDEB300C4BAC4 /* FusumaViewController.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -33,17 +33,17 @@
 		52412ACA1CA61C9F0073C4BE /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		52412ACD1CA61C9F0073C4BE /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		52412ACF1CA61C9F0073C4BE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		52412AD61CA61CEE0073C4BE /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		52412AD71CA61CEE0073C4BE /* FSAlbumView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FSAlbumView.swift; sourceTree = "<group>"; };
-		52412AD81CA61CEE0073C4BE /* FSAlbumView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FSAlbumView.xib; sourceTree = "<group>"; };
-		52412AD91CA61CEE0073C4BE /* FSAlbumViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FSAlbumViewCell.swift; sourceTree = "<group>"; };
-		52412ADA1CA61CEE0073C4BE /* FSAlbumViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FSAlbumViewCell.xib; sourceTree = "<group>"; };
-		52412ADB1CA61CEE0073C4BE /* FSCameraView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FSCameraView.swift; sourceTree = "<group>"; };
-		52412ADC1CA61CEE0073C4BE /* FSCameraView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FSCameraView.xib; sourceTree = "<group>"; };
-		52412ADD1CA61CEE0073C4BE /* FSConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FSConstants.swift; sourceTree = "<group>"; };
-		52412ADE1CA61CEE0073C4BE /* FSImageCropView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FSImageCropView.swift; sourceTree = "<group>"; };
-		52412ADF1CA61CEE0073C4BE /* FusumaViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FusumaViewController.swift; sourceTree = "<group>"; };
-		52412AE01CA61CEE0073C4BE /* FusumaViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FusumaViewController.xib; sourceTree = "<group>"; };
+		D77CA28E1CBBDEB300C4BAC4 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		D77CA28F1CBBDEB300C4BAC4 /* FSAlbumView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FSAlbumView.swift; sourceTree = "<group>"; };
+		D77CA2901CBBDEB300C4BAC4 /* FSAlbumView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FSAlbumView.xib; sourceTree = "<group>"; };
+		D77CA2911CBBDEB300C4BAC4 /* FSAlbumViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FSAlbumViewCell.swift; sourceTree = "<group>"; };
+		D77CA2921CBBDEB300C4BAC4 /* FSAlbumViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FSAlbumViewCell.xib; sourceTree = "<group>"; };
+		D77CA2931CBBDEB300C4BAC4 /* FSCameraView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FSCameraView.swift; sourceTree = "<group>"; };
+		D77CA2941CBBDEB300C4BAC4 /* FSCameraView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FSCameraView.xib; sourceTree = "<group>"; };
+		D77CA2951CBBDEB300C4BAC4 /* FSConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FSConstants.swift; sourceTree = "<group>"; };
+		D77CA2961CBBDEB300C4BAC4 /* FSImageCropView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FSImageCropView.swift; sourceTree = "<group>"; };
+		D77CA2971CBBDEB300C4BAC4 /* FusumaViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FusumaViewController.swift; sourceTree = "<group>"; };
+		D77CA2981CBBDEB300C4BAC4 /* FusumaViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FusumaViewController.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -76,7 +76,7 @@
 		52412AC21CA61C9F0073C4BE /* FusumaExample */ = {
 			isa = PBXGroup;
 			children = (
-				52412AD51CA61CBA0073C4BE /* Sources */,
+				D77CA28D1CBBDEB300C4BAC4 /* Sources */,
 				52412AC31CA61C9F0073C4BE /* AppDelegate.swift */,
 				52412AC51CA61C9F0073C4BE /* ViewController.swift */,
 				52412AC71CA61C9F0073C4BE /* Main.storyboard */,
@@ -87,22 +87,23 @@
 			path = FusumaExample;
 			sourceTree = "<group>";
 		};
-		52412AD51CA61CBA0073C4BE /* Sources */ = {
+		D77CA28D1CBBDEB300C4BAC4 /* Sources */ = {
 			isa = PBXGroup;
 			children = (
-				52412AD61CA61CEE0073C4BE /* Assets.xcassets */,
-				52412AD71CA61CEE0073C4BE /* FSAlbumView.swift */,
-				52412AD81CA61CEE0073C4BE /* FSAlbumView.xib */,
-				52412AD91CA61CEE0073C4BE /* FSAlbumViewCell.swift */,
-				52412ADA1CA61CEE0073C4BE /* FSAlbumViewCell.xib */,
-				52412ADB1CA61CEE0073C4BE /* FSCameraView.swift */,
-				52412ADC1CA61CEE0073C4BE /* FSCameraView.xib */,
-				52412ADD1CA61CEE0073C4BE /* FSConstants.swift */,
-				52412ADE1CA61CEE0073C4BE /* FSImageCropView.swift */,
-				52412ADF1CA61CEE0073C4BE /* FusumaViewController.swift */,
-				52412AE01CA61CEE0073C4BE /* FusumaViewController.xib */,
+				D77CA28E1CBBDEB300C4BAC4 /* Assets.xcassets */,
+				D77CA28F1CBBDEB300C4BAC4 /* FSAlbumView.swift */,
+				D77CA2901CBBDEB300C4BAC4 /* FSAlbumView.xib */,
+				D77CA2911CBBDEB300C4BAC4 /* FSAlbumViewCell.swift */,
+				D77CA2921CBBDEB300C4BAC4 /* FSAlbumViewCell.xib */,
+				D77CA2931CBBDEB300C4BAC4 /* FSCameraView.swift */,
+				D77CA2941CBBDEB300C4BAC4 /* FSCameraView.xib */,
+				D77CA2951CBBDEB300C4BAC4 /* FSConstants.swift */,
+				D77CA2961CBBDEB300C4BAC4 /* FSImageCropView.swift */,
+				D77CA2971CBBDEB300C4BAC4 /* FusumaViewController.swift */,
+				D77CA2981CBBDEB300C4BAC4 /* FusumaViewController.xib */,
 			);
-			path = Sources;
+			name = Sources;
+			path = ../../Sources;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -163,13 +164,13 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				52412AE31CA61CEE0073C4BE /* FSAlbumView.xib in Resources */,
-				52412AEB1CA61CEE0073C4BE /* FusumaViewController.xib in Resources */,
+				D77CA29B1CBBDEB300C4BAC4 /* FSAlbumView.xib in Resources */,
+				D77CA2A31CBBDEB300C4BAC4 /* FusumaViewController.xib in Resources */,
 				52412ACE1CA61C9F0073C4BE /* LaunchScreen.storyboard in Resources */,
-				52412AE71CA61CEE0073C4BE /* FSCameraView.xib in Resources */,
+				D77CA29F1CBBDEB300C4BAC4 /* FSCameraView.xib in Resources */,
 				52412ACB1CA61C9F0073C4BE /* Assets.xcassets in Resources */,
-				52412AE51CA61CEE0073C4BE /* FSAlbumViewCell.xib in Resources */,
-				52412AE11CA61CEE0073C4BE /* Assets.xcassets in Resources */,
+				D77CA29D1CBBDEB300C4BAC4 /* FSAlbumViewCell.xib in Resources */,
+				D77CA2991CBBDEB300C4BAC4 /* Assets.xcassets in Resources */,
 				52412AC91CA61C9F0073C4BE /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -182,13 +183,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				52412AC61CA61C9F0073C4BE /* ViewController.swift in Sources */,
-				52412AE61CA61CEE0073C4BE /* FSCameraView.swift in Sources */,
-				52412AE41CA61CEE0073C4BE /* FSAlbumViewCell.swift in Sources */,
-				52412AE21CA61CEE0073C4BE /* FSAlbumView.swift in Sources */,
-				52412AE81CA61CEE0073C4BE /* FSConstants.swift in Sources */,
-				52412AEA1CA61CEE0073C4BE /* FusumaViewController.swift in Sources */,
+				D77CA29E1CBBDEB300C4BAC4 /* FSCameraView.swift in Sources */,
+				D77CA29C1CBBDEB300C4BAC4 /* FSAlbumViewCell.swift in Sources */,
+				D77CA29A1CBBDEB300C4BAC4 /* FSAlbumView.swift in Sources */,
+				D77CA2A01CBBDEB300C4BAC4 /* FSConstants.swift in Sources */,
+				D77CA2A21CBBDEB300C4BAC4 /* FusumaViewController.swift in Sources */,
 				52412AC41CA61C9F0073C4BE /* AppDelegate.swift in Sources */,
-				52412AE91CA61CEE0073C4BE /* FSImageCropView.swift in Sources */,
+				D77CA2A11CBBDEB300C4BAC4 /* FSImageCropView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
