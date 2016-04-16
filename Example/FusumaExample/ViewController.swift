@@ -30,6 +30,8 @@ class ViewController: UIViewController, FusumaDelegate {
         // Show Fusuma
         let fusuma = FusumaViewController()
         fusuma.delegate = self
+//        fusuma.defaultMode = .Camera
+//        fusuma.modeOrder = .CameraFirst
         self.presentViewController(fusuma, animated: true, completion: nil)
         
     }
