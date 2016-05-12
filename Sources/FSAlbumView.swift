@@ -57,8 +57,8 @@ final class FSAlbumView: UIView, UICollectionViewDataSource, UICollectionViewDel
             
             return
         }
-        
-        self.hidden = false
+		
+		self.hidden = false
         
         let panGesture      = UIPanGestureRecognizer(target: self, action: #selector(FSAlbumView.panned(_:)))
         panGesture.delegate = self
@@ -74,7 +74,8 @@ final class FSAlbumView: UIView, UICollectionViewDataSource, UICollectionViewDel
         imageCropViewContainer.layer.shadowOffset  = CGSizeZero
         
         collectionView.registerNib(UINib(nibName: "FSAlbumViewCell", bundle: NSBundle(forClass: self.classForCoder)), forCellWithReuseIdentifier: "FSAlbumViewCell")
-        
+		collectionView.backgroundColor = fusumaBackgroundColor
+		
         // Never load photos Unless the user allows to access to photo album
         checkPhotoAuth()
         
