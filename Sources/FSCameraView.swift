@@ -9,7 +9,7 @@
 import UIKit
 import AVFoundation
 
-protocol FSCameraViewDelegate: class {
+@objc protocol FSCameraViewDelegate: class {
     func cameraShotFinished(image: UIImage)
 }
 
