@@ -16,8 +16,14 @@ class ViewController: UIViewController, FusumaDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        showButton.layer.cornerRadius = 2.0
+		
+		/*
+		// uncomment this to test with white background
+		fusumaBaseTintColor       = UIColor.hex("#000000", alpha: 1.0)
+		fusumaTintColor       = UIColor.hex("#00AA00", alpha: 1.0)
+		fusumaBackgroundColor = UIColor.hex("#FFFFFF", alpha: 1.0)
+		*/
+		showButton.layer.cornerRadius = 2.0
     }
     
     override func didReceiveMemoryWarning() {
@@ -30,6 +36,7 @@ class ViewController: UIViewController, FusumaDelegate {
         // Show Fusuma
         let fusuma = FusumaViewController()
         fusuma.delegate = self
+		
 //        fusuma.defaultMode = .Camera
 //        fusuma.modeOrder = .CameraFirst
         self.presentViewController(fusuma, animated: true, completion: nil)

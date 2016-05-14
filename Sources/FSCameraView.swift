@@ -93,9 +93,9 @@ final class FSCameraView: UIView, UIGestureRecognizerDelegate {
             
         }
         
-        flashButton.tintColor = UIColor.whiteColor()
-        flipButton.tintColor  = UIColor.whiteColor()
-        shotButton.tintColor  = UIColor.whiteColor()
+		flashButton.tintColor = fusumaBaseTintColor
+        flipButton.tintColor  = fusumaBaseTintColor
+        shotButton.tintColor  = fusumaBaseTintColor
         
         let bundle = NSBundle(forClass: self.classForCoder)
         
@@ -103,9 +103,9 @@ final class FSCameraView: UIView, UIGestureRecognizerDelegate {
         let flipImage = UIImage(named: "ic_loop", inBundle: bundle, compatibleWithTraitCollection: nil)
         let shotImage = UIImage(named: "ic_radio_button_checked", inBundle: bundle, compatibleWithTraitCollection: nil)
 
-        flashButton.setImage(flashImage, forState: .Normal)
-        flipButton.setImage(flipImage, forState: .Normal)
-        shotButton.setImage(shotImage, forState: .Normal)
+        flashButton.setImage(flashImage?.imageWithRenderingMode(.AlwaysTemplate), forState: .Normal)
+        flipButton.setImage(flipImage?.imageWithRenderingMode(.AlwaysTemplate), forState: .Normal)
+        shotButton.setImage(shotImage?.imageWithRenderingMode(.AlwaysTemplate), forState: .Normal)
 
         flashConfiguration()
         
@@ -234,12 +234,12 @@ final class FSCameraView: UIView, UIGestureRecognizerDelegate {
                 if mode == AVCaptureFlashMode.Off {
                     
                     device.flashMode = AVCaptureFlashMode.On
-                    flashButton.setImage(UIImage(named: "ic_flash_on", inBundle: NSBundle(forClass: self.classForCoder), compatibleWithTraitCollection: nil), forState: .Normal)
+                    flashButton.setImage(UIImage(named: "ic_flash_on", inBundle: NSBundle(forClass: self.classForCoder), compatibleWithTraitCollection: nil)?.imageWithRenderingMode(.AlwaysTemplate), forState: .Normal)
                     
                 } else if mode == AVCaptureFlashMode.On {
                     
                     device.flashMode = AVCaptureFlashMode.Off
-                    flashButton.setImage(UIImage(named: "ic_flash_off", inBundle: NSBundle(forClass: self.classForCoder), compatibleWithTraitCollection: nil), forState: .Normal)
+                    flashButton.setImage(UIImage(named: "ic_flash_off", inBundle: NSBundle(forClass: self.classForCoder), compatibleWithTraitCollection: nil)?.imageWithRenderingMode(.AlwaysTemplate), forState: .Normal)
                 }
                 
                 device.unlockForConfiguration()
@@ -248,7 +248,7 @@ final class FSCameraView: UIView, UIGestureRecognizerDelegate {
 
         } catch _ {
 
-            flashButton.setImage(UIImage(named: "ic_flash_off", inBundle: NSBundle(forClass: self.classForCoder), compatibleWithTraitCollection: nil), forState: .Normal)
+            flashButton.setImage(UIImage(named: "ic_flash_off", inBundle: NSBundle(forClass: self.classForCoder), compatibleWithTraitCollection: nil)?.imageWithRenderingMode(.AlwaysTemplate), forState: .Normal)
             return
         }
  
@@ -291,7 +291,7 @@ private extension FSCameraView {
         self.focusView?.alpha = 0.0
         self.focusView?.center = point
         self.focusView?.backgroundColor = UIColor.clearColor()
-        self.focusView?.layer.borderColor = UIColor.whiteColor().CGColor
+        self.focusView?.layer.borderColor = fusumaBaseTintColor.CGColor
         self.focusView?.layer.borderWidth = 1.0
         self.focusView!.transform = CGAffineTransformMakeScale(1.0, 1.0)
         self.addSubview(self.focusView!)
@@ -318,7 +318,7 @@ private extension FSCameraView {
                 try device.lockForConfiguration()
                 
                 device.flashMode = AVCaptureFlashMode.Off
-                flashButton.setImage(UIImage(named: "ic_flash_off", inBundle: NSBundle(forClass: self.classForCoder), compatibleWithTraitCollection: nil), forState: .Normal)
+                flashButton.setImage(UIImage(named: "ic_flash_off", inBundle: NSBundle(forClass: self.classForCoder), compatibleWithTraitCollection: nil)?.imageWithRenderingMode(.AlwaysTemplate), forState: .Normal)
                 
                 device.unlockForConfiguration()
                 
