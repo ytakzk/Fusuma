@@ -32,7 +32,7 @@ public enum FusumaModeOrder {
     case LibraryFirst
 }
 
-public final class FusumaViewController: UIViewController, FSCameraViewDelegate, FSAlbumViewDelegate {
+@objc public class FusumaViewController: UIViewController, FSCameraViewDelegate, FSAlbumViewDelegate {
 
     private var mode: FusumaMode?
     public var defaultMode: FusumaMode?

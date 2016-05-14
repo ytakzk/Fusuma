@@ -9,7 +9,7 @@
 import UIKit
 import Photos
 
-public protocol FSAlbumViewDelegate: class {
+@objc public protocol FSAlbumViewDelegate: class {
     
     func albumViewCameraRollUnauthorized()
 }
