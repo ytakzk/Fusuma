@@ -181,6 +181,11 @@ final class FSCameraView: UIView, UIGestureRecognizerDelegate {
     }
     
     @IBAction func flipButtonPressed(sender: UIButton) {
+
+        if !cameraIsAvailable() {
+
+            return
+        }
         
         session?.stopRunning()
         
@@ -220,6 +225,11 @@ final class FSCameraView: UIView, UIGestureRecognizerDelegate {
     }
     
     @IBAction func flashButtonPressed(sender: UIButton) {
+
+        if !cameraIsAvailable() {
+
+            return
+        }
 
         do {
 
@@ -328,5 +338,17 @@ private extension FSCameraView {
             
             return
         }
+    }
+
+    func cameraIsAvailable() -> Bool {
+
+        let status = AVCaptureDevice.authorizationStatusForMediaType(AVMediaTypeVideo)
+
+        if status == AVAuthorizationStatus.Authorized {
+
+            return true
+        }
+
+        return false
     }
 }
