@@ -28,6 +28,9 @@ final class FSCameraView: UIView, UIGestureRecognizerDelegate {
     var imageOutput: AVCaptureStillImageOutput?
     var focusView: UIView?
 
+    var flashOffImage: UIImage?
+    var flashOnImage: UIImage?
+    
     static func instance() -> FSCameraView {
         
         return UINib(nibName: "FSCameraView", bundle: NSBundle(forClass: self.classForCoder())).instantiateWithOwner(self, options: nil)[0] as! FSCameraView
@@ -41,6 +44,28 @@ final class FSCameraView: UIView, UIGestureRecognizerDelegate {
         }
         
         self.backgroundColor = fusumaBackgroundColor
+        
+        let bundle = NSBundle(forClass: self.classForCoder)
+        
+        flashOnImage = fusumaFlashOnImage != nil ? fusumaFlashOnImage : UIImage(named: "ic_flash_on", inBundle: bundle, compatibleWithTraitCollection: nil)
+        flashOffImage = fusumaFlashOffImage != nil ? fusumaFlashOffImage : UIImage(named: "ic_flash_off", inBundle: bundle, compatibleWithTraitCollection: nil)
+        let flipImage = fusumaFlipImage != nil ? fusumaFlipImage : UIImage(named: "ic_loop", inBundle: bundle, compatibleWithTraitCollection: nil)
+        let shotImage = fusumaShotImage != nil ? fusumaShotImage : UIImage(named: "ic_radio_button_checked", inBundle: bundle, compatibleWithTraitCollection: nil)
+        
+        if(fusumaTintIcons) {
+            flashButton.tintColor = fusumaBaseTintColor
+            flipButton.tintColor  = fusumaBaseTintColor
+            shotButton.tintColor  = fusumaBaseTintColor
+            
+            flashButton.setImage(flashOffImage?.imageWithRenderingMode(.AlwaysTemplate), forState: .Normal)
+            flipButton.setImage(flipImage?.imageWithRenderingMode(.AlwaysTemplate), forState: .Normal)
+            shotButton.setImage(shotImage?.imageWithRenderingMode(.AlwaysTemplate), forState: .Normal)
+        } else {
+            flashButton.setImage(flashOffImage, forState: .Normal)
+            flipButton.setImage(flipImage, forState: .Normal)
+            shotButton.setImage(shotImage, forState: .Normal)
+        }
+
         
         self.hidden = false
         
@@ -90,23 +115,8 @@ final class FSCameraView: UIView, UIGestureRecognizerDelegate {
             
         } catch {
             
-            
         }
         
-		flashButton.tintColor = fusumaBaseTintColor
-        flipButton.tintColor  = fusumaBaseTintColor
-        shotButton.tintColor  = fusumaBaseTintColor
-        
-        let bundle = NSBundle(forClass: self.classForCoder)
-        
-        let flashImage = UIImage(named: "ic_flash_off", inBundle: bundle, compatibleWithTraitCollection: nil)
-        let flipImage = UIImage(named: "ic_loop", inBundle: bundle, compatibleWithTraitCollection: nil)
-        let shotImage = UIImage(named: "ic_radio_button_checked", inBundle: bundle, compatibleWithTraitCollection: nil)
-
-        flashButton.setImage(flashImage?.imageWithRenderingMode(.AlwaysTemplate), forState: .Normal)
-        flipButton.setImage(flipImage?.imageWithRenderingMode(.AlwaysTemplate), forState: .Normal)
-        shotButton.setImage(shotImage?.imageWithRenderingMode(.AlwaysTemplate), forState: .Normal)
-
         flashConfiguration()
         
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(FSCameraView.willEnterForegroundNotification(_:)), name: UIApplicationWillEnterForegroundNotification, object: nil)
@@ -244,12 +254,12 @@ final class FSCameraView: UIView, UIGestureRecognizerDelegate {
                 if mode == AVCaptureFlashMode.Off {
                     
                     device.flashMode = AVCaptureFlashMode.On
-                    flashButton.setImage(UIImage(named: "ic_flash_on", inBundle: NSBundle(forClass: self.classForCoder), compatibleWithTraitCollection: nil)?.imageWithRenderingMode(.AlwaysTemplate), forState: .Normal)
+                    flashButton.setImage(flashOnImage, forState: .Normal)
                     
                 } else if mode == AVCaptureFlashMode.On {
                     
                     device.flashMode = AVCaptureFlashMode.Off
-                    flashButton.setImage(UIImage(named: "ic_flash_off", inBundle: NSBundle(forClass: self.classForCoder), compatibleWithTraitCollection: nil)?.imageWithRenderingMode(.AlwaysTemplate), forState: .Normal)
+                    flashButton.setImage(fusumaFlashOffImage, forState: .Normal)
                 }
                 
                 device.unlockForConfiguration()
@@ -258,7 +268,7 @@ final class FSCameraView: UIView, UIGestureRecognizerDelegate {
 
         } catch _ {
 
-            flashButton.setImage(UIImage(named: "ic_flash_off", inBundle: NSBundle(forClass: self.classForCoder), compatibleWithTraitCollection: nil)?.imageWithRenderingMode(.AlwaysTemplate), forState: .Normal)
+            flashButton.setImage(fusumaFlashOffImage, forState: .Normal)
             return
         }
  
@@ -328,7 +338,7 @@ private extension FSCameraView {
                 try device.lockForConfiguration()
                 
                 device.flashMode = AVCaptureFlashMode.Off
-                flashButton.setImage(UIImage(named: "ic_flash_off", inBundle: NSBundle(forClass: self.classForCoder), compatibleWithTraitCollection: nil)?.imageWithRenderingMode(.AlwaysTemplate), forState: .Normal)
+                flashButton.setImage(fusumaFlashOffImage, forState: .Normal)
                 
                 device.unlockForConfiguration()
                 

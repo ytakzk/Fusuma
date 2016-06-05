@@ -21,6 +21,16 @@ public var fusumaBaseTintColor       = UIColor.hex("#FFFFFF", alpha: 1.0)
 public var fusumaTintColor       = UIColor.hex("#009688", alpha: 1.0)
 public var fusumaBackgroundColor = UIColor.hex("#212121", alpha: 1.0)
 
+public var fusumaAlbumImage : UIImage? = nil
+public var fusumaCameraImage : UIImage? = nil
+public var fusumaCheckImage : UIImage? = nil
+public var fusumaCloseImage : UIImage? = nil
+public var fusumaFlashOnImage : UIImage? = nil
+public var fusumaFlashOffImage : UIImage? = nil
+public var fusumaFlipImage : UIImage? = nil
+public var fusumaShotImage : UIImage? = nil
+
+public var fusumaTintIcons : Bool = true
 
 public enum FusumaMode {
     case Camera
@@ -78,30 +88,48 @@ public enum FusumaModeOrder {
         
         let bundle = NSBundle(forClass: self.classForCoder)
         
-        let albumImage = UIImage(named: "ic_insert_photo", inBundle: bundle, compatibleWithTraitCollection: nil)
-        let cameraImage = UIImage(named: "ic_photo_camera", inBundle: bundle, compatibleWithTraitCollection: nil)
-        let checkImage = UIImage(named: "ic_check", inBundle: bundle, compatibleWithTraitCollection: nil)
-		let closeImage = UIImage(named: "ic_close", inBundle: bundle, compatibleWithTraitCollection: nil)
-
+        // Get the custom button images if they're set
+        let albumImage = fusumaAlbumImage != nil ? fusumaAlbumImage : UIImage(named: "ic_insert_photo", inBundle: bundle, compatibleWithTraitCollection: nil)
+        let cameraImage = fusumaCameraImage != nil ? fusumaCameraImage : UIImage(named: "ic_photo_camera", inBundle: bundle, compatibleWithTraitCollection: nil)
+        let checkImage = fusumaCheckImage != nil ? fusumaCheckImage : UIImage(named: "ic_check", inBundle: bundle, compatibleWithTraitCollection: nil)
+        let closeImage = fusumaCloseImage != nil ? fusumaCloseImage : UIImage(named: "ic_close", inBundle: bundle, compatibleWithTraitCollection: nil)
         
-        libraryButton.setImage(albumImage?.imageWithRenderingMode(.AlwaysTemplate), forState: .Normal)
-        libraryButton.setImage(albumImage?.imageWithRenderingMode(.AlwaysTemplate), forState: .Highlighted)
-        libraryButton.setImage(albumImage?.imageWithRenderingMode(.AlwaysTemplate), forState: .Selected)
-		libraryButton.tintColor = fusumaTintColor
-		
-        cameraButton.setImage(cameraImage?.imageWithRenderingMode(.AlwaysTemplate), forState: .Normal)
-        cameraButton.setImage(cameraImage?.imageWithRenderingMode(.AlwaysTemplate), forState: .Highlighted)
-        cameraButton.setImage(cameraImage?.imageWithRenderingMode(.AlwaysTemplate), forState: .Selected)
-		cameraButton.tintColor  = fusumaTintColor
-		
-		closeButton.setImage(closeImage?.imageWithRenderingMode(.AlwaysTemplate), forState: .Normal)
-		closeButton.setImage(closeImage?.imageWithRenderingMode(.AlwaysTemplate), forState: .Highlighted)
-		closeButton.setImage(closeImage?.imageWithRenderingMode(.AlwaysTemplate), forState: .Selected)
-		closeButton.tintColor = fusumaBaseTintColor
-		
-		
-        cameraButton.adjustsImageWhenHighlighted  = false
-        libraryButton.adjustsImageWhenHighlighted = false
+        if(fusumaTintIcons) {
+            libraryButton.setImage(albumImage?.imageWithRenderingMode(.AlwaysTemplate), forState: .Normal)
+            libraryButton.setImage(albumImage?.imageWithRenderingMode(.AlwaysTemplate), forState: .Highlighted)
+            libraryButton.setImage(albumImage?.imageWithRenderingMode(.AlwaysTemplate), forState: .Selected)
+            libraryButton.tintColor = fusumaTintColor
+            
+            cameraButton.setImage(cameraImage?.imageWithRenderingMode(.AlwaysTemplate), forState: .Normal)
+            cameraButton.setImage(cameraImage?.imageWithRenderingMode(.AlwaysTemplate), forState: .Highlighted)
+            cameraButton.setImage(cameraImage?.imageWithRenderingMode(.AlwaysTemplate), forState: .Selected)
+            cameraButton.tintColor  = fusumaTintColor
+            
+            closeButton.setImage(closeImage?.imageWithRenderingMode(.AlwaysTemplate), forState: .Normal)
+            closeButton.setImage(closeImage?.imageWithRenderingMode(.AlwaysTemplate), forState: .Highlighted)
+            closeButton.setImage(closeImage?.imageWithRenderingMode(.AlwaysTemplate), forState: .Selected)
+            closeButton.tintColor = fusumaBaseTintColor
+            
+            doneButton.setImage(checkImage?.imageWithRenderingMode(.AlwaysTemplate), forState: .Normal)
+            doneButton.tintColor = fusumaBaseTintColor
+            
+            cameraButton.adjustsImageWhenHighlighted  = false
+            libraryButton.adjustsImageWhenHighlighted = false
+        } else {
+            libraryButton.setImage(albumImage, forState: .Normal)
+            libraryButton.setImage(albumImage, forState: .Highlighted)
+            libraryButton.setImage(albumImage, forState: .Selected)
+            libraryButton.tintColor = nil
+            
+            cameraButton.setImage(cameraImage, forState: .Normal)
+            cameraButton.setImage(cameraImage, forState: .Highlighted)
+            cameraButton.setImage(cameraImage, forState: .Selected)
+            cameraButton.tintColor = nil
+            
+            closeButton.setImage(closeImage, forState: .Normal)
+            doneButton.setImage(checkImage, forState: .Normal)
+        }
+        
         cameraButton.clipsToBounds  = true
         libraryButton.clipsToBounds = true
 
@@ -109,9 +137,6 @@ public enum FusumaModeOrder {
         photoLibraryViewerContainer.addSubview(albumView)
         cameraShotContainer.addSubview(cameraView)
         
-        doneButton.setImage(checkImage?.imageWithRenderingMode(.AlwaysTemplate), forState: .Normal)
-        doneButton.tintColor = fusumaBaseTintColor
-
 		titleLabel.textColor = fusumaBaseTintColor
 		
         if modeOrder != .LibraryFirst {
