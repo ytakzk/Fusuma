@@ -91,12 +91,38 @@ func fusumaClosed() {
 ```
 
 #### Theming
-You can change the colors of the ```FusumaViewController``` with overwriting them.
+You can change the colors of the ```FusumaViewController``` by overwriting them.
 
 ```Swift
 fusumaTintColor: UIColor // tint color
 fusumaBackgroundColor: UIColor // background color
 ```
+
+You can change the images used in the views by overwriting them.
+
+```Swift
+fusumaAlbumImage : UIImage?  // Tab bar photo library icon
+fusumaCameraImage : UIImage?  // Tab bar camera icon
+fusumaCheckImage : UIImage?  // Menu bar check icon
+fusumaCloseImage : UIImage?  // Menu bar close icon
+fusumaFlashOnImage : UIImage?  // Camera flash on image
+fusumaFlashOffImage : UIImage?  // Camera flash off image
+fusumaFlipImage : UIImage?  // Camera flip view image
+fusumaShotImage : UIImage?  // Camera shutter button image
+
+fusumaTintIcons : Bool // Set to false to not tint images over
+
+```
+
+You can change the titles of the views by overwriting them.
+
+```Swift
+fusumaCameraRollTitle = "Photo Library"  // Photo library view title
+fusumaCameraTitle = "Camera"  // Camera view title
+
+```
+
+
 
 ## Author
 ytakzk  
