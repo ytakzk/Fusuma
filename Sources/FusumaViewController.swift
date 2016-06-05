@@ -30,6 +30,9 @@ public var fusumaFlashOffImage : UIImage? = nil
 public var fusumaFlipImage : UIImage? = nil
 public var fusumaShotImage : UIImage? = nil
 
+public var fusumaCameraRollTitle = "CAMERA ROLL"
+public var fusumaCameraTitle = "PHOTO"
+
 public var fusumaTintIcons : Bool = true
 
 public enum FusumaMode {
@@ -235,7 +238,7 @@ private extension FusumaViewController {
         dishighlightButtons()
         
         if mode == FusumaMode.Library {
-			titleLabel.text = NSLocalizedString("CAMERA ROLL", comment: "CAMERA ROLL")
+			titleLabel.text = NSLocalizedString(fusumaCameraRollTitle, comment: fusumaCameraRollTitle)
             doneButton.hidden = false
             
             highlightButton(libraryButton)
@@ -243,7 +246,7 @@ private extension FusumaViewController {
             
         } else {
 
-			titleLabel.text = NSLocalizedString("PHOTO", comment: "PHOTO")
+			titleLabel.text = NSLocalizedString(fusumaCameraTitle, comment: fusumaCameraTitle)
             doneButton.hidden = true
             
             highlightButton(cameraButton)
