@@ -1,6 +1,6 @@
 ## Fusuma
 
-Fusuma is a Swift library that provides an Instagram-like photo browser and a camera feature with a few line of code.  
+Fusuma is a Swift library that provides an Instagram-like photo browser and a camera feature with a few lines of code.  
 You can use Fusuma instead of UIImagePickerController. It also has a feature to take a square-sized photo.
 
 [![Version](https://img.shields.io/cocoapods/v/Fusuma.svg?style=flat)](http://cocoapods.org/pods/Fusuma)
@@ -20,19 +20,21 @@ You can use Fusuma instead of UIImagePickerController. It also has a feature to 
 - [x] UIImagePickerController alternative
 - [x] Cropping images in camera roll
 - [x] Taking a square-sized photo using AVFoundation
-- [x] Flash: On Off 
-- [x] Camera Mode: Front Back 
+- [x] Flash: On & Off
+- [x] Camera Mode: Front & Back
 
 Those features are available just with a few lines of code!
 
 ## Installation
 
-Drop in the Classes folder to your Xcode project.  
-You can also use cocoapods or Carthage.
+#### Manually
+
+Simply drop in the `Sources` folder into your Xcode project.
+
 
 #### Using [cocoapods](http://cocoapods.org/)
 
-Add `pod 'Fusuma'` to your `Podfile` and run `pod install`. Also add `use_frameworks!` to the `Podfile`.
+Add the following lines to your `Podfile` and run `pod install`.
 
 ```
 use_frameworks!
@@ -41,14 +43,17 @@ pod 'Fusuma'
 
 #### Using [Carthage](https://github.com/Carthage/Carthage)
 
-Add `github "ytakzk/Fusuma"` to your `Cartfile` and run `carthage update`. If unfamiliar with Carthage then checkout their [Getting Started section](https://github.com/Carthage/Carthage#getting-started).
+Add the following line to your `Cartfile` and run `carthage update`. If unfamiliar with Carthage then checkout their [Getting Started section](https://github.com/Carthage/Carthage#getting-started).
 
 ```
 github "ytakzk/Fusuma"
 ```
 
 ## Fusuma Usage
-Import Fusuma ```import Fusuma``` then use the following codes in some function except for viewDidLoad and give FusumaDelegate to the view controller.  
+1. Import Fusuma ```import Fusuma```
+2. Add ```FusumaDelegate``` to your class
+3. Use the following lines of code in any function (e.g. a button action) **except** the ```viewDidLoad``` to call the ```FusumaViewController```
+
 
 ```Swift
 let fusuma = FusumaViewController()
@@ -73,33 +78,33 @@ func fusumaCameraRollUnauthorized() {
 
 // (Optional) Return the image but called after is dismissed.
 func fusumaDismissedWithImage(image: UIImage) {
-        
+
   print("Called just after FusumaViewController is dismissed.")
 }
 
 // (Optional) Called when the close button is pressed.
 func fusumaClosed() {
-     
+
   print("Called when the close button is pressed")
 }
 
 ```
 
-#### Colors
+#### Theming
+You can change the colors of the ```FusumaViewController``` with overwriting them.
 
 ```Swift
 fusumaTintColor: UIColor // tint color
-
 fusumaBackgroundColor: UIColor // background color
 ```
 
 ## Author
 ytakzk  
  [http://ytakzk.me](http://ytakzk.me)
- 
+
 ## Donation
 Your support is welcome through Bitcoin 16485BTK9EoQUqkMmSecJ9xN6E9nhW8ePd
- 
+
 ## License
 Fusuma is released under the MIT license.  
 See LICENSE for details.
