@@ -109,8 +109,8 @@ final class FSVideoCameraView: UIView {
         flashOnImage = fusumaFlashOnImage != nil ? fusumaFlashOnImage : UIImage(named: "ic_flash_on", inBundle: bundle, compatibleWithTraitCollection: nil)
         flashOffImage = fusumaFlashOffImage != nil ? fusumaFlashOffImage : UIImage(named: "ic_flash_off", inBundle: bundle, compatibleWithTraitCollection: nil)
         let flipImage = fusumaFlipImage != nil ? fusumaFlipImage : UIImage(named: "ic_loop", inBundle: bundle, compatibleWithTraitCollection: nil)
-        videoStartImage = fusumaShotImage != nil ? fusumaShotImage : UIImage(named: "video_button", inBundle: bundle, compatibleWithTraitCollection: nil)
-        videoStopImage = fusumaShotImage != nil ? fusumaShotImage : UIImage(named: "video_button_rec", inBundle: bundle, compatibleWithTraitCollection: nil)
+        videoStartImage = fusumaVideoStartImage != nil ? fusumaVideoStartImage : UIImage(named: "video_button", inBundle: bundle, compatibleWithTraitCollection: nil)
+        videoStopImage = fusumaVideoStopImage != nil ? fusumaVideoStopImage : UIImage(named: "video_button_rec", inBundle: bundle, compatibleWithTraitCollection: nil)
 
         
         if(fusumaTintIcons) {
