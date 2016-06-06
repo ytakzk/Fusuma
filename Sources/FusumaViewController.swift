@@ -167,10 +167,10 @@ public final class FusumaViewController: UIViewController {
         
 		titleLabel.textColor = fusumaBaseTintColor
 		
-        if modeOrder != .LibraryFirst {
-            libraryFirstConstraints.forEach { $0.priority = 250 }
-            cameraFirstConstraints.forEach { $0.priority = 1000 }
-        }
+//        if modeOrder != .LibraryFirst {
+//            libraryFirstConstraints.forEach { $0.priority = 250 }
+//            cameraFirstConstraints.forEach { $0.priority = 1000 }
+//        }
     }
     
     override public func viewWillAppear(animated: Bool) {
