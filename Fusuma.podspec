@@ -8,6 +8,6 @@ Pod::Spec.new do |s|
   s.source           = { :git => "https://github.com/ytakzk/Fusuma.git", :tag => s.version.to_s }
   s.platform     = :ios, '8.0'
   s.requires_arc = true
-  s.source_files = 'Classes/**/*.swift'
-  s.resources    = ['Classes/Assets.xcassets', 'Classes/**/*.xib']
+  s.source_files = 'Sources/**/*.swift'
+  s.resources    = ['Sources/Assets.xcassets', 'Sources/**/*.xib']
 end
