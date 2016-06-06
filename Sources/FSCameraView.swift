@@ -116,10 +116,25 @@ final class FSCameraView: UIView, UIGestureRecognizerDelegate {
         } catch {
             
         }
-        
         flashConfiguration()
         
+        self.startCamera()
+        
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(FSCameraView.willEnterForegroundNotification(_:)), name: UIApplicationWillEnterForegroundNotification, object: nil)
+    }
+    
+    func willEnterForegroundNotification(notification: NSNotification) {
+        
+        let status = AVCaptureDevice.authorizationStatusForMediaType(AVMediaTypeVideo)
+        
+        if status == AVAuthorizationStatus.Authorized {
+            
+            session?.startRunning()
+            
+        } else if status == AVAuthorizationStatus.Denied || status == AVAuthorizationStatus.Restricted {
+            
+            session?.stopRunning()
+        }
     }
     
     deinit {
@@ -127,7 +142,7 @@ final class FSCameraView: UIView, UIGestureRecognizerDelegate {
         NSNotificationCenter.defaultCenter().removeObserver(self)
     }
     
-    func willEnterForegroundNotification(notification: NSNotification) {
+    func startCamera() {
         
         let status = AVCaptureDevice.authorizationStatusForMediaType(AVMediaTypeVideo)
         
@@ -139,6 +154,10 @@ final class FSCameraView: UIView, UIGestureRecognizerDelegate {
 
             session?.stopRunning()
         }
+    }
+    
+    func stopCamera() {
+        session?.stopRunning()
     }
     
     @IBAction func shotButtonPressed(sender: UIButton) {
@@ -168,7 +187,7 @@ final class FSCameraView: UIView, UIGestureRecognizerDelegate {
                     let sw = self.previewViewContainer.frame.width
                     
                     // The center coordinate along Y axis
-                    let rcy = ih*0.5
+                    let rcy = ih * 0.5
 
                     let imageRef = CGImageCreateWithImageInRect(image.CGImage, CGRect(x: rcy-iw*0.5, y: 0 , width: iw, height: iw))
                     
@@ -275,7 +294,7 @@ final class FSCameraView: UIView, UIGestureRecognizerDelegate {
     }
 }
 
-private extension FSCameraView {
+extension FSCameraView {
     
     @objc func focus(recognizer: UITapGestureRecognizer) {
         

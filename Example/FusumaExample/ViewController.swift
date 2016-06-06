@@ -14,31 +14,25 @@ class ViewController: UIViewController, FusumaDelegate {
     
     @IBOutlet weak var showButton: UIButton!
     
+    @IBOutlet weak var fileUrlLabel: UILabel!
+
     override func viewDidLoad() {
         super.viewDidLoad()
-		
-		/*
-		// uncomment this to test with white background
-		fusumaBaseTintColor       = UIColor.hex("#000000", alpha: 1.0)
-		fusumaTintColor       = UIColor.hex("#00AA00", alpha: 1.0)
-		fusumaBackgroundColor = UIColor.hex("#FFFFFF", alpha: 1.0)
-		*/
-		showButton.layer.cornerRadius = 2.0
+        
+        showButton.layer.cornerRadius = 2.0
+        self.fileUrlLabel.text = ""
     }
-    
+
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    
+
     @IBAction func showButtonPressed(sender: UIButton) {
         
         // Show Fusuma
         let fusuma = FusumaViewController()
         fusuma.delegate = self
-		
-//        fusuma.defaultMode = .Camera
-//        fusuma.modeOrder = .CameraFirst
         self.presentViewController(fusuma, animated: true, completion: nil)
         
     }
@@ -48,6 +42,11 @@ class ViewController: UIViewController, FusumaDelegate {
         
         print("Image selected")
         imageView.image = image
+    }
+    
+    func fusumaVideoCompleted(withFileURL fileURL: NSURL) {
+        print("video completed and output to file: \(fileURL)")
+        self.fileUrlLabel.text = "file output to: \(fileURL.absoluteString)"
     }
     
     func fusumaDismissedWithImage(image: UIImage) {
@@ -66,7 +65,7 @@ class ViewController: UIViewController, FusumaDelegate {
             if let url = NSURL(string:UIApplicationOpenSettingsURLString) {
                 UIApplication.sharedApplication().openURL(url)
             }
-            
+
         }))
         
         alert.addAction(UIAlertAction(title: "Cancel", style: .Cancel, handler: { (action) -> Void in
@@ -77,9 +76,9 @@ class ViewController: UIViewController, FusumaDelegate {
     }
     
     func fusumaClosed() {
-        
+     
         print("Called when the close button is pressed")
     }
-    
+
 }
 
