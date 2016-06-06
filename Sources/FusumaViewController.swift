@@ -150,6 +150,11 @@ public final class FusumaViewController: UIViewController {
             cameraButton.setImage(cameraImage, forState: .Highlighted)
             cameraButton.setImage(cameraImage, forState: .Selected)
             cameraButton.tintColor = nil
+
+            videoButton.setImage(videoImage, forState: .Normal)
+            videoButton.setImage(videoImage, forState: .Highlighted)
+            videoButton.setImage(videoImage, forState: .Selected)
+            videoButton.tintColor = nil
             
             closeButton.setImage(closeImage, forState: .Normal)
             doneButton.setImage(checkImage, forState: .Normal)
