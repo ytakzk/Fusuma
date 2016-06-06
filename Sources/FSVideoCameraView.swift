@@ -28,6 +28,12 @@ final class FSVideoCameraView: UIView {
     var videoOutput: AVCaptureMovieFileOutput?
     var focusView: UIView?
     
+    var flashOffImage: UIImage?
+    var flashOnImage: UIImage?
+    var videoStartImage: UIImage?
+    var videoStopImage: UIImage?
+
+    
     private var isRecording = false
     
     static func instance() -> FSVideoCameraView {
@@ -95,22 +101,31 @@ final class FSVideoCameraView: UIView {
             
         } catch {
             
-            
         }
         
-        flashButton.tintColor = UIColor.whiteColor()
-        flipButton.tintColor  = UIColor.whiteColor()
-        shotButton.tintColor  = UIColor.whiteColor()
         
         let bundle = NSBundle(forClass: self.classForCoder)
         
-        let flashImage = UIImage(named: "ic_flash_off", inBundle: bundle, compatibleWithTraitCollection: nil)
-        let flipImage = UIImage(named: "ic_loop", inBundle: bundle, compatibleWithTraitCollection: nil)
-        let shotImage = UIImage(named: "video_button", inBundle: bundle, compatibleWithTraitCollection: nil)
+        flashOnImage = fusumaFlashOnImage != nil ? fusumaFlashOnImage : UIImage(named: "ic_flash_on", inBundle: bundle, compatibleWithTraitCollection: nil)
+        flashOffImage = fusumaFlashOffImage != nil ? fusumaFlashOffImage : UIImage(named: "ic_flash_off", inBundle: bundle, compatibleWithTraitCollection: nil)
+        let flipImage = fusumaFlipImage != nil ? fusumaFlipImage : UIImage(named: "ic_loop", inBundle: bundle, compatibleWithTraitCollection: nil)
+        videoStartImage = fusumaShotImage != nil ? fusumaShotImage : UIImage(named: "video_button", inBundle: bundle, compatibleWithTraitCollection: nil)
+        videoStopImage = fusumaShotImage != nil ? fusumaShotImage : UIImage(named: "video_button_rec", inBundle: bundle, compatibleWithTraitCollection: nil)
+
         
-        flashButton.setImage(flashImage, forState: .Normal)
-        flipButton.setImage(flipImage, forState: .Normal)
-        shotButton.setImage(shotImage, forState: .Normal)
+        if(fusumaTintIcons) {
+            flashButton.tintColor = fusumaBaseTintColor
+            flipButton.tintColor  = fusumaBaseTintColor
+            shotButton.tintColor  = fusumaBaseTintColor
+            
+            flashButton.setImage(flashOffImage?.imageWithRenderingMode(.AlwaysTemplate), forState: .Normal)
+            flipButton.setImage(flipImage?.imageWithRenderingMode(.AlwaysTemplate), forState: .Normal)
+            shotButton.setImage(videoStartImage?.imageWithRenderingMode(.AlwaysTemplate), forState: .Normal)
+        } else {
+            flashButton.setImage(flashOffImage, forState: .Normal)
+            flipButton.setImage(flipImage, forState: .Normal)
+            shotButton.setImage(videoStartImage, forState: .Normal)
+        }
         
         flashConfiguration()
         
@@ -157,9 +172,9 @@ final class FSVideoCameraView: UIView {
         
         let shotImage: UIImage?
         if self.isRecording {
-            shotImage = UIImage(named: "video_button_rec", inBundle: NSBundle(forClass: self.classForCoder), compatibleWithTraitCollection: nil)
+            shotImage = videoStopImage
         } else {
-            shotImage = UIImage(named: "video_button", inBundle: NSBundle(forClass: self.classForCoder), compatibleWithTraitCollection: nil)
+            shotImage = videoStartImage
         }
         self.shotButton.setImage(shotImage, forState: .Normal)
         
@@ -240,12 +255,12 @@ final class FSVideoCameraView: UIView {
                 if mode == AVCaptureFlashMode.Off {
                     
                     device.flashMode = AVCaptureFlashMode.On
-                    flashButton.setImage(UIImage(named: "ic_flash_on", inBundle: NSBundle(forClass: self.classForCoder), compatibleWithTraitCollection: nil), forState: .Normal)
+                    flashButton.setImage(flashOnImage, forState: .Normal)
                     
                 } else if mode == AVCaptureFlashMode.On {
                     
                     device.flashMode = AVCaptureFlashMode.Off
-                    flashButton.setImage(UIImage(named: "ic_flash_off", inBundle: NSBundle(forClass: self.classForCoder), compatibleWithTraitCollection: nil), forState: .Normal)
+                    flashButton.setImage(flashOffImage, forState: .Normal)
                 }
                 
                 device.unlockForConfiguration()
@@ -254,7 +269,7 @@ final class FSVideoCameraView: UIView {
             
         } catch _ {
             
-            flashButton.setImage(UIImage(named: "ic_flash_off", inBundle: NSBundle(forClass: self.classForCoder), compatibleWithTraitCollection: nil), forState: .Normal)
+            flashButton.setImage(flashOffImage, forState: .Normal)
             return
         }
         
@@ -336,7 +351,7 @@ extension FSVideoCameraView {
                 try device.lockForConfiguration()
                 
                 device.flashMode = AVCaptureFlashMode.Off
-                flashButton.setImage(UIImage(named: "ic_flash_off", inBundle: NSBundle(forClass: self.classForCoder), compatibleWithTraitCollection: nil), forState: .Normal)
+                flashButton.setImage(flashOffImage, forState: .Normal)
                 
                 device.unlockForConfiguration()
                 

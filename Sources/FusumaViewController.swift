@@ -24,12 +24,17 @@ public var fusumaBackgroundColor = UIColor.hex("#212121", alpha: 1.0)
 
 public var fusumaAlbumImage : UIImage? = nil
 public var fusumaCameraImage : UIImage? = nil
+public var fusumaVideoImage : UIImage? = nil
 public var fusumaCheckImage : UIImage? = nil
 public var fusumaCloseImage : UIImage? = nil
 public var fusumaFlashOnImage : UIImage? = nil
 public var fusumaFlashOffImage : UIImage? = nil
 public var fusumaFlipImage : UIImage? = nil
 public var fusumaShotImage : UIImage? = nil
+
+public var fusumaVideoStartImage : UIImage? = nil
+public var fusumaVideoStopImage : UIImage? = nil
+
 
 public var fusumaCameraRollTitle = "CAMERA ROLL"
 public var fusumaCameraTitle = "PHOTO"
@@ -101,7 +106,7 @@ public final class FusumaViewController: UIViewController {
         let albumImage = fusumaAlbumImage != nil ? fusumaAlbumImage : UIImage(named: "ic_insert_photo", inBundle: bundle, compatibleWithTraitCollection: nil)
         let cameraImage = fusumaCameraImage != nil ? fusumaCameraImage : UIImage(named: "ic_photo_camera", inBundle: bundle, compatibleWithTraitCollection: nil)
         
-        let videoImage = UIImage(named: "ic_videocam", inBundle: bundle, compatibleWithTraitCollection: nil)
+        let videoImage = fusumaVideoImage != nil ? fusumaVideoImage : UIImage(named: "ic_videocam", inBundle: bundle, compatibleWithTraitCollection: nil)
 
         
         let checkImage = fusumaCheckImage != nil ? fusumaCheckImage : UIImage(named: "ic_check", inBundle: bundle, compatibleWithTraitCollection: nil)
