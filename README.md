@@ -1,6 +1,6 @@
 ## Fusuma
 
-Fusuma is a Swift library that provides an Instagram-like photo browser and a camera feature with a few lines of code.  
+Fusuma is a Swift library that provides an Instagram-like photo browser and a camera feature with a few line of code.  
 You can use Fusuma instead of UIImagePickerController. It also has a feature to take a square-sized photo.
 
 [![Version](https://img.shields.io/cocoapods/v/Fusuma.svg?style=flat)](http://cocoapods.org/pods/Fusuma)
@@ -20,21 +20,19 @@ You can use Fusuma instead of UIImagePickerController. It also has a feature to 
 - [x] UIImagePickerController alternative
 - [x] Cropping images in camera roll
 - [x] Taking a square-sized photo using AVFoundation
-- [x] Flash: On & Off
-- [x] Camera Mode: Front & Back
+- [x] Flash: On Off 
+- [x] Camera Mode: Front Back 
 
 Those features are available just with a few lines of code!
 
 ## Installation
 
-#### Manually
-
-Simply drop in the `Sources` folder into your Xcode project.
-
+Drop in the Classes folder to your Xcode project.  
+You can also use cocoapods or Carthage.
 
 #### Using [cocoapods](http://cocoapods.org/)
 
-Add the following lines to your `Podfile` and run `pod install`.
+Add `pod 'Fusuma'` to your `Podfile` and run `pod install`. Also add `use_frameworks!` to the `Podfile`.
 
 ```
 use_frameworks!
@@ -43,17 +41,14 @@ pod 'Fusuma'
 
 #### Using [Carthage](https://github.com/Carthage/Carthage)
 
-Add the following line to your `Cartfile` and run `carthage update`. If unfamiliar with Carthage then checkout their [Getting Started section](https://github.com/Carthage/Carthage#getting-started).
+Add `github "ytakzk/Fusuma"` to your `Cartfile` and run `carthage update`. If unfamiliar with Carthage then checkout their [Getting Started section](https://github.com/Carthage/Carthage#getting-started).
 
 ```
 github "ytakzk/Fusuma"
 ```
 
 ## Fusuma Usage
-1. Import Fusuma ```import Fusuma```
-2. Add ```FusumaDelegate``` to your class
-3. Use the following lines of code in any function (e.g. a button action) **except** the ```viewDidLoad``` to call the ```FusumaViewController```
-
+Import Fusuma ```import Fusuma``` then use the following codes in some function except for viewDidLoad and give FusumaDelegate to the view controller.  
 
 ```Swift
 let fusuma = FusumaViewController()
@@ -70,67 +65,34 @@ func fusumaImageSelected(image: UIImage) {
   print("Image selected")
 }
 
+// Return the image but called after is dismissed.
+func fusumaDismissedWithImage(image: UIImage) {
+        
+  print("Called just after FusumaViewController is dismissed.")
+}
+
 // When camera roll is not authorized, this method is called.
 func fusumaCameraRollUnauthorized() {
 
   print("Camera roll unauthorized")
 }
-
-// (Optional) Return the image but called after is dismissed.
-func fusumaDismissedWithImage(image: UIImage) {
-
-  print("Called just after FusumaViewController is dismissed.")
-}
-
-// (Optional) Called when the close button is pressed.
-func fusumaClosed() {
-
-  print("Called when the close button is pressed")
-}
-
 ```
 
-#### Theming
-You can change the colors of the ```FusumaViewController``` by overwriting them.
+#### Colors
 
 ```Swift
 fusumaTintColor: UIColor // tint color
+
 fusumaBackgroundColor: UIColor // background color
 ```
-
-You can change the images used in the views by overwriting them.
-
-```Swift
-fusumaAlbumImage : UIImage?  // Tab bar photo library icon
-fusumaCameraImage : UIImage?  // Tab bar camera icon
-fusumaCheckImage : UIImage?  // Menu bar check icon
-fusumaCloseImage : UIImage?  // Menu bar close icon
-fusumaFlashOnImage : UIImage?  // Camera flash on image
-fusumaFlashOffImage : UIImage?  // Camera flash off image
-fusumaFlipImage : UIImage?  // Camera flip view image
-fusumaShotImage : UIImage?  // Camera shutter button image
-
-fusumaTintIcons : Bool // Set to false to not tint images over
-
-```
-
-You can change the titles of the views by overwriting them.
-
-```Swift
-fusumaCameraRollTitle = "Photo Library"  // Photo library view title
-fusumaCameraTitle = "Camera"  // Camera view title
-
-```
-
-
 
 ## Author
 ytakzk  
  [http://ytakzk.me](http://ytakzk.me)
-
+ 
 ## Donation
 Your support is welcome through Bitcoin 16485BTK9EoQUqkMmSecJ9xN6E9nhW8ePd
-
+ 
 ## License
 Fusuma is released under the MIT license.  
 See LICENSE for details.

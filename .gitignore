@@ -32,3 +32,5 @@ DerivedData
 
 Pods/
 
+
+*.lock
