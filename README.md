@@ -98,6 +98,13 @@ fusumaTintColor: UIColor // tint color
 fusumaBackgroundColor: UIColor // background color
 ```
 
+#### Customize Image Output 
+You can deselect image crop mode with: 
+
+```Swift
+fusumaCropImage:Bool // default is true for cropping the image 
+```
+
 ## Author
 ytakzk  
  [http://ytakzk.me](http://ytakzk.me)

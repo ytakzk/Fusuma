@@ -21,6 +21,8 @@ public var fusumaBaseTintColor       = UIColor.hex("#FFFFFF", alpha: 1.0)
 public var fusumaTintColor       = UIColor.hex("#009688", alpha: 1.0)
 public var fusumaBackgroundColor = UIColor.hex("#212121", alpha: 1.0)
 
+public var fusumaCropImage: Bool = true
+
 
 public enum FusumaMode {
     case Camera
@@ -163,13 +165,19 @@ public enum FusumaModeOrder {
     @IBAction func doneButtonPressed(sender: UIButton) {
         
         let view = albumView.imageCropView
+        let image:UIImage
         
-        UIGraphicsBeginImageContextWithOptions(view.frame.size, true, 0)
-        let context = UIGraphicsGetCurrentContext()
-        CGContextTranslateCTM(context, -albumView.imageCropView.contentOffset.x, -albumView.imageCropView.contentOffset.y)
-        view.layer.renderInContext(context!)
-        let image = UIGraphicsGetImageFromCurrentImageContext()
-        UIGraphicsEndImageContext()
+        if fusumaCropImage {
+            UIGraphicsBeginImageContextWithOptions(view.frame.size, true, 0)
+            let context = UIGraphicsGetCurrentContext()
+            CGContextTranslateCTM(context, -albumView.imageCropView.contentOffset.x, -albumView.imageCropView.contentOffset.y)
+            view.layer.renderInContext(context!)
+            image = UIGraphicsGetImageFromCurrentImageContext()
+            UIGraphicsEndImageContext()
+        } else {
+            print("no image crop ")
+            image = view.image
+        }
         
         delegate?.fusumaImageSelected(image)
         
