@@ -38,6 +38,7 @@ public var fusumaVideoStopImage : UIImage? = nil
 
 public var fusumaCameraRollTitle = "CAMERA ROLL"
 public var fusumaCameraTitle = "PHOTO"
+public var fusumaVideoTitle = "VIDEO"
 
 public var fusumaTintIcons : Bool = true
 
@@ -310,7 +311,7 @@ private extension FusumaViewController {
             self.view.bringSubviewToFront(cameraShotContainer)
             cameraView.startCamera()
         case .Video:
-            titleLabel.text = "VIDEO"
+            titleLabel.text = fusumaVideoTitle
             doneButton.hidden = true
             
             highlightButton(videoButton)
