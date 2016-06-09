@@ -200,7 +200,11 @@ public final class FusumaViewController: UIViewController {
     
     public override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
-        self.stopAll()
+    }
+  
+    public override func viewDidDisappear(animated: Bool) {
+      super.viewDidDisappear(animated)
+      stopAll()
     }
 
     override public func prefersStatusBarHidden() -> Bool {
@@ -233,11 +237,11 @@ public final class FusumaViewController: UIViewController {
     @IBAction func doneButtonPressed(sender: UIButton) {
         
         let view = albumView.imageCropView
-        
+      
         UIGraphicsBeginImageContextWithOptions(view.frame.size, true, 0)
         let context = UIGraphicsGetCurrentContext()
         CGContextTranslateCTM(context, -albumView.imageCropView.contentOffset.x, -albumView.imageCropView.contentOffset.y)
-        view.layer.renderInContext(context!)
+        view.drawViewHierarchyInRect(view.bounds, afterScreenUpdates: false)
         let image = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
         
