@@ -191,11 +191,15 @@ final class FSCameraView: UIView, UIGestureRecognizerDelegate {
 
                     let imageRef = CGImageCreateWithImageInRect(image.CGImage, CGRect(x: rcy-iw*0.5, y: 0 , width: iw, height: iw))
                     
-                    let resizedImage = UIImage(CGImage: imageRef!, scale: sw/iw, orientation: image.imageOrientation)
+                    
                                         
                     dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                        
-                        delegate.cameraShotFinished(resizedImage)
+                        if fusumaCropImage {
+                            let resizedImage = UIImage(CGImage: imageRef!, scale: sw/iw, orientation: image.imageOrientation)
+                            delegate.cameraShotFinished(resizedImage)
+                        } else {
+                            delegate.cameraShotFinished(image)
+                        }
                         
                         self.session     = nil
                         self.device      = nil
