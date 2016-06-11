@@ -19,7 +19,7 @@ You can use Fusuma instead of UIImagePickerController. It also has a feature to 
 ## Features
 - [x] UIImagePickerController alternative
 - [x] Cropping images in camera roll
-- [x] Taking a square-sized photo using AVFoundation
+- [x] Taking a square-sized photo and a video using AVFoundation
 - [x] Flash: On Off 
 - [x] Camera Mode: Front Back 
 
@@ -53,6 +53,7 @@ Import Fusuma ```import Fusuma``` then use the following codes in some function 
 ```Swift
 let fusuma = FusumaViewController()
 fusuma.delegate = self
+fusuma.hasVideo = true // If you want to let the users allow to use video.
 self.presentViewController(fusuma, animated: true, completion: nil)
 ```
 
