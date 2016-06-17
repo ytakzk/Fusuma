@@ -282,7 +282,7 @@ final class FSCameraView: UIView, UIGestureRecognizerDelegate {
                 } else if mode == AVCaptureFlashMode.On {
                     
                     device.flashMode = AVCaptureFlashMode.Off
-                    flashButton.setImage(fusumaFlashOffImage, forState: .Normal)
+                    flashButton.setImage(flashOffImage, forState: .Normal)
                 }
                 
                 device.unlockForConfiguration()
@@ -291,7 +291,7 @@ final class FSCameraView: UIView, UIGestureRecognizerDelegate {
 
         } catch _ {
 
-            flashButton.setImage(fusumaFlashOffImage, forState: .Normal)
+            flashButton.setImage(flashOffImage, forState: .Normal)
             return
         }
  
@@ -361,7 +361,7 @@ extension FSCameraView {
                 try device.lockForConfiguration()
                 
                 device.flashMode = AVCaptureFlashMode.Off
-                flashButton.setImage(fusumaFlashOffImage, forState: .Normal)
+                flashButton.setImage(flashOffImage, forState: .Normal)
                 
                 device.unlockForConfiguration()
                 
