@@ -29,6 +29,7 @@ final class FSAlbumView: UIView, UICollectionViewDataSource, UICollectionViewDel
     var imageManager: PHCachingImageManager?
     var previousPreheatRect: CGRect = CGRectZero
     let cellSize = CGSize(width: 100, height: 100)
+    var phAsset: PHAsset!
     
     // Variables for calculating the position
     enum Direction {
@@ -369,6 +370,7 @@ private extension FSAlbumView {
     func changeImage(asset: PHAsset) {
         
         self.imageCropView.image = nil
+        self.phAsset = asset
         
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), {
             

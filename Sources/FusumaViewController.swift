@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Photos
 
 @objc public protocol FusumaDelegate: class {
     
@@ -261,25 +262,51 @@ public final class FusumaViewController: UIViewController {
     @IBAction func doneButtonPressed(sender: UIButton) {
         
         let view = albumView.imageCropView
-        let image:UIImage
-        
+
         if fusumaCropImage {
-            UIGraphicsBeginImageContextWithOptions(view.frame.size, true, 0)
-            let context = UIGraphicsGetCurrentContext()
-            CGContextTranslateCTM(context, -albumView.imageCropView.contentOffset.x, -albumView.imageCropView.contentOffset.y)
-            view.layer.renderInContext(context!)
-            image = UIGraphicsGetImageFromCurrentImageContext()
-            UIGraphicsEndImageContext()
+            let normalizedX = view.contentOffset.x / view.contentSize.width
+            let normalizedY = view.contentOffset.y / view.contentSize.height
+            
+            let normalizedWidth = view.frame.width / view.contentSize.width
+            let normalizedHeight = view.frame.height / view.contentSize.height
+            
+            let cropRect = CGRect(x: normalizedX, y: normalizedY, width: normalizedWidth, height: normalizedHeight)
+            
+            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), {
+                
+                let options = PHImageRequestOptions()
+                options.deliveryMode = .HighQualityFormat
+                options.networkAccessAllowed = true
+                options.normalizedCropRect = cropRect
+                options.resizeMode = .Exact
+                
+                let targetWidth = floor(CGFloat(self.albumView.phAsset.pixelWidth) * cropRect.width)
+                let targetHeight = floor(CGFloat(self.albumView.phAsset.pixelHeight) * cropRect.height)
+                let dimension = max(min(targetHeight, targetWidth), 1024 * UIScreen.mainScreen().scale)
+                
+                let targetSize = CGSize(width: dimension, height: dimension)
+                
+                PHImageManager.defaultManager().requestImageForAsset(self.albumView.phAsset, targetSize: targetSize,
+                contentMode: .AspectFill, options: options) {
+                    result, info in
+                    
+                    dispatch_async(dispatch_get_main_queue(), {
+                        self.delegate?.fusumaImageSelected(result!)
+                        
+                        self.dismissViewControllerAnimated(true, completion: {
+                            self.delegate?.fusumaDismissedWithImage?(result!)
+                        })
+                    })
+                }
+            })
         } else {
             print("no image crop ")
-            image = view.image
+            delegate?.fusumaImageSelected(view.image)
+            
+            self.dismissViewControllerAnimated(true, completion: {
+                self.delegate?.fusumaDismissedWithImage?(view.image)
+            })
         }
-        
-        delegate?.fusumaImageSelected(image)
-        
-        self.dismissViewControllerAnimated(true, completion: {
-            self.delegate?.fusumaDismissedWithImage?(image)
-        })
     }
     
 }
