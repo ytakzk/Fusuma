@@ -22,6 +22,7 @@ You can use Fusuma instead of UIImagePickerController. It also has a feature to 
 - [x] Taking a square-sized photo and a video using AVFoundation
 - [x] Flash: On Off 
 - [x] Camera Mode: Front Back 
+- [x] Video Mode 
 
 Those features are available just with a few lines of code!
 
