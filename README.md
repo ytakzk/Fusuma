@@ -73,6 +73,11 @@ func fusumaDismissedWithImage(image: UIImage) {
   print("Called just after FusumaViewController is dismissed.")
 }
 
+func fusumaVideoCompleted(withFileURL fileURL: NSURL) {
+
+  print("Called just after a video has been selected.")
+}
+
 // When camera roll is not authorized, this method is called.
 func fusumaCameraRollUnauthorized() {
 
