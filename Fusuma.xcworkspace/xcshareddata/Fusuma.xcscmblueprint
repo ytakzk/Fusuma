@@ -1,0 +1,30 @@
+{
+  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "BD7E742BD9060BB72B5CF8D2D51CC11BFD8E9F20",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
+
+  },
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
+    "BD7E742BD9060BB72B5CF8D2D51CC11BFD8E9F20" : 0,
+    "23AF5AA117FA2D501EED8F2E2D47A94DC0561034" : 0
+  },
+  "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "4E8B2AD1-31E7-494A-B2FF-1748979B5DEF",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
+    "BD7E742BD9060BB72B5CF8D2D51CC11BFD8E9F20" : "Fusuma\/",
+    "23AF5AA117FA2D501EED8F2E2D47A94DC0561034" : ".."
+  },
+  "DVTSourceControlWorkspaceBlueprintNameKey" : "Fusuma",
+  "DVTSourceControlWorkspaceBlueprintVersion" : 204,
+  "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "Fusuma.xcworkspace",
+  "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "github.com:white-rabbit-apps\/white-rabbit-ios.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "23AF5AA117FA2D501EED8F2E2D47A94DC0561034"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "github.com:white-rabbit-apps\/Fusuma.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "BD7E742BD9060BB72B5CF8D2D51CC11BFD8E9F20"
+    }
+  ]
+}

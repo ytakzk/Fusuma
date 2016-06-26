@@ -65,24 +65,17 @@ func fusumaImageSelected(image: UIImage) {
   print("Image selected")
 }
 
-// When camera roll is not authorized, this method is called.
-func fusumaCameraRollUnauthorized() {
-
-  print("Camera roll unauthorized")
-}
-
-// (Optional) Return the image but called after is dismissed.
+// Return the image but called after is dismissed.
 func fusumaDismissedWithImage(image: UIImage) {
         
   print("Called just after FusumaViewController is dismissed.")
 }
 
-// (Optional) Called when the close button is pressed.
-func fusumaClosed() {
-     
-  print("Called when the close button is pressed")
-}
+// When camera roll is not authorized, this method is called.
+func fusumaCameraRollUnauthorized() {
 
+  print("Camera roll unauthorized")
+}
 ```
 
 #### Colors

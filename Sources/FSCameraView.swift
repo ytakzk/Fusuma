@@ -28,6 +28,9 @@ final class FSCameraView: UIView, UIGestureRecognizerDelegate {
     var imageOutput: AVCaptureStillImageOutput?
     var focusView: UIView?
 
+    var flashOffImage: UIImage?
+    var flashOnImage: UIImage?
+    
     static func instance() -> FSCameraView {
         
         return UINib(nibName: "FSCameraView", bundle: NSBundle(forClass: self.classForCoder())).instantiateWithOwner(self, options: nil)[0] as! FSCameraView
@@ -41,6 +44,28 @@ final class FSCameraView: UIView, UIGestureRecognizerDelegate {
         }
         
         self.backgroundColor = fusumaBackgroundColor
+        
+        let bundle = NSBundle(forClass: self.classForCoder)
+        
+        flashOnImage = fusumaFlashOnImage != nil ? fusumaFlashOnImage : UIImage(named: "ic_flash_on", inBundle: bundle, compatibleWithTraitCollection: nil)
+        flashOffImage = fusumaFlashOffImage != nil ? fusumaFlashOffImage : UIImage(named: "ic_flash_off", inBundle: bundle, compatibleWithTraitCollection: nil)
+        let flipImage = fusumaFlipImage != nil ? fusumaFlipImage : UIImage(named: "ic_loop", inBundle: bundle, compatibleWithTraitCollection: nil)
+        let shotImage = fusumaShotImage != nil ? fusumaShotImage : UIImage(named: "ic_radio_button_checked", inBundle: bundle, compatibleWithTraitCollection: nil)
+        
+        if(fusumaTintIcons) {
+            flashButton.tintColor = fusumaBaseTintColor
+            flipButton.tintColor  = fusumaBaseTintColor
+            shotButton.tintColor  = fusumaBaseTintColor
+            
+            flashButton.setImage(flashOffImage?.imageWithRenderingMode(.AlwaysTemplate), forState: .Normal)
+            flipButton.setImage(flipImage?.imageWithRenderingMode(.AlwaysTemplate), forState: .Normal)
+            shotButton.setImage(shotImage?.imageWithRenderingMode(.AlwaysTemplate), forState: .Normal)
+        } else {
+            flashButton.setImage(flashOffImage, forState: .Normal)
+            flipButton.setImage(flipImage, forState: .Normal)
+            shotButton.setImage(shotImage, forState: .Normal)
+        }
+
         
         self.hidden = false
         
@@ -90,26 +115,26 @@ final class FSCameraView: UIView, UIGestureRecognizerDelegate {
             
         } catch {
             
-            
         }
-        
-		flashButton.tintColor = fusumaBaseTintColor
-        flipButton.tintColor  = fusumaBaseTintColor
-        shotButton.tintColor  = fusumaBaseTintColor
-        
-        let bundle = NSBundle(forClass: self.classForCoder)
-        
-        let flashImage = UIImage(named: "ic_flash_off", inBundle: bundle, compatibleWithTraitCollection: nil)
-        let flipImage = UIImage(named: "ic_loop", inBundle: bundle, compatibleWithTraitCollection: nil)
-        let shotImage = UIImage(named: "ic_radio_button_checked", inBundle: bundle, compatibleWithTraitCollection: nil)
-
-        flashButton.setImage(flashImage?.imageWithRenderingMode(.AlwaysTemplate), forState: .Normal)
-        flipButton.setImage(flipImage?.imageWithRenderingMode(.AlwaysTemplate), forState: .Normal)
-        shotButton.setImage(shotImage?.imageWithRenderingMode(.AlwaysTemplate), forState: .Normal)
-
         flashConfiguration()
         
+        self.startCamera()
+        
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(FSCameraView.willEnterForegroundNotification(_:)), name: UIApplicationWillEnterForegroundNotification, object: nil)
+    }
+    
+    func willEnterForegroundNotification(notification: NSNotification) {
+        
+        let status = AVCaptureDevice.authorizationStatusForMediaType(AVMediaTypeVideo)
+        
+        if status == AVAuthorizationStatus.Authorized {
+            
+            session?.startRunning()
+            
+        } else if status == AVAuthorizationStatus.Denied || status == AVAuthorizationStatus.Restricted {
+            
+            session?.stopRunning()
+        }
     }
     
     deinit {
@@ -117,7 +142,7 @@ final class FSCameraView: UIView, UIGestureRecognizerDelegate {
         NSNotificationCenter.defaultCenter().removeObserver(self)
     }
     
-    func willEnterForegroundNotification(notification: NSNotification) {
+    func startCamera() {
         
         let status = AVCaptureDevice.authorizationStatusForMediaType(AVMediaTypeVideo)
         
@@ -129,6 +154,10 @@ final class FSCameraView: UIView, UIGestureRecognizerDelegate {
 
             session?.stopRunning()
         }
+    }
+    
+    func stopCamera() {
+        session?.stopRunning()
     }
     
     @IBAction func shotButtonPressed(sender: UIButton) {
@@ -158,7 +187,7 @@ final class FSCameraView: UIView, UIGestureRecognizerDelegate {
                     let sw = self.previewViewContainer.frame.width
                     
                     // The center coordinate along Y axis
-                    let rcy = ih*0.5
+                    let rcy = ih * 0.5
 
                     let imageRef = CGImageCreateWithImageInRect(image.CGImage, CGRect(x: rcy-iw*0.5, y: 0 , width: iw, height: iw))
                     
@@ -181,6 +210,11 @@ final class FSCameraView: UIView, UIGestureRecognizerDelegate {
     }
     
     @IBAction func flipButtonPressed(sender: UIButton) {
+
+        if !cameraIsAvailable() {
+
+            return
+        }
         
         session?.stopRunning()
         
@@ -221,6 +255,11 @@ final class FSCameraView: UIView, UIGestureRecognizerDelegate {
     
     @IBAction func flashButtonPressed(sender: UIButton) {
 
+        if !cameraIsAvailable() {
+
+            return
+        }
+
         do {
 
             if let device = device {
@@ -234,12 +273,12 @@ final class FSCameraView: UIView, UIGestureRecognizerDelegate {
                 if mode == AVCaptureFlashMode.Off {
                     
                     device.flashMode = AVCaptureFlashMode.On
-                    flashButton.setImage(UIImage(named: "ic_flash_on", inBundle: NSBundle(forClass: self.classForCoder), compatibleWithTraitCollection: nil)?.imageWithRenderingMode(.AlwaysTemplate), forState: .Normal)
+                    flashButton.setImage(flashOnImage, forState: .Normal)
                     
                 } else if mode == AVCaptureFlashMode.On {
                     
                     device.flashMode = AVCaptureFlashMode.Off
-                    flashButton.setImage(UIImage(named: "ic_flash_off", inBundle: NSBundle(forClass: self.classForCoder), compatibleWithTraitCollection: nil)?.imageWithRenderingMode(.AlwaysTemplate), forState: .Normal)
+                    flashButton.setImage(fusumaFlashOffImage, forState: .Normal)
                 }
                 
                 device.unlockForConfiguration()
@@ -248,14 +287,14 @@ final class FSCameraView: UIView, UIGestureRecognizerDelegate {
 
         } catch _ {
 
-            flashButton.setImage(UIImage(named: "ic_flash_off", inBundle: NSBundle(forClass: self.classForCoder), compatibleWithTraitCollection: nil)?.imageWithRenderingMode(.AlwaysTemplate), forState: .Normal)
+            flashButton.setImage(fusumaFlashOffImage, forState: .Normal)
             return
         }
  
     }
 }
 
-private extension FSCameraView {
+extension FSCameraView {
     
     @objc func focus(recognizer: UITapGestureRecognizer) {
         
@@ -318,7 +357,7 @@ private extension FSCameraView {
                 try device.lockForConfiguration()
                 
                 device.flashMode = AVCaptureFlashMode.Off
-                flashButton.setImage(UIImage(named: "ic_flash_off", inBundle: NSBundle(forClass: self.classForCoder), compatibleWithTraitCollection: nil)?.imageWithRenderingMode(.AlwaysTemplate), forState: .Normal)
+                flashButton.setImage(fusumaFlashOffImage, forState: .Normal)
                 
                 device.unlockForConfiguration()
                 
@@ -328,5 +367,17 @@ private extension FSCameraView {
             
             return
         }
+    }
+
+    func cameraIsAvailable() -> Bool {
+
+        let status = AVCaptureDevice.authorizationStatusForMediaType(AVMediaTypeVideo)
+
+        if status == AVAuthorizationStatus.Authorized {
+
+            return true
+        }
+
+        return false
     }
 }
