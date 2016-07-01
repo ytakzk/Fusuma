@@ -43,14 +43,14 @@ final class FSCameraView: UIView, UIGestureRecognizerDelegate {
             return
         }
         
-        self.backgroundColor = fusumaBackgroundColor
+        self.backgroundColor = UIColor.hex("#3f4b5d", alpha: 1.0)
         
         let bundle = NSBundle(forClass: self.classForCoder)
         
         flashOnImage = fusumaFlashOnImage != nil ? fusumaFlashOnImage : UIImage(named: "ic_flash_on", inBundle: bundle, compatibleWithTraitCollection: nil)
         flashOffImage = fusumaFlashOffImage != nil ? fusumaFlashOffImage : UIImage(named: "ic_flash_off", inBundle: bundle, compatibleWithTraitCollection: nil)
         let flipImage = fusumaFlipImage != nil ? fusumaFlipImage : UIImage(named: "ic_loop", inBundle: bundle, compatibleWithTraitCollection: nil)
-        let shotImage = fusumaShotImage != nil ? fusumaShotImage : UIImage(named: "ic_radio_button_checked", inBundle: bundle, compatibleWithTraitCollection: nil)
+        let shotImage = fusumaShotImage != nil ? fusumaShotImage : UIImage(named: "shutter_button", inBundle: bundle, compatibleWithTraitCollection: nil)
         
         if(fusumaTintIcons) {
             flashButton.tintColor = fusumaBaseTintColor
@@ -58,8 +58,8 @@ final class FSCameraView: UIView, UIGestureRecognizerDelegate {
             shotButton.tintColor  = fusumaBaseTintColor
             
             flashButton.setImage(flashOffImage?.imageWithRenderingMode(.AlwaysTemplate), forState: .Normal)
-            flipButton.setImage(flipImage?.imageWithRenderingMode(.AlwaysTemplate), forState: .Normal)
-            shotButton.setImage(shotImage?.imageWithRenderingMode(.AlwaysTemplate), forState: .Normal)
+            flipButton.setImage(flipImage?.imageWithRenderingMode(.AlwaysOriginal), forState: .Normal)
+            shotButton.setImage(shotImage?.imageWithRenderingMode(.AlwaysOriginal), forState: .Normal)
         } else {
             flashButton.setImage(flashOffImage, forState: .Normal)
             flipButton.setImage(flipImage, forState: .Normal)

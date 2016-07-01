@@ -48,7 +48,7 @@ final class FSVideoCameraView: UIView {
             return
         }
         
-        self.backgroundColor = fusumaBackgroundColor
+        self.backgroundColor = UIColor.hex("#3f4b5d", alpha: 1.0)
         
         self.hidden = false
         

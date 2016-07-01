@@ -96,7 +96,7 @@ public final class FusumaViewController: UIViewController {
     override public func viewDidLoad() {
         super.viewDidLoad()
     
-        self.view.backgroundColor = fusumaBackgroundColor
+        self.view.backgroundColor = UIColor.hex("#333f51", alpha: 1.0)
         
         cameraView.delegate = self
         albumView.delegate  = self
@@ -104,6 +104,7 @@ public final class FusumaViewController: UIViewController {
 
         menuView.backgroundColor = fusumaBackgroundColor
         menuView.addBottomBorder(UIColor.blackColor(), width: 1.0)
+        menuView.hidden = true
         
         let bundle = NSBundle(forClass: self.classForCoder)
         
@@ -211,8 +212,10 @@ public final class FusumaViewController: UIViewController {
         super.viewDidAppear(animated)
         
         albumView.frame  = CGRect(origin: CGPointZero, size: photoLibraryViewerContainer.frame.size)
+        albumView.addBottomBorder(UIColor.hex("#29323f", alpha: 1.0), width: 0.5)
         albumView.layoutIfNeeded()
         cameraView.frame = CGRect(origin: CGPointZero, size: cameraShotContainer.frame.size)
+        cameraView.addBottomBorder(UIColor.hex("#29323f", alpha: 1.0), width: 0.5)
         cameraView.layoutIfNeeded()
 
         
@@ -401,7 +404,7 @@ private extension FusumaViewController {
             
             for layer in cameraButton.layer.sublayers! {
                 
-                if let borderColor = layer.borderColor where UIColor(CGColor: borderColor) == fusumaTintColor {
+                if let borderColor = layer.borderColor where UIColor(CGColor: borderColor) == UIColor.hex("#47d081", alpha: 1.0) {
                     
                     layer.removeFromSuperlayer()
                 }
@@ -413,7 +416,7 @@ private extension FusumaViewController {
             
             for layer in libraryButton.layer.sublayers! {
                 
-                if let borderColor = layer.borderColor where UIColor(CGColor: borderColor) == fusumaTintColor {
+                if let borderColor = layer.borderColor where UIColor(CGColor: borderColor) == UIColor.hex("#47d081", alpha: 1.0) {
                     
                     layer.removeFromSuperlayer()
                 }
@@ -429,7 +432,7 @@ private extension FusumaViewController {
                 
                 for layer in videoButton.layer.sublayers! {
                     
-                    if let borderColor = layer.borderColor where UIColor(CGColor: borderColor) == fusumaTintColor {
+                    if let borderColor = layer.borderColor where UIColor(CGColor: borderColor) == UIColor.hex("#47d081", alpha: 1.0) {
                         
                         layer.removeFromSuperlayer()
                     }
@@ -442,8 +445,8 @@ private extension FusumaViewController {
     
     func highlightButton(button: UIButton) {
         
-        button.tintColor = fusumaTintColor
+        button.tintColor = UIColor.hex("#47d081", alpha: 1.0)
         
-        button.addBottomBorder(fusumaTintColor, width: 3)
+        button.addBottomBorder(UIColor.hex("#47d081", alpha: 1.0), width: 1.5)
     }
 }
