@@ -90,26 +90,12 @@
                         <constraint firstItem="Dx0-Tt-oZs" firstAttribute="top" secondItem="8ba-kc-jlJ" secondAttribute="top" constant="8" id="phx-7N-5Ks"/>
                     </constraints>
                 </view>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cph-QM-jcJ">
-                    <rect key="frame" x="0.0" y="555" width="200" height="45"/>
-                    <constraints>
-                        <constraint firstAttribute="height" constant="45" id="ef6-hG-yx4"/>
-                    </constraints>
-                    <inset key="contentEdgeInsets" minX="2" minY="2" maxX="2" maxY="2"/>
-                    <state key="normal" image="ic_insert_photo"/>
-                    <state key="selected" image="ic_insert_photo"/>
-                    <state key="highlighted" image="ic_insert_photo"/>
-                    <connections>
-                        <action selector="libraryButtonPressed:" destination="-1" eventType="touchUpInside" id="4H9-TH-qO3"/>
-                    </connections>
-                </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8ew-Zi-63G">
                     <rect key="frame" x="400" y="555" width="200" height="45"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="45" id="vif-4h-eUh"/>
                     </constraints>
                     <inset key="imageEdgeInsets" minX="2" minY="3" maxX="2" maxY="2"/>
-                    <state key="normal" image="ic_videocam"/>
                     <state key="selected" image="ic_photo_camera"/>
                     <state key="highlighted" image="ic_photo_camera"/>
                     <connections>
@@ -122,11 +108,22 @@
                         <constraint firstAttribute="height" constant="45" id="7VV-4q-BRr"/>
                     </constraints>
                     <inset key="imageEdgeInsets" minX="2" minY="3" maxX="2" maxY="2"/>
-                    <state key="normal" image="ic_photo_camera"/>
                     <state key="selected" image="ic_photo_camera"/>
                     <state key="highlighted" image="ic_photo_camera"/>
                     <connections>
                         <action selector="photoButtonPressed:" destination="-1" eventType="touchUpInside" id="798-LR-edY"/>
+                    </connections>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cph-QM-jcJ">
+                    <rect key="frame" x="0.0" y="555" width="200" height="45"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="45" id="ef6-hG-yx4"/>
+                    </constraints>
+                    <inset key="contentEdgeInsets" minX="2" minY="2" maxX="2" maxY="2"/>
+                    <state key="selected" image="ic_insert_photo"/>
+                    <state key="highlighted" image="ic_insert_photo"/>
+                    <connections>
+                        <action selector="libraryButtonPressed:" destination="-1" eventType="touchUpInside" id="4H9-TH-qO3"/>
                     </connections>
                 </button>
             </subviews>
@@ -165,6 +162,5 @@
         <image name="ic_close" width="48" height="48"/>
         <image name="ic_insert_photo" width="36" height="36"/>
         <image name="ic_photo_camera" width="36" height="36"/>
-        <image name="ic_videocam" width="36" height="36"/>
     </resources>
 </document>
