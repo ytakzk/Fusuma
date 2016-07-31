@@ -13,6 +13,8 @@ final class FSAlbumViewCell: UICollectionViewCell {
     
     @IBOutlet weak var imageView: UIImageView!
     
+    var creationDate: NSDate? = nil
+    
     var image: UIImage? {
         
         didSet {

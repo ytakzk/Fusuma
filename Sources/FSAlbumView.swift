@@ -25,6 +25,8 @@ final class FSAlbumView: UIView, UICollectionViewDataSource, UICollectionViewDel
     
     weak var delegate: FSAlbumViewDelegate? = nil
     
+    var selectedImageCreationDate: NSDate? = nil
+    
     var images: PHFetchResult!
     var imageManager: PHCachingImageManager?
     var previousPreheatRect: CGRect = CGRectZero
@@ -90,6 +92,7 @@ final class FSAlbumView: UIView, UICollectionViewDataSource, UICollectionViewDel
         if images.count > 0 {
             
             changeImage(images[0] as! PHAsset)
+            self.selectedImageCreationDate = (images[0] as! PHAsset).creationDate
             collectionView.reloadData()
             collectionView.selectItemAtIndexPath(NSIndexPath(forRow: 0, inSection: 0), animated: false, scrollPosition: UICollectionViewScrollPosition.None)
         }
@@ -245,6 +248,7 @@ final class FSAlbumView: UIView, UICollectionViewDataSource, UICollectionViewDel
                 
                 if cell.tag == currentTag {
                     cell.image = result
+                    cell.creationDate = asset.creationDate
                 }
                 
         }
@@ -385,6 +389,8 @@ private extension FSAlbumView {
                         
                         self.imageCropView.imageSize = CGSize(width: asset.pixelWidth, height: asset.pixelHeight)
                         self.imageCropView.image = result
+                        
+                        self.selectedImageCreationDate = asset.creationDate
                     })
             }
         })

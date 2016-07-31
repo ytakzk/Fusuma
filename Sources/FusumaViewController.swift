@@ -10,7 +10,7 @@ import UIKit
 
 @objc public protocol FusumaDelegate: class {
     
-    func fusumaImageSelected(image: UIImage)
+    func fusumaImageSelected(image: UIImage, creationDate:NSDate?)
     optional func fusumaDismissedWithImage(image: UIImage)
     func fusumaVideoCompleted(withFileURL fileURL: NSURL)
     func fusumaCameraRollUnauthorized()
@@ -239,23 +239,27 @@ public final class FusumaViewController: UIViewController {
         CGContextTranslateCTM(context, -albumView.imageCropView.contentOffset.x, -albumView.imageCropView.contentOffset.y)
         view.layer.renderInContext(context!)
         let image = UIGraphicsGetImageFromCurrentImageContext()
-        UIGraphicsEndImageContext()
         
-        delegate?.fusumaImageSelected(image)
+        UIGraphicsEndImageContext()
+
+        let date = albumView.selectedImageCreationDate
+        
+        delegate?.fusumaImageSelected(image, creationDate: date)
         
         self.dismissViewControllerAnimated(true, completion: {
             self.delegate?.fusumaDismissedWithImage?(image)
         })
     }
-    
 }
 
 extension FusumaViewController: FSAlbumViewDelegate, FSCameraViewDelegate, FSVideoCameraViewDelegate {
     
     // MARK: FSCameraViewDelegate
     func cameraShotFinished(image: UIImage) {
+
+        let date = albumView.selectedImageCreationDate
         
-        delegate?.fusumaImageSelected(image)
+        delegate?.fusumaImageSelected(image, creationDate: date)
         self.dismissViewControllerAnimated(true, completion: {
             
             self.delegate?.fusumaDismissedWithImage?(image)
