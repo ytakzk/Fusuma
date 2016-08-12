@@ -12,7 +12,6 @@ import Photos
 @objc public protocol FusumaDelegate: class {
     
     func fusumaImageSelected(image: UIImage)
-    optional func fusumaDismissedWithImage(image: UIImage)
     func fusumaVideoCompleted(withFileURL fileURL: NSURL)
     func fusumaCameraRollUnauthorized()
     
@@ -250,10 +249,7 @@ public final class FusumaViewController: UIViewController {
     }
     
     @IBAction func closeButtonPressed(sender: UIButton) {
-        self.dismissViewControllerAnimated(true, completion: {
-            
-            self.delegate?.fusumaClosed?()
-        })
+        self.delegate?.fusumaClosed?()
     }
     
     @IBAction func libraryButtonPressed(sender: UIButton) {
@@ -303,20 +299,12 @@ public final class FusumaViewController: UIViewController {
                     
                     dispatch_async(dispatch_get_main_queue(), {
                         self.delegate?.fusumaImageSelected(result!)
-                        
-                        self.dismissViewControllerAnimated(true, completion: {
-                            self.delegate?.fusumaDismissedWithImage?(result!)
-                        })
                     })
                 }
             })
         } else {
             print("no image crop ")
             delegate?.fusumaImageSelected(view.image)
-            
-            self.dismissViewControllerAnimated(true, completion: {
-                self.delegate?.fusumaDismissedWithImage?(view.image)
-            })
         }
     }
     
@@ -326,12 +314,7 @@ extension FusumaViewController: FSAlbumViewDelegate, FSCameraViewDelegate, FSVid
     
     // MARK: FSCameraViewDelegate
     func cameraShotFinished(image: UIImage) {
-        
         delegate?.fusumaImageSelected(image)
-        self.dismissViewControllerAnimated(true, completion: {
-            
-            self.delegate?.fusumaDismissedWithImage?(image)
-        })
     }
     
     // MARK: FSAlbumViewDelegate
@@ -341,7 +324,6 @@ extension FusumaViewController: FSAlbumViewDelegate, FSCameraViewDelegate, FSVid
     
     func videoFinished(withFileURL fileURL: NSURL) {
         delegate?.fusumaVideoCompleted(withFileURL: fileURL)
-        self.dismissViewControllerAnimated(true, completion: nil)
     }
     
 }
