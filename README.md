@@ -22,15 +22,16 @@ You can use Fusuma instead of UIImagePickerController. It also has a feature to 
 - [x] Taking a square-sized photo and a video using AVFoundation
 - [x] Flash: On Off 
 - [x] Camera Mode: Front Back 
+- [x] Video Mode 
 
 Those features are available just with a few lines of code!
 
 ## Installation
 
 Drop in the Classes folder to your Xcode project.  
-You can also use cocoapods or Carthage.
+You can also use CocoaPods or Carthage.
 
-#### Using [cocoapods](http://cocoapods.org/)
+#### Using [CocoaPods](http://cocoapods.org/)
 
 Add `pod 'Fusuma'` to your `Podfile` and run `pod install`. Also add `use_frameworks!` to the `Podfile`.
 
@@ -70,6 +71,11 @@ func fusumaImageSelected(image: UIImage) {
 func fusumaDismissedWithImage(image: UIImage) {
         
   print("Called just after FusumaViewController is dismissed.")
+}
+
+func fusumaVideoCompleted(withFileURL fileURL: NSURL) {
+
+  print("Called just after a video has been selected.")
 }
 
 // When camera roll is not authorized, this method is called.
