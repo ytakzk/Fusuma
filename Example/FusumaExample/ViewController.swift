@@ -41,7 +41,7 @@ class ViewController: UIViewController, FusumaDelegate {
     }
     
     // MARK: FusumaDelegate Protocol
-    func fusuma(fusuma: FusumaViewController, imageSelected image: UIImage) {
+  func fusuma(fusuma: FusumaViewController, imageSelected image: UIImage, viaMode mode: Int) {
         print("Image selected")
         imageView.image = image
         self.dismissViewControllerAnimated(true, completion: nil)
