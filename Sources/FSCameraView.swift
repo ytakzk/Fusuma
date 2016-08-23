@@ -19,6 +19,8 @@ final class FSCameraView: UIView, UIGestureRecognizerDelegate {
     @IBOutlet weak var shotButton: UIButton!
     @IBOutlet weak var flashButton: UIButton!
     @IBOutlet weak var flipButton: UIButton!
+    @IBOutlet weak var croppedAspectRatioConstraint: NSLayoutConstraint!
+    @IBOutlet weak var fullAspectRatioConstraint: NSLayoutConstraint!
     
     weak var delegate: FSCameraViewDelegate? = nil
     
@@ -103,6 +105,8 @@ final class FSCameraView: UIView, UIGestureRecognizerDelegate {
                 
                 self.previewViewContainer.layer.addSublayer(videoLayer)
                 
+                session.sessionPreset = AVCaptureSessionPresetPhoto
+
                 session.startRunning()
                 
             }
@@ -171,6 +175,20 @@ final class FSCameraView: UIView, UIGestureRecognizerDelegate {
 
             let videoConnection = imageOutput.connectionWithMediaType(AVMediaTypeVideo)
 
+            let orientation: UIDeviceOrientation = UIDevice.currentDevice().orientation
+            switch (orientation) {
+            case .Portrait:
+                videoConnection.videoOrientation = .Portrait
+            case .PortraitUpsideDown:
+                videoConnection.videoOrientation = .PortraitUpsideDown
+            case .LandscapeRight:
+                videoConnection.videoOrientation = .LandscapeLeft
+            case .LandscapeLeft:
+                videoConnection.videoOrientation = .LandscapeRight
+            default:
+                videoConnection.videoOrientation = .Portrait
+            }
+
             imageOutput.captureStillImageAsynchronouslyFromConnection(videoConnection, completionHandler: { (buffer, error) -> Void in
                 
                 self.session?.stopRunning()
@@ -180,8 +198,18 @@ final class FSCameraView: UIView, UIGestureRecognizerDelegate {
                 if let image = UIImage(data: data), let delegate = self.delegate {
                     
                     // Image size
-                    let iw = image.size.width
-                    let ih = image.size.height
+                    var iw: CGFloat
+                    var ih: CGFloat
+
+                    switch (orientation) {
+                    case .LandscapeLeft, .LandscapeRight:
+                        // Swap width and height if orientation is landscape
+                        iw = image.size.height
+                        ih = image.size.width
+                    default:
+                        iw = image.size.width
+                        ih = image.size.height
+                    }
                     
                     // Frame size
                     let sw = self.previewViewContainer.frame.width

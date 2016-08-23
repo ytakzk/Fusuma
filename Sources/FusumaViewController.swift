@@ -200,6 +200,14 @@ public final class FusumaViewController: UIViewController {
             
             self.view.layoutIfNeeded()
         }
+        
+        if fusumaCropImage {
+            cameraView.fullAspectRatioConstraint.active = false
+            cameraView.croppedAspectRatioConstraint.active = true
+        } else {
+            cameraView.fullAspectRatioConstraint.active = true
+            cameraView.croppedAspectRatioConstraint.active = false
+        }
     }
     
     override public func viewWillAppear(animated: Bool) {
