@@ -100,7 +100,7 @@ You can deselect image crop mode with:
 fusumaCropImage:Bool // default is true for cropping the image 
 ```
 
-#### Fusuma for Xamarin
+## Fusuma for Xamarin
 Cheesebaron developed Chafu for Xamarin.
 https://github.com/Cheesebaron/Chafu
 
