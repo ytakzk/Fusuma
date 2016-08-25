@@ -31,6 +31,16 @@ final class FSImageCropView: UIScrollView, UIScrollViewDelegate {
                 return
             }
             
+            if !fusumaCropImage {
+                // Disable scroll view and set image to fit in view
+                imageView.frame = self.frame
+                imageView.contentMode = .ScaleAspectFit
+                self.userInteractionEnabled = false
+
+                imageView.image = image
+                return
+            }
+
             let imageSize = self.imageSize ?? image.size
             
             if imageSize.width < self.frame.width || imageSize.height < self.frame.height {
