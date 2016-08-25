@@ -101,7 +101,7 @@ fusumaCropImage:Bool // default is true for cropping the image
 ```
 
 ## Fusuma for Xamarin
-Cheesebaron developed Chafu for Xamarin.
+Cheesebaron developed Chafu for Xamarin.  
 https://github.com/Cheesebaron/Chafu
 
 ## Author
