@@ -28,27 +28,20 @@ final class FSVideoCameraView: UIView {
     var videoOutput: AVCaptureMovieFileOutput?
     var focusView: UIView?
     
-    var flashOffImage: UIImage?
-    var flashOnImage: UIImage?
-    var videoStartImage: UIImage?
-    var videoStopImage: UIImage?
-
+    internal var flashOffImage: UIImage?
+    internal var flashOnImage: UIImage?
+    internal var flipImage: UIImage?
+    internal var videoStartImage: UIImage?
+    internal var videoStopImage: UIImage?
+    internal var baseTintColor: UIColor?
     
     private var isRecording = false
-    
-    static func instance() -> FSVideoCameraView {
-        
-        return UINib(nibName: "FSVideoCameraView", bundle: NSBundle(forClass: self.classForCoder())).instantiateWithOwner(self, options: nil)[0] as! FSVideoCameraView
-    }
     
     func initialize() {
         
         if session != nil {
-            
             return
         }
-        
-        self.backgroundColor = fusumaBackgroundColor
         
         self.hidden = false
         
@@ -56,17 +49,13 @@ final class FSVideoCameraView: UIView {
         session = AVCaptureSession()
         
         for device in AVCaptureDevice.devices() {
-            
             if let device = device as? AVCaptureDevice where device.position == AVCaptureDevicePosition.Back {
-                
                 self.device = device
             }
         }
         
         do {
-            
             if let session = session {
-                
                 videoInput = try AVCaptureDeviceInput(device: device)
                 
                 session.addInput(videoInput)
@@ -78,7 +67,7 @@ final class FSVideoCameraView: UIView {
                 let maxDuration = CMTimeMakeWithSeconds(totalSeconds, timeScale)
                 
                 videoOutput?.maxRecordedDuration = maxDuration
-                videoOutput?.minFreeDiskSpaceLimit = 1024 * 1024 //SET MIN FREE SPACE IN BYTES FOR RECORDING TO CONTINUE ON A VOLUME
+                videoOutput?.minFreeDiskSpaceLimit = 1024 * 1024 // SET MIN FREE SPACE IN BYTES FOR RECORDING TO CONTINUE ON A VOLUME
                 
                 if session.canAddOutput(videoOutput) {
                     session.addOutput(videoOutput)
@@ -106,17 +95,17 @@ final class FSVideoCameraView: UIView {
         
         let bundle = NSBundle(forClass: self.classForCoder)
         
-        flashOnImage = fusumaFlashOnImage != nil ? fusumaFlashOnImage : UIImage(named: "ic_flash_on", inBundle: bundle, compatibleWithTraitCollection: nil)
-        flashOffImage = fusumaFlashOffImage != nil ? fusumaFlashOffImage : UIImage(named: "ic_flash_off", inBundle: bundle, compatibleWithTraitCollection: nil)
-        let flipImage = fusumaFlipImage != nil ? fusumaFlipImage : UIImage(named: "ic_loop", inBundle: bundle, compatibleWithTraitCollection: nil)
-        videoStartImage = fusumaVideoStartImage != nil ? fusumaVideoStartImage : UIImage(named: "video_button", inBundle: bundle, compatibleWithTraitCollection: nil)
-        videoStopImage = fusumaVideoStopImage != nil ? fusumaVideoStopImage : UIImage(named: "video_button_rec", inBundle: bundle, compatibleWithTraitCollection: nil)
+        flashOnImage = flashOnImage ?? UIImage(named: "ic_flash_on", inBundle: bundle, compatibleWithTraitCollection: nil)
+        flashOffImage = flashOffImage ?? UIImage(named: "ic_flash_off", inBundle: bundle, compatibleWithTraitCollection: nil)
+        flipImage = flipImage ?? UIImage(named: "ic_loop", inBundle: bundle, compatibleWithTraitCollection: nil)
+        videoStartImage = videoStartImage ?? UIImage(named: "video_button", inBundle: bundle, compatibleWithTraitCollection: nil)
+        videoStopImage = videoStopImage ?? UIImage(named: "video_button_rec", inBundle: bundle, compatibleWithTraitCollection: nil)
 
         
         if(fusumaTintIcons) {
-            flashButton.tintColor = fusumaBaseTintColor
-            flipButton.tintColor  = fusumaBaseTintColor
-            shotButton.tintColor  = fusumaBaseTintColor
+            flashButton.tintColor = baseTintColor
+            flipButton.tintColor  = baseTintColor
+            shotButton.tintColor  = baseTintColor
             
             flashButton.setImage(flashOffImage?.imageWithRenderingMode(.AlwaysTemplate), forState: .Normal)
             flipButton.setImage(flipImage?.imageWithRenderingMode(.AlwaysTemplate), forState: .Normal)

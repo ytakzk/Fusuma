@@ -12,7 +12,9 @@ import Photos
 final class FSAlbumViewCell: UICollectionViewCell {
     
     @IBOutlet weak var imageView: UIImageView!
-    
+
+    internal var baseTintColor : UIColor = FSDefaults.baseTintColor
+
     var image: UIImage? {
         
         didSet {
@@ -28,7 +30,7 @@ final class FSAlbumViewCell: UICollectionViewCell {
     
     override var selected : Bool {
         didSet {
-            self.layer.borderColor = selected ? fusumaTintColor.CGColor : UIColor.clearColor().CGColor
+            self.layer.borderColor = selected ? baseTintColor.CGColor : UIColor.clearColor().CGColor
             self.layer.borderWidth = selected ? 2 : 0
         }
     }

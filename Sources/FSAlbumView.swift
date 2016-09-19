@@ -24,7 +24,18 @@ final class FSAlbumView: UIView, UICollectionViewDataSource, UICollectionViewDel
     @IBOutlet weak var imageCropViewConstraintTop: NSLayoutConstraint!
     
     weak var delegate: FSAlbumViewDelegate? = nil
-    
+
+    override var backgroundColor: UIColor? {
+        didSet {
+            if collectionView != nil {
+                collectionView.backgroundColor = backgroundColor
+            }
+            if imageCropView != nil {
+                imageCropView.backgroundColor = backgroundColor
+            }
+        }
+    }
+
     var images: PHFetchResult!
     var imageManager: PHCachingImageManager?
     var previousPreheatRect: CGRect = CGRectZero
@@ -47,21 +58,14 @@ final class FSAlbumView: UIView, UICollectionViewDataSource, UICollectionViewDel
     var dragStartPos: CGPoint = CGPointZero
     let dragDiff: CGFloat     = 20.0
     
-    static func instance() -> FSAlbumView {
-        
-        return UINib(nibName: "FSAlbumView", bundle: NSBundle(forClass: self.classForCoder())).instantiateWithOwner(self, options: nil)[0] as! FSAlbumView
-    }
-    
     func initialize() {
-        
         if images != nil {
-            
             return
         }
 		
 		self.hidden = false
         
-        let panGesture      = UIPanGestureRecognizer(target: self, action: #selector(FSAlbumView.panned(_:)))
+        let panGesture = UIPanGestureRecognizer(target: self, action: #selector(FSAlbumView.panned(_:)))
         panGesture.delegate = self
         self.addGestureRecognizer(panGesture)
         
@@ -75,7 +79,7 @@ final class FSAlbumView: UIView, UICollectionViewDataSource, UICollectionViewDel
         imageCropViewContainer.layer.shadowOffset  = CGSizeZero
         
         collectionView.registerNib(UINib(nibName: "FSAlbumViewCell", bundle: NSBundle(forClass: self.classForCoder)), forCellWithReuseIdentifier: "FSAlbumViewCell")
-		collectionView.backgroundColor = fusumaBackgroundColor
+		collectionView.backgroundColor = self.backgroundColor
 		
         // Never load photos Unless the user allows to access to photo album
         checkPhotoAuth()

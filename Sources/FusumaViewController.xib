@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10116" systemVersion="15G31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10116" systemVersion="15G1004" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
@@ -101,19 +101,6 @@
                         <action selector="libraryButtonPressed:" destination="-1" eventType="touchUpInside" id="4H9-TH-qO3"/>
                     </connections>
                 </button>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8ew-Zi-63G">
-                    <rect key="frame" x="400" y="555" width="200" height="45"/>
-                    <constraints>
-                        <constraint firstAttribute="height" constant="45" id="vif-4h-eUh"/>
-                    </constraints>
-                    <inset key="imageEdgeInsets" minX="2" minY="3" maxX="2" maxY="2"/>
-                    <state key="normal" image="ic_videocam"/>
-                    <state key="selected" image="ic_photo_camera"/>
-                    <state key="highlighted" image="ic_photo_camera"/>
-                    <connections>
-                        <action selector="videoButtonPressed:" destination="-1" eventType="touchUpInside" id="jZa-kI-xDJ"/>
-                    </connections>
-                </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="sCN-QB-mCu">
                     <rect key="frame" x="200" y="555" width="200" height="45"/>
                     <constraints>
@@ -125,6 +112,19 @@
                     <state key="highlighted" image="ic_photo_camera"/>
                     <connections>
                         <action selector="photoButtonPressed:" destination="-1" eventType="touchUpInside" id="798-LR-edY"/>
+                    </connections>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8ew-Zi-63G">
+                    <rect key="frame" x="400" y="555" width="200" height="45"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="45" id="vif-4h-eUh"/>
+                    </constraints>
+                    <inset key="imageEdgeInsets" minX="2" minY="3" maxX="2" maxY="2"/>
+                    <state key="normal" image="ic_videocam"/>
+                    <state key="selected" image="ic_photo_camera"/>
+                    <state key="highlighted" image="ic_photo_camera"/>
+                    <connections>
+                        <action selector="videoButtonPressed:" destination="-1" eventType="touchUpInside" id="jZa-kI-xDJ"/>
                     </connections>
                 </button>
             </subviews>

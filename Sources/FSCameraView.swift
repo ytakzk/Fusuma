@@ -30,35 +30,26 @@ final class FSCameraView: UIView, UIGestureRecognizerDelegate {
     var imageOutput: AVCaptureStillImageOutput?
     var focusView: UIView?
 
-    var flashOffImage: UIImage?
-    var flashOnImage: UIImage?
-    
-    static func instance() -> FSCameraView {
-        
-        return UINib(nibName: "FSCameraView", bundle: NSBundle(forClass: self.classForCoder())).instantiateWithOwner(self, options: nil)[0] as! FSCameraView
-    }
-    
-    func initialize() {
-        
-        if session != nil {
-            
-            return
-        }
-        
-        self.backgroundColor = fusumaBackgroundColor
-        
+    internal var flashOffImage: UIImage?
+    internal var flashOnImage: UIImage?
+    internal var flipImage: UIImage?
+    internal var shotImage: UIImage?
+    internal var baseTintColor: UIColor = FSDefaults.baseTintColor
+    internal var cropImage: Bool = true
+
+    override func didMoveToSuperview() {
         let bundle = NSBundle(forClass: self.classForCoder)
-        
-        flashOnImage = fusumaFlashOnImage != nil ? fusumaFlashOnImage : UIImage(named: "ic_flash_on", inBundle: bundle, compatibleWithTraitCollection: nil)
-        flashOffImage = fusumaFlashOffImage != nil ? fusumaFlashOffImage : UIImage(named: "ic_flash_off", inBundle: bundle, compatibleWithTraitCollection: nil)
-        let flipImage = fusumaFlipImage != nil ? fusumaFlipImage : UIImage(named: "ic_loop", inBundle: bundle, compatibleWithTraitCollection: nil)
-        let shotImage = fusumaShotImage != nil ? fusumaShotImage : UIImage(named: "ic_radio_button_checked", inBundle: bundle, compatibleWithTraitCollection: nil)
-        
-        if(fusumaTintIcons) {
-            flashButton.tintColor = fusumaBaseTintColor
-            flipButton.tintColor  = fusumaBaseTintColor
-            shotButton.tintColor  = fusumaBaseTintColor
-            
+
+        flashOnImage = flashOnImage ?? UIImage(named: "ic_flash_on", inBundle: bundle, compatibleWithTraitCollection: nil)
+        flashOffImage = flashOffImage ?? UIImage(named: "ic_flash_off", inBundle: bundle, compatibleWithTraitCollection: nil)
+        flipImage = flipImage ?? UIImage(named: "ic_loop", inBundle: bundle, compatibleWithTraitCollection: nil)
+        shotImage = shotImage ?? UIImage(named: "ic_radio_button_checked", inBundle: bundle, compatibleWithTraitCollection: nil)
+
+        if fusumaTintIcons {
+            flashButton.tintColor = baseTintColor
+            flipButton.tintColor  = baseTintColor
+            shotButton.tintColor  = baseTintColor
+
             flashButton.setImage(flashOffImage?.imageWithRenderingMode(.AlwaysTemplate), forState: .Normal)
             flipButton.setImage(flipImage?.imageWithRenderingMode(.AlwaysTemplate), forState: .Normal)
             shotButton.setImage(shotImage?.imageWithRenderingMode(.AlwaysTemplate), forState: .Normal)
@@ -68,29 +59,30 @@ final class FSCameraView: UIView, UIGestureRecognizerDelegate {
             shotButton.setImage(shotImage, forState: .Normal)
         }
 
+    }
+
+    func initialize() {
+        if session != nil {
+            return
+        }
         
         self.hidden = false
         
         // AVCapture
         session = AVCaptureSession()
-        
+
         for device in AVCaptureDevice.devices() {
-            
             if let device = device as? AVCaptureDevice where device.position == AVCaptureDevicePosition.Back {
-                
                 self.device = device
                 
                 if !device.hasFlash {
-                    
                     flashButton.hidden = true
                 }
             }
         }
         
         do {
-
             if let session = session {
-
                 videoInput = try AVCaptureDeviceInput(device: device)
 
                 session.addInput(videoInput)
@@ -108,7 +100,6 @@ final class FSCameraView: UIView, UIGestureRecognizerDelegate {
                 session.sessionPreset = AVCaptureSessionPresetPhoto
 
                 session.startRunning()
-                
             }
             
             // Focus View
@@ -120,6 +111,7 @@ final class FSCameraView: UIView, UIGestureRecognizerDelegate {
         } catch {
             
         }
+
         flashConfiguration()
         
         self.startCamera()
@@ -222,7 +214,7 @@ final class FSCameraView: UIView, UIGestureRecognizerDelegate {
                     
                                         
                     dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                        if fusumaCropImage {
+                        if self.cropImage {
                             let resizedImage = UIImage(CGImage: imageRef!, scale: sw/iw, orientation: image.imageOrientation)
                             delegate.cameraShotFinished(resizedImage)
                         } else {
@@ -244,29 +236,23 @@ final class FSCameraView: UIView, UIGestureRecognizerDelegate {
     @IBAction func flipButtonPressed(sender: UIButton) {
 
         if !cameraIsAvailable() {
-
             return
         }
         
         session?.stopRunning()
         
         do {
-
             session?.beginConfiguration()
 
             if let session = session {
-                
                 for input in session.inputs {
-                    
                     session.removeInput(input as! AVCaptureInput)
                 }
 
                 let position = (videoInput?.device.position == AVCaptureDevicePosition.Front) ? AVCaptureDevicePosition.Back : AVCaptureDevicePosition.Front
 
                 for device in AVCaptureDevice.devicesWithMediaType(AVMediaTypeVideo) {
-
                     if let device = device as? AVCaptureDevice where device.position == position {
-                 
                         videoInput = try AVCaptureDeviceInput(device: device)
                         session.addInput(videoInput)
                         
@@ -276,10 +262,8 @@ final class FSCameraView: UIView, UIGestureRecognizerDelegate {
             }
             
             session?.commitConfiguration()
-
-            
         } catch {
-            
+
         }
         
         session?.startRunning()
@@ -288,14 +272,11 @@ final class FSCameraView: UIView, UIGestureRecognizerDelegate {
     @IBAction func flashButtonPressed(sender: UIButton) {
 
         if !cameraIsAvailable() {
-
             return
         }
 
         do {
-
             if let device = device {
-                
                 guard device.hasFlash else { return }
             
                 try device.lockForConfiguration()
@@ -314,11 +295,8 @@ final class FSCameraView: UIView, UIGestureRecognizerDelegate {
                 }
                 
                 device.unlockForConfiguration()
-
             }
-
         } catch _ {
-
             flashButton.setImage(flashOffImage, forState: .Normal)
             return
         }
@@ -329,7 +307,6 @@ final class FSCameraView: UIView, UIGestureRecognizerDelegate {
 extension FSCameraView {
     
     @objc func focus(recognizer: UITapGestureRecognizer) {
-        
         let point = recognizer.locationInView(self)
         let viewsize = self.bounds.size
         let newPoint = CGPoint(x: point.y/viewsize.height, y: 1.0-point.x/viewsize.width)
@@ -337,11 +314,8 @@ extension FSCameraView {
         let device = AVCaptureDevice.defaultDeviceWithMediaType(AVMediaTypeVideo)
         
         do {
-            
             try device.lockForConfiguration()
-            
         } catch _ {
-            
             return
         }
         
@@ -362,7 +336,7 @@ extension FSCameraView {
         self.focusView?.alpha = 0.0
         self.focusView?.center = point
         self.focusView?.backgroundColor = UIColor.clearColor()
-        self.focusView?.layer.borderColor = fusumaBaseTintColor.CGColor
+        self.focusView?.layer.borderColor = baseTintColor.CGColor
         self.focusView?.layer.borderWidth = 1.0
         self.focusView!.transform = CGAffineTransformMakeScale(1.0, 1.0)
         self.addSubview(self.focusView!)
@@ -379,11 +353,8 @@ extension FSCameraView {
     }
     
     func flashConfiguration() {
-    
         do {
-            
             if let device = device {
-                
                 guard device.hasFlash else { return }
                 
                 try device.lockForConfiguration()
@@ -392,24 +363,14 @@ extension FSCameraView {
                 flashButton.setImage(flashOffImage, forState: .Normal)
                 
                 device.unlockForConfiguration()
-                
             }
-            
         } catch _ {
-            
             return
         }
     }
 
     func cameraIsAvailable() -> Bool {
-
         let status = AVCaptureDevice.authorizationStatusForMediaType(AVMediaTypeVideo)
-
-        if status == AVAuthorizationStatus.Authorized {
-
-            return true
-        }
-
-        return false
+        return status == AVAuthorizationStatus.Authorized
     }
 }
