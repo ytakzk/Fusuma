@@ -269,15 +269,10 @@ public final class FusumaViewController: UIViewController {
             button.addConstraint(noHeightConstraint)
         }
 
-        self.view.layoutIfNeeded()
+        cameraView.croppedAspectRatioConstraint.active = cropImage
+        cameraView.fullAspectRatioConstraint.active = !cropImage
 
-        if cropImage {
-            cameraView.fullAspectRatioConstraint.active = false
-            cameraView.croppedAspectRatioConstraint.active = true
-        } else {
-            cameraView.fullAspectRatioConstraint.active = true
-            cameraView.croppedAspectRatioConstraint.active = false
-        }
+        self.view.layoutIfNeeded()
 
         // change to the first mode
         changeMode(availableModes.first!)
@@ -286,17 +281,25 @@ public final class FusumaViewController: UIViewController {
     override public func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
 
-        albumView.frame  = CGRect(origin: CGPointZero, size: photoLibraryViewerContainer.frame.size)
-        albumView.layoutIfNeeded()
-        albumView.initialize()
-
-        cameraView.frame = CGRect(origin: CGPointZero, size: cameraShotContainer.frame.size)
-        cameraView.layoutIfNeeded()
-        cameraView.initialize()
-
-        videoView.frame = CGRect(origin: CGPointZero, size: videoShotContainer.frame.size)
-        videoView.layoutIfNeeded()
-        videoView.initialize()
+        // only initialize the view if we're using that mode
+        availableModes.forEach { mode in
+            switch mode {
+            case .Camera:
+                cameraView.frame = CGRect(origin: CGPointZero, size: cameraShotContainer.frame.size)
+                cameraView.layoutIfNeeded()
+                cameraView.initialize()
+            case .Video:
+                videoView.frame = CGRect(origin: CGPointZero, size: videoShotContainer.frame.size)
+                videoView.layoutIfNeeded()
+                videoView.initialize()
+            case .Library:
+                albumView.frame  = CGRect(origin: CGPointZero, size: photoLibraryViewerContainer.frame.size)
+                albumView.layoutIfNeeded()
+                albumView.initialize()
+            default:
+                break
+            }
+        }
     }
 
     public override func viewWillDisappear(animated: Bool) {
@@ -420,7 +423,7 @@ private extension FusumaViewController {
         }
 
         // operate this switch before changing mode to stop cameras
-        switch mode {
+        switch self.mode {
         case .Camera:
             self.cameraView.stopCamera()
         case .Video:

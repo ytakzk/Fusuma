@@ -59,14 +59,13 @@ final class FSCameraView: UIView, UIGestureRecognizerDelegate {
             flipButton.setImage(flipImage, forState: .Normal)
             shotButton.setImage(shotImage, forState: .Normal)
         }
-
     }
 
     func initialize() {
         if session != nil {
             return
         }
-        
+
         self.hidden = false
         
         // AVCapture
@@ -86,6 +85,7 @@ final class FSCameraView: UIView, UIGestureRecognizerDelegate {
             if let session = session {
                 videoInput = try AVCaptureDeviceInput(device: device)
 
+                session.beginConfiguration()
                 session.addInput(videoInput)
                 
                 imageOutput = AVCaptureStillImageOutput()
@@ -99,6 +99,8 @@ final class FSCameraView: UIView, UIGestureRecognizerDelegate {
                 self.previewViewContainer.layer.addSublayer(videoLayer)
                 
                 session.sessionPreset = AVCaptureSessionPresetPhoto
+
+                session.commitConfiguration()
 
                 session.startRunning()
             }
@@ -114,8 +116,8 @@ final class FSCameraView: UIView, UIGestureRecognizerDelegate {
         }
 
         flashConfiguration()
-        
-        self.startCamera()
+
+        startCamera()
         
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(FSCameraView.willEnterForegroundNotification(_:)), name: UIApplicationWillEnterForegroundNotification, object: nil)
     }
@@ -135,12 +137,11 @@ final class FSCameraView: UIView, UIGestureRecognizerDelegate {
     }
     
     deinit {
-        
         NSNotificationCenter.defaultCenter().removeObserver(self)
     }
     
     func startCamera() {
-        
+
         let status = AVCaptureDevice.authorizationStatusForMediaType(AVMediaTypeVideo)
         
         if status == AVAuthorizationStatus.Authorized {

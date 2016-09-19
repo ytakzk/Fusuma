@@ -58,21 +58,24 @@ final class FSVideoCameraView: UIView {
         do {
             if let session = session {
                 videoInput = try AVCaptureDeviceInput(device: device)
-                
-                session.addInput(videoInput)
-                
+
                 videoOutput = AVCaptureMovieFileOutput()
                 let totalSeconds = 60.0 //Total Seconds of capture time
                 let timeScale: Int32 = 30 //FPS
-                
+
                 let maxDuration = CMTimeMakeWithSeconds(totalSeconds, timeScale)
-                
+
                 videoOutput?.maxRecordedDuration = maxDuration
                 videoOutput?.minFreeDiskSpaceLimit = 1024 * 1024 // SET MIN FREE SPACE IN BYTES FOR RECORDING TO CONTINUE ON A VOLUME
+
+                session.beginConfiguration()
+                session.addInput(videoInput)
                 
                 if session.canAddOutput(videoOutput) {
                     session.addOutput(videoOutput)
                 }
+
+                session.commitConfiguration()
                 
                 let videoLayer = AVCaptureVideoPreviewLayer(session: session)
                 videoLayer.frame = self.previewViewContainer.bounds
@@ -116,10 +119,10 @@ final class FSVideoCameraView: UIView {
             flipButton.setImage(flipImage, forState: .Normal)
             shotButton.setImage(videoStartImage, forState: .Normal)
         }
+
+        startCamera()
         
         flashConfiguration()
-        
-        self.startCamera()
     }
     
     deinit {
@@ -128,7 +131,7 @@ final class FSVideoCameraView: UIView {
     }
     
     func startCamera() {
-        
+
         let status = AVCaptureDevice.authorizationStatusForMediaType(AVMediaTypeVideo)
         
         if status == AVAuthorizationStatus.Authorized {
