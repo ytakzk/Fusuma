@@ -12,8 +12,22 @@
 		52412AC91CA61C9F0073C4BE /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 52412AC71CA61C9F0073C4BE /* Main.storyboard */; };
 		52412ACB1CA61C9F0073C4BE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 52412ACA1CA61C9F0073C4BE /* Assets.xcassets */; };
 		52412ACE1CA61C9F0073C4BE /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 52412ACC1CA61C9F0073C4BE /* LaunchScreen.storyboard */; };
-		C9ED86741D8F6DD200E14FDF /* Fusuma.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9ED86731D8F6DD200E14FDF /* Fusuma.framework */; };
+		C9ED86811D8F949100E14FDF /* Fusuma.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = C9ED867F1D8F949100E14FDF /* Fusuma.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		C9ED86821D8F949100E14FDF /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				C9ED86811D8F949100E14FDF /* Fusuma.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		52412AC01CA61C9F0073C4BE /* FusumaExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FusumaExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -23,7 +37,7 @@
 		52412ACA1CA61C9F0073C4BE /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		52412ACD1CA61C9F0073C4BE /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		52412ACF1CA61C9F0073C4BE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		C9ED86731D8F6DD200E14FDF /* Fusuma.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Fusuma.framework; path = "../../../../Library/Developer/Xcode/DerivedData/Fusuma-fkreyenrbxxkdrakwgklfuqzzxvx/Build/Products/Debug-iphonesimulator/Fusuma.framework"; sourceTree = "<group>"; };
+		C9ED867F1D8F949100E14FDF /* Fusuma.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; name = Fusuma.framework; path = "/Users/matt/Library/Developer/Xcode/DerivedData/Fusuma-fkreyenrbxxkdrakwgklfuqzzxvx/Build/Products/Debug-iphoneos/Fusuma.framework"; sourceTree = "<absolute>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -31,7 +45,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C9ED86741D8F6DD200E14FDF /* Fusuma.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -41,7 +54,7 @@
 		52412AB71CA61C9F0073C4BE = {
 			isa = PBXGroup;
 			children = (
-				C9ED86731D8F6DD200E14FDF /* Fusuma.framework */,
+				C9ED867F1D8F949100E14FDF /* Fusuma.framework */,
 				52412AC21CA61C9F0073C4BE /* FusumaExample */,
 				52412AC11CA61C9F0073C4BE /* Products */,
 			);
@@ -78,6 +91,7 @@
 				52412ABC1CA61C9F0073C4BE /* Sources */,
 				52412ABD1CA61C9F0073C4BE /* Frameworks */,
 				52412ABE1CA61C9F0073C4BE /* Resources */,
+				C9ED86821D8F949100E14FDF /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
