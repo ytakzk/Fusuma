@@ -13,9 +13,11 @@ final class FSImageCropView: UIScrollView, UIScrollViewDelegate {
     var imageView = UIImageView()
     
     var imageSize: CGSize?
+
+    var cropImage = FSDefaults.cropImage
     
     var image: UIImage! = nil {
-        
+
         didSet {
             
             if image != nil {
@@ -31,7 +33,7 @@ final class FSImageCropView: UIScrollView, UIScrollViewDelegate {
                 return
             }
             
-            if !fusumaCropImage {
+            if !cropImage {
                 // Disable scroll view and set image to fit in view
                 imageView.frame = self.frame
                 imageView.contentMode = .ScaleAspectFit
@@ -121,7 +123,6 @@ final class FSImageCropView: UIScrollView, UIScrollViewDelegate {
         
         super.init(coder: aDecoder)!
         
-        self.backgroundColor = fusumaBackgroundColor
         self.frame.size      = CGSizeZero
         self.clipsToBounds   = true
         self.imageView.alpha = 0.0

@@ -8,6 +8,19 @@
 
 import UIKit
 
+internal struct FSDefaults {
+    static var baseTintColor = UIColor.hex("#FFFFFF", alpha: 1.0)
+    static var tintColor = UIColor.hex("#009688", alpha: 1.0)
+    static var backgroundColor = UIColor.hex("#212121", alpha: 1.0)
+
+    static var cropImage = true
+    static var tintIcons = true
+
+    static var cameraRollTitle = "CAMERA ROLL"
+    static var cameraTitle = "PHOTO"
+    static var videoTitle = "VIDEO"
+}
+
 // Extension
 internal extension UIColor {
     
@@ -38,4 +51,39 @@ extension UIView {
         self.layer.addSublayer(border)
     }
 
+}
+
+public extension UIView {
+    public class func fromNib(nibNameOrNil: String? = nil) -> Self {
+        return fromNib(nibNameOrNil, type: self)
+    }
+
+    public class func fromNib<T : UIView>(nibNameOrNil: String? = nil, type: T.Type) -> T {
+        let v: T? = fromNib(nibNameOrNil, type: T.self)
+        return v!
+    }
+
+    public class func fromNib<T : UIView>(nibNameOrNil: String? = nil, type: T.Type) -> T? {
+        var view: T?
+        let name = nibNameOrNil ?? nibName
+        let nibViews = NSBundle(forClass: self).loadNibNamed(name, owner: self, options: nil)
+        for v in nibViews {
+            if let tog = v as? T {
+                view = tog
+            }
+        }
+        return view
+    }
+
+    public class var nibName: String {
+        let name = "\(self)".componentsSeparatedByString(".").first ?? ""
+        return name
+    }
+    public class var nib: UINib? {
+        if let _ = NSBundle(forClass: self).pathForResource(nibName, ofType: "nib") {
+            return UINib(nibName: nibName, bundle: nil)
+        } else {
+            return nil
+        }
+    }
 }

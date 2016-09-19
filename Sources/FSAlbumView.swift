@@ -24,7 +24,18 @@ final class FSAlbumView: UIView, UICollectionViewDataSource, UICollectionViewDel
     @IBOutlet weak var imageCropViewConstraintTop: NSLayoutConstraint!
     
     weak var delegate: FSAlbumViewDelegate? = nil
-    
+
+    override var backgroundColor: UIColor? {
+        didSet {
+            if let collectionView = collectionView {
+                collectionView.backgroundColor = backgroundColor
+            }
+            if let imageCropView = imageCropView {
+                imageCropView.backgroundColor = backgroundColor
+            }
+        }
+    }
+
     var images: PHFetchResult!
     var imageManager: PHCachingImageManager?
     var previousPreheatRect: CGRect = CGRectZero
@@ -47,21 +58,14 @@ final class FSAlbumView: UIView, UICollectionViewDataSource, UICollectionViewDel
     var dragStartPos: CGPoint = CGPointZero
     let dragDiff: CGFloat     = 20.0
     
-    static func instance() -> FSAlbumView {
-        
-        return UINib(nibName: "FSAlbumView", bundle: NSBundle(forClass: self.classForCoder())).instantiateWithOwner(self, options: nil)[0] as! FSAlbumView
-    }
-    
     func initialize() {
-        
         if images != nil {
-            
             return
         }
 		
 		self.hidden = false
         
-        let panGesture      = UIPanGestureRecognizer(target: self, action: #selector(FSAlbumView.panned(_:)))
+        let panGesture = UIPanGestureRecognizer(target: self, action: #selector(FSAlbumView.panned(_:)))
         panGesture.delegate = self
         self.addGestureRecognizer(panGesture)
         
@@ -75,7 +79,7 @@ final class FSAlbumView: UIView, UICollectionViewDataSource, UICollectionViewDel
         imageCropViewContainer.layer.shadowOffset  = CGSizeZero
         
         collectionView.registerNib(UINib(nibName: "FSAlbumViewCell", bundle: NSBundle(forClass: self.classForCoder)), forCellWithReuseIdentifier: "FSAlbumViewCell")
-		collectionView.backgroundColor = fusumaBackgroundColor
+		collectionView.backgroundColor = self.backgroundColor
 		
         // Never load photos Unless the user allows to access to photo album
         checkPhotoAuth()
@@ -304,28 +308,27 @@ final class FSAlbumView: UIView, UICollectionViewDataSource, UICollectionViewDel
         dispatch_async(dispatch_get_main_queue()) {
             
             let collectionChanges = changeInstance.changeDetailsForFetchResult(self.images)
-            if collectionChanges != nil {
-                
-                self.images = collectionChanges!.fetchResultAfterChanges
+            if let collectionChanges = collectionChanges {
+                self.images = collectionChanges.fetchResultAfterChanges
                 
                 let collectionView = self.collectionView!
                 
-                if !collectionChanges!.hasIncrementalChanges || collectionChanges!.hasMoves {
+                if !collectionChanges.hasIncrementalChanges || collectionChanges.hasMoves {
                     
                     collectionView.reloadData()
                     
                 } else {
                     
                     collectionView.performBatchUpdates({
-                        let removedIndexes = collectionChanges!.removedIndexes
+                        let removedIndexes = collectionChanges.removedIndexes
                         if (removedIndexes?.count ?? 0) != 0 {
                             collectionView.deleteItemsAtIndexPaths(removedIndexes!.aapl_indexPathsFromIndexesWithSection(0))
                         }
-                        let insertedIndexes = collectionChanges!.insertedIndexes
+                        let insertedIndexes = collectionChanges.insertedIndexes
                         if (insertedIndexes?.count ?? 0) != 0 {
                             collectionView.insertItemsAtIndexPaths(insertedIndexes!.aapl_indexPathsFromIndexesWithSection(0))
                         }
-                        let changedIndexes = collectionChanges!.changedIndexes
+                        let changedIndexes = collectionChanges.changedIndexes
                         if (changedIndexes?.count ?? 0) != 0 {
                             collectionView.reloadItemsAtIndexPaths(changedIndexes!.aapl_indexPathsFromIndexesWithSection(0))
                         }
@@ -399,8 +402,7 @@ private extension FSAlbumView {
             switch status {
             case .Authorized:
                 self.imageManager = PHCachingImageManager()
-                if self.images != nil && self.images.count > 0 {
-                    
+                if let _ = self.images where self.images.count > 0 {
                     self.changeImage(self.images[0] as! PHAsset)
                 }
                 
