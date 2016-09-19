@@ -34,6 +34,7 @@ final class FSVideoCameraView: UIView {
     internal var videoStartImage: UIImage?
     internal var videoStopImage: UIImage?
     internal var baseTintColor: UIColor?
+    internal var tintIcons = FSDefaults.tintIcons
     
     private var isRecording = false
     
@@ -102,7 +103,7 @@ final class FSVideoCameraView: UIView {
         videoStopImage = videoStopImage ?? UIImage(named: "video_button_rec", inBundle: bundle, compatibleWithTraitCollection: nil)
 
         
-        if(fusumaTintIcons) {
+        if tintIcons {
             flashButton.tintColor = baseTintColor
             flipButton.tintColor  = baseTintColor
             shotButton.tintColor  = baseTintColor

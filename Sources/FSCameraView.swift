@@ -35,7 +35,8 @@ final class FSCameraView: UIView, UIGestureRecognizerDelegate {
     internal var flipImage: UIImage?
     internal var shotImage: UIImage?
     internal var baseTintColor: UIColor = FSDefaults.baseTintColor
-    internal var cropImage: Bool = true
+    internal var cropImage: Bool = FSDefaults.cropImage
+    internal var tintIcons: Bool = FSDefaults.tintIcons
 
     override func didMoveToSuperview() {
         let bundle = NSBundle(forClass: self.classForCoder)
@@ -45,7 +46,7 @@ final class FSCameraView: UIView, UIGestureRecognizerDelegate {
         flipImage = flipImage ?? UIImage(named: "ic_loop", inBundle: bundle, compatibleWithTraitCollection: nil)
         shotImage = shotImage ?? UIImage(named: "ic_radio_button_checked", inBundle: bundle, compatibleWithTraitCollection: nil)
 
-        if fusumaTintIcons {
+        if tintIcons {
             flashButton.tintColor = baseTintColor
             flipButton.tintColor  = baseTintColor
             shotButton.tintColor  = baseTintColor

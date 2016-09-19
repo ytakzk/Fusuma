@@ -14,20 +14,17 @@ import Photos
     func fusuma(fusuma: FusumaViewController, videoCompletedWithFileURL fileURL: NSURL)
     func fusumaCameraRollUnauthorized(fusuma: FusumaViewController)
 
-  optional func fusumaClosed(fusuma: FusumaViewController)
+    optional func fusumaClosed(fusuma: FusumaViewController)
 }
 
-public var fusumaTintIcons : Bool = true
-
 public enum FusumaMode : Int {
-  case Camera
-  case Library
-  case Video
+    case Camera
+    case Library
+    case Video
+    case Unknown  // only valid for the initial case
 }
 
 public final class FusumaViewController: UIViewController {
-
-    public var hasVideo = false
     public var baseTintColor = FSDefaults.baseTintColor
     public var tintColor = FSDefaults.tintColor
     public var backgroundColor = FSDefaults.backgroundColor
@@ -51,19 +48,8 @@ public final class FusumaViewController: UIViewController {
     public var cameraTitle = FSDefaults.cameraTitle
     public var videoTitle = FSDefaults.videoTitle
 
-    var mode : FusumaMode = .Camera
-    public var availableModes : [FusumaMode] = [.Camera, .Library, .Video] {
-//        set {
-//            // prevent changing the available modes to empty array
-//            if !newValue.isEmpty {
-//                availableModes = newValue
-//            }
-//        }
-        didSet {
-           mode = availableModes.first ?? .Camera
-        }
-    }
-    var willFilter = true
+    var mode : FusumaMode = .Unknown
+    public var availableModes : [FusumaMode] = [.Library, .Camera]
 
     @IBOutlet weak var photoLibraryViewerContainer: UIView!
     @IBOutlet weak var cameraShotContainer: UIView!
@@ -77,20 +63,19 @@ public final class FusumaViewController: UIViewController {
     @IBOutlet weak var videoButton: UIButton!
     @IBOutlet weak var doneButton: UIButton!
 
-    @IBOutlet var libraryFirstConstraints: [NSLayoutConstraint]!
-    @IBOutlet var cameraFirstConstraints: [NSLayoutConstraint]!
-
     private var hasGalleryPermission: Bool {
         return PHPhotoLibrary.authorizationStatus() == .Authorized
     }
 
     lazy var albumView : FSAlbumView = { [unowned self] in
         let albumView = FSAlbumView.fromNib()
+        albumView.delegate = self
         albumView.backgroundColor = self.backgroundColor
         return albumView
     }()
     lazy var cameraView : FSCameraView = { [unowned self] in
         let cameraView = FSCameraView.fromNib()
+        cameraView.delegate = self
         cameraView.backgroundColor = self.backgroundColor
         cameraView.flashOffImage = self.flashOffImage
         cameraView.flashOnImage = self.flashOnImage
@@ -98,16 +83,20 @@ public final class FusumaViewController: UIViewController {
         cameraView.shotImage = self.shotImage
         cameraView.baseTintColor = self.baseTintColor
         cameraView.cropImage = self.cropImage
+        cameraView.tintIcons = self.tintIcons
         return cameraView
     }()
     lazy var videoView : FSVideoCameraView = { [unowned self] in
         let videoView = FSVideoCameraView.fromNib()
+        videoView.delegate = self
+        videoView.backgroundColor = self.backgroundColor
         videoView.flashOffImage = self.flashOffImage
         videoView.flashOnImage = self.flashOnImage
         videoView.flipImage = self.flipImage
         videoView.videoStartImage = self.videoStartImage
         videoView.videoStopImage = self.videoStopImage
         videoView.baseTintColor = self.baseTintColor
+        videoView.tintIcons = self.tintIcons
         return videoView
     }()
 
@@ -193,27 +182,94 @@ public final class FusumaViewController: UIViewController {
         libraryButton.clipsToBounds = true
         videoButton.clipsToBounds = true
 
-        changeMode(.Library)
+        photoLibraryViewerContainer.addSubview(albumView)
+        cameraShotContainer.addSubview(cameraView)
+        videoShotContainer.addSubview(videoView)
 
-        titleLabel.textColor = self.baseTintColor
+        titleLabel.textColor = baseTintColor
 
-        if !self.hasVideo {
+        // Set up the constraints for the buttons
 
-            videoButton.removeFromSuperview()
+        // 1) Remove the unused buttons
+        let allModes: Set<FusumaMode> = Set([.Camera, .Library, .Video])
+        let missingModes = allModes.subtract(Set<FusumaMode>(availableModes))
+        missingModes.forEach { (mode) in
+            buttonForMode(mode).removeFromSuperview()
+        }
 
-            self.view.addConstraint(NSLayoutConstraint(
-                item:       self.view,
-                attribute:  .Trailing,
+        // 2) Set up constraints for the buttons that are still in the view hierarchy
+        let lastIndex = availableModes.count - 1
+        for (i, mode) in availableModes.enumerate() {
+            let button = self.buttonForMode(mode)
+
+            if i == lastIndex {
+                // is last
+                self.view.addConstraint(NSLayoutConstraint(
+                    item:       button,
+                    attribute:  .Trailing,
+                    relatedBy:  .Equal,
+                    toItem:     self.view,
+                    attribute:  .Trailing,
+                    multiplier: 1.0,
+                    constant:   0
+                ))
+            }
+
+            if i == 0 {
+                // is first
+                self.view.addConstraint(NSLayoutConstraint(
+                    item:       button,
+                    attribute:  .Leading,
+                    relatedBy:  .Equal,
+                    toItem:     self.view,
+                    attribute:  .Leading,
+                    multiplier: 1.0,
+                    constant:   0
+                ))
+                continue
+            }
+
+            // is last and middle buttons
+            let prevButton = self.buttonForMode(availableModes[i - 1])
+            self.view.addConstraints([
+                NSLayoutConstraint(
+                    item:       button,
+                    attribute:  .Leading,
+                    relatedBy:  .Equal,
+                    toItem:     prevButton,
+                    attribute:  .Trailing,
+                    multiplier: 1.0,
+                    constant:   0
+                ),
+                NSLayoutConstraint(
+                    item:       button,
+                    attribute:  .Width,
+                    relatedBy:  .Equal,
+                    toItem:     prevButton,
+                    attribute:  .Width,
+                    multiplier: 1.0,
+                    constant:   0
+                )
+            ])
+        }
+
+        // 3) If there's only one button, make it 0 height so it disappears
+        if availableModes.count == 1 {
+            let button = buttonForMode(availableModes.first!)
+            let noHeightConstraint = NSLayoutConstraint(
+                item:       button,
+                attribute:  .Height,
                 relatedBy:  .Equal,
-                toItem:     cameraButton,
-                attribute:  .Trailing,
+                toItem:     nil,
+                attribute:  .NotAnAttribute,
                 multiplier: 1.0,
                 constant:   0
-                )
             )
-
-            self.view.layoutIfNeeded()
+            noHeightConstraint.priority = 1000 // "required" - priority in xib is 999
+            button.addConstraint(noHeightConstraint)
         }
+
+        self.view.layoutIfNeeded()
 
         if cropImage {
             cameraView.fullAspectRatioConstraint.active = false
@@ -222,18 +278,13 @@ public final class FusumaViewController: UIViewController {
             cameraView.fullAspectRatioConstraint.active = true
             cameraView.croppedAspectRatioConstraint.active = false
         }
+
+        // change to the first mode
+        changeMode(availableModes.first!)
     }
 
     override public func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
-
-        cameraView.delegate = self
-        albumView.delegate  = self
-        videoView.delegate = self
-
-        photoLibraryViewerContainer.addSubview(albumView)
-        cameraShotContainer.addSubview(cameraView)
-        videoShotContainer.addSubview(videoView)
 
         albumView.frame  = CGRect(origin: CGPointZero, size: photoLibraryViewerContainer.frame.size)
         albumView.layoutIfNeeded()
@@ -243,11 +294,9 @@ public final class FusumaViewController: UIViewController {
         cameraView.layoutIfNeeded()
         cameraView.initialize()
 
-        if hasVideo {
-            videoView.frame = CGRect(origin: CGPointZero, size: videoShotContainer.frame.size)
-            videoView.layoutIfNeeded()
-            videoView.initialize()
-        }
+        videoView.frame = CGRect(origin: CGPointZero, size: videoShotContainer.frame.size)
+        videoView.layoutIfNeeded()
+        videoView.initialize()
     }
 
     public override func viewWillDisappear(animated: Bool) {
@@ -315,6 +364,19 @@ public final class FusumaViewController: UIViewController {
         }
     }
 
+    func buttonForMode(mode: FusumaMode) -> UIButton {
+        switch mode {
+        case .Library:
+            return libraryButton
+        case .Video:
+            return videoButton
+        case .Camera:
+            fallthrough
+        default:
+            return cameraButton
+        }
+    }
+
 }
 
 extension FusumaViewController: FSAlbumViewDelegate, FSCameraViewDelegate, FSVideoCameraViewDelegate {
@@ -347,11 +409,7 @@ private extension FusumaViewController {
     }
 
     func stopAll() {
-
-        if hasVideo {
-            self.videoView.stopCamera()
-        }
-
+        self.videoView.stopCamera()
         self.cameraView.stopCamera()
     }
 
@@ -362,13 +420,15 @@ private extension FusumaViewController {
         }
 
         // operate this switch before changing mode to stop cameras
-        switch self.mode {
-        case .Library:
-            break
+        switch mode {
         case .Camera:
             self.cameraView.stopCamera()
         case .Video:
             self.videoView.stopCamera()
+        case .Library:
+            fallthrough
+        default:
+            break
         }
 
         self.mode = mode
@@ -396,6 +456,8 @@ private extension FusumaViewController {
             highlightButton(videoButton)
             self.view.bringSubviewToFront(videoShotContainer)
             videoView.startCamera()
+        default:
+            break
         }
         doneButton.hidden = !hasGalleryPermission
         self.view.bringSubviewToFront(menuView)
@@ -403,46 +465,39 @@ private extension FusumaViewController {
 
 
     func dishighlightButtons() {
-        cameraButton.tintColor  = self.baseTintColor
-        libraryButton.tintColor = self.baseTintColor
 
-        if cameraButton.layer.sublayers?.count > 1 {
+        if let cameraButton = cameraButton {
+            cameraButton.tintColor  = self.baseTintColor
 
-            for layer in cameraButton.layer.sublayers! {
-
-                if let borderColor = layer.borderColor where UIColor(CGColor: borderColor) == self.tintColor {
-
-                    layer.removeFromSuperlayer()
+            if cameraButton.layer.sublayers?.count > 1 {
+                for layer in cameraButton.layer.sublayers! {
+                    if let borderColor = layer.borderColor where UIColor(CGColor: borderColor) == self.tintColor {
+                        layer.removeFromSuperlayer()
+                    }
                 }
-
             }
         }
 
-        if libraryButton.layer.sublayers?.count > 1 {
+        if let libraryButton = libraryButton {
+            libraryButton.tintColor = self.baseTintColor
 
-            for layer in libraryButton.layer.sublayers! {
-
-                if let borderColor = layer.borderColor where UIColor(CGColor: borderColor) == self.tintColor {
-
-                    layer.removeFromSuperlayer()
+            if libraryButton.layer.sublayers?.count > 1 {
+                for layer in libraryButton.layer.sublayers! {
+                    if let borderColor = layer.borderColor where UIColor(CGColor: borderColor) == self.tintColor {
+                        layer.removeFromSuperlayer()
+                    }
                 }
-
             }
         }
 
         if let videoButton = videoButton {
-
             videoButton.tintColor = self.baseTintColor
 
             if videoButton.layer.sublayers?.count > 1 {
-
                 for layer in videoButton.layer.sublayers! {
-
                     if let borderColor = layer.borderColor where UIColor(CGColor: borderColor) == self.tintColor {
-
                         layer.removeFromSuperlayer()
                     }
-
                 }
             }
         }

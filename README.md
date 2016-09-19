@@ -1,4 +1,4 @@
-## Fusuma
+# Fusuma
 
 Fusuma is a Swift library that provides an Instagram-like photo browser and a camera feature with a few line of code.  
 You can use Fusuma instead of UIImagePickerController. It also has a feature to take a square-sized photo.
@@ -51,53 +51,61 @@ github "ytakzk/Fusuma"
 ## Fusuma Usage
 Import Fusuma ```import Fusuma``` then use the following codes in some function except for viewDidLoad and give FusumaDelegate to the view controller.  
 
-```Swift
+```swift
 let fusuma = FusumaViewController()
 fusuma.delegate = self
-fusuma.hasVideo = true // If you want to let the users allow to use video.
+fusuma.availableModes = [.Library, .Camera, .Video]
+// ^ If you want to allow users to take video.
 self.presentViewController(fusuma, animated: true, completion: nil)
+```
+
+### availableModes
+
+Configure which tabs are available to the user by setting `availableModes`. The order is respected
+
+```swift
+fusuma.availableModes = [.Camera] // no tabs are shown and camera is selected
+fusuma.availableModes = [.Library, .Camera] // (default) library is selected first, camera is to the right
+fusuma.availableModes = [.Camera, .Library, .Video] // all modes
 ```
 
 #### Delegate methods
 
-```Swift
+```swift
 // Return the image which is selected from camera roll or is taken via the camera.
-func fusumaImageSelected(image: UIImage) {
-
-  print("Image selected")
+func fusuma(fusuma: FusumaViewController, imageSelected image: UIImage, viaMode mode: Int) {
+    print("Image selected! :)")
 }
 
-// Return the image but called after is dismissed.
-func fusumaDismissedWithImage(image: UIImage) {
-        
-  print("Called just after FusumaViewController is dismissed.")
+// Fusuma was closed without choosing an image.
+optional func fusumaClosed(fusuma: FusumaViewController) {
+    print("No image chosen :(")
 }
 
-func fusumaVideoCompleted(withFileURL fileURL: NSURL) {
-
-  print("Called just after a video has been selected.")
+// Called just after a video has been selected.
+func fusuma(fusuma: FusumaViewController, videoCompletedWithFileURL fileURL: NSURL) {
+    print("Video taken! :)")
 }
 
 // When camera roll is not authorized, this method is called.
-func fusumaCameraRollUnauthorized() {
-
-  print("Camera roll unauthorized")
+func fusumaCameraRollUnauthorized(fusuma: FusumaViewController) {
+  print("Camera roll unauthorized :(")
 }
 ```
 
 #### Colors
 
-```Swift
-fusumaTintColor: UIColor // tint color
-
-fusumaBackgroundColor: UIColor // background color
+```swift
+baseTintColor : UIColor   // the default tintColor
+tintColor : UIColor       // the active tintColor
+backgroundColor : UIColor // the backgroundColor
 ```
 
 #### Customize Image Output 
 You can deselect image crop mode with: 
 
-```Swift
-fusumaCropImage:Bool // default is true for cropping the image 
+```swift
+cropImage: Bool // default is true for cropping the image
 ```
 
 ## Fusuma for Xamarin
@@ -107,6 +115,10 @@ https://github.com/Cheesebaron/Chafu
 ## Author
 ytakzk  
  [http://ytakzk.me](http://ytakzk.me)
+
+## Contributors
+Shrugs
+ [https://github.com/Shrugs](https://github.com/Shrugs)
  
 ## Donation
 Your support is welcome through Bitcoin 16485BTK9EoQUqkMmSecJ9xN6E9nhW8ePd

@@ -27,10 +27,10 @@ final class FSAlbumView: UIView, UICollectionViewDataSource, UICollectionViewDel
 
     override var backgroundColor: UIColor? {
         didSet {
-            if collectionView != nil {
+            if let collectionView = collectionView {
                 collectionView.backgroundColor = backgroundColor
             }
-            if imageCropView != nil {
+            if let imageCropView = imageCropView {
                 imageCropView.backgroundColor = backgroundColor
             }
         }
@@ -308,28 +308,27 @@ final class FSAlbumView: UIView, UICollectionViewDataSource, UICollectionViewDel
         dispatch_async(dispatch_get_main_queue()) {
             
             let collectionChanges = changeInstance.changeDetailsForFetchResult(self.images)
-            if collectionChanges != nil {
-                
-                self.images = collectionChanges!.fetchResultAfterChanges
+            if let collectionChanges = collectionChanges {
+                self.images = collectionChanges.fetchResultAfterChanges
                 
                 let collectionView = self.collectionView!
                 
-                if !collectionChanges!.hasIncrementalChanges || collectionChanges!.hasMoves {
+                if !collectionChanges.hasIncrementalChanges || collectionChanges.hasMoves {
                     
                     collectionView.reloadData()
                     
                 } else {
                     
                     collectionView.performBatchUpdates({
-                        let removedIndexes = collectionChanges!.removedIndexes
+                        let removedIndexes = collectionChanges.removedIndexes
                         if (removedIndexes?.count ?? 0) != 0 {
                             collectionView.deleteItemsAtIndexPaths(removedIndexes!.aapl_indexPathsFromIndexesWithSection(0))
                         }
-                        let insertedIndexes = collectionChanges!.insertedIndexes
+                        let insertedIndexes = collectionChanges.insertedIndexes
                         if (insertedIndexes?.count ?? 0) != 0 {
                             collectionView.insertItemsAtIndexPaths(insertedIndexes!.aapl_indexPathsFromIndexesWithSection(0))
                         }
-                        let changedIndexes = collectionChanges!.changedIndexes
+                        let changedIndexes = collectionChanges.changedIndexes
                         if (changedIndexes?.count ?? 0) != 0 {
                             collectionView.reloadItemsAtIndexPaths(changedIndexes!.aapl_indexPathsFromIndexesWithSection(0))
                         }
@@ -403,8 +402,7 @@ private extension FSAlbumView {
             switch status {
             case .Authorized:
                 self.imageManager = PHCachingImageManager()
-                if self.images != nil && self.images.count > 0 {
-                    
+                if let _ = self.images where self.images.count > 0 {
                     self.changeImage(self.images[0] as! PHAsset)
                 }
                 

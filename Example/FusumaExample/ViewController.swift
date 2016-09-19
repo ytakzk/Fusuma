@@ -33,7 +33,11 @@ class ViewController: UIViewController, FusumaDelegate {
         
         // Show Fusuma
         let fusuma = FusumaViewController()
-        
+        // Try these!
+
+        // fusuma.availableModes = [.Camera, .Video]
+        // fusuma.availableModes = [.Camera]
+
         // fusumaCropImage = false
 
         fusuma.delegate = self
