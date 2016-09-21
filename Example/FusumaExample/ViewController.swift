@@ -27,17 +27,15 @@ class ViewController: UIViewController, FusumaDelegate {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-
-    @IBAction func showButtonPressed(sender: UIButton) {
-        
+    
+    @IBAction func showButtonPressed(_ sender: AnyObject) {
         // Show Fusuma
         let fusuma = FusumaViewController()
         
-//        fusumaCropImage = false
+        //        fusumaCropImage = false
         
         fusuma.delegate = self
         self.present(fusuma, animated: true, completion: nil)
-        
     }
     
     // MARK: FusumaDelegate Protocol
