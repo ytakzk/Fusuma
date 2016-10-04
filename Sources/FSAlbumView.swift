@@ -27,7 +27,7 @@ final class FSAlbumView: UIView, UICollectionViewDataSource, UICollectionViewDel
     
     var images: PHFetchResult<PHAsset>!
     var imageManager: PHCachingImageManager?
-    var previousPreheatRect: CGRect = CGRect.zero
+    var previousPreheatRect: CGRect = .zero
     let cellSize = CGSize(width: 100, height: 100)
     var phAsset: PHAsset!
     

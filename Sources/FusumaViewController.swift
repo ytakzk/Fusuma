@@ -80,7 +80,7 @@ public final class FusumaViewController: UIViewController {
 
     public var hasVideo = false
 
-    var mode: Mode = Mode.camera
+    var mode: Mode = .camera
     public var modeOrder: FusumaModeOrder = .libraryFirst
     var willFilter = true
 
