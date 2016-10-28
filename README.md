@@ -1,6 +1,6 @@
 ## Fusuma
 
-Fusuma is a Swift library that provides an Instagram-like photo browser and a camera feature with a few line of code.  
+Fusuma is a Swift library that provides an Instagram-like photo browser with a camera feature using only a few lines of code.  
 You can use Fusuma instead of UIImagePickerController. It also has a feature to take a square-sized photo.
 
 [![Version](https://img.shields.io/cocoapods/v/Fusuma.svg?style=flat)](http://cocoapods.org/pods/Fusuma)
@@ -20,16 +20,18 @@ You can use Fusuma instead of UIImagePickerController. It also has a feature to 
 - [x] UIImagePickerController alternative
 - [x] Cropping images in camera roll
 - [x] Taking a square-sized photo and a video using AVFoundation
-- [x] Flash: On Off 
-- [x] Camera Mode: Front Back 
-- [x] Video Mode 
+- [x] Flash: On & Off 
+- [x] Camera Mode: Front & Back 
+- [x] Video Mode
+- [x] Colors fully customizable
 
 Those features are available just with a few lines of code!
 
 ## Installation
 
-Drop in the Classes folder to your Xcode project.  
-You can also use CocoaPods or Carthage.
+#### Manual installation
+
+Download and drop the 'Classes' folder into your Xcode project.  
 
 #### Using [CocoaPods](http://cocoapods.org/)
 
