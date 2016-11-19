@@ -61,6 +61,7 @@ public var fusumaCropImage: Bool = true
 public var fusumaCameraRollTitle = "CAMERA ROLL"
 public var fusumaCameraTitle = "PHOTO"
 public var fusumaVideoTitle = "VIDEO"
+public var fusumaTitleFont = UIFont(name: "AvenirNext-DemiBold", size: 15)
 
 public var fusumaTintIcons : Bool = true
 
@@ -200,7 +201,8 @@ public final class FusumaViewController: UIViewController {
         cameraShotContainer.addSubview(cameraView)
         videoShotContainer.addSubview(videoView)
         
-		titleLabel.textColor = fusumaBaseTintColor
+	titleLabel.textColor = fusumaBaseTintColor
+	titleLabel.font = fusumaTitleFont
 		
 //        if modeOrder != .LibraryFirst {
 //            libraryFirstConstraints.forEach { $0.priority = 250 }
