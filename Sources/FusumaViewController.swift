@@ -356,6 +356,12 @@ extension FusumaViewController: FSAlbumViewDelegate, FSCameraViewDelegate, FSVid
         })
     }
     
+    public func albumViewCameraRollAuthorized() {
+        // in the case that we're just coming back from granting photo gallery permissions
+        // ensure the done button is visible if it should be
+        self.updateDoneButtonVisibility()
+    }
+    
     // MARK: FSAlbumViewDelegate
     public func albumViewCameraRollUnauthorized() {
         delegate?.fusumaCameraRollUnauthorized()
@@ -399,24 +405,22 @@ private extension FusumaViewController {
         self.mode = mode
         
         dishighlightButtons()
+        updateDoneButtonVisibility()
         
         switch mode {
         case .library:
             titleLabel.text = NSLocalizedString(fusumaCameraRollTitle, comment: fusumaCameraRollTitle)
-            doneButton.isHidden = false
             
             highlightButton(libraryButton)
             self.view.bringSubview(toFront: photoLibraryViewerContainer)
         case .camera:
             titleLabel.text = NSLocalizedString(fusumaCameraTitle, comment: fusumaCameraTitle)
-            doneButton.isHidden = true
             
             highlightButton(cameraButton)
             self.view.bringSubview(toFront: cameraShotContainer)
             cameraView.startCamera()
         case .video:
             titleLabel.text = fusumaVideoTitle
-            doneButton.isHidden = true
             
             highlightButton(videoButton)
             self.view.bringSubview(toFront: videoShotContainer)
@@ -426,6 +430,21 @@ private extension FusumaViewController {
         self.view.bringSubview(toFront: menuView)
     }
     
+    
+    func updateDoneButtonVisibility() {
+        // don't show the done button without gallery permission
+        if !hasGalleryPermission {
+            self.doneButton.isHidden = true
+            return
+        }
+
+        switch self.mode {
+        case .library:
+            self.doneButton.isHidden = false
+        default:
+            self.doneButton.isHidden = true
+        }
+    }
     
     func dishighlightButtons() {
         cameraButton.tintColor  = fusumaBaseTintColor

@@ -12,6 +12,7 @@ import Photos
 @objc public protocol FSAlbumViewDelegate: class {
     
     func albumViewCameraRollUnauthorized()
+    func albumViewCameraRollAuthorized()
 }
 
 final class FSAlbumView: UIView, UICollectionViewDataSource, UICollectionViewDelegate, PHPhotoLibraryChangeObserver, UIGestureRecognizerDelegate {
@@ -402,6 +403,10 @@ private extension FSAlbumView {
                 if self.images != nil && self.images.count > 0 {
                     
                     self.changeImage(self.images[0])
+                }
+                
+                DispatchQueue.main.async {
+                    self.delegate?.albumViewCameraRollAuthorized()
                 }
                 
             case .restricted, .denied:
