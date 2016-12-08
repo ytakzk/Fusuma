@@ -80,6 +80,7 @@ public final class FusumaViewController: UIViewController {
     }
 
     public var hasVideo = false
+    public var cropHeightRatio: CGFloat = 1
 
     var mode: Mode = .camera
     public var modeOrder: FusumaModeOrder = .libraryFirst
@@ -201,9 +202,9 @@ public final class FusumaViewController: UIViewController {
         cameraShotContainer.addSubview(cameraView)
         videoShotContainer.addSubview(videoView)
         
-	titleLabel.textColor = fusumaBaseTintColor
-	titleLabel.font = fusumaTitleFont
-		
+        titleLabel.textColor = fusumaBaseTintColor
+        titleLabel.font = fusumaTitleFont
+            
 //        if modeOrder != .LibraryFirst {
 //            libraryFirstConstraints.forEach { $0.priority = 250 }
 //            cameraFirstConstraints.forEach { $0.priority = 1000 }
@@ -228,11 +229,14 @@ public final class FusumaViewController: UIViewController {
         }
         
         if fusumaCropImage {
+            let heightRatio = getCropHeightRatio()
+            cameraView.croppedAspectRatioConstraint = NSLayoutConstraint(item: cameraView.previewViewContainer, attribute: NSLayoutAttribute.height, relatedBy: NSLayoutRelation.equal, toItem: cameraView.previewViewContainer, attribute: NSLayoutAttribute.width, multiplier: heightRatio, constant: 0)
+
             cameraView.fullAspectRatioConstraint.isActive = false
-            cameraView.croppedAspectRatioConstraint.isActive = true
+            cameraView.croppedAspectRatioConstraint?.isActive = true
         } else {
             cameraView.fullAspectRatioConstraint.isActive = true
-            cameraView.croppedAspectRatioConstraint.isActive = false
+            cameraView.croppedAspectRatioConstraint?.isActive = false
         }
     }
     
@@ -315,9 +319,10 @@ public final class FusumaViewController: UIViewController {
                 
                 let targetWidth = floor(CGFloat(self.albumView.phAsset.pixelWidth) * cropRect.width)
                 let targetHeight = floor(CGFloat(self.albumView.phAsset.pixelHeight) * cropRect.height)
-                let dimension = max(min(targetHeight, targetWidth), 1024 * UIScreen.main.scale)
-                
-                let targetSize = CGSize(width: dimension, height: dimension)
+                let dimensionW = max(min(targetHeight, targetWidth), 1024 * UIScreen.main.scale)
+                let dimensionH = dimensionW * self.getCropHeightRatio()
+
+                let targetSize = CGSize(width: dimensionW, height: dimensionH)
                 
                 PHImageManager.default().requestImage(for: self.albumView.phAsset, targetSize: targetSize,
                 contentMode: .aspectFill, options: options) {
@@ -345,6 +350,9 @@ public final class FusumaViewController: UIViewController {
 }
 
 extension FusumaViewController: FSAlbumViewDelegate, FSCameraViewDelegate, FSVideoCameraViewDelegate {
+    public func getCropHeightRatio() -> CGFloat {
+        return cropHeightRatio
+    }
     
     // MARK: FSCameraViewDelegate
     func cameraShotFinished(_ image: UIImage) {
