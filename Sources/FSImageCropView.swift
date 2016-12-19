@@ -30,7 +30,7 @@ final class FSImageCropView: UIScrollView, UIScrollViewDelegate {
                 imageView.image = nil
                 return
             }
-            
+
             if !fusumaCropImage {
                 // Disable scroll view and set image to fit in view
                 imageView.frame = self.frame
@@ -42,71 +42,27 @@ final class FSImageCropView: UIScrollView, UIScrollViewDelegate {
             }
 
             let imageSize = self.imageSize ?? image.size
-            
-            if imageSize.width < self.frame.width || imageSize.height < self.frame.height {
-                
-                // The width or height of the image is smaller than the frame size
-                
-                if imageSize.width > imageSize.height {
-                    
-                    // Width > Height
-                    
-                    let ratio = self.frame.width / imageSize.width
-                    
-                    imageView.frame = CGRect(
-                        origin: CGPoint.zero,
-                        size: CGSize(width: self.frame.width, height: imageSize.height * ratio)
-                    )
-                    
-                } else {
-                    
-                    // Width <= Height
-                    
-                    let ratio = self.frame.height / imageSize.height
-                    
-                    imageView.frame = CGRect(
-                        origin: CGPoint.zero,
-                        size: CGSize(width: imageSize.width * ratio, height: self.frame.size.height)
-                    )
-                    
-                }
-                
-                imageView.center = self.center
-                
+
+            let ratioW = frame.width / imageSize.width // 400 / 1000 => 0.4
+            let ratioH = frame.height / imageSize.height // 300 / 500 => 0.6
+
+            if ratioH > ratioW {
+                imageView.frame = CGRect(
+                    origin: CGPoint.zero,
+                    size: CGSize(width: imageSize.width  * ratioH, height: frame.height)
+                )
             } else {
-
-                // The width or height of the image is bigger than the frame size
-
-                if imageSize.width > imageSize.height {
-                    
-                    // Width > Height
-                    
-                    let ratio = self.frame.height / imageSize.height
-                    
-                    imageView.frame = CGRect(
-                        origin: CGPoint.zero,
-                        size: CGSize(width: imageSize.width * ratio, height: self.frame.height)
-                    )
-                    
-                } else {
-                    
-                    // Width <= Height
-
-                    let ratio = self.frame.width / imageSize.width
-                    
-                    imageView.frame = CGRect(
-                        origin: CGPoint.zero,
-                        size: CGSize(width: self.frame.width, height: imageSize.height * ratio)
-                    )
-                    
-                }
-                
-                self.contentOffset = CGPoint(
-                    x: imageView.center.x - self.center.x,
-                    y: imageView.center.y - self.center.y
+                imageView.frame = CGRect(
+                    origin: CGPoint.zero,
+                    size: CGSize(width: frame.width, height: imageSize.height  * ratioW)
                 )
             }
-            
+
+            self.contentOffset = CGPoint(
+                x: imageView.center.x - self.center.x,
+                y: imageView.center.y - self.center.y
+            )
+
             self.contentSize = CGSize(width: imageView.frame.width + 1, height: imageView.frame.height + 1)
             
             imageView.image = image

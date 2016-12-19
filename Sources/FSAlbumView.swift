@@ -10,7 +10,9 @@ import UIKit
 import Photos
 
 @objc public protocol FSAlbumViewDelegate: class {
-    
+    // Returns height ratio of crop image. e.g) 4:3 -> 7.5
+    func getCropHeightRatio() -> CGFloat
+
     func albumViewCameraRollUnauthorized()
     func albumViewCameraRollAuthorized()
 }
@@ -23,7 +25,7 @@ final class FSAlbumView: UIView, UICollectionViewDataSource, UICollectionViewDel
     
     @IBOutlet weak var collectionViewConstraintHeight: NSLayoutConstraint!
     @IBOutlet weak var imageCropViewConstraintTop: NSLayoutConstraint!
-    
+
     weak var delegate: FSAlbumViewDelegate? = nil
     
     var images: PHFetchResult<PHAsset>!
@@ -61,12 +63,19 @@ final class FSAlbumView: UIView, UICollectionViewDataSource, UICollectionViewDel
         }
 		
 		self.isHidden = false
+
+        // Set Image Crop Ratio
+        if let heightRatio = delegate?.getCropHeightRatio() {
+            imageCropViewContainer.addConstraint(NSLayoutConstraint(item: imageCropViewContainer, attribute: NSLayoutAttribute.height, relatedBy: NSLayoutRelation.equal, toItem: imageCropViewContainer, attribute: NSLayoutAttribute.width, multiplier: heightRatio, constant: 0)
+            )
+            layoutSubviews()
+        }
         
         let panGesture      = UIPanGestureRecognizer(target: self, action: #selector(FSAlbumView.panned(_:)))
         panGesture.delegate = self
         self.addGestureRecognizer(panGesture)
         
-        collectionViewConstraintHeight.constant = self.frame.height - imageCropView.frame.height - imageCropViewOriginalConstraintTop
+        collectionViewConstraintHeight.constant = self.frame.height - imageCropViewContainer.frame.height - imageCropViewOriginalConstraintTop
         imageCropViewConstraintTop.constant = 50
         dragDirection = Direction.up
         

@@ -19,8 +19,8 @@ final class FSCameraView: UIView, UIGestureRecognizerDelegate {
     @IBOutlet weak var shotButton: UIButton!
     @IBOutlet weak var flashButton: UIButton!
     @IBOutlet weak var flipButton: UIButton!
-    @IBOutlet weak var croppedAspectRatioConstraint: NSLayoutConstraint!
     @IBOutlet weak var fullAspectRatioConstraint: NSLayoutConstraint!
+    var croppedAspectRatioConstraint: NSLayoutConstraint?
     
     weak var delegate: FSCameraViewDelegate? = nil
     
