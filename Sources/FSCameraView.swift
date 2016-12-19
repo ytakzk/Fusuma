@@ -8,6 +8,7 @@
 
 import UIKit
 import AVFoundation
+import CoreMotion
 
 @objc protocol FSCameraViewDelegate: class {
     func cameraShotFinished(_ image: UIImage)
@@ -32,6 +33,9 @@ final class FSCameraView: UIView, UIGestureRecognizerDelegate {
 
     var flashOffImage: UIImage?
     var flashOnImage: UIImage?
+    
+    var motionManager: CMMotionManager?
+    var currentDeviceOrientation: UIDeviceOrientation?
     
     static func instance() -> FSCameraView {
         
@@ -129,16 +133,7 @@ final class FSCameraView: UIView, UIGestureRecognizerDelegate {
     
     func willEnterForegroundNotification(_ notification: Notification) {
         
-        let status = AVCaptureDevice.authorizationStatus(forMediaType: AVMediaTypeVideo)
-        
-        if status == AVAuthorizationStatus.authorized {
-            
-            session?.startRunning()
-            
-        } else if status == AVAuthorizationStatus.denied || status == AVAuthorizationStatus.restricted {
-            
-            session?.stopRunning()
-        }
+        startCamera()
     }
     
     deinit {
@@ -151,17 +146,39 @@ final class FSCameraView: UIView, UIGestureRecognizerDelegate {
         let status = AVCaptureDevice.authorizationStatus(forMediaType: AVMediaTypeVideo)
         
         if status == AVAuthorizationStatus.authorized {
-
+            
             session?.startRunning()
             
+            motionManager = CMMotionManager()
+            motionManager!.accelerometerUpdateInterval = 0.2
+            motionManager!.startAccelerometerUpdates(to: OperationQueue()) { [unowned self] (data, _) in
+                if let data = data {
+                    if abs( data.acceleration.y ) < abs( data.acceleration.x ) {
+                        if data.acceleration.x > 0 {
+                            self.currentDeviceOrientation = .landscapeRight
+                        } else {
+                            self.currentDeviceOrientation = .landscapeLeft
+                        }
+                    } else {
+                        if data.acceleration.y > 0 {
+                            self.currentDeviceOrientation = .portraitUpsideDown
+                        } else {
+                            self.currentDeviceOrientation = .portrait
+                        }
+                    }
+                }
+            }
+            
         } else if status == AVAuthorizationStatus.denied || status == AVAuthorizationStatus.restricted {
-
-            session?.stopRunning()
+            
+            stopCamera()
         }
     }
     
     func stopCamera() {
         session?.stopRunning()
+        motionManager?.stopAccelerometerUpdates()
+        currentDeviceOrientation = nil
     }
     
     @IBAction func shotButtonPressed(_ sender: UIButton) {
@@ -175,7 +192,7 @@ final class FSCameraView: UIView, UIGestureRecognizerDelegate {
 
             let videoConnection = imageOutput.connection(withMediaType: AVMediaTypeVideo)
 
-            let orientation: UIDeviceOrientation = UIDevice.current.orientation
+            let orientation: UIDeviceOrientation = self.currentDeviceOrientation ?? UIDevice.current.orientation
             switch (orientation) {
             case .portrait:
                 videoConnection?.videoOrientation = .portrait
@@ -191,7 +208,7 @@ final class FSCameraView: UIView, UIGestureRecognizerDelegate {
 
             imageOutput.captureStillImageAsynchronously(from: videoConnection, completionHandler: { (buffer, error) -> Void in
                 
-                self.session?.stopRunning()
+                self.stopCamera()
                 
                 let data = AVCaptureStillImageOutput.jpegStillImageNSDataRepresentation(buffer)
                 
@@ -229,9 +246,10 @@ final class FSCameraView: UIView, UIGestureRecognizerDelegate {
                             delegate.cameraShotFinished(image)
                         }
                         
-                        self.session     = nil
-                        self.device      = nil
-                        self.imageOutput = nil
+                        self.session       = nil
+                        self.device        = nil
+                        self.imageOutput   = nil
+                        self.motionManager = nil
                         
                     })
                 }
