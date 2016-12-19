@@ -41,9 +41,16 @@ class ViewController: UIViewController, FusumaDelegate {
     }
     
     // MARK: FusumaDelegate Protocol
-    func fusumaImageSelected(_ image: UIImage) {
+    func fusumaImageSelected(_ image: UIImage, source: FusumaMode) {
+        switch source {
+        case .camera:
+            print("Image captured from Camera")
+        case .library:
+            print("Image selected from Camera Roll")
+        default:
+            print("Image selected")
+        }
         
-        print("Image selected")
         imageView.image = image
     }
     
@@ -52,9 +59,15 @@ class ViewController: UIViewController, FusumaDelegate {
         self.fileUrlLabel.text = "file output to: \(fileURL.absoluteString)"
     }
     
-    func fusumaDismissedWithImage(_ image: UIImage) {
-        
-        print("Called just after dismissed FusumaViewController")
+    func fusumaDismissedWithImage(_ image: UIImage, source: FusumaMode) {
+        switch source {
+        case .camera:
+            print("Called just after dismissed FusumaViewController using Camera")
+        case .library:
+            print("Called just after dismissed FusumaViewController using Camera Roll")
+        default:
+            print("Called just after dismissed FusumaViewController")
+        }
     }
     
     func fusumaCameraRollUnauthorized() {

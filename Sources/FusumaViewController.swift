@@ -29,14 +29,20 @@ fileprivate func > <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
 }
 
 
-@objc public protocol FusumaDelegate: class {
-    
-    func fusumaImageSelected(_ image: UIImage)
-    @objc optional func fusumaDismissedWithImage(_ image: UIImage)
+public protocol FusumaDelegate: class {
+    // MARK: Required
+    func fusumaImageSelected(_ image: UIImage, source: FusumaMode)
     func fusumaVideoCompleted(withFileURL fileURL: URL)
     func fusumaCameraRollUnauthorized()
-    
-    @objc optional func fusumaClosed()
+ 
+    // MARK: Optional
+    func fusumaDismissedWithImage(_ image: UIImage, source: FusumaMode)
+    func fusumaClosed()
+}
+
+extension FusumaDelegate {
+    func fusumaDismissedWithImage(_ image: UIImage, source: FusumaMode) {}
+    func fusumaClosed() {}
 }
 
 public var fusumaBaseTintColor   = UIColor.hex("#FFFFFF", alpha: 1.0)
@@ -70,19 +76,19 @@ public enum FusumaModeOrder {
     case libraryFirst
 }
 
+public enum FusumaMode {
+    case camera
+    case library
+    case video
+}
+
 //@objc public class FusumaViewController: UIViewController, FSCameraViewDelegate, FSAlbumViewDelegate {
 public final class FusumaViewController: UIViewController {
-    
-    enum Mode {
-        case camera
-        case library
-        case video
-    }
 
     public var hasVideo = false
     public var cropHeightRatio: CGFloat = 1
 
-    var mode: Mode = .camera
+    var mode: FusumaMode = .camera
     public var modeOrder: FusumaModeOrder = .libraryFirst
     var willFilter = true
 
@@ -196,7 +202,7 @@ public final class FusumaViewController: UIViewController {
         libraryButton.clipsToBounds = true
         videoButton.clipsToBounds = true
 
-        changeMode(Mode.library)
+        changeMode(FusumaMode.library)
         
         photoLibraryViewerContainer.addSubview(albumView)
         cameraShotContainer.addSubview(cameraView)
@@ -278,23 +284,23 @@ public final class FusumaViewController: UIViewController {
     @IBAction func closeButtonPressed(_ sender: UIButton) {
         self.dismiss(animated: true, completion: {
             
-            self.delegate?.fusumaClosed?()
+            self.delegate?.fusumaClosed()
         })
     }
     
     @IBAction func libraryButtonPressed(_ sender: UIButton) {
         
-        changeMode(Mode.library)
+        changeMode(FusumaMode.library)
     }
     
     @IBAction func photoButtonPressed(_ sender: UIButton) {
     
-        changeMode(Mode.camera)
+        changeMode(FusumaMode.camera)
     }
     
     @IBAction func videoButtonPressed(_ sender: UIButton) {
         
-        changeMode(Mode.video)
+        changeMode(FusumaMode.video)
     }
     
     @IBAction func doneButtonPressed(_ sender: UIButton) {
@@ -329,20 +335,20 @@ public final class FusumaViewController: UIViewController {
                     result, info in
                     
                     DispatchQueue.main.async(execute: {
-                        self.delegate?.fusumaImageSelected(result!)
+                        self.delegate?.fusumaImageSelected(result!, source: self.mode)
                         
                         self.dismiss(animated: true, completion: {
-                            self.delegate?.fusumaDismissedWithImage?(result!)
+                            self.delegate?.fusumaDismissedWithImage(result!, source: self.mode)
                         })
                     })
                 }
             })
         } else {
             print("no image crop ")
-            delegate?.fusumaImageSelected((view?.image)!)
+            delegate?.fusumaImageSelected((view?.image)!, source: mode)
             
             self.dismiss(animated: true, completion: {
-                self.delegate?.fusumaDismissedWithImage?((view?.image)!)
+                self.delegate?.fusumaDismissedWithImage((view?.image)!, source: self.mode)
             })
         }
     }
@@ -357,10 +363,10 @@ extension FusumaViewController: FSAlbumViewDelegate, FSCameraViewDelegate, FSVid
     // MARK: FSCameraViewDelegate
     func cameraShotFinished(_ image: UIImage) {
         
-        delegate?.fusumaImageSelected(image)
+        delegate?.fusumaImageSelected(image, source: mode)
         self.dismiss(animated: true, completion: {
             
-            self.delegate?.fusumaDismissedWithImage?(image)
+            self.delegate?.fusumaDismissedWithImage(image, source: self.mode)
         })
     }
     
@@ -394,7 +400,7 @@ private extension FusumaViewController {
         self.cameraView.stopCamera()
     }
     
-    func changeMode(_ mode: Mode) {
+    func changeMode(_ mode: FusumaMode) {
 
         if self.mode == mode {
             return
