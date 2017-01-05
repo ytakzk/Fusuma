@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		52412A971CA6114A0073C4BE /* Fusuma.h in Headers */ = {isa = PBXBuildFile; fileRef = 52412A961CA6114A0073C4BE /* Fusuma.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		94B14D221E1DF69E0047472B /* GPSExif.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94B14D211E1DF69E0047472B /* GPSExif.swift */; };
+		94B14D241E1DF6D00047472B /* LocationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94B14D231E1DF6D00047472B /* LocationService.swift */; };
 		EDDC0B3E1D04F53E009135DB /* FSVideoCameraView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDDC0B3C1D04F53E009135DB /* FSVideoCameraView.swift */; };
 		EDDC0B3F1D04F53E009135DB /* FSVideoCameraView.xib in Resources */ = {isa = PBXBuildFile; fileRef = EDDC0B3D1D04F53E009135DB /* FSVideoCameraView.xib */; };
 		EDDC0B4A1D0511E7009135DB /* FusumaViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDDC0B481D0511E7009135DB /* FusumaViewController.swift */; };
@@ -27,6 +29,8 @@
 		52412A931CA6114A0073C4BE /* Fusuma.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Fusuma.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		52412A961CA6114A0073C4BE /* Fusuma.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Fusuma.h; sourceTree = "<group>"; };
 		52412A981CA6114A0073C4BE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		94B14D211E1DF69E0047472B /* GPSExif.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GPSExif.swift; sourceTree = "<group>"; };
+		94B14D231E1DF6D00047472B /* LocationService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationService.swift; sourceTree = "<group>"; };
 		EDDC0B3C1D04F53E009135DB /* FSVideoCameraView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FSVideoCameraView.swift; sourceTree = "<group>"; };
 		EDDC0B3D1D04F53E009135DB /* FSVideoCameraView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FSVideoCameraView.xib; sourceTree = "<group>"; };
 		EDDC0B481D0511E7009135DB /* FusumaViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.swift; path = FusumaViewController.swift; sourceTree = "<group>"; tabWidth = 4; };
@@ -97,6 +101,8 @@
 				EDDC0B531D0511F2009135DB /* FSImageCropView.swift */,
 				EDDC0B3C1D04F53E009135DB /* FSVideoCameraView.swift */,
 				EDDC0B3D1D04F53E009135DB /* FSVideoCameraView.xib */,
+				94B14D211E1DF69E0047472B /* GPSExif.swift */,
+				94B14D231E1DF6D00047472B /* LocationService.swift */,
 			);
 			path = Sources;
 			sourceTree = "<group>";
@@ -192,6 +198,8 @@
 				EDDC0B541D0511F2009135DB /* FSAlbumView.swift in Sources */,
 				EDDC0B5A1D0511F2009135DB /* FSConstants.swift in Sources */,
 				EDDC0B5B1D0511F2009135DB /* FSImageCropView.swift in Sources */,
+				94B14D221E1DF69E0047472B /* GPSExif.swift in Sources */,
+				94B14D241E1DF6D00047472B /* LocationService.swift in Sources */,
 				EDDC0B561D0511F2009135DB /* FSAlbumViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
