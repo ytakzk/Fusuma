@@ -91,7 +91,7 @@ public final class FusumaViewController: UIViewController {
     var mode: FusumaMode = .camera
     public var modeOrder: FusumaModeOrder = .libraryFirst
     var willFilter = true
-    var gpsEnabled = false //get GPS Exif in Image?
+    public var gpsEnabled = false //get GPS Exif in Image?
     
     @IBOutlet weak var photoLibraryViewerContainer: UIView!
     @IBOutlet weak var cameraShotContainer: UIView!
