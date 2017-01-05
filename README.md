@@ -24,6 +24,7 @@ You can use Fusuma instead of UIImagePickerController. It also has a feature to 
 - [x] Camera Mode: Front & Back 
 - [x] Video Mode
 - [x] Colors fully customizable
+- [x] Exif + GPS enabled
 
 Those features are available just with a few lines of code!
 
@@ -57,25 +58,30 @@ Import Fusuma ```import Fusuma``` then use the following codes in some function 
 let fusuma = FusumaViewController()
 fusuma.delegate = self
 fusuma.hasVideo = true // If you want to let the users allow to use video.
+//fusuma.gpsEnabled = true // If you want to ensure pictures taken and retrieved are GeoTagged/contain Exif, dont forget to add capability values to Info.plist
 self.presentViewController(fusuma, animated: true, completion: nil)
+//alternatively
+//self.present(fusuma, animated: true, completion: nil)
 ```
 
 #### Delegate methods
 
 ```Swift
 // Return the image which is selected from camera roll or is taken via the camera.
-func fusumaImageSelected(image: UIImage) {
-
+func fusumaImageSelected(_ image: UIImage, source: FusumaMode, imageData: Data?) {
   print("Image selected")
+  //use imageData if you want the RAW image with EXIF
+  //eg (upload to server)...
+  //if let base64image = imageData?.base64EncodedString(options: .lineLength64Characters) { ... }
 }
 
 // Return the image but called after is dismissed.
-func fusumaDismissedWithImage(image: UIImage) {
+func fusumaDismissedWithImage(_ image: UIImage, source: FusumaMode)  {
         
   print("Called just after FusumaViewController is dismissed.")
 }
 
-func fusumaVideoCompleted(withFileURL fileURL: NSURL) {
+func fusumaVideoCompleted(withFileURL fileURL: URL) {
 
   print("Called just after a video has been selected.")
 }

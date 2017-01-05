@@ -8,13 +8,15 @@
 
 import UIKit
 import AVFoundation
+import ImageIO
 
 @objc protocol FSCameraViewDelegate: class {
-    func cameraShotFinished(_ image: UIImage)
+    func cameraShotFinished(_ image: UIImage, imageData: Data?)
+    func getGPSEnabled() -> Bool
 }
 
 final class FSCameraView: UIView, UIGestureRecognizerDelegate {
-
+    
     @IBOutlet weak var previewViewContainer: UIView!
     @IBOutlet weak var shotButton: UIButton!
     @IBOutlet weak var flashButton: UIButton!
@@ -29,7 +31,7 @@ final class FSCameraView: UIView, UIGestureRecognizerDelegate {
     var videoInput: AVCaptureDeviceInput?
     var imageOutput: AVCaptureStillImageOutput?
     var focusView: UIView?
-
+    
     var flashOffImage: UIImage?
     var flashOnImage: UIImage?
     
@@ -67,7 +69,7 @@ final class FSCameraView: UIView, UIGestureRecognizerDelegate {
             flipButton.setImage(flipImage, for: UIControlState())
             shotButton.setImage(shotImage, for: UIControlState())
         }
-
+        
         
         self.isHidden = false
         
@@ -88,11 +90,11 @@ final class FSCameraView: UIView, UIGestureRecognizerDelegate {
         }
         
         do {
-
+            
             if let session = session {
-
+                
                 videoInput = try AVCaptureDeviceInput(device: device)
-
+                
                 session.addInput(videoInput)
                 
                 imageOutput = AVCaptureStillImageOutput()
@@ -106,7 +108,7 @@ final class FSCameraView: UIView, UIGestureRecognizerDelegate {
                 self.previewViewContainer.layer.addSublayer(videoLayer!)
                 
                 session.sessionPreset = AVCaptureSessionPresetPhoto
-
+                
                 session.startRunning()
                 
             }
@@ -151,11 +153,11 @@ final class FSCameraView: UIView, UIGestureRecognizerDelegate {
         let status = AVCaptureDevice.authorizationStatus(forMediaType: AVMediaTypeVideo)
         
         if status == AVAuthorizationStatus.authorized {
-
+            
             session?.startRunning()
             
         } else if status == AVAuthorizationStatus.denied || status == AVAuthorizationStatus.restricted {
-
+            
             session?.stopRunning()
         }
     }
@@ -172,9 +174,9 @@ final class FSCameraView: UIView, UIGestureRecognizerDelegate {
         }
         
         DispatchQueue.global(qos: .default).async(execute: { () -> Void in
-
+            
             let videoConnection = imageOutput.connection(withMediaType: AVMediaTypeVideo)
-
+            
             let orientation: UIDeviceOrientation = UIDevice.current.orientation
             switch (orientation) {
             case .portrait:
@@ -188,19 +190,31 @@ final class FSCameraView: UIView, UIGestureRecognizerDelegate {
             default:
                 videoConnection?.videoOrientation = .portrait
             }
-
+            
             imageOutput.captureStillImageAsynchronously(from: videoConnection, completionHandler: { (buffer, error) -> Void in
                 
                 self.session?.stopRunning()
                 
-                let data = AVCaptureStillImageOutput.jpegStillImageNSDataRepresentation(buffer)
+                //Add GPS to buffer
+                if let _ = self.delegate?.getGPSEnabled(), let buffer = buffer {
+                    FusumaLocationService.sharedInstance.updateSingleLocation() //trigger update on each accuracy to improve accuracy
+                    //Add GPS data to EXIF
+                    let rawMetadata = CMCopyDictionaryOfAttachments(nil, buffer, CMAttachmentMode(kCMAttachmentMode_ShouldPropagate))
+                    let metadata = CFDictionaryCreateMutableCopy(nil, 0, rawMetadata) as NSMutableDictionary
+                    if let gpsCoord = FusumaLocationService.sharedInstance.currentLocation  {
+                        let gpsDict = gpsCoord.exifMetadata()
+                        metadata[kCGImagePropertyGPSDictionary] = gpsDict
+                        CMSetAttachments(buffer, metadata as CFDictionary, CMAttachmentMode(kCMAttachmentMode_ShouldPropagate))
+                    }
+                }
+                let imgData = AVCaptureStillImageOutput.jpegStillImageNSDataRepresentation(buffer)
                 
-                if let image = UIImage(data: data!), let delegate = self.delegate {
+                if let image = UIImage(data: imgData!), let delegate = self.delegate {
                     
                     // Image size
                     var iw: CGFloat
                     var ih: CGFloat
-
+                    
                     switch (orientation) {
                     case .landscapeLeft, .landscapeRight:
                         // Swap width and height if orientation is landscape
@@ -216,17 +230,16 @@ final class FSCameraView: UIView, UIGestureRecognizerDelegate {
                     
                     // The center coordinate along Y axis
                     let rcy = ih * 0.5
-
+                    
                     let imageRef = image.cgImage?.cropping(to: CGRect(x: rcy-iw*0.5, y: 0 , width: iw, height: iw))
                     
                     
-                                        
                     DispatchQueue.main.async(execute: { () -> Void in
                         if fusumaCropImage {
                             let resizedImage = UIImage(cgImage: imageRef!, scale: sw/iw, orientation: image.imageOrientation)
-                            delegate.cameraShotFinished(resizedImage)
+                            delegate.cameraShotFinished(resizedImage, imageData: imgData)
                         } else {
-                            delegate.cameraShotFinished(image)
+                            delegate.cameraShotFinished(image, imageData: imgData)
                         }
                         
                         self.session     = nil
@@ -242,41 +255,41 @@ final class FSCameraView: UIView, UIGestureRecognizerDelegate {
     }
     
     @IBAction func flipButtonPressed(_ sender: UIButton) {
-
+        
         if !cameraIsAvailable() {
-
+            
             return
         }
         
         session?.stopRunning()
         
         do {
-
+            
             session?.beginConfiguration()
-
+            
             if let session = session {
                 
                 for input in session.inputs {
                     
                     session.removeInput(input as! AVCaptureInput)
                 }
-
+                
                 let position = (videoInput?.device.position == AVCaptureDevicePosition.front) ? AVCaptureDevicePosition.back : AVCaptureDevicePosition.front
-
+                
                 for device in AVCaptureDevice.devices(withMediaType: AVMediaTypeVideo) {
-
+                    
                     if let device = device as? AVCaptureDevice , device.position == position {
-                 
+                        
                         videoInput = try AVCaptureDeviceInput(device: device)
                         session.addInput(videoInput)
                         
                     }
                 }
-
+                
             }
             
             session?.commitConfiguration()
-
+            
             
         } catch {
             
@@ -286,18 +299,18 @@ final class FSCameraView: UIView, UIGestureRecognizerDelegate {
     }
     
     @IBAction func flashButtonPressed(_ sender: UIButton) {
-
+        
         if !cameraIsAvailable() {
-
+            
             return
         }
-
+        
         do {
-
+            
             if let device = device {
                 
                 guard device.hasFlash else { return }
-            
+                
                 try device.lockForConfiguration()
                 
                 let mode = device.flashMode
@@ -314,15 +327,15 @@ final class FSCameraView: UIView, UIGestureRecognizerDelegate {
                 }
                 
                 device.unlockForConfiguration()
-
+                
             }
-
+            
         } catch _ {
-
+            
             flashButton.setImage(flashOffImage, for: UIControlState())
             return
         }
- 
+        
     }
 }
 
@@ -346,11 +359,11 @@ extension FSCameraView {
         }
         
         if device?.isFocusModeSupported(AVCaptureFocusMode.autoFocus) == true {
-
+            
             device?.focusMode = AVCaptureFocusMode.autoFocus
             device?.focusPointOfInterest = newPoint
         }
-
+        
         if device?.isExposureModeSupported(AVCaptureExposureMode.continuousAutoExposure) == true {
             
             device?.exposureMode = AVCaptureExposureMode.continuousAutoExposure
@@ -368,18 +381,18 @@ extension FSCameraView {
         self.addSubview(self.focusView!)
         
         UIView.animate(withDuration: 0.8, delay: 0.0, usingSpringWithDamping: 0.8,
-            initialSpringVelocity: 3.0, options: UIViewAnimationOptions.curveEaseIn, // UIViewAnimationOptions.BeginFromCurrentState
+                       initialSpringVelocity: 3.0, options: UIViewAnimationOptions.curveEaseIn, // UIViewAnimationOptions.BeginFromCurrentState
             animations: {
                 self.focusView!.alpha = 1.0
                 self.focusView!.transform = CGAffineTransform(scaleX: 0.7, y: 0.7)
-            }, completion: {(finished) in
-                self.focusView!.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
-                self.focusView!.removeFromSuperview()
+        }, completion: {(finished) in
+            self.focusView!.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
+            self.focusView!.removeFromSuperview()
         })
     }
     
     func flashConfiguration() {
-    
+        
         do {
             
             if let device = device {
@@ -400,16 +413,16 @@ extension FSCameraView {
             return
         }
     }
-
+    
     func cameraIsAvailable() -> Bool {
-
+        
         let status = AVCaptureDevice.authorizationStatus(forMediaType: AVMediaTypeVideo)
-
+        
         if status == AVAuthorizationStatus.authorized {
-
+            
             return true
         }
-
+        
         return false
     }
 }
