@@ -190,54 +190,55 @@ final class FSCameraView: UIView, UIGestureRecognizerDelegate {
             }
 
             imageOutput.captureStillImageAsynchronously(from: videoConnection, completionHandler: { (buffer, error) -> Void in
-                
-                self.session?.stopRunning()
-                
-                let data = AVCaptureStillImageOutput.jpegStillImageNSDataRepresentation(buffer)
-                
-                if let image = UIImage(data: data!), let delegate = self.delegate {
+                if error != nil {
+                    print("Error: \(error!.localizedDescription)")
+                } else if let sampleBuffer = buffer {
+                    self.session?.stopRunning()
                     
-                    // Image size
-                    var iw: CGFloat
-                    var ih: CGFloat
-
-                    switch (orientation) {
-                    case .landscapeLeft, .landscapeRight:
-                        // Swap width and height if orientation is landscape
-                        iw = image.size.height
-                        ih = image.size.width
-                    default:
-                        iw = image.size.width
-                        ih = image.size.height
-                    }
+                    let data = AVCaptureStillImageOutput.jpegStillImageNSDataRepresentation(sampleBuffer)
                     
-                    // Frame size
-                    let sw = self.previewViewContainer.frame.width
-                    
-                    // The center coordinate along Y axis
-                    let rcy = ih * 0.5
-
-                    let imageRef = image.cgImage?.cropping(to: CGRect(x: rcy-iw*0.5, y: 0 , width: iw, height: iw))
-                    
-                    
-                                        
-                    DispatchQueue.main.async(execute: { () -> Void in
-                        if fusumaCropImage {
-                            let resizedImage = UIImage(cgImage: imageRef!, scale: sw/iw, orientation: image.imageOrientation)
-                            delegate.cameraShotFinished(resizedImage)
-                        } else {
-                            delegate.cameraShotFinished(image)
+                    if let image = UIImage(data: data!), let delegate = self.delegate {
+                        
+                        // Image size
+                        var iw: CGFloat
+                        var ih: CGFloat
+                        
+                        switch (orientation) {
+                        case .landscapeLeft, .landscapeRight:
+                            // Swap width and height if orientation is landscape
+                            iw = image.size.height
+                            ih = image.size.width
+                        default:
+                            iw = image.size.width
+                            ih = image.size.height
                         }
                         
-                        self.session     = nil
-                        self.device      = nil
-                        self.imageOutput = nil
+                        // Frame size
+                        let sw = self.previewViewContainer.frame.width
                         
-                    })
+                        // The center coordinate along Y axis
+                        let rcy = ih * 0.5
+                        
+                        let imageRef = image.cgImage?.cropping(to: CGRect(x: rcy-iw*0.5, y: 0 , width: iw, height: iw))
+                        
+                        
+                        
+                        DispatchQueue.main.async(execute: { () -> Void in
+                            if fusumaCropImage {
+                                let resizedImage = UIImage(cgImage: imageRef!, scale: sw/iw, orientation: image.imageOrientation)
+                                delegate.cameraShotFinished(resizedImage)
+                            } else {
+                                delegate.cameraShotFinished(image)
+                            }
+                            
+                            self.session     = nil
+                            self.device      = nil
+                            self.imageOutput = nil
+                            
+                        })
+                    }
                 }
-                
             })
-            
         })
     }
     
