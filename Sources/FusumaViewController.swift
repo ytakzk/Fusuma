@@ -83,7 +83,7 @@ public enum FusumaMode {
 }
 
 //@objc public class FusumaViewController: UIViewController, FSCameraViewDelegate, FSAlbumViewDelegate {
-public final class FusumaViewController: UIViewController {
+public class FusumaViewController: UIViewController {
 
     public var hasVideo = false
     public var cropHeightRatio: CGFloat = 1
