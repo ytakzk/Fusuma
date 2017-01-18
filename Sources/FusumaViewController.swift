@@ -40,7 +40,7 @@ public protocol FusumaDelegate: class {
     func fusumaClosed()
 }
 
-extension FusumaDelegate {
+public extension FusumaDelegate {
     func fusumaDismissedWithImage(_ image: UIImage, source: FusumaMode) {}
     func fusumaClosed() {}
 }
