@@ -454,7 +454,7 @@ private extension FusumaViewController {
 
         switch self.mode {
         case .library:
-            self.doneButton.isEnabled = false
+            self.doneButton.isEnabled = true
         default:
             self.doneButton.isEnabled = true
         }
