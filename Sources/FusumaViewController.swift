@@ -336,19 +336,20 @@ public class FusumaViewController: UIViewController {
                     
                     DispatchQueue.main.async(execute: {
                         self.delegate?.fusumaImageSelected(result!, source: self.mode)
-                        
-                        self.dismiss(animated: true, completion: {
-                            self.delegate?.fusumaDismissedWithImage(result!, source: self.mode)
-                        })
+                        self.delegate?.fusumaDismissedWithImage(result!, source: self.mode)
+
+//                        self.dismiss(animated: true, completion: {
+//                        })
                     })
                 }
             })
         } else {
             print("no image crop ")
             delegate?.fusumaImageSelected((view?.image)!, source: mode)
-            self.dismiss(animated: true, completion: {
-                self.delegate?.fusumaDismissedWithImage((view?.image)!, source: self.mode)
-            })
+            self.delegate?.fusumaDismissedWithImage((view?.image)!, source: self.mode)
+
+//            self.dismiss(animated: true, completion: {
+//            })
         }
     }
     
