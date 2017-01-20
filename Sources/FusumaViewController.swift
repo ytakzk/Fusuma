@@ -175,7 +175,7 @@ public class FusumaViewController: UIViewController {
             videoButton.adjustsImageWhenHighlighted = false
             
 //            doneButton.setImage(checkImage?.withRenderingMode(.alwaysTemplate), for: UIControlState())
-            doneButton.tintColor = fusumaBaseTintColor
+//            doneButton.tintColor = fusumaBaseTintColor
             
         } else {
             
@@ -454,7 +454,7 @@ private extension FusumaViewController {
 
         switch self.mode {
         case .library:
-            self.doneButton.isEnabled = true
+            self.doneButton.isEnabled = false
         default:
             self.doneButton.isEnabled = true
         }
