@@ -144,8 +144,6 @@
 				TargetAttributes = {
 					52412ABF1CA61C9F0073C4BE = {
 						CreatedOnToolsVersion = 7.3;
-						DevelopmentTeam = CH66UY2UL7;
-						ProvisioningStyle = Manual;
 					};
 				};
 			};
@@ -321,14 +319,11 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = CH66UY2UL7;
 				INFOPLIST_FILE = FusumaExample/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				ONLY_ACTIVE_ARCH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = com.traleapp.Trale;
+				PRODUCT_BUNDLE_IDENTIFIER = me.ytakzk.FusumaExample;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "f173258b-34e5-4515-b0f4-5f6b7cd0b618";
-				PROVISIONING_PROFILE_SPECIFIER = "Trale - Development";
 				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
@@ -337,13 +332,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = CH66UY2UL7;
 				INFOPLIST_FILE = FusumaExample/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.traleapp.Trale;
+				PRODUCT_BUNDLE_IDENTIFIER = me.ytakzk.FusumaExample;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "f173258b-34e5-4515-b0f4-5f6b7cd0b618";
-				PROVISIONING_PROFILE_SPECIFIER = "Trale - Development";
 				SWIFT_VERSION = 3.0;
 			};
 			name = Release;

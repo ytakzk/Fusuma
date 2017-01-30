@@ -36,7 +36,6 @@ class ViewController: UIViewController, FusumaDelegate {
         
         fusuma.delegate = self
         fusuma.cropHeightRatio = 0.6
-        fusuma.hasVideo = true
 
         self.present(fusuma, animated: true, completion: nil)
     }
