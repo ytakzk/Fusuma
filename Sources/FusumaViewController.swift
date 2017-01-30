@@ -38,11 +38,13 @@ public protocol FusumaDelegate: class {
     // MARK: Optional
     func fusumaDismissedWithImage(_ image: UIImage, source: FusumaMode)
     func fusumaClosed()
+    func fusumaWillClosed()
 }
 
 public extension FusumaDelegate {
     func fusumaDismissedWithImage(_ image: UIImage, source: FusumaMode) {}
     func fusumaClosed() {}
+    func fusumaWillClosed() {}
 }
 
 public var fusumaBaseTintColor   = UIColor.hex("#FFFFFF", alpha: 1.0)
@@ -282,8 +284,8 @@ public class FusumaViewController: UIViewController {
     }
     
     @IBAction func closeButtonPressed(_ sender: UIButton) {
+        self.delegate?.fusumaWillClosed()
         self.dismiss(animated: true, completion: {
-            
             self.delegate?.fusumaClosed()
         })
     }
