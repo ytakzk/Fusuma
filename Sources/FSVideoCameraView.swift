@@ -23,9 +23,11 @@ final class FSVideoCameraView: UIView {
     weak var delegate: FSVideoCameraViewDelegate? = nil
     
     var session: AVCaptureSession?
+    
     var device: AVCaptureDevice?
     var videoInput: AVCaptureDeviceInput?
     var videoOutput: AVCaptureMovieFileOutput?
+    
     var focusView: UIView?
     
     var flashOffImage: UIImage?
@@ -66,12 +68,18 @@ final class FSVideoCameraView: UIView {
                 }
             }
         }
-        
+    
         do {
             
             if let session = session {
                 
                 videoInput = try AVCaptureDeviceInput(device: device)
+                
+                for device in AVCaptureDevice.devices(withMediaType: AVMediaTypeAudio) {
+                    let device = device as? AVCaptureDevice
+                    let audioInput = try! AVCaptureDeviceInput(device: device)
+                    session.addInput(audioInput)
+                }
                 
                 session.addInput(videoInput)
                 
@@ -218,11 +226,16 @@ final class FSVideoCameraView: UIView {
             if let session = session {
                 
                 for input in session.inputs {
-                    
                     session.removeInput(input as! AVCaptureInput)
                 }
                 
                 let position = (videoInput?.device.position == AVCaptureDevicePosition.front) ? AVCaptureDevicePosition.back : AVCaptureDevicePosition.front
+                
+                for device in AVCaptureDevice.devices(withMediaType: AVMediaTypeAudio) {
+                    let device = device as? AVCaptureDevice
+                    let audioInput = try! AVCaptureDeviceInput(device: device)
+                    session.addInput(audioInput)
+                }
                 
                 for device in AVCaptureDevice.devices(withMediaType: AVMediaTypeVideo) {
                     

@@ -307,54 +307,68 @@ public class FusumaViewController: UIViewController {
     
     @IBAction func doneButtonPressed(_ sender: UIButton) {
         let view = albumView.imageCropView
-
-        if fusumaCropImage {
-            let normalizedX = (view?.contentOffset.x)! / (view?.contentSize.width)!
-            let normalizedY = (view?.contentOffset.y)! / (view?.contentSize.height)!
+        
+        if self.albumView.phAsset.mediaType == .video {
             
-            let normalizedWidth = (view?.frame.width)! / (view?.contentSize.width)!
-            let normalizedHeight = (view?.frame.height)! / (view?.contentSize.height)!
-            
-            let cropRect = CGRect(x: normalizedX, y: normalizedY, width: normalizedWidth, height: normalizedHeight)
-            
-            DispatchQueue.global(qos: .default).async(execute: {
-                
-                let options = PHImageRequestOptions()
-                options.deliveryMode = .highQualityFormat
-                options.isNetworkAccessAllowed = true
-                options.normalizedCropRect = cropRect
-                options.resizeMode = .exact
-                
-                let targetWidth = floor(CGFloat(self.albumView.phAsset.pixelWidth) * cropRect.width)
-                let targetHeight = floor(CGFloat(self.albumView.phAsset.pixelHeight) * cropRect.height)
-                let dimensionW = max(min(targetHeight, targetWidth), 1024 * UIScreen.main.scale)
-                let dimensionH = dimensionW * self.getCropHeightRatio()
-
-                let targetSize = CGSize(width: dimensionW, height: dimensionH)
-                
-                PHImageManager.default().requestImage(for: self.albumView.phAsset, targetSize: targetSize,
-                contentMode: .aspectFill, options: options) {
-                    result, info in
+            PHImageManager.default().requestAVAsset(forVideo: self.albumView.phAsset, options: nil, resultHandler: { (video, audioMix, info) in
+                DispatchQueue.main.async(execute: {
+                    let urlAsset = video as! AVURLAsset
+                    self.delegate?.fusumaVideoCompleted(withFileURL: urlAsset.url)
                     
-                    DispatchQueue.main.async(execute: {
-                        self.delegate?.fusumaImageSelected(result!, source: self.mode)
+                    self.dismiss(animated: true, completion: {
                         
-                        self.dismiss(animated: true, completion: {
-                            self.delegate?.fusumaDismissedWithImage(result!, source: self.mode)
-                        })
                     })
-                }
+                })
             })
-        } else {
-            print("no image crop ")
-            delegate?.fusumaImageSelected((view?.image)!, source: mode)
             
-            self.dismiss(animated: true, completion: {
-                self.delegate?.fusumaDismissedWithImage((view?.image)!, source: self.mode)
-            })
+        } else {
+            if fusumaCropImage {
+                let normalizedX = (view?.contentOffset.x)! / (view?.contentSize.width)!
+                let normalizedY = (view?.contentOffset.y)! / (view?.contentSize.height)!
+                
+                let normalizedWidth = (view?.frame.width)! / (view?.contentSize.width)!
+                let normalizedHeight = (view?.frame.height)! / (view?.contentSize.height)!
+                
+                let cropRect = CGRect(x: normalizedX, y: normalizedY, width: normalizedWidth, height: normalizedHeight)
+                
+                DispatchQueue.global(qos: .default).async(execute: {
+                    
+                    let options = PHImageRequestOptions()
+                    options.deliveryMode = .highQualityFormat
+                    options.isNetworkAccessAllowed = true
+                    options.normalizedCropRect = cropRect
+                    options.resizeMode = .exact
+                    
+                    let targetWidth = floor(CGFloat(self.albumView.phAsset.pixelWidth) * cropRect.width)
+                    let targetHeight = floor(CGFloat(self.albumView.phAsset.pixelHeight) * cropRect.height)
+                    let dimensionW = max(min(targetHeight, targetWidth), 1024 * UIScreen.main.scale)
+                    let dimensionH = dimensionW * self.getCropHeightRatio()
+                    
+                    let targetSize = CGSize(width: dimensionW, height: dimensionH)
+                    
+                    PHImageManager.default().requestImage(for: self.albumView.phAsset, targetSize: targetSize,
+                                                          contentMode: .aspectFill, options: options) {
+                                                            result, info in
+                                                            
+                                                            DispatchQueue.main.async(execute: {
+                                                                self.delegate?.fusumaImageSelected(result!, source: self.mode)
+                                                                
+                                                                self.dismiss(animated: true, completion: {
+                                                                    self.delegate?.fusumaDismissedWithImage(result!, source: self.mode)
+                                                                })
+                                                            })
+                    }
+                })
+            } else {
+                print("no image crop ")
+                delegate?.fusumaImageSelected((view?.image)!, source: mode)
+                
+                self.dismiss(animated: true, completion: {
+                    self.delegate?.fusumaDismissedWithImage((view?.image)!, source: self.mode)
+                })
+            }
         }
-    }
-    
+        }
 }
 
 extension FusumaViewController: FSAlbumViewDelegate, FSCameraViewDelegate, FSVideoCameraViewDelegate {
