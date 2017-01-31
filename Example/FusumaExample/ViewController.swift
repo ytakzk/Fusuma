@@ -92,7 +92,10 @@ class ViewController: UIViewController, FusumaDelegate {
     }
     
     func fusumaClosed() {
-     
+        print("Called when the FusumaViewController disappeared")
+    }
+    
+    func fusumaWillClose() {
         print("Called when the close button is pressed")
     }
 
