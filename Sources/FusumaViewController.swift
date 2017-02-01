@@ -34,6 +34,7 @@ public protocol FusumaDelegate: class {
     func fusumaImageSelected(_ image: UIImage, source: FusumaMode)
     func fusumaVideoCompleted(withFileURL fileURL: URL)
     func fusumaCameraRollUnauthorized()
+    func fusumaVideoCompleted(withPHAsset phAsset: PHAsset)
  
     // MARK: Optional
     func fusumaDismissedWithImage(_ image: UIImage, source: FusumaMode)
@@ -310,15 +311,8 @@ public class FusumaViewController: UIViewController {
         
         if self.albumView.phAsset.mediaType == .video {
             
-            PHImageManager.default().requestAVAsset(forVideo: self.albumView.phAsset, options: nil, resultHandler: { (video, audioMix, info) in
-                DispatchQueue.main.async(execute: {
-                    let urlAsset = video as! AVURLAsset
-                    self.delegate?.fusumaVideoCompleted(withFileURL: urlAsset.url)
-                    
-                    self.dismiss(animated: true, completion: {
-                        
-                    })
-                })
+            self.delegate?.fusumaVideoCompleted(withPHAsset: self.albumView.phAsset)
+            self.dismiss(animated: true, completion: {
             })
             
         } else {
