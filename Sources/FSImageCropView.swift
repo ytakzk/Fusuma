@@ -90,6 +90,7 @@ final class FSImageCropView: UIScrollView, UIScrollViewDelegate {
         self.showsVerticalScrollIndicator   = false
         self.bouncesZoom = true
         self.bounces = true
+        self.scrollsToTop = false
         
         self.delegate = self
     }
