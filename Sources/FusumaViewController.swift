@@ -206,7 +206,7 @@ public class FusumaViewController: UIViewController {
         libraryButton.clipsToBounds = true
         videoButton.clipsToBounds = true
 
-        changeMode(FusumaMode.library)
+        changeMode(self.selectedMode, forceUpdate: true)
         
         photoLibraryViewerContainer.addSubview(albumView)
         cameraShotContainer.addSubview(cameraView)
@@ -248,8 +248,6 @@ public class FusumaViewController: UIViewController {
             cameraView.fullAspectRatioConstraint.isActive = true
             cameraView.croppedAspectRatioConstraint?.isActive = false
         }
-        
-        changeMode(self.selectedMode)
     }
     
     override public func viewWillAppear(_ animated: Bool) {
@@ -413,9 +411,9 @@ private extension FusumaViewController {
         self.cameraView.stopCamera()
     }
     
-    func changeMode(_ mode: FusumaMode) {
+    func changeMode(_ mode: FusumaMode, forceUpdate: Bool = false) {
 
-        if self.mode == mode {
+        if self.mode == mode && !forceUpdate {
             return
         }
         
@@ -476,6 +474,7 @@ private extension FusumaViewController {
     func dishighlightButtons() {
         cameraButton.tintColor  = fusumaBaseTintColor
         libraryButton.tintColor = fusumaBaseTintColor
+        videoButton?.tintColor = fusumaBaseTintColor
         
         if cameraButton.layer.sublayers?.count > 1 {
             

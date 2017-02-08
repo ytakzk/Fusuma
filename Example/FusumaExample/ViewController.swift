@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Photos
 
 class ViewController: UIViewController, FusumaDelegate {
     
@@ -36,6 +37,8 @@ class ViewController: UIViewController, FusumaDelegate {
         
         fusuma.delegate = self
         fusuma.cropHeightRatio = 0.6
+        fusuma.selectedMode = .camera
+        fusuma.hasVideo = true
 
         self.present(fusuma, animated: true, completion: nil)
     }
@@ -57,6 +60,10 @@ class ViewController: UIViewController, FusumaDelegate {
     func fusumaVideoCompleted(withFileURL fileURL: URL) {
         print("video completed and output to file: \(fileURL)")
         self.fileUrlLabel.text = "file output to: \(fileURL.absoluteString)"
+    }
+    
+    func fusumaVideoCompleted(withPHAsset phAsset: PHAsset) {
+        
     }
     
     func fusumaDismissedWithImage(_ image: UIImage, source: FusumaMode) {
