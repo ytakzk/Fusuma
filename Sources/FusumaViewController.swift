@@ -263,7 +263,6 @@ public class FusumaViewController: UIViewController {
         cameraView.frame = CGRect(origin: CGPoint.zero, size: cameraShotContainer.frame.size)
         cameraView.layoutIfNeeded()
 
-        
         albumView.initialize()
         cameraView.initialize()
         
@@ -273,6 +272,8 @@ public class FusumaViewController: UIViewController {
             videoView.layoutIfNeeded()
             videoView.initialize()
         }
+        
+        changeMode(self.selectedMode, forceUpdate: true)
     }
     
     public override func viewWillDisappear(_ animated: Bool) {
@@ -413,18 +414,20 @@ private extension FusumaViewController {
     
     func changeMode(_ mode: FusumaMode, forceUpdate: Bool = false) {
 
-        if self.mode == mode && !forceUpdate {
-            return
-        }
-        
-        //operate this switch before changing mode to stop cameras
-        switch self.mode {
-        case .library:
-            break
-        case .camera:
-            self.cameraView.stopCamera()
-        case .video:
-            self.videoView.stopCamera()
+        if (!forceUpdate) {
+            if self.mode == mode  {
+                return
+            }
+            
+            //operate this switch before changing mode to stop cameras
+            switch self.mode {
+            case .library:
+                break
+            case .camera:
+                self.cameraView.stopCamera()
+            case .video:
+                self.videoView.stopCamera()
+            }   
         }
         
         self.mode = mode
