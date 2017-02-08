@@ -93,6 +93,7 @@ public class FusumaViewController: UIViewController {
 
     var mode: FusumaMode = .camera
     public var modeOrder: FusumaModeOrder = .libraryFirst
+    public var selectedMode: FusumaMode = .library
     var willFilter = true
 
     @IBOutlet weak var photoLibraryViewerContainer: UIView!
@@ -247,6 +248,8 @@ public class FusumaViewController: UIViewController {
             cameraView.fullAspectRatioConstraint.isActive = true
             cameraView.croppedAspectRatioConstraint?.isActive = false
         }
+        
+        changeMode(self.selectedMode)
     }
     
     override public func viewWillAppear(_ animated: Bool) {
