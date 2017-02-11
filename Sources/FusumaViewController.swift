@@ -47,7 +47,7 @@ public extension FusumaDelegate {
 
 public var fusumaBaseTintColor   = UIColor.hex("#FFFFFF", alpha: 1.0)
 public var fusumaTintColor       = UIColor.hex("#F38181", alpha: 1.0)
-public var fusumaBackgroundColor = UIColor.hex("#3B3D45", alpha: 1.0)
+public var fusumaBackgroundColor = UIColor.hex("#FFFFFF", alpha: 1.0)
 
 public var fusumaAlbumImage : UIImage? = nil
 public var fusumaCameraImage : UIImage? = nil
@@ -134,7 +134,7 @@ public class FusumaViewController: UIViewController {
         albumView.delegate  = self
         videoView.delegate = self
 
-        menuView.backgroundColor = fusumaBackgroundColor
+        menuView.backgroundColor = UIColor.white
         menuView.addBottomBorder(UIColor.black, width: 1.0)
         
         let bundle = Bundle(for: self.classForCoder)
@@ -154,13 +154,13 @@ public class FusumaViewController: UIViewController {
             libraryButton.setImage(albumImage?.withRenderingMode(.alwaysTemplate), for: UIControlState())
             libraryButton.setImage(albumImage?.withRenderingMode(.alwaysTemplate), for: .highlighted)
             libraryButton.setImage(albumImage?.withRenderingMode(.alwaysTemplate), for: .selected)
-            libraryButton.tintColor = fusumaTintColor
+            libraryButton.tintColor = UIColor.black
             libraryButton.adjustsImageWhenHighlighted = false
 
             cameraButton.setImage(cameraImage?.withRenderingMode(.alwaysTemplate), for: UIControlState())
             cameraButton.setImage(cameraImage?.withRenderingMode(.alwaysTemplate), for: .highlighted)
             cameraButton.setImage(cameraImage?.withRenderingMode(.alwaysTemplate), for: .selected)
-            cameraButton.tintColor  = fusumaTintColor
+            cameraButton.tintColor  = UIColor.black
             cameraButton.adjustsImageWhenHighlighted  = false
             
 //            closeButton.setImage(closeImage?.withRenderingMode(.alwaysTemplate), for: UIControlState())
@@ -208,7 +208,7 @@ public class FusumaViewController: UIViewController {
         cameraShotContainer.addSubview(cameraView)
         videoShotContainer.addSubview(videoView)
         
-        titleLabel.textColor = fusumaBaseTintColor
+        titleLabel.textColor = UIColor.black
         titleLabel.font = fusumaTitleFont
             
 //        if modeOrder != .LibraryFirst {
@@ -424,18 +424,18 @@ private extension FusumaViewController {
         
         switch mode {
         case .library:
-            titleLabel.text = NSLocalizedString(fusumaCameraRollTitle, comment: fusumaCameraRollTitle)
+//            titleLabel.text = NSLocalizedString(fusumaCameraRollTitle, comment: fusumaCameraRollTitle)
             
             highlightButton(libraryButton)
             self.view.bringSubview(toFront: photoLibraryViewerContainer)
         case .camera:
-            titleLabel.text = NSLocalizedString(fusumaCameraTitle, comment: fusumaCameraTitle)
+//            titleLabel.text = NSLocalizedString(fusumaCameraTitle, comment: fusumaCameraTitle)
             
             highlightButton(cameraButton)
             self.view.bringSubview(toFront: cameraShotContainer)
             cameraView.startCamera()
         case .video:
-            titleLabel.text = fusumaVideoTitle
+//            titleLabel.text = fusumaVideoTitle
             
             highlightButton(videoButton)
             self.view.bringSubview(toFront: videoShotContainer)
@@ -462,8 +462,8 @@ private extension FusumaViewController {
     }
     
     func dishighlightButtons() {
-        cameraButton.tintColor  = fusumaBaseTintColor
-        libraryButton.tintColor = fusumaBaseTintColor
+        cameraButton.tintColor  = UIColor.black
+        libraryButton.tintColor = UIColor.black
         
         if cameraButton.layer.sublayers?.count > 1 {
             

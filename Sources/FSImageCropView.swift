@@ -43,8 +43,8 @@ final class FSImageCropView: UIScrollView, UIScrollViewDelegate {
 
             let imageSize = self.imageSize ?? image.size
 
-            let ratioW = frame.width / imageSize.width // 400 / 1000 => 0.4
-            let ratioH = frame.height / imageSize.height // 300 / 500 => 0.6
+            let ratioW = (frame.width / imageSize.width)  // 400 / 1000 => 0.4
+            let ratioH = (frame.height / imageSize.height) // 300 / 500 => 0.6
 
             if ratioH > ratioW {
                 imageView.frame = CGRect(
