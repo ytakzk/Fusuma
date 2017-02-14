@@ -9,6 +9,7 @@
 import UIKit
 import AVFoundation
 import CoreMotion
+import Photos
 
 @objc protocol FSCameraViewDelegate: class {
     func cameraShotFinished(_ image: UIImage)
@@ -180,7 +181,14 @@ final class FSCameraView: UIView, UIGestureRecognizerDelegate {
         motionManager?.stopAccelerometerUpdates()
         currentDeviceOrientation = nil
     }
-    
+
+    func saveImageToCameraRoll(image: UIImage) {
+        PHPhotoLibrary.shared().performChanges({
+            PHAssetChangeRequest.creationRequestForAsset(from: image)
+
+        }, completionHandler: nil)
+    }
+
     @IBAction func shotButtonPressed(_ sender: UIButton) {
         
         guard let imageOutput = imageOutput else {
@@ -242,8 +250,17 @@ final class FSCameraView: UIView, UIGestureRecognizerDelegate {
                         if fusumaCropImage {
                             let resizedImage = UIImage(cgImage: imageRef!, scale: sw/iw, orientation: image.imageOrientation)
                             delegate.cameraShotFinished(resizedImage)
+
+                            if fusumaSavesImage {
+                                self.saveImageToCameraRoll(image: resizedImage)
+                            }
+
                         } else {
                             delegate.cameraShotFinished(image)
+
+                            if fusumaSavesImage {
+                                self.saveImageToCameraRoll(image: image)
+                            }
                         }
                         
                         self.session       = nil
