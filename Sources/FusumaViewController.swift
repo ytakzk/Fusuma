@@ -36,12 +36,14 @@ public protocol FusumaDelegate: class {
     func fusumaCameraRollUnauthorized()
  
     // MARK: Optional
+    func fusumaImageSelected(_ image: UIImage, source: FusumaMode, metaData: ImageMetadata)
     func fusumaDismissedWithImage(_ image: UIImage, source: FusumaMode)
     func fusumaClosed()
     func fusumaWillClosed()
 }
 
 public extension FusumaDelegate {
+    func fusumaImageSelected(_ image: UIImage, source: FusumaMode, metaData: ImageMetadata) {}
     func fusumaDismissedWithImage(_ image: UIImage, source: FusumaMode) {}
     func fusumaClosed() {}
     func fusumaWillClosed() {}
@@ -82,6 +84,18 @@ public enum FusumaMode {
     case camera
     case library
     case video
+}
+
+public struct ImageMetadata {
+    let mediaType: PHAssetMediaType
+    let pixelWidth: Int
+    let pixelHeight: Int
+    let creationDate: Date?
+    let modificationDate: Date?
+    let location: CLLocation?
+    let duration: TimeInterval
+    let isFavourite: Bool
+    let isHidden: Bool
 }
 
 //@objc public class FusumaViewController: UIViewController, FSCameraViewDelegate, FSAlbumViewDelegate {
@@ -342,6 +356,20 @@ public class FusumaViewController: UIViewController {
                         self.dismiss(animated: true, completion: {
                             self.delegate?.fusumaDismissedWithImage(result!, source: self.mode)
                         })
+
+                        let metaData = ImageMetadata(
+                            mediaType: self.albumView.phAsset.mediaType,
+                            pixelWidth: self.albumView.phAsset.pixelWidth,
+                            pixelHeight: self.albumView.phAsset.pixelHeight,
+                            creationDate: self.albumView.phAsset.creationDate,
+                            modificationDate: self.albumView.phAsset.modificationDate,
+                            location: self.albumView.phAsset.location,
+                            duration: self.albumView.phAsset.duration,
+                            isFavourite: self.albumView.phAsset.isFavorite,
+                            isHidden: self.albumView.phAsset.isHidden)
+
+                        self.delegate?.fusumaImageSelected(result!, source: self.mode, metaData: metaData)
+
                     })
                 }
             })
