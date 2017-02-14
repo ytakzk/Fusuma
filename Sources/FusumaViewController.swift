@@ -96,6 +96,18 @@ public struct ImageMetadata {
     let duration: TimeInterval
     let isFavourite: Bool
     let isHidden: Bool
+
+    public init(mediaType: PHAssetMediaType, pixelWidth: Int, pixelHeight: Int, creationDate: Date?, modificationDate: Date?, location: CLLocation?, duration: TimeInterval, isFavourite: Bool, isHidden: Bool) {
+        self.mediaType = mediaType
+        self.pixelHeight = pixelHeight
+        self.pixelWidth = pixelWidth
+        self.creationDate = creationDate
+        self.modificationDate = modificationDate
+        self.location = location
+        self.duration = duration
+        self.isFavourite = isFavourite
+        self.isHidden = isHidden
+    }
 }
 
 //@objc public class FusumaViewController: UIViewController, FSCameraViewDelegate, FSAlbumViewDelegate {
