@@ -29,7 +29,7 @@ fileprivate func > <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
 }
 
 
-public protocol FusumaDelegate: class {
+@objc public protocol FusumaDelegate: class {
     // MARK: Required
     func fusumaImageSelected(_ image: UIImage, source: FusumaMode)
     func fusumaVideoCompleted(withFileURL fileURL: URL)
@@ -77,12 +77,12 @@ public var fusumaTitleFont = UIFont(name: "AvenirNext-DemiBold", size: 15)
 
 public var fusumaTintIcons : Bool = true
 
-public enum FusumaModeOrder {
+@objc public enum FusumaModeOrder: Int {
     case cameraFirst
     case libraryFirst
 }
 
-public enum FusumaMode {
+@objc public enum FusumaMode: Int {
     case camera
     case library
     case video
