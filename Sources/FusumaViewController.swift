@@ -87,27 +87,15 @@ public enum FusumaMode {
 }
 
 public struct ImageMetadata {
-    let mediaType: PHAssetMediaType
-    let pixelWidth: Int
-    let pixelHeight: Int
-    let creationDate: Date?
-    let modificationDate: Date?
-    let location: CLLocation?
-    let duration: TimeInterval
-    let isFavourite: Bool
-    let isHidden: Bool
-
-    public init(mediaType: PHAssetMediaType, pixelWidth: Int, pixelHeight: Int, creationDate: Date?, modificationDate: Date?, location: CLLocation?, duration: TimeInterval, isFavourite: Bool, isHidden: Bool) {
-        self.mediaType = mediaType
-        self.pixelHeight = pixelHeight
-        self.pixelWidth = pixelWidth
-        self.creationDate = creationDate
-        self.modificationDate = modificationDate
-        self.location = location
-        self.duration = duration
-        self.isFavourite = isFavourite
-        self.isHidden = isHidden
-    }
+    public let mediaType: PHAssetMediaType
+    public let pixelWidth: Int
+    public let pixelHeight: Int
+    public let creationDate: Date?
+    public let modificationDate: Date?
+    public let location: CLLocation?
+    public let duration: TimeInterval
+    public let isFavourite: Bool
+    public let isHidden: Bool
 }
 
 //@objc public class FusumaViewController: UIViewController, FSCameraViewDelegate, FSAlbumViewDelegate {
