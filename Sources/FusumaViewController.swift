@@ -134,8 +134,8 @@ public class FusumaViewController: UIViewController {
         albumView.delegate  = self
         videoView.delegate = self
 
-        menuView.backgroundColor = UIColor.white
-        menuView.addBottomBorder(UIColor.black, width: 1.0)
+//        menuView.backgroundColor = UIColor.white
+//        menuView.addBottomBorder(UIColor.black, width: 1.0)
         
         let bundle = Bundle(for: self.classForCoder)
         
@@ -208,9 +208,7 @@ public class FusumaViewController: UIViewController {
         cameraShotContainer.addSubview(cameraView)
         videoShotContainer.addSubview(videoView)
         
-        titleLabel.textColor = UIColor.black
-        titleLabel.font = fusumaTitleFont
-            
+        
 //        if modeOrder != .LibraryFirst {
 //            libraryFirstConstraints.forEach { $0.priority = 250 }
 //            cameraFirstConstraints.forEach { $0.priority = 1000 }
@@ -254,9 +252,9 @@ public class FusumaViewController: UIViewController {
     override public func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
-        albumView.frame  = CGRect(origin: CGPoint.zero, size: photoLibraryViewerContainer.frame.size)
+        albumView.frame  = CGRect(origin: CGPoint.zero, size: (photoLibraryViewerContainer.frame.size))
         albumView.layoutIfNeeded()
-        cameraView.frame = CGRect(origin: CGPoint.zero, size: cameraShotContainer.frame.size)
+        cameraView.frame = CGRect(origin: CGPoint.zero, size: (cameraShotContainer.frame.size))
         cameraView.layoutIfNeeded()
 
         
@@ -442,7 +440,7 @@ private extension FusumaViewController {
             videoView.startCamera()
         }
         doneButton.isEnabled = !hasGalleryPermission
-        self.view.bringSubview(toFront: menuView)
+//        self.view.bringSubview(toFront: menuView)
     }
     
     
