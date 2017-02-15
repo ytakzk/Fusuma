@@ -89,7 +89,8 @@ public class FusumaViewController: UIViewController {
 
     public var hasVideo = false
     public var cropHeightRatio: CGFloat = 1
-
+    public var autoDismiss: Bool = true
+    
     var mode: FusumaMode = .camera
     public var modeOrder: FusumaModeOrder = .libraryFirst
     var willFilter = true
@@ -285,9 +286,11 @@ public class FusumaViewController: UIViewController {
     
     @IBAction func closeButtonPressed(_ sender: UIButton) {
         self.delegate?.fusumaWillClosed()
-        self.dismiss(animated: true, completion: {
-            self.delegate?.fusumaClosed()
-        })
+        if autoDismiss {
+            self.dismiss(animated: true, completion: {
+                self.delegate?.fusumaClosed()
+            })
+        }
     }
     
     @IBAction func libraryButtonPressed(_ sender: UIButton) {
@@ -339,9 +342,11 @@ public class FusumaViewController: UIViewController {
                     DispatchQueue.main.async(execute: {
                         self.delegate?.fusumaImageSelected(result!, source: self.mode)
                         
-                        self.dismiss(animated: true, completion: {
-                            self.delegate?.fusumaDismissedWithImage(result!, source: self.mode)
-                        })
+                        if self.autoDismiss {
+                            self.dismiss(animated: true, completion: {
+                                self.delegate?.fusumaDismissedWithImage(result!, source: self.mode)
+                            })
+                        }
                     })
                 }
             })
@@ -349,9 +354,11 @@ public class FusumaViewController: UIViewController {
             print("no image crop ")
             delegate?.fusumaImageSelected((view?.image)!, source: mode)
             
-            self.dismiss(animated: true, completion: {
-                self.delegate?.fusumaDismissedWithImage((view?.image)!, source: self.mode)
-            })
+            if autoDismiss {
+                self.dismiss(animated: true, completion: {
+                    self.delegate?.fusumaDismissedWithImage((view?.image)!, source: self.mode)
+                })
+            }
         }
     }
     
@@ -366,10 +373,11 @@ extension FusumaViewController: FSAlbumViewDelegate, FSCameraViewDelegate, FSVid
     func cameraShotFinished(_ image: UIImage) {
         
         delegate?.fusumaImageSelected(image, source: mode)
-        self.dismiss(animated: true, completion: {
-            
-            self.delegate?.fusumaDismissedWithImage(image, source: self.mode)
-        })
+        if autoDismiss {
+            self.dismiss(animated: true, completion: {
+                self.delegate?.fusumaDismissedWithImage(image, source: self.mode)
+            })
+        }
     }
     
     public func albumViewCameraRollAuthorized() {
@@ -385,7 +393,9 @@ extension FusumaViewController: FSAlbumViewDelegate, FSCameraViewDelegate, FSVid
     
     func videoFinished(withFileURL fileURL: URL) {
         delegate?.fusumaVideoCompleted(withFileURL: fileURL)
-        self.dismiss(animated: true, completion: nil)
+        if autoDismiss {
+            self.dismiss(animated: true, completion: nil)
+        }
     }
     
 }
