@@ -363,10 +363,10 @@ extension FusumaViewController: FSAlbumViewDelegate, FSCameraViewDelegate, FSVid
     func cameraShotFinished(_ image: UIImage) {
         
         delegate?.fusumaImageSelected(image, source: mode)
-        self.dismiss(animated: true, completion: {
-            
+//        self.dismiss(animated: true, completion: {
+//            
             self.delegate?.fusumaDismissedWithImage(image, source: self.mode)
-        })
+//        })
     }
     
     public func albumViewCameraRollAuthorized() {
