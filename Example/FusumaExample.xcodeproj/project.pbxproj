@@ -23,6 +23,8 @@
 		D77CA2A11CBBDEB300C4BAC4 /* FSImageCropView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D77CA2961CBBDEB300C4BAC4 /* FSImageCropView.swift */; };
 		D77CA2A21CBBDEB300C4BAC4 /* FusumaViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D77CA2971CBBDEB300C4BAC4 /* FusumaViewController.swift */; };
 		D77CA2A31CBBDEB300C4BAC4 /* FusumaViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = D77CA2981CBBDEB300C4BAC4 /* FusumaViewController.xib */; };
+		EDDC0B421D04FA14009135DB /* FSVideoCameraView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDDC0B401D04FA14009135DB /* FSVideoCameraView.swift */; };
+		EDDC0B431D04FA14009135DB /* FSVideoCameraView.xib in Resources */ = {isa = PBXBuildFile; fileRef = EDDC0B411D04FA14009135DB /* FSVideoCameraView.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -44,6 +46,8 @@
 		D77CA2961CBBDEB300C4BAC4 /* FSImageCropView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FSImageCropView.swift; sourceTree = "<group>"; };
 		D77CA2971CBBDEB300C4BAC4 /* FusumaViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FusumaViewController.swift; sourceTree = "<group>"; };
 		D77CA2981CBBDEB300C4BAC4 /* FusumaViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FusumaViewController.xib; sourceTree = "<group>"; };
+		EDDC0B401D04FA14009135DB /* FSVideoCameraView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FSVideoCameraView.swift; sourceTree = "<group>"; };
+		EDDC0B411D04FA14009135DB /* FSVideoCameraView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FSVideoCameraView.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -101,6 +105,8 @@
 				D77CA2961CBBDEB300C4BAC4 /* FSImageCropView.swift */,
 				D77CA2971CBBDEB300C4BAC4 /* FusumaViewController.swift */,
 				D77CA2981CBBDEB300C4BAC4 /* FusumaViewController.xib */,
+				EDDC0B401D04FA14009135DB /* FSVideoCameraView.swift */,
+				EDDC0B411D04FA14009135DB /* FSVideoCameraView.xib */,
 			);
 			name = Sources;
 			path = ../../Sources;
@@ -133,7 +139,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0730;
-				LastUpgradeCheck = 0730;
+				LastUpgradeCheck = 0800;
 				ORGANIZATIONNAME = ytakzk;
 				TargetAttributes = {
 					52412ABF1CA61C9F0073C4BE = {
@@ -164,6 +170,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EDDC0B431D04FA14009135DB /* FSVideoCameraView.xib in Resources */,
 				D77CA29B1CBBDEB300C4BAC4 /* FSAlbumView.xib in Resources */,
 				D77CA2A31CBBDEB300C4BAC4 /* FusumaViewController.xib in Resources */,
 				52412ACE1CA61C9F0073C4BE /* LaunchScreen.storyboard in Resources */,
@@ -183,6 +190,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				52412AC61CA61C9F0073C4BE /* ViewController.swift in Sources */,
+				EDDC0B421D04FA14009135DB /* FSVideoCameraView.swift in Sources */,
 				D77CA29E1CBBDEB300C4BAC4 /* FSCameraView.swift in Sources */,
 				D77CA29C1CBBDEB300C4BAC4 /* FSAlbumViewCell.swift in Sources */,
 				D77CA29A1CBBDEB300C4BAC4 /* FSAlbumView.swift in Sources */,
@@ -229,8 +237,10 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -257,6 +267,7 @@
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -275,8 +286,10 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -295,6 +308,8 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 			};
@@ -309,6 +324,7 @@
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = me.ytakzk.FusumaExample;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
 		};
@@ -320,6 +336,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = me.ytakzk.FusumaExample;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
 		};

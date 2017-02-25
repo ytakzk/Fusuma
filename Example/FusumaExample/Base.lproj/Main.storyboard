@@ -1,8 +1,13 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10116" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="vXZ-lx-hvc">
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="16C67" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="vXZ-lx-hvc">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
         <!--View Controller-->
@@ -14,40 +19,50 @@
                         <viewControllerLayoutGuide type="bottom" id="2fi-mo-0CV"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="kh9-bI-dsS">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Cur-c0-4nR">
-                                <rect key="frame" x="150" y="70" width="300" height="300"/>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Cur-c0-4nR">
+                                <rect key="frame" x="37.5" y="70" width="300" height="300"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="300" id="OVk-H0-dqd"/>
                                     <constraint firstAttribute="height" constant="300" id="lAP-HZ-mSC"/>
                                 </constraints>
                             </imageView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QZw-X7-x6H">
-                                <rect key="frame" x="234" y="506" width="132" height="44"/>
-                                <color key="backgroundColor" red="0.80000000000000004" green="0.1843137255" blue="0.25098039220000001" alpha="1" colorSpace="calibratedRGB"/>
+                                <rect key="frame" x="121.5" y="573" width="132" height="44"/>
+                                <color key="backgroundColor" red="0.80000000000000004" green="0.1843137255" blue="0.25098039220000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="132" id="Q7X-Ba-0ak"/>
                                     <constraint firstAttribute="height" constant="44" id="zDM-KS-IcU"/>
                                 </constraints>
                                 <state key="normal" title="SHOW">
-                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
                                 <connections>
                                     <action selector="showButtonPressed:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="g0x-7t-p3U"/>
                                 </connections>
                             </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VXn-S8-GX6">
+                                <rect key="frame" x="16" y="378" width="343" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
-                        <color key="backgroundColor" red="0.10980392160000001" green="0.090196078430000007" blue="0.1647058824" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="backgroundColor" red="0.10980392160000001" green="0.090196078430000007" blue="0.1647058824" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="Cur-c0-4nR" firstAttribute="centerX" secondItem="kh9-bI-dsS" secondAttribute="centerX" id="2Ff-4I-s9z"/>
+                            <constraint firstItem="VXn-S8-GX6" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leadingMargin" id="CrM-qU-rs7"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="VXn-S8-GX6" secondAttribute="trailing" id="EM6-gD-jp5"/>
                             <constraint firstItem="QZw-X7-x6H" firstAttribute="centerX" secondItem="kh9-bI-dsS" secondAttribute="centerX" id="Lfg-2c-maG"/>
                             <constraint firstItem="Cur-c0-4nR" firstAttribute="top" secondItem="jyV-Pf-zRb" secondAttribute="bottom" constant="50" id="RM5-3j-U48"/>
                             <constraint firstItem="2fi-mo-0CV" firstAttribute="top" secondItem="QZw-X7-x6H" secondAttribute="bottom" constant="50" id="XdX-j0-rbb"/>
+                            <constraint firstItem="VXn-S8-GX6" firstAttribute="top" secondItem="Cur-c0-4nR" secondAttribute="bottom" constant="8" id="bqE-ca-xDH"/>
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="fileUrlLabel" destination="VXn-S8-GX6" id="Wab-IM-Zzq"/>
                         <outlet property="imageView" destination="Cur-c0-4nR" id="Eue-UF-Sqn"/>
                         <outlet property="showButton" destination="QZw-X7-x6H" id="Qpb-RN-yMo"/>
                     </connections>

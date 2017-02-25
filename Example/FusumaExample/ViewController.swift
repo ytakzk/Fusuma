@@ -14,72 +14,87 @@ class ViewController: UIViewController, FusumaDelegate {
     
     @IBOutlet weak var showButton: UIButton!
     
+    @IBOutlet weak var fileUrlLabel: UILabel!
+
     override func viewDidLoad() {
         super.viewDidLoad()
-		
-		/*
-		// uncomment this to test with white background
-		fusumaBaseTintColor       = UIColor.hex("#000000", alpha: 1.0)
-		fusumaTintColor       = UIColor.hex("#00AA00", alpha: 1.0)
-		fusumaBackgroundColor = UIColor.hex("#FFFFFF", alpha: 1.0)
-		*/
-		showButton.layer.cornerRadius = 2.0
+        
+        showButton.layer.cornerRadius = 2.0
+        self.fileUrlLabel.text = ""
     }
-    
+
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
     
-    @IBAction func showButtonPressed(sender: UIButton) {
-        
+    @IBAction func showButtonPressed(_ sender: AnyObject) {
         // Show Fusuma
         let fusuma = FusumaViewController()
-        fusuma.delegate = self
-		
-//        fusuma.defaultMode = .Camera
-//        fusuma.modeOrder = .CameraFirst
-        self.presentViewController(fusuma, animated: true, completion: nil)
         
+                fusumaCropImage = true
+        
+        fusuma.delegate = self
+        fusuma.cropHeightRatio = 0.6
+
+        self.present(fusuma, animated: true, completion: nil)
     }
     
     // MARK: FusumaDelegate Protocol
-    func fusumaImageSelected(image: UIImage) {
+    func fusumaImageSelected(_ image: UIImage, source: FusumaMode) {
+        switch source {
+        case .camera:
+            print("Image captured from Camera")
+        case .library:
+            print("Image selected from Camera Roll")
+        default:
+            print("Image selected")
+        }
         
-        print("Image selected")
         imageView.image = image
     }
     
-    func fusumaDismissedWithImage(image: UIImage) {
-        
-        print("Called just after dismissed FusumaViewController")
+    func fusumaVideoCompleted(withFileURL fileURL: URL) {
+        print("video completed and output to file: \(fileURL)")
+        self.fileUrlLabel.text = "file output to: \(fileURL.absoluteString)"
+    }
+    
+    func fusumaDismissedWithImage(_ image: UIImage, source: FusumaMode) {
+        switch source {
+        case .camera:
+            print("Called just after dismissed FusumaViewController using Camera")
+        case .library:
+            print("Called just after dismissed FusumaViewController using Camera Roll")
+        default:
+            print("Called just after dismissed FusumaViewController")
+        }
     }
     
     func fusumaCameraRollUnauthorized() {
         
         print("Camera roll unauthorized")
         
-        let alert = UIAlertController(title: "Access Requested", message: "Saving image needs to access your photo album", preferredStyle: .Alert)
+        let alert = UIAlertController(title: "Access Requested", message: "Saving image needs to access your photo album", preferredStyle: .alert)
         
-        alert.addAction(UIAlertAction(title: "Settings", style: .Default, handler: { (action) -> Void in
+        alert.addAction(UIAlertAction(title: "Settings", style: .default, handler: { (action) -> Void in
             
-            if let url = NSURL(string:UIApplicationOpenSettingsURLString) {
-                UIApplication.sharedApplication().openURL(url)
+            if let url = URL(string:UIApplicationOpenSettingsURLString) {
+                UIApplication.shared.openURL(url)
             }
+
+        }))
+        
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { (action) -> Void in
             
         }))
         
-        alert.addAction(UIAlertAction(title: "Cancel", style: .Cancel, handler: { (action) -> Void in
-            
-        }))
-        
-        self.presentViewController(alert, animated: true, completion: nil)
+        self.present(alert, animated: true, completion: nil)
     }
     
     func fusumaClosed() {
-        
+     
         print("Called when the close button is pressed")
     }
-    
+
 }
 

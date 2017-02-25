@@ -1,0 +1,21 @@
+PODS:
+  - FBSnapshotTestCase (2.0.7):
+    - FBSnapshotTestCase/SwiftSupport (= 2.0.7)
+  - FBSnapshotTestCase/Core (2.0.7)
+  - FBSnapshotTestCase/SwiftSupport (2.0.7):
+    - FBSnapshotTestCase/Core
+  - Fusuma (0.2.3)
+
+DEPENDENCIES:
+  - FBSnapshotTestCase
+  - Fusuma (from `../`)
+
+EXTERNAL SOURCES:
+  Fusuma:
+    :path: ../
+
+SPEC CHECKSUMS:
+  FBSnapshotTestCase: 7e85180d0d141a0cf472352edda7e80d7eaeb547
+  Fusuma: 56e9273806e08a2f459eedd8bf7ff0d9356ccf25
+
+COCOAPODS: 0.39.0
