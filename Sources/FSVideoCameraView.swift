@@ -60,6 +60,10 @@ final class FSVideoCameraView: UIView {
             if let device = device as? AVCaptureDevice , device.position == AVCaptureDevicePosition.back {
                 
                 self.device = device
+                
+                if !device.hasFlash {
+                    flashButton.isHidden = true
+                }
             }
         }
         
@@ -248,6 +252,8 @@ final class FSVideoCameraView: UIView {
             
             if let device = device {
                 
+                guard device.hasFlash else { return }
+                
                 try device.lockForConfiguration()
                 
                 let mode = device.flashMode
@@ -348,6 +354,8 @@ extension FSVideoCameraView {
             
             if let device = device {
                 
+                guard device.hasFlash else { return }
+                
                 try device.lockForConfiguration()
                 
                 device.flashMode = AVCaptureFlashMode.off
@@ -361,5 +369,6 @@ extension FSVideoCameraView {
             
             return
         }
+        
     }
 }
