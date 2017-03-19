@@ -8,40 +8,38 @@
 
 import UIKit
 
-class ViewController: UIViewController, FusumaDelegate {
-    
+class ViewController: UIViewController {
+
+    // UI Properties
     @IBOutlet weak var imageView: UIImageView!
-    
     @IBOutlet weak var showButton: UIButton!
-    
     @IBOutlet weak var fileUrlLabel: UILabel!
 
+    // MARK: - View lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+    }
+
+    // MARK: - Setups
+    fileprivate func setupComponets() {
+        // showButton
         showButton.layer.cornerRadius = 2.0
-        self.fileUrlLabel.text = ""
+
+        // fileUrlLabel
+        fileUrlLabel.text = ""
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-    
+    // MARK: - UI Actions
     @IBAction func showButtonPressed(_ sender: AnyObject) {
-        // Show Fusuma
         let fusuma = FusumaViewController()
-        
-        //        fusumaCropImage = false
-        
         fusuma.delegate = self
-        fusuma.cropHeightRatio = 0.6
-        fusumaSavesImage = true
-
         self.present(fusuma, animated: true, completion: nil)
     }
-    
-    // MARK: FusumaDelegate Protocol
+}
+
+// MARK: - FusumaDelegate
+extension ViewController: FusumaDelegate {
+
     func fusumaImageSelected(_ image: UIImage, source: FusumaMode) {
         switch source {
         case .camera:
@@ -51,7 +49,6 @@ class ViewController: UIViewController, FusumaDelegate {
         default:
             print("Image selected")
         }
-        
         imageView.image = image
     }
 
@@ -83,23 +80,16 @@ class ViewController: UIViewController, FusumaDelegate {
     }
     
     func fusumaCameraRollUnauthorized() {
-        
         print("Camera roll unauthorized")
-        
         let alert = UIAlertController(title: "Access Requested", message: "Saving image needs to access your photo album", preferredStyle: .alert)
-        
         alert.addAction(UIAlertAction(title: "Settings", style: .default, handler: { (action) -> Void in
-            
             if let url = URL(string:UIApplicationOpenSettingsURLString) {
                 UIApplication.shared.openURL(url)
             }
-
         }))
-        
         alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { (action) -> Void in
             
         }))
-        
         self.present(alert, animated: true, completion: nil)
     }
     
@@ -110,6 +100,4 @@ class ViewController: UIViewController, FusumaDelegate {
     func fusumaWillClosed() {
         print("Called when the close button is pressed")
     }
-
 }
-
