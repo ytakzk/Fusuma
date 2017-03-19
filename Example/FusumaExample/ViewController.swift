@@ -18,13 +18,14 @@ class ViewController: UIViewController {
     // MARK: - View lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
+        setupComponets()
     }
 
     // MARK: - Setups
     fileprivate func setupComponets() {
         // showButton
         showButton.layer.cornerRadius = 2.0
-
+        
         // fileUrlLabel
         fileUrlLabel.text = ""
     }
