@@ -75,11 +75,15 @@ final class FSVideoCameraView: UIView {
                 
                 videoInput = try AVCaptureDeviceInput(device: device)
                 
-                for device in AVCaptureDevice.devices(withMediaType: AVMediaTypeAudio) {
-                    let device = device as? AVCaptureDevice
-                    let audioInput = try! AVCaptureDeviceInput(device: device)
-                    session.addInput(audioInput)
-                }
+                
+                DispatchQueue.main.async(execute: {
+                    for device in AVCaptureDevice.devices(withMediaType: AVMediaTypeAudio) {
+                        let device = device as? AVCaptureDevice
+                        let audioInput = try! AVCaptureDeviceInput(device: device)
+                        session.automaticallyConfiguresApplicationAudioSession = false                        
+                        session.addInput(audioInput)
+                    }
+                })
                 
                 session.addInput(videoInput)
                 
@@ -141,6 +145,12 @@ final class FSVideoCameraView: UIView {
         
         flashConfiguration()
         
+//        do {
+//            try AVAudioSession.sharedInstance().setActive(false)
+//            try AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayAndRecord, with: [.mixWithOthers, .allowBluetooth, .defaultToSpeaker])
+//            try AVAudioSession.sharedInstance().setActive(true)
+//        } catch {}
+        
         self.startCamera()
     }
     
@@ -154,7 +164,7 @@ final class FSVideoCameraView: UIView {
         let status = AVCaptureDevice.authorizationStatus(forMediaType: AVMediaTypeVideo)
         
         if status == AVAuthorizationStatus.authorized {
-            
+            session?.automaticallyConfiguresApplicationAudioSession = false
             session?.startRunning()
             
         } else if status == AVAuthorizationStatus.denied || status == AVAuthorizationStatus.restricted {
