@@ -75,7 +75,6 @@ final class FSVideoCameraView: UIView {
                 
                 videoInput = try AVCaptureDeviceInput(device: device)
                 
-                
                 DispatchQueue.main.async(execute: {
                     for device in AVCaptureDevice.devices(withMediaType: AVMediaTypeAudio) {
                         let device = device as? AVCaptureDevice
