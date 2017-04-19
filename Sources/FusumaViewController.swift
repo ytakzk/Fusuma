@@ -75,15 +75,11 @@ public var fusumaTitleFont = UIFont(name: "AvenirNext-DemiBold", size: 15)
 
 public var fusumaTintIcons : Bool = true
 
-@objc public enum FusumaModeOrder: Int {
-    case cameraFirst
-    case libraryFirst
-}
-
 @objc public enum FusumaMode: Int {
     case camera
     case library
     case video
+    case none
 }
 
 public struct ImageMetadata {
@@ -104,8 +100,8 @@ public class FusumaViewController: UIViewController {
     public var hasVideo = false
     public var cropHeightRatio: CGFloat = 1
 
-    var mode: FusumaMode = .camera
-    public var modeOrder: FusumaModeOrder = .libraryFirst
+    var mode: FusumaMode = .none
+    public var defaultMode: FusumaMode = .library
     var willFilter = true
 
     @IBOutlet weak var photoLibraryViewerContainer: UIView!
@@ -217,8 +213,6 @@ public class FusumaViewController: UIViewController {
         cameraButton.clipsToBounds  = true
         libraryButton.clipsToBounds = true
         videoButton.clipsToBounds = true
-
-        changeMode(FusumaMode.library)
         
         photoLibraryViewerContainer.addSubview(albumView)
         cameraShotContainer.addSubview(cameraView)
@@ -226,11 +220,6 @@ public class FusumaViewController: UIViewController {
         
         titleLabel.textColor = fusumaBaseTintColor
         titleLabel.font = fusumaTitleFont
-            
-//        if modeOrder != .LibraryFirst {
-//            libraryFirstConstraints.forEach { $0.priority = 250 }
-//            cameraFirstConstraints.forEach { $0.priority = 1000 }
-//        }
         
         if !hasVideo {
             
@@ -259,11 +248,13 @@ public class FusumaViewController: UIViewController {
             cameraView.fullAspectRatioConstraint.isActive = true
             cameraView.croppedAspectRatioConstraint?.isActive = false
         }
+        
+        changeMode(defaultMode)
+        
     }
     
     override public func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
     }
 
     override public func viewDidAppear(_ animated: Bool) {
@@ -437,12 +428,12 @@ private extension FusumaViewController {
         
         //operate this switch before changing mode to stop cameras
         switch self.mode {
-        case .library:
-            break
         case .camera:
             self.cameraView.stopCamera()
         case .video:
             self.videoView.stopCamera()
+        default:
+            break
         }
         
         self.mode = mode
@@ -468,6 +459,8 @@ private extension FusumaViewController {
             highlightButton(videoButton)
             self.view.bringSubview(toFront: videoShotContainer)
             videoView.startCamera()
+        default:
+            break
         }
         doneButton.isHidden = !hasGalleryPermission
         self.view.bringSubview(toFront: menuView)
