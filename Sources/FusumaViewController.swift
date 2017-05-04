@@ -92,7 +92,7 @@ public class FusumaViewController: UIViewController {
 
     public var cropHeightRatio: CGFloat = 1
     
-    var allowedModes:[FusumaMode] = FusumaMode.all
+    public var allowedModes:[FusumaMode] = FusumaMode.all
 
     var mode: FusumaMode = .camera
     public var modeOrder: FusumaModeOrder = .libraryFirst
