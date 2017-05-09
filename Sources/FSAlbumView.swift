@@ -84,7 +84,8 @@ final class FSAlbumView: UIView, UICollectionViewDataSource, UICollectionViewDel
         imageCropViewContainer.layer.shadowOpacity = 0.9
         imageCropViewContainer.layer.shadowOffset  = CGSize.zero
         
-        collectionView.register(UINib(nibName: "FSAlbumViewCell", bundle: Bundle(for: self.classForCoder)), forCellWithReuseIdentifier: "FSAlbumViewCell")
+        collectionView.register(UINib(nibName: "FSImageAlbumViewCell", bundle: Bundle(for: self.classForCoder)), forCellWithReuseIdentifier: "FSImageAlbumViewCell")
+        collectionView.register(UINib(nibName: "FSVideoAlbumViewCell", bundle: Bundle(for: self.classForCoder)), forCellWithReuseIdentifier: "FSVideoAlbumViewCell")
 		collectionView.backgroundColor = fusumaBackgroundColor
 		
         // Never load photos Unless the user allows to access to photo album
@@ -234,33 +235,43 @@ final class FSAlbumView: UIView, UICollectionViewDataSource, UICollectionViewDel
                 
             }
         }
-        
-        
     }
-    
     
     // MARK: - UICollectionViewDelegate Protocol
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "FSAlbumViewCell", for: indexPath) as! FSAlbumViewCell
-        
-        let currentTag = cell.tag + 1
-        cell.tag = currentTag
-        
+        let cell: FSAlbumViewCell?
         let asset = self.images[(indexPath as NSIndexPath).item]
-        self.imageManager?.requestImage(for: asset,
-            targetSize: cellSize,
-            contentMode: .aspectFill,
-            options: nil) {
-                result, info in
-                
-                if cell.tag == currentTag {
-                    cell.image = result
-                }
-                
+        
+        if asset.mediaType == .image {
+            cell = collectionView.dequeueReusableCell(withReuseIdentifier: "FSImageAlbumViewCell", for: indexPath) as! FSImageAlbumViewCell
+        } else {
+            cell = collectionView.dequeueReusableCell(withReuseIdentifier: "FSVideoAlbumViewCell", for: indexPath) as! FSVideoAlbumViewCell
+            (cell as! FSVideoAlbumViewCell).videoDurationLabel.text = FusumaHelper.stringFromTimeInterval(interval: asset.duration)
         }
         
-        return cell
+        let currentTag = cell!.tag + 1
+        cell!.tag = currentTag
+        
+        self.imageManager?.requestImage(for: asset,
+                                        targetSize: cellSize,
+                                        contentMode: .aspectFill,
+                                        options: nil) {
+                                            result, info in
+                                            
+                                            if cell!.tag == currentTag {
+                                                cell!.image = result
+                                            }
+                                            
+        }
+        
+        if asset.mediaType == .image {
+            print("image")
+        } else {
+            print("video")
+        }
+        
+        return cell!
     }
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
