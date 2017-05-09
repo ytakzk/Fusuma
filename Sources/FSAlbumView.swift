@@ -28,6 +28,8 @@ final class FSAlbumView: UIView, UICollectionViewDataSource, UICollectionViewDel
 
     weak var delegate: FSAlbumViewDelegate? = nil
     
+    var libraryMediaTypes: [PHAssetMediaType]?
+    
     var images: PHFetchResult<PHAsset>!
     var imageManager: PHCachingImageManager?
     var previousPreheatRect: CGRect = .zero
@@ -97,6 +99,14 @@ final class FSAlbumView: UIView, UICollectionViewDataSource, UICollectionViewDel
             NSSortDescriptor(key: "creationDate", ascending: false)
         ]
         
+        var predicate = ""
+        for mediaType in self.libraryMediaTypes! {
+            if predicate.characters.count > 0 {
+                predicate += " OR "
+            }
+            predicate += "mediaType = \(mediaType.rawValue)"
+        }
+        options.predicate = NSPredicate(format: predicate)
         images = PHAsset.fetchAssets(with: options)
         
         if images.count > 0 {

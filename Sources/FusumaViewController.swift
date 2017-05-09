@@ -74,11 +74,6 @@ public var fusumaTitleFont = UIFont(name: "AvenirNext-DemiBold", size: 15)
 
 public var fusumaTintIcons : Bool = true
 
-public enum FusumaModeOrder {
-    case cameraFirst
-    case libraryFirst
-}
-
 public enum FusumaMode {
     case camera
     case library
@@ -87,16 +82,14 @@ public enum FusumaMode {
     static var all:[FusumaMode] = [.library, .camera, .video]
 }
 
-//@objc public class FusumaViewController: UIViewController, FSCameraViewDelegate, FSAlbumViewDelegate {
 public class FusumaViewController: UIViewController {
 
     public var cropHeightRatio: CGFloat = 1
-    
     public var allowedModes:[FusumaMode] = FusumaMode.all
-
-    var mode: FusumaMode = .camera
-    public var modeOrder: FusumaModeOrder = .libraryFirst
+    public var mode: FusumaMode = .camera
     public var selectedMode: FusumaMode = .library
+    public var libraryMediaTypes: [PHAssetMediaType] = [.video, .image]
+
     var willFilter = true
 
     @IBOutlet weak var photoLibraryViewerContainer: UIView!
@@ -140,6 +133,8 @@ public class FusumaViewController: UIViewController {
         cameraView.delegate = self
         albumView.delegate  = self
         videoView.delegate = self
+        
+        albumView.libraryMediaTypes = libraryMediaTypes
 
         menuView.backgroundColor = fusumaBackgroundColor
         menuView.addBottomBorder(UIColor.black, width: 1.0)
