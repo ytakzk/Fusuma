@@ -63,7 +63,7 @@ class ViewController: UIViewController, FusumaDelegate {
     }
     
     func fusumaVideoCompleted(withPHAsset phAsset: PHAsset) {
-        
+        print(phAsset)
     }
     
     func fusumaDismissedWithImage(_ image: UIImage, source: FusumaMode) {

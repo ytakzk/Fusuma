@@ -265,12 +265,6 @@ final class FSAlbumView: UIView, UICollectionViewDataSource, UICollectionViewDel
                                             
         }
         
-        if asset.mediaType == .image {
-            print("image")
-        } else {
-            print("video")
-        }
-        
         return cell!
     }
     
