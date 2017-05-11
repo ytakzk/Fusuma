@@ -8,6 +8,7 @@
 
 import UIKit
 import Photos
+
 fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
   switch (lhs, rhs) {
   case let (l?, r?):
@@ -89,6 +90,7 @@ public class FusumaViewController: UIViewController {
     public var mode: FusumaMode = .camera
     public var selectedMode: FusumaMode = .library
     public var libraryMediaTypes: [PHAssetMediaType] = [.video, .image]
+    public var maxVideoTimescale: Double = 60
 
     var willFilter = true
 
@@ -135,6 +137,7 @@ public class FusumaViewController: UIViewController {
         videoView.delegate = self
         
         albumView.libraryMediaTypes = libraryMediaTypes
+        videoView.maxVideoTimescale = maxVideoTimescale
 
         menuView.backgroundColor = fusumaBackgroundColor
         menuView.addBottomBorder(UIColor.black, width: 1.0)
