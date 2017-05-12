@@ -8,6 +8,7 @@
 
 import UIKit
 import AVFoundation
+import NextLevel
 
 @objc protocol FSVideoCameraViewDelegate: class {
     func videoFinished(withFileURL fileURL: URL)
@@ -22,19 +23,14 @@ final class FSVideoCameraView: UIView {
     
     weak var delegate: FSVideoCameraViewDelegate? = nil
     
-    var session: AVCaptureSession?
-    
-    var device: AVCaptureDevice?
-    var videoInput: AVCaptureDeviceInput?
-    var videoOutput: AVCaptureMovieFileOutput?
-    
     var focusView: UIView?
     
     var flashOffImage: UIImage?
     var flashOnImage: UIImage?
     var videoStartImage: UIImage?
     var videoStopImage: UIImage?
-
+    
+    var maxVideoTimescale: Double?
     
     fileprivate var isRecording = false
     
@@ -43,78 +39,24 @@ final class FSVideoCameraView: UIView {
         return UINib(nibName: "FSVideoCameraView", bundle: Bundle(for: self.classForCoder())).instantiate(withOwner: self, options: nil)[0] as! FSVideoCameraView
     }
     
+    func show() {
+        self.backgroundColor = fusumaBackgroundColor
+        self.isHidden = false
+    }
+    
     func initialize() {
         
-        if session != nil {
-            
-            return
-        }
+        self.show()
+
+        NextLevel.shared.previewLayer.frame = self.previewViewContainer.bounds
+        self.previewViewContainer.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        self.previewViewContainer.backgroundColor = UIColor.black
+        self.previewViewContainer.layer.addSublayer(NextLevel.shared.previewLayer)
         
-        self.backgroundColor = fusumaBackgroundColor
-        
-        self.isHidden = false
-        
-        // AVCapture
-        session = AVCaptureSession()
-        
-        for device in AVCaptureDevice.devices() {
-            
-            if let device = device as? AVCaptureDevice , device.position == AVCaptureDevicePosition.back {
-                
-                self.device = device
-                
-                if !device.hasFlash {
-                    flashButton.isHidden = true
-                }
-            }
-        }
-    
-        do {
-            
-            if let session = session {
-                
-                videoInput = try AVCaptureDeviceInput(device: device)
-                
-                for device in AVCaptureDevice.devices(withMediaType: AVMediaTypeAudio) {
-                    let device = device as? AVCaptureDevice
-                    let audioInput = try! AVCaptureDeviceInput(device: device)
-                    session.addInput(audioInput)
-                }
-                
-                session.addInput(videoInput)
-                
-                videoOutput = AVCaptureMovieFileOutput()
-                let totalSeconds = 60.0 //Total Seconds of capture time
-                let timeScale: Int32 = 30 //FPS
-                
-                let maxDuration = CMTimeMakeWithSeconds(totalSeconds, timeScale)
-                
-                videoOutput?.maxRecordedDuration = maxDuration
-                videoOutput?.minFreeDiskSpaceLimit = 1024 * 1024 //SET MIN FREE SPACE IN BYTES FOR RECORDING TO CONTINUE ON A VOLUME
-                
-                if session.canAddOutput(videoOutput) {
-                    session.addOutput(videoOutput)
-                }
-                
-                let videoLayer = AVCaptureVideoPreviewLayer(session: session)
-                videoLayer?.frame = self.previewViewContainer.bounds
-                videoLayer?.videoGravity = AVLayerVideoGravityResizeAspectFill
-                
-                self.previewViewContainer.layer.addSublayer(videoLayer!)
-                
-                session.startRunning()
-                
-            }
-            
-            // Focus View
-            self.focusView         = UIView(frame: CGRect(x: 0, y: 0, width: 90, height: 90))
-            let tapRecognizer      = UITapGestureRecognizer(target: self, action: #selector(FSVideoCameraView.focus(_:)))
-            self.previewViewContainer.addGestureRecognizer(tapRecognizer)
-            
-        } catch {
-            
-        }
-        
+        // Focus View
+        self.focusView         = UIView(frame: CGRect(x: 0, y: 0, width: 90, height: 90))
+        let tapRecognizer      = UITapGestureRecognizer(target: self, action: #selector(FSVideoCameraView.focus(_:)))
+        self.previewViewContainer.addGestureRecognizer(tapRecognizer)
         
         let bundle = Bundle(for: self.classForCoder)
         
@@ -124,7 +66,6 @@ final class FSVideoCameraView: UIView {
         videoStartImage = fusumaVideoStartImage != nil ? fusumaVideoStartImage : UIImage(named: "video_button", in: bundle, compatibleWith: nil)
         videoStopImage = fusumaVideoStopImage != nil ? fusumaVideoStopImage : UIImage(named: "video_button_rec", in: bundle, compatibleWith: nil)
 
-        
         if(fusumaTintIcons) {
             flashButton.tintColor = fusumaBaseTintColor
             flipButton.tintColor  = fusumaBaseTintColor
@@ -139,6 +80,22 @@ final class FSVideoCameraView: UIView {
             shotButton.setImage(videoStartImage, for: UIControlState())
         }
         
+        // Configure NextLevel by modifying the configuration ivars
+        let nextLevel = NextLevel.shared
+        nextLevel.videoDelegate = self
+        nextLevel.delegate = self
+        
+        nextLevel.session?.setupAudio(withSettings: <#T##[String : Any]?#>, configuration: <#T##NextLevelAudioConfiguration#>, formatDescription: <#T##CMFormatDescription#>)
+        
+        // video configuration
+        nextLevel.videoConfiguration.bitRate = 2000000
+//        nextLevel.videoConfiguration.timescale = self.maxVideoTimescale
+        nextLevel.videoConfiguration.aspectRatio = .square
+        nextLevel.videoConfiguration.scalingMode = AVVideoScalingModeResizeAspectFill
+        
+        // audio configuration
+        nextLevel.audioConfiguration.bitRate = 96000
+        
         flashConfiguration()
         
         self.startCamera()
@@ -151,23 +108,25 @@ final class FSVideoCameraView: UIView {
     
     func startCamera() {
         
-        let status = AVCaptureDevice.authorizationStatus(forMediaType: AVMediaTypeVideo)
+        let nextLevel = NextLevel.shared
         
-        if status == AVAuthorizationStatus.authorized {
-            
-            session?.startRunning()
-            
-        } else if status == AVAuthorizationStatus.denied || status == AVAuthorizationStatus.restricted {
-            
-            session?.stopRunning()
+        if NextLevel.shared.session == nil {
+            if nextLevel.authorizationStatus(forMediaType: AVMediaTypeVideo) == .authorized &&
+                nextLevel.authorizationStatus(forMediaType: AVMediaTypeAudio) == .authorized {
+                do {
+                    try nextLevel.start()
+                } catch {
+                    print("NextLevel, failed to start camera session")
+                }
+            } else {
+                nextLevel.requestAuthorization(forMediaType: AVMediaTypeVideo)
+                nextLevel.requestAuthorization(forMediaType: AVMediaTypeAudio)
+            }
         }
     }
     
     func stopCamera() {
-        if self.isRecording {
-            self.toggleRecording()
-        }
-        session?.stopRunning()
+        NextLevel.shared.stop()
     }
     
     @IBAction func shotButtonPressed(_ sender: UIButton) {
@@ -176,10 +135,7 @@ final class FSVideoCameraView: UIView {
     }
     
     fileprivate func toggleRecording() {
-        guard let videoOutput = videoOutput else {
-            return
-        }
-        
+
         self.isRecording = !self.isRecording
         
         let shotImage: UIImage?
@@ -191,122 +147,161 @@ final class FSVideoCameraView: UIView {
         self.shotButton.setImage(shotImage, for: UIControlState())
         
         if self.isRecording {
-            let outputPath = "\(NSTemporaryDirectory())output.mov"
-            let outputURL = URL(fileURLWithPath: outputPath)
-            
-            let fileManager = FileManager.default
-            if fileManager.fileExists(atPath: outputPath) {
-                do {
-                    try fileManager.removeItem(atPath: outputPath)
-                } catch {
-                    print("error removing item at path: \(outputPath)")
-                    self.isRecording = false
-                    return
-                }
-            }
             self.flipButton.isEnabled = false
             self.flashButton.isEnabled = false
-            videoOutput.startRecording(toOutputFileURL: outputURL, recordingDelegate: self)
+            NextLevel.shared.record()
         } else {
-            videoOutput.stopRecording()
             self.flipButton.isEnabled = true
             self.flashButton.isEnabled = true
+            NextLevel.shared.pause()
         }
         return
     }
     
+    func endCapturing(withClip clip: NextLevelClip) {
+        
+        if let url = clip.url {
+            self.delegate?.videoFinished(withFileURL: url)
+        } else {
+            print("wrong output url")
+        }
+    }
+    
     @IBAction func flipButtonPressed(_ sender: UIButton) {
         
-        session?.stopRunning()
-        
-        do {
-            
-            session?.beginConfiguration()
-            
-            if let session = session {
-                
-                for input in session.inputs {
-                    session.removeInput(input as! AVCaptureInput)
-                }
-                
-                let position = (videoInput?.device.position == AVCaptureDevicePosition.front) ? AVCaptureDevicePosition.back : AVCaptureDevicePosition.front
-                
-                for device in AVCaptureDevice.devices(withMediaType: AVMediaTypeAudio) {
-                    let device = device as? AVCaptureDevice
-                    let audioInput = try! AVCaptureDeviceInput(device: device)
-                    session.addInput(audioInput)
-                }
-                
-                for device in AVCaptureDevice.devices(withMediaType: AVMediaTypeVideo) {
-                    
-                    if let device = device as? AVCaptureDevice , device.position == position {
-                        
-                        videoInput = try AVCaptureDeviceInput(device: device)
-                        session.addInput(videoInput)
-                        
-                    }
-                }
-                
-            }
-            
-            session?.commitConfiguration()
-            
-            
-        } catch {
-            
-        }
-        
-        session?.startRunning()
+        NextLevel.shared.flipCaptureDevicePosition()
     }
     
     @IBAction func flashButtonPressed(_ sender: UIButton) {
-
-        do {
+    
+        if NextLevel.shared.isFlashAvailable {
+            let fleshMode = NextLevel.shared.flashMode
             
-            if let device = device {
-                
-                guard device.hasFlash else { return }
-                try device.lockForConfiguration()
-                
-                let mode = device.flashMode
-                
-                if mode == AVCaptureFlashMode.off {
-                    
-                    device.flashMode = AVCaptureFlashMode.on
-                    flashButton.setImage(flashOnImage, for: UIControlState())
-                    
-                } else if mode == AVCaptureFlashMode.on {
-                    
-                    device.flashMode = AVCaptureFlashMode.off
-                    flashButton.setImage(flashOffImage, for: UIControlState())
-                }
-                
-                device.unlockForConfiguration()
-                
+            if fleshMode == .off {
+                NextLevel.shared.flashMode = .on
+                flashButton.setImage(flashOnImage, for: UIControlState())
+            } else if fleshMode == .on {
+                NextLevel.shared.flashMode = .off
+                flashButton.setImage(flashOffImage, for: UIControlState())
             }
-            
-        } catch _ {
-            
-            flashButton.setImage(flashOffImage, for: UIControlState())
-            return
         }
+    }
+}
+
+extension FSVideoCameraView: NextLevelVideoDelegate {
+    
+    // video zoom
+    func nextLevel(_ nextLevel: NextLevel, didUpdateVideoZoomFactor videoZoomFactor: Float) {
+    }
+    
+    // video frame processing
+    func nextLevel(_ nextLevel: NextLevel, willProcessRawVideoSampleBuffer sampleBuffer: CMSampleBuffer) {
+    }
+    
+    // enabled by isCustomContextVideoRenderingEnabled
+    func nextLevel(_ nextLevel: NextLevel, renderToCustomContextWithImageBuffer imageBuffer: CVPixelBuffer, onQueue queue: DispatchQueue) {
+    }
+    
+    // video recording session
+    func nextLevel(_ nextLevel: NextLevel, didSetupVideoInSession session: NextLevelSession) {
+                print("setup video")
+    }
+    
+    func nextLevel(_ nextLevel: NextLevel, didSetupAudioInSession session: NextLevelSession) {
+                print("setup audio")
+    }
+    
+    func nextLevel(_ nextLevel: NextLevel, didStartClipInSession session: NextLevelSession) {
+        print("didStartClipInSession")
+    }
+    
+    func nextLevel(_ nextLevel: NextLevel, didCompleteClip clip: NextLevelClip, inSession session: NextLevelSession) {
+        self.endCapturing(withClip: clip)
+    }
+    
+    func nextLevel(_ nextLevel: NextLevel, didAppendVideoSampleBuffer sampleBuffer: CMSampleBuffer, inSession session: NextLevelSession) {
+    }
+    
+    func nextLevel(_ nextLevel: NextLevel, didAppendAudioSampleBuffer sampleBuffer: CMSampleBuffer, inSession session: NextLevelSession) {
+    }
+    
+    func nextLevel(_ nextLevel: NextLevel, didSkipVideoSampleBuffer sampleBuffer: CMSampleBuffer, inSession session: NextLevelSession) {
+    }
+    
+    func nextLevel(_ nextLevel: NextLevel, didSkipAudioSampleBuffer sampleBuffer: CMSampleBuffer, inSession session: NextLevelSession) {
+    }
+    
+    func nextLevel(_ nextLevel: NextLevel, didCompleteSession session: NextLevelSession) {
+        // called when a configuration time limit is specified
+    }
+    
+    func nextLevel(_ nextLevel: NextLevel, didCompletePhotoCaptureFromVideoFrame photoDict: [String : Any]?) {
         
     }
-
-}
-
-extension FSVideoCameraView: AVCaptureFileOutputRecordingDelegate {
-    
-    func capture(_ captureOutput: AVCaptureFileOutput!, didStartRecordingToOutputFileAt fileURL: URL!, fromConnections connections: [Any]!) {
-        print("started recording to: \(fileURL)")
-    }
-    
-    func capture(_ captureOutput: AVCaptureFileOutput!, didFinishRecordingToOutputFileAt outputFileURL: URL!, fromConnections connections: [Any]!, error: Error!) {
-        print("finished recording to: \(outputFileURL)")
-        self.delegate?.videoFinished(withFileURL: outputFileURL)
-    }
     
 }
+
+extension FSVideoCameraView: NextLevelDelegate {
+    
+    // permission
+    func nextLevel(_ nextLevel: NextLevel, didUpdateAuthorizationStatus status: NextLevelAuthorizationStatus, forMediaType mediaType: String) {
+        print("NextLevel, authorization updated for media \(mediaType) status \(status)")
+        if nextLevel.authorizationStatus(forMediaType: AVMediaTypeVideo) == .authorized &&
+            nextLevel.authorizationStatus(forMediaType: AVMediaTypeAudio) == .authorized {
+            do {
+                try nextLevel.start()
+            } catch {
+                print("NextLevel, failed to start camera session")
+            }
+        } else if status == .notAuthorized {
+            // gracefully handle when audio/video is not authorized
+            print("NextLevel doesn't have authorization for audio or video")
+        }
+    }
+    
+    // configuration
+    func nextLevel(_ nextLevel: NextLevel, didUpdateVideoConfiguration videoConfiguration: NextLevelVideoConfiguration) {
+    }
+    
+    func nextLevel(_ nextLevel: NextLevel, didUpdateAudioConfiguration audioConfiguration: NextLevelAudioConfiguration) {
+    }
+    
+    // session
+    func nextLevelSessionWillStart(_ nextLevel: NextLevel) {
+        print("nextLevelSessionWillStart")
+    }
+    
+    func nextLevelSessionDidStart(_ nextLevel: NextLevel) {
+        print("nextLevelSessionDidStart")
+    }
+    
+    func nextLevelSessionDidStop(_ nextLevel: NextLevel) {
+        print("nextLevelSessionDidStop")
+    }
+    
+    // interruption
+    func nextLevelSessionWasInterrupted(_ nextLevel: NextLevel) {
+    }
+    
+    func nextLevelSessionInterruptionEnded(_ nextLevel: NextLevel) {
+    }
+    
+    // preview
+    func nextLevelWillStartPreview(_ nextLevel: NextLevel) {
+    }
+    
+    func nextLevelDidStopPreview(_ nextLevel: NextLevel) {
+    }
+    
+    // mode
+    func nextLevelCaptureModeWillChange(_ nextLevel: NextLevel) {
+    }
+    
+    func nextLevelCaptureModeDidChange(_ nextLevel: NextLevel) {
+    }
+    
+}
+
 
 extension FSVideoCameraView {
     
@@ -316,30 +311,7 @@ extension FSVideoCameraView {
         let viewsize = self.bounds.size
         let newPoint = CGPoint(x: point.y/viewsize.height, y: 1.0-point.x/viewsize.width)
         
-        let device = AVCaptureDevice.defaultDevice(withMediaType: AVMediaTypeVideo)
-        
-        do {
-            
-            try device?.lockForConfiguration()
-            
-        } catch _ {
-            
-            return
-        }
-        
-        if device?.isFocusModeSupported(AVCaptureFocusMode.autoFocus) == true {
-            
-            device?.focusMode = AVCaptureFocusMode.autoFocus
-            device?.focusPointOfInterest = newPoint
-        }
-        
-        if device?.isExposureModeSupported(AVCaptureExposureMode.continuousAutoExposure) == true {
-            
-            device?.exposureMode = AVCaptureExposureMode.continuousAutoExposure
-            device?.exposurePointOfInterest = newPoint
-        }
-        
-        device?.unlockForConfiguration()
+        NextLevel.shared.focusExposeAndAdjustWhiteBalance(atAdjustedPoint: newPoint)
         
         self.focusView?.alpha = 0.0
         self.focusView?.center = point
@@ -362,23 +334,9 @@ extension FSVideoCameraView {
     
     func flashConfiguration() {
         
-        do {
-            
-            if let device = device {
-                
-                guard device.hasFlash else { return }
-                try device.lockForConfiguration()
-                
-                device.flashMode = AVCaptureFlashMode.off
-                flashButton.setImage(flashOffImage, for: UIControlState())
-                
-                device.unlockForConfiguration()
-                
-            }
-            
-        } catch _ {
-            
-            return
+        if !NextLevel.shared.isFlashAvailable {
+            NextLevel.shared.flashMode = .off
+            flashButton.setImage(flashOffImage, for: UIControlState())
         }
     }
     

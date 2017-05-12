@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11762" systemVersion="16C67" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12120" systemVersion="16E195" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina5_5" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
-        <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12088"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -17,6 +16,7 @@
                 <outlet property="doneButton" destination="5iB-Jh-kTh" id="jJj-Rx-7ob"/>
                 <outlet property="libraryButton" destination="cph-QM-jcJ" id="a4Y-xk-mq9"/>
                 <outlet property="menuView" destination="8ba-kc-jlJ" id="Gcf-Em-wAP"/>
+                <outlet property="modeButtonStackView" destination="3Xc-k5-2mn" id="8ss-xi-cSH"/>
                 <outlet property="photoLibraryViewerContainer" destination="1Pk-29-mUG" id="buU-Cs-7qz"/>
                 <outlet property="titleLabel" destination="cxN-Q8-Lgd" id="lSA-JT-Mpg"/>
                 <outlet property="videoButton" destination="8ew-Zi-63G" id="PFn-Tm-KwS"/>
@@ -94,71 +94,75 @@
                         <constraint firstItem="Dx0-Tt-oZs" firstAttribute="top" secondItem="8ba-kc-jlJ" secondAttribute="top" constant="8" id="phx-7N-5Ks"/>
                     </constraints>
                 </view>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cph-QM-jcJ">
-                    <rect key="frame" x="0.0" y="691" width="138" height="45"/>
+                <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="3Xc-k5-2mn">
+                    <rect key="frame" x="0.0" y="691" width="414" height="45"/>
+                    <subviews>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cph-QM-jcJ">
+                            <rect key="frame" x="0.0" y="0.0" width="138" height="45"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="45" id="ef6-hG-yx4"/>
+                            </constraints>
+                            <inset key="contentEdgeInsets" minX="2" minY="2" maxX="2" maxY="2"/>
+                            <state key="normal" image="ic_insert_photo"/>
+                            <state key="selected" image="ic_insert_photo"/>
+                            <state key="highlighted" image="ic_insert_photo"/>
+                            <connections>
+                                <action selector="libraryButtonPressed:" destination="-1" eventType="touchUpInside" id="4H9-TH-qO3"/>
+                            </connections>
+                        </button>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="sCN-QB-mCu">
+                            <rect key="frame" x="138" y="0.0" width="138" height="45"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="45" id="7VV-4q-BRr"/>
+                            </constraints>
+                            <inset key="imageEdgeInsets" minX="2" minY="3" maxX="2" maxY="2"/>
+                            <state key="normal" image="ic_photo_camera"/>
+                            <state key="selected" image="ic_photo_camera"/>
+                            <state key="highlighted" image="ic_photo_camera"/>
+                            <connections>
+                                <action selector="photoButtonPressed:" destination="-1" eventType="touchUpInside" id="798-LR-edY"/>
+                            </connections>
+                        </button>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8ew-Zi-63G">
+                            <rect key="frame" x="276" y="0.0" width="138" height="45"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="45" id="vif-4h-eUh"/>
+                            </constraints>
+                            <inset key="imageEdgeInsets" minX="2" minY="3" maxX="2" maxY="2"/>
+                            <state key="normal" image="ic_videocam"/>
+                            <state key="selected" image="ic_photo_camera"/>
+                            <state key="highlighted" image="ic_photo_camera"/>
+                            <connections>
+                                <action selector="videoButtonPressed:" destination="-1" eventType="touchUpInside" id="jZa-kI-xDJ"/>
+                            </connections>
+                        </button>
+                    </subviews>
                     <constraints>
-                        <constraint firstAttribute="height" constant="45" id="ef6-hG-yx4"/>
+                        <constraint firstAttribute="height" constant="45" id="KPS-Ka-P8l"/>
                     </constraints>
-                    <inset key="contentEdgeInsets" minX="2" minY="2" maxX="2" maxY="2"/>
-                    <state key="normal" image="ic_insert_photo"/>
-                    <state key="selected" image="ic_insert_photo"/>
-                    <state key="highlighted" image="ic_insert_photo"/>
-                    <connections>
-                        <action selector="libraryButtonPressed:" destination="-1" eventType="touchUpInside" id="4H9-TH-qO3"/>
-                    </connections>
-                </button>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8ew-Zi-63G">
-                    <rect key="frame" x="276" y="691" width="138" height="45"/>
-                    <constraints>
-                        <constraint firstAttribute="height" constant="45" id="vif-4h-eUh"/>
-                    </constraints>
-                    <inset key="imageEdgeInsets" minX="2" minY="3" maxX="2" maxY="2"/>
-                    <state key="normal" image="ic_videocam"/>
-                    <state key="selected" image="ic_photo_camera"/>
-                    <state key="highlighted" image="ic_photo_camera"/>
-                    <connections>
-                        <action selector="videoButtonPressed:" destination="-1" eventType="touchUpInside" id="jZa-kI-xDJ"/>
-                    </connections>
-                </button>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="sCN-QB-mCu">
-                    <rect key="frame" x="138" y="691" width="138" height="45"/>
-                    <constraints>
-                        <constraint firstAttribute="height" constant="45" id="7VV-4q-BRr"/>
-                    </constraints>
-                    <inset key="imageEdgeInsets" minX="2" minY="3" maxX="2" maxY="2"/>
-                    <state key="normal" image="ic_photo_camera"/>
-                    <state key="selected" image="ic_photo_camera"/>
-                    <state key="highlighted" image="ic_photo_camera"/>
-                    <connections>
-                        <action selector="photoButtonPressed:" destination="-1" eventType="touchUpInside" id="798-LR-edY"/>
-                    </connections>
-                </button>
+                </stackView>
             </subviews>
             <color key="backgroundColor" red="0.16078431372549018" green="0.16078431372549018" blue="0.16078431372549018" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
                 <constraint firstAttribute="trailing" secondItem="8ba-kc-jlJ" secondAttribute="trailing" id="00c-gY-uy6"/>
+                <constraint firstAttribute="bottom" secondItem="3Xc-k5-2mn" secondAttribute="bottom" id="039-lv-0WK"/>
                 <constraint firstItem="1Pk-29-mUG" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="0rm-S1-9o9"/>
-                <constraint firstItem="sCN-QB-mCu" firstAttribute="leading" secondItem="cph-QM-jcJ" secondAttribute="trailing" id="8Df-A3-2bv"/>
+                <constraint firstItem="3Xc-k5-2mn" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="9Z3-db-Dhb"/>
                 <constraint firstItem="8ba-kc-jlJ" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="ADX-qy-sfu"/>
-                <constraint firstAttribute="bottom" secondItem="sCN-QB-mCu" secondAttribute="bottom" id="Eol-81-9UT"/>
-                <constraint firstItem="sCN-QB-mCu" firstAttribute="top" secondItem="cph-QM-jcJ" secondAttribute="top" id="K1G-U0-Vgk"/>
+                <constraint firstAttribute="trailing" secondItem="1Pk-29-mUG" secondAttribute="trailing" id="L11-9z-AP4"/>
+                <constraint firstItem="1Pk-29-mUG" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="MBU-bL-u7N"/>
                 <constraint firstItem="CFH-FU-LPW" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="QcH-4o-bGU"/>
-                <constraint firstItem="sCN-QB-mCu" firstAttribute="top" secondItem="8ew-Zi-63G" secondAttribute="top" id="TRC-fO-jAk"/>
                 <constraint firstItem="8ba-kc-jlJ" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="Tq6-c6-93y"/>
-                <constraint firstItem="sCN-QB-mCu" firstAttribute="width" secondItem="cph-QM-jcJ" secondAttribute="width" id="ZJg-S4-hJ4"/>
                 <constraint firstItem="RIt-Tt-mDz" firstAttribute="leading" secondItem="1Pk-29-mUG" secondAttribute="leading" id="Zh6-JC-yZB"/>
-                <constraint firstAttribute="trailing" secondItem="8ew-Zi-63G" secondAttribute="trailing" id="aK8-hD-s6X"/>
                 <constraint firstAttribute="trailing" secondItem="1Pk-29-mUG" secondAttribute="trailing" id="b0C-4x-heo"/>
-                <constraint firstItem="sCN-QB-mCu" firstAttribute="width" secondItem="8ew-Zi-63G" secondAttribute="width" id="ctQ-Ka-mGj"/>
                 <constraint firstItem="CFH-FU-LPW" firstAttribute="trailing" secondItem="1Pk-29-mUG" secondAttribute="trailing" id="dTI-0B-myd"/>
                 <constraint firstItem="RIt-Tt-mDz" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="gTV-NE-IMv"/>
                 <constraint firstItem="1Pk-29-mUG" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="gbM-f6-jpP"/>
-                <constraint firstItem="8ew-Zi-63G" firstAttribute="leading" secondItem="sCN-QB-mCu" secondAttribute="trailing" id="lX7-Hu-YUi"/>
-                <constraint firstItem="cph-QM-jcJ" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="r6i-pH-gQl"/>
+                <constraint firstAttribute="trailing" secondItem="3Xc-k5-2mn" secondAttribute="trailing" id="hfl-0n-w8H"/>
+                <constraint firstItem="3Xc-k5-2mn" firstAttribute="top" secondItem="1Pk-29-mUG" secondAttribute="bottom" id="l5u-7j-AU9"/>
+                <constraint firstItem="1Pk-29-mUG" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="lLS-tU-Isq"/>
                 <constraint firstItem="RIt-Tt-mDz" firstAttribute="trailing" secondItem="1Pk-29-mUG" secondAttribute="trailing" id="u9n-zf-deV"/>
                 <constraint firstItem="CFH-FU-LPW" firstAttribute="leading" secondItem="1Pk-29-mUG" secondAttribute="leading" id="xYp-HY-RNh"/>
-                <constraint firstItem="sCN-QB-mCu" firstAttribute="top" secondItem="1Pk-29-mUG" secondAttribute="bottom" id="yNf-NX-89v"/>
-                <constraint firstAttribute="bottom" secondItem="cph-QM-jcJ" secondAttribute="bottom" id="yNj-Nn-23m"/>
                 <constraint firstItem="CFH-FU-LPW" firstAttribute="bottom" secondItem="1Pk-29-mUG" secondAttribute="bottom" id="zaw-12-NQW"/>
                 <constraint firstItem="RIt-Tt-mDz" firstAttribute="bottom" secondItem="1Pk-29-mUG" secondAttribute="bottom" id="zev-R6-uK3"/>
             </constraints>

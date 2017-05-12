@@ -37,8 +37,9 @@ class ViewController: UIViewController, FusumaDelegate {
         
         fusuma.delegate = self
         fusuma.cropHeightRatio = 0.6
-        fusuma.selectedMode = .camera
-        fusuma.hasVideo = true
+        fusuma.selectedMode = .library
+        fusuma.allowedModes = [.library, .video]
+        fusuma.libraryMediaTypes = [.video]
 
         self.present(fusuma, animated: true, completion: nil)
     }
@@ -63,7 +64,7 @@ class ViewController: UIViewController, FusumaDelegate {
     }
     
     func fusumaVideoCompleted(withPHAsset phAsset: PHAsset) {
-        
+        print(phAsset)
     }
     
     func fusumaDismissedWithImage(_ image: UIImage, source: FusumaMode) {

@@ -121,7 +121,7 @@ final class FSCameraView: UIView, UIGestureRecognizerDelegate {
             self.previewViewContainer.addGestureRecognizer(tapRecognizer)
             
         } catch {
-            
+            print("error")
         }
         flashConfiguration()
         
@@ -296,7 +296,7 @@ final class FSCameraView: UIView, UIGestureRecognizerDelegate {
 
             
         } catch {
-            
+            print("error")
         }
         
         session?.startRunning()

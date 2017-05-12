@@ -2,22 +2,20 @@
 //  FSAlbumViewCell.swift
 //  Fusuma
 //
-//  Created by Yuta Akizuki on 2015/11/14.
-//  Copyright © 2015年 ytakzk. All rights reserved.
+//  Created by Bohdan Shcherbyna on 5/9/17.
+//  Copyright © 2017 ytakzk. All rights reserved.
 //
 
 import UIKit
-import Photos
 
-final class FSAlbumViewCell: UICollectionViewCell {
+class FSAlbumViewCell: UICollectionViewCell {
     
     @IBOutlet weak var imageView: UIImageView!
     
     var image: UIImage? {
         
         didSet {
-            
-            self.imageView.image = image            
+            self.imageView.image = image
         }
     }
     
@@ -32,4 +30,5 @@ final class FSAlbumViewCell: UICollectionViewCell {
             self.layer.borderWidth = isSelected ? 2 : 0
         }
     }
+    
 }
