@@ -85,8 +85,6 @@ final class FSVideoCameraView: UIView {
         nextLevel.videoDelegate = self
         nextLevel.delegate = self
         
-        nextLevel.session?.setupAudio(withSettings: <#T##[String : Any]?#>, configuration: <#T##NextLevelAudioConfiguration#>, formatDescription: <#T##CMFormatDescription#>)
-        
         // video configuration
         nextLevel.videoConfiguration.bitRate = 2000000
 //        nextLevel.videoConfiguration.timescale = self.maxVideoTimescale
