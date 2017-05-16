@@ -103,9 +103,9 @@ public class FusumaViewController: UIViewController {
     @IBOutlet weak var closeButton: UIButton!
     @IBOutlet weak var doneButton: UIButton!
     
-    @IBOutlet weak var libraryButton: UIButton!
-    @IBOutlet weak var cameraButton: UIButton!
-    @IBOutlet weak var videoButton: UIButton!
+    @IBOutlet weak var libraryButton: FusumaModeButton!
+    @IBOutlet weak var cameraButton: FusumaModeButton!
+    @IBOutlet weak var videoButton: FusumaModeButton!
     
     @IBOutlet var modeButtonStackView: UIStackView!
     
@@ -173,9 +173,9 @@ public class FusumaViewController: UIViewController {
             closeButton.setImage(closeImage?.withRenderingMode(.alwaysTemplate), for: .selected)
             closeButton.tintColor = fusumaBaseTintColor
             
-            videoButton.setImage(videoImage, for: UIControlState())
-            videoButton.setImage(videoImage, for: .highlighted)
-            videoButton.setImage(videoImage, for: .selected)
+            videoButton.setImage(videoImage?.withRenderingMode(.alwaysTemplate), for: UIControlState())
+            videoButton.setImage(videoImage?.withRenderingMode(.alwaysTemplate), for: .highlighted)
+            videoButton.setImage(videoImage?.withRenderingMode(.alwaysTemplate), for: .selected)
             videoButton.tintColor  = fusumaTintColor
             videoButton.adjustsImageWhenHighlighted = false
             
@@ -471,57 +471,17 @@ private extension FusumaViewController {
     }
     
     func dishighlightButtons() {
-        cameraButton.tintColor  = fusumaBaseTintColor
-        libraryButton.tintColor = fusumaBaseTintColor
-        videoButton?.tintColor = fusumaBaseTintColor
         
-        if cameraButton.layer.sublayers?.count > 1 {
-            
-            for layer in cameraButton.layer.sublayers! {
-                
-                if let borderColor = layer.borderColor , UIColor(cgColor: borderColor) == fusumaTintColor {
-                    
-                    layer.removeFromSuperlayer()
-                }
-                
-            }
-        }
-        
-        if libraryButton.layer.sublayers?.count > 1 {
-            
-            for layer in libraryButton.layer.sublayers! {
-                
-                if let borderColor = layer.borderColor , UIColor(cgColor: borderColor) == fusumaTintColor {
-                    
-                    layer.removeFromSuperlayer()
-                }
-                
-            }
-        }
-        
-        if let videoButton = videoButton {
-            
-            videoButton.tintColor = fusumaBaseTintColor
-            
-            if videoButton.layer.sublayers?.count > 1 {
-                
-                for layer in videoButton.layer.sublayers! {
-                    
-                    if let borderColor = layer.borderColor , UIColor(cgColor: borderColor) == fusumaTintColor {
-                        
-                        layer.removeFromSuperlayer()
-                    }
-                    
-                }
-            }
-        }
-        
+        cameraButton.isSelected  = false
+        libraryButton.isSelected = false
+        videoButton?.isSelected = false
+
     }
     
     func highlightButton(_ button: UIButton) {
         
         button.tintColor = fusumaTintColor
         
-        button.addBottomBorder(fusumaTintColor, width: 3)
+        button.isSelected = true
     }
 }

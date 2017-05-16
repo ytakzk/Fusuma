@@ -23,6 +23,7 @@
 		EDDC0B5B1D0511F2009135DB /* FSImageCropView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDDC0B531D0511F2009135DB /* FSImageCropView.swift */; };
 		EDDC0B5D1D051245009135DB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EDDC0B5C1D051245009135DB /* Assets.xcassets */; };
 		F21142ED1EC22C9A005BEB60 /* FSAlbumViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F21142EC1EC22C9A005BEB60 /* FSAlbumViewCell.swift */; };
+		F2C2BA0D1ECB6E19005A362A /* FusumaModeButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2C2BA0C1ECB6E19005A362A /* FusumaModeButton.swift */; };
 		F2C59C151EC2269600D34955 /* FSVideoAlbumViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2C59C131EC223CA00D34955 /* FSVideoAlbumViewCell.swift */; };
 		F2DABC231EC2328500B42961 /* FusumaHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2DABC211EC2310200B42961 /* FusumaHelper.swift */; };
 		F2DABC281EC2399700B42961 /* FSVideoAlbumViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = F2DABC271EC2399700B42961 /* FSVideoAlbumViewCell.xib */; };
@@ -49,6 +50,7 @@
 		EDDC0B531D0511F2009135DB /* FSImageCropView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FSImageCropView.swift; sourceTree = "<group>"; };
 		EDDC0B5C1D051245009135DB /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		F21142EC1EC22C9A005BEB60 /* FSAlbumViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FSAlbumViewCell.swift; sourceTree = "<group>"; };
+		F2C2BA0C1ECB6E19005A362A /* FusumaModeButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FusumaModeButton.swift; sourceTree = "<group>"; };
 		F2C59C131EC223CA00D34955 /* FSVideoAlbumViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FSVideoAlbumViewCell.swift; sourceTree = "<group>"; };
 		F2DABC211EC2310200B42961 /* FusumaHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FusumaHelper.swift; sourceTree = "<group>"; };
 		F2DABC271EC2399700B42961 /* FSVideoAlbumViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FSVideoAlbumViewCell.xib; sourceTree = "<group>"; };
@@ -108,6 +110,7 @@
 		52412A9E1CA6114F0073C4BE /* Sources */ = {
 			isa = PBXGroup;
 			children = (
+				F2C2BA0E1ECB6E1D005A362A /* Reusable */,
 				F2C071DB1EC21F810000564E /* AlbumCells */,
 				F2DABC201EC230F100B42961 /* Helper */,
 				EDDC0B5C1D051245009135DB /* Assets.xcassets */,
@@ -143,6 +146,14 @@
 				F2DABC271EC2399700B42961 /* FSVideoAlbumViewCell.xib */,
 			);
 			name = AlbumCells;
+			sourceTree = "<group>";
+		};
+		F2C2BA0E1ECB6E1D005A362A /* Reusable */ = {
+			isa = PBXGroup;
+			children = (
+				F2C2BA0C1ECB6E19005A362A /* FusumaModeButton.swift */,
+			);
+			name = Reusable;
 			sourceTree = "<group>";
 		};
 		F2DABC201EC230F100B42961 /* Helper */ = {
@@ -282,6 +293,7 @@
 				EDDC0B581D0511F2009135DB /* FSCameraView.swift in Sources */,
 				EDDC0B4A1D0511E7009135DB /* FusumaViewController.swift in Sources */,
 				EDDC0B541D0511F2009135DB /* FSAlbumView.swift in Sources */,
+				F2C2BA0D1ECB6E19005A362A /* FusumaModeButton.swift in Sources */,
 				EDDC0B5A1D0511F2009135DB /* FSConstants.swift in Sources */,
 				EDDC0B5B1D0511F2009135DB /* FSImageCropView.swift in Sources */,
 				EDDC0B561D0511F2009135DB /* FSImageAlbumViewCell.swift in Sources */,
