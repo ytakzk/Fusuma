@@ -10,23 +10,23 @@ import UIKit
 import Photos
 
 fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
-  switch (lhs, rhs) {
-  case let (l?, r?):
-    return l < r
-  case (nil, _?):
-    return true
-  default:
-    return false
-  }
+    switch (lhs, rhs) {
+    case let (l?, r?):
+        return l < r
+    case (nil, _?):
+        return true
+    default:
+        return false
+    }
 }
 
 fileprivate func > <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
-  switch (lhs, rhs) {
-  case let (l?, r?):
-    return l > r
-  default:
-    return rhs < lhs
-  }
+    switch (lhs, rhs) {
+    case let (l?, r?):
+        return l > r
+    default:
+        return rhs < lhs
+    }
 }
 
 
@@ -36,7 +36,7 @@ public protocol FusumaDelegate: class {
     func fusumaVideoCompleted(withFileURL fileURL: URL)
     func fusumaCameraRollUnauthorized()
     func fusumaVideoCompleted(withPHAsset phAsset: PHAsset)
- 
+    
     // MARK: Optional
     func fusumaDismissedWithImage(_ image: UIImage, source: FusumaMode)
     func fusumaClosed()
@@ -84,20 +84,20 @@ public enum FusumaMode {
 }
 
 public class FusumaViewController: UIViewController {
-
+    
     public var cropHeightRatio: CGFloat = 1
     public var allowedModes:[FusumaMode] = FusumaMode.all
     public var mode: FusumaMode = .camera
     public var selectedMode: FusumaMode = .library
     public var libraryMediaTypes: [PHAssetMediaType] = [.video, .image]
     public var maxVideoTimescale: Double = 60
-
+    
     var willFilter = true
-
+    
     @IBOutlet weak var photoLibraryViewerContainer: UIView!
     @IBOutlet weak var cameraShotContainer: UIView!
     @IBOutlet weak var videoShotContainer: UIView!
-
+    
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var menuView: UIView!
     @IBOutlet weak var closeButton: UIButton!
@@ -106,13 +106,13 @@ public class FusumaViewController: UIViewController {
     @IBOutlet weak var libraryButton: UIButton!
     @IBOutlet weak var cameraButton: UIButton!
     @IBOutlet weak var videoButton: UIButton!
-
+    
     @IBOutlet var modeButtonStackView: UIStackView!
     
     lazy var albumView  = FSAlbumView.instance()
     lazy var cameraView = FSCameraView.instance()
     lazy var videoView = FSVideoCameraView.instance()
-
+    
     fileprivate var hasGalleryPermission: Bool {
         return PHPhotoLibrary.authorizationStatus() == .authorized
     }
@@ -129,7 +129,7 @@ public class FusumaViewController: UIViewController {
     
     override public func viewDidLoad() {
         super.viewDidLoad()
-    
+        
         self.view.backgroundColor = fusumaBackgroundColor
         
         cameraView.delegate = self
@@ -138,7 +138,7 @@ public class FusumaViewController: UIViewController {
         
         albumView.libraryMediaTypes = libraryMediaTypes
         videoView.maxVideoTimescale = maxVideoTimescale
-
+        
         menuView.backgroundColor = fusumaBackgroundColor
         menuView.addBottomBorder(UIColor.black, width: 1.0)
         
@@ -149,7 +149,7 @@ public class FusumaViewController: UIViewController {
         let cameraImage = fusumaCameraImage != nil ? fusumaCameraImage : UIImage(named: "ic_photo_camera", in: bundle, compatibleWith: nil)
         
         let videoImage = fusumaVideoImage != nil ? fusumaVideoImage : UIImage(named: "ic_videocam", in: bundle, compatibleWith: nil)
-
+        
         
         let checkImage = fusumaCheckImage != nil ? fusumaCheckImage : UIImage(named: "ic_check", in: bundle, compatibleWith: nil)
         let closeImage = fusumaCloseImage != nil ? fusumaCloseImage : UIImage(named: "ic_close", in: bundle, compatibleWith: nil)
@@ -161,7 +161,7 @@ public class FusumaViewController: UIViewController {
             libraryButton.setImage(albumImage?.withRenderingMode(.alwaysTemplate), for: .selected)
             libraryButton.tintColor = fusumaTintColor
             libraryButton.adjustsImageWhenHighlighted = false
-
+            
             cameraButton.setImage(cameraImage?.withRenderingMode(.alwaysTemplate), for: UIControlState())
             cameraButton.setImage(cameraImage?.withRenderingMode(.alwaysTemplate), for: .highlighted)
             cameraButton.setImage(cameraImage?.withRenderingMode(.alwaysTemplate), for: .selected)
@@ -193,7 +193,7 @@ public class FusumaViewController: UIViewController {
             cameraButton.setImage(cameraImage, for: .highlighted)
             cameraButton.setImage(cameraImage, for: .selected)
             cameraButton.tintColor = nil
-
+            
             videoButton.setImage(videoImage, for: UIControlState())
             videoButton.setImage(videoImage, for: .highlighted)
             videoButton.setImage(videoImage, for: .selected)
@@ -206,7 +206,7 @@ public class FusumaViewController: UIViewController {
         cameraButton.clipsToBounds  = true
         libraryButton.clipsToBounds = true
         videoButton.clipsToBounds = true
-
+        
         changeMode(self.selectedMode, forceUpdate: true)
         
         photoLibraryViewerContainer.addSubview(albumView)
@@ -232,7 +232,7 @@ public class FusumaViewController: UIViewController {
         if fusumaCropImage {
             let heightRatio = getCropHeightRatio()
             cameraView.croppedAspectRatioConstraint = NSLayoutConstraint(item: cameraView.previewViewContainer, attribute: NSLayoutAttribute.height, relatedBy: NSLayoutRelation.equal, toItem: cameraView.previewViewContainer, attribute: NSLayoutAttribute.width, multiplier: heightRatio, constant: 0)
-
+            
             cameraView.fullAspectRatioConstraint.isActive = false
             cameraView.croppedAspectRatioConstraint?.isActive = true
         } else {
@@ -245,7 +245,7 @@ public class FusumaViewController: UIViewController {
         super.viewWillAppear(animated)
         
     }
-
+    
     override public func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
@@ -265,15 +265,15 @@ public class FusumaViewController: UIViewController {
                 videoView.initialize()
             }
         }
-
-        changeMode(self.selectedMode, forceUpdate: true)
+        
+        changeMode(self.selectedMode, forceUpdate: false)
     }
     
     public override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         self.stopAll()
     }
-
+    
     override public var prefersStatusBarHidden : Bool {
         
         return true
@@ -292,7 +292,7 @@ public class FusumaViewController: UIViewController {
     }
     
     @IBAction func photoButtonPressed(_ sender: UIButton) {
-    
+        
         changeMode(FusumaMode.camera)
     }
     
@@ -357,7 +357,7 @@ public class FusumaViewController: UIViewController {
                 })
             }
         }
-        }
+    }
 }
 
 extension FusumaViewController: FSAlbumViewDelegate, FSCameraViewDelegate, FSVideoCameraViewDelegate {
@@ -407,7 +407,7 @@ private extension FusumaViewController {
     }
     
     func changeMode(_ mode: FusumaMode, forceUpdate: Bool = false) {
-
+        
         if (!forceUpdate) {
             if self.mode == mode  {
                 return
@@ -421,7 +421,7 @@ private extension FusumaViewController {
                 self.cameraView.stopCamera()
             case .video:
                 self.videoView.stopCamera()
-            }   
+            }
         }
         
         self.mode = mode
@@ -442,6 +442,7 @@ private extension FusumaViewController {
             self.view.bringSubview(toFront: cameraShotContainer)
             cameraView.startCamera()
         case .video:
+            self.cameraView.stopCamera()
             titleLabel.text = fusumaVideoTitle
             
             highlightButton(videoButton)
@@ -460,7 +461,7 @@ private extension FusumaViewController {
             self.doneButton.isHidden = true
             return
         }
-
+        
         switch self.mode {
         case .library:
             self.doneButton.isHidden = false

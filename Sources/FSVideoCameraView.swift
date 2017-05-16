@@ -15,7 +15,7 @@ import NextLevel
 }
 
 final class FSVideoCameraView: UIView {
-
+    
     @IBOutlet weak var previewViewContainer: UIView!
     @IBOutlet weak var shotButton: UIButton!
     @IBOutlet weak var flashButton: UIButton!
@@ -29,6 +29,8 @@ final class FSVideoCameraView: UIView {
     var flashOnImage: UIImage?
     var videoStartImage: UIImage?
     var videoStopImage: UIImage?
+    
+    var startCameraAfterSessionStop: Bool = false
     
     var maxVideoTimescale: Double?
     
@@ -47,7 +49,7 @@ final class FSVideoCameraView: UIView {
     func initialize() {
         
         self.show()
-
+        
         NextLevel.shared.previewLayer.frame = self.previewViewContainer.bounds
         self.previewViewContainer.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         self.previewViewContainer.backgroundColor = UIColor.black
@@ -65,7 +67,7 @@ final class FSVideoCameraView: UIView {
         let flipImage = fusumaFlipImage != nil ? fusumaFlipImage : UIImage(named: "ic_loop", in: bundle, compatibleWith: nil)
         videoStartImage = fusumaVideoStartImage != nil ? fusumaVideoStartImage : UIImage(named: "video_button", in: bundle, compatibleWith: nil)
         videoStopImage = fusumaVideoStopImage != nil ? fusumaVideoStopImage : UIImage(named: "video_button_rec", in: bundle, compatibleWith: nil)
-
+        
         if(fusumaTintIcons) {
             flashButton.tintColor = fusumaBaseTintColor
             flipButton.tintColor  = fusumaBaseTintColor
@@ -87,7 +89,7 @@ final class FSVideoCameraView: UIView {
         
         // video configuration
         nextLevel.videoConfiguration.bitRate = 2000000
-//        nextLevel.videoConfiguration.timescale = self.maxVideoTimescale
+        //        nextLevel.videoConfiguration.timescale = self.maxVideoTimescale
         nextLevel.videoConfiguration.aspectRatio = .square
         nextLevel.videoConfiguration.scalingMode = AVVideoScalingModeResizeAspectFill
         
@@ -96,7 +98,7 @@ final class FSVideoCameraView: UIView {
         
         flashConfiguration()
         
-        self.startCamera()
+        //        self.startCamera()
     }
     
     deinit {
@@ -108,19 +110,24 @@ final class FSVideoCameraView: UIView {
         
         let nextLevel = NextLevel.shared
         
-        if NextLevel.shared.session == nil {
-            if nextLevel.authorizationStatus(forMediaType: AVMediaTypeVideo) == .authorized &&
-                nextLevel.authorizationStatus(forMediaType: AVMediaTypeAudio) == .authorized {
-                do {
-                    try nextLevel.start()
-                } catch {
-                    print("NextLevel, failed to start camera session")
-                }
-            } else {
-                nextLevel.requestAuthorization(forMediaType: AVMediaTypeVideo)
-                nextLevel.requestAuthorization(forMediaType: AVMediaTypeAudio)
+        //
+        if nextLevel.authorizationStatus(forMediaType: AVMediaTypeVideo) == .authorized &&
+            nextLevel.authorizationStatus(forMediaType: AVMediaTypeAudio) == .authorized {
+            if NextLevel.shared.session == nil {
+            do {
+                try nextLevel.start()
+            } catch {
+                print("NextLevel, failed to start camera session")
             }
+            } else {
+                self.stopCamera()
+                startCameraAfterSessionStop = true
+            }
+        } else {
+            nextLevel.requestAuthorization(forMediaType: AVMediaTypeVideo)
+            nextLevel.requestAuthorization(forMediaType: AVMediaTypeAudio)
         }
+        //        }
     }
     
     func stopCamera() {
@@ -133,7 +140,7 @@ final class FSVideoCameraView: UIView {
     }
     
     fileprivate func toggleRecording() {
-
+        
         self.isRecording = !self.isRecording
         
         let shotImage: UIImage?
@@ -171,7 +178,7 @@ final class FSVideoCameraView: UIView {
     }
     
     @IBAction func flashButtonPressed(_ sender: UIButton) {
-    
+        
         if NextLevel.shared.isFlashAvailable {
             let fleshMode = NextLevel.shared.flashMode
             
@@ -202,11 +209,11 @@ extension FSVideoCameraView: NextLevelVideoDelegate {
     
     // video recording session
     func nextLevel(_ nextLevel: NextLevel, didSetupVideoInSession session: NextLevelSession) {
-                print("setup video")
+        print("setup video")
     }
     
     func nextLevel(_ nextLevel: NextLevel, didSetupAudioInSession session: NextLevelSession) {
-                print("setup audio")
+        print("setup audio")
     }
     
     func nextLevel(_ nextLevel: NextLevel, didStartClipInSession session: NextLevelSession) {
@@ -274,7 +281,12 @@ extension FSVideoCameraView: NextLevelDelegate {
     }
     
     func nextLevelSessionDidStop(_ nextLevel: NextLevel) {
-        print("nextLevelSessionDidStop")
+        if startCameraAfterSessionStop {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                self.startCamera()
+                self.startCameraAfterSessionStop = false
+            }
+        }
     }
     
     // interruption
@@ -320,13 +332,13 @@ extension FSVideoCameraView {
         self.addSubview(self.focusView!)
         
         UIView.animate(withDuration: 0.8, delay: 0.0, usingSpringWithDamping: 0.8,
-                                   initialSpringVelocity: 3.0, options: UIViewAnimationOptions.curveEaseIn, // UIViewAnimationOptions.BeginFromCurrentState
+                       initialSpringVelocity: 3.0, options: UIViewAnimationOptions.curveEaseIn, // UIViewAnimationOptions.BeginFromCurrentState
             animations: {
                 self.focusView!.alpha = 1.0
                 self.focusView!.transform = CGAffineTransform(scaleX: 0.7, y: 0.7)
-            }, completion: {(finished) in
-                self.focusView!.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
-                self.focusView!.removeFromSuperview()
+        }, completion: {(finished) in
+            self.focusView!.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
+            self.focusView!.removeFromSuperview()
         })
     }
     
