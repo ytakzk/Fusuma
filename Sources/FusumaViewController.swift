@@ -38,6 +38,9 @@ fileprivate func > <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
     func fusumaDismissedWithImage(_ image: UIImage, source: FusumaMode)
     func fusumaClosed()
     func fusumaWillClosed()
+    
+    @objc optional func fusumaShouldAllowMultipleSelection() -> Bool
+    @objc optional func fusumaMultipleImageSelected(_ images: [UIImage], source: FusumaMode)
 }
 
 public extension FusumaDelegate {
@@ -148,6 +151,9 @@ public class FusumaViewController: UIViewController {
 
         menuView.backgroundColor = fusumaBackgroundColor
         menuView.addBottomBorder(UIColor.black, width: 1.0)
+        
+
+        albumView.allowMultipleSelection = allowMultipleSelection
         
         let bundle = Bundle(for: self.classForCoder)
         
@@ -310,8 +316,23 @@ public class FusumaViewController: UIViewController {
     }
     
     @IBAction func doneButtonPressed(_ sender: UIButton) {
+        if allowMultipleSelection {
+            fusumaDidFinishInMultipleMode()
+        } else {
+            fusumaDidFinishInSingleMode()
+        }
+    }
+    
+    private var allowMultipleSelection: Bool {
+        if let shouldAllowMultipleSelection = delegate?.fusumaShouldAllowMultipleSelection {
+            return shouldAllowMultipleSelection()
+        }
+        return false
+    }
+    
+    private func fusumaDidFinishInSingleMode() {
         let view = albumView.imageCropView
-
+        
         if fusumaCropImage {
             let normalizedX = (view?.contentOffset.x)! / (view?.contentSize.width)!
             let normalizedY = (view?.contentOffset.y)! / (view?.contentSize.height)!
@@ -333,20 +354,19 @@ public class FusumaViewController: UIViewController {
                 let targetHeight = floor(CGFloat(self.albumView.phAsset.pixelHeight) * cropRect.height)
                 let dimensionW = max(min(targetHeight, targetWidth), 1024 * UIScreen.main.scale)
                 let dimensionH = dimensionW * self.getCropHeightRatio()
-
+                
                 let targetSize = CGSize(width: dimensionW, height: dimensionH)
                 
                 PHImageManager.default().requestImage(for: self.albumView.phAsset, targetSize: targetSize,
-                contentMode: .aspectFill, options: options) {
-                    result, info in
-                    
+                    contentMode: .aspectFill, options: options) { result, info in
+                                                        
                     DispatchQueue.main.async(execute: {
                         self.delegate?.fusumaImageSelected(result!, source: self.mode)
                         
                         self.dismiss(animated: true, completion: {
                             self.delegate?.fusumaDismissedWithImage(result!, source: self.mode)
                         })
-
+                        
                         let metaData = ImageMetadata(
                             mediaType: self.albumView.phAsset.mediaType,
                             pixelWidth: self.albumView.phAsset.pixelWidth,
@@ -357,9 +377,9 @@ public class FusumaViewController: UIViewController {
                             duration: self.albumView.phAsset.duration,
                             isFavourite: self.albumView.phAsset.isFavorite,
                             isHidden: self.albumView.phAsset.isHidden)
-
+                        
                         self.delegate?.fusumaImageSelected(result!, source: self.mode, metaData: metaData)
-
+                        
                     })
                 }
             })
@@ -372,10 +392,18 @@ public class FusumaViewController: UIViewController {
             })
         }
     }
-    
+ 
+    private func fusumaDidFinishInMultipleMode() {
+        self.dismiss(animated: true, completion: {
+            if let _ = self.delegate?.fusumaMultipleImageSelected {
+                self.delegate?.fusumaMultipleImageSelected!(self.albumView.selectedImages, source: self.mode)
+            }
+        })
+    }
 }
 
 extension FusumaViewController: FSAlbumViewDelegate, FSCameraViewDelegate, FSVideoCameraViewDelegate {
+    
     public func getCropHeightRatio() -> CGFloat {
         return cropHeightRatio
     }

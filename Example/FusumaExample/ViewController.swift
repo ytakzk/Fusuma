@@ -55,6 +55,14 @@ class ViewController: UIViewController, FusumaDelegate {
         
         imageView.image = image
     }
+    
+    func fusumaShouldAllowMultipleSelection() -> Bool {
+        return true
+    }
+    
+    func fusumaMultipleImageSelected(_ images: [UIImage], source: FusumaMode) {
+        print("Number of selection images: \(images.count)")
+    }
 
     func fusumaImageSelected(_ image: UIImage, source: FusumaMode, metaData: ImageMetadata) {
         print("Image mediatype: \(metaData.mediaType)")
