@@ -29,18 +29,12 @@ fileprivate func > <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
 }
 
 
-@objc public protocol FusumaDelegate: class {
+public protocol FusumaDelegate: class {
     // MARK: Required
     func fusumaImageSelected(_ image: UIImage, source: FusumaMode)
+    func fusumaMultipleImageSelected(_ images: [UIImage], source: FusumaMode)
     func fusumaVideoCompleted(withFileURL fileURL: URL)
     func fusumaCameraRollUnauthorized()
- 
-    func fusumaDismissedWithImage(_ image: UIImage, source: FusumaMode)
-    func fusumaClosed()
-    func fusumaWillClosed()
-    
-    @objc optional func fusumaShouldAllowMultipleSelection() -> Bool
-    @objc optional func fusumaMultipleImageSelected(_ images: [UIImage], source: FusumaMode)
 }
 
 public extension FusumaDelegate {
@@ -102,6 +96,7 @@ public class FusumaViewController: UIViewController {
 
     public var hasVideo = false
     public var cropHeightRatio: CGFloat = 1
+    public var allowMultipleSelection: Bool = false
 
     var mode: FusumaMode = .none
     public var defaultMode: FusumaMode = .library
@@ -323,13 +318,6 @@ public class FusumaViewController: UIViewController {
         }
     }
     
-    private var allowMultipleSelection: Bool {
-        if let shouldAllowMultipleSelection = delegate?.fusumaShouldAllowMultipleSelection {
-            return shouldAllowMultipleSelection()
-        }
-        return false
-    }
-    
     private func fusumaDidFinishInSingleMode() {
         let view = albumView.imageCropView
         
@@ -396,7 +384,7 @@ public class FusumaViewController: UIViewController {
     private func fusumaDidFinishInMultipleMode() {
         self.dismiss(animated: true, completion: {
             if let _ = self.delegate?.fusumaMultipleImageSelected {
-                self.delegate?.fusumaMultipleImageSelected!(self.albumView.selectedImages, source: self.mode)
+                self.delegate?.fusumaMultipleImageSelected(self.albumView.selectedImages, source: self.mode)
             }
         })
     }

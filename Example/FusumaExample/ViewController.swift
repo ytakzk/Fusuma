@@ -36,7 +36,8 @@ class ViewController: UIViewController, FusumaDelegate {
         
         fusuma.delegate = self
         fusuma.cropHeightRatio = 0.6
-        fusuma.defaultMode = .camera
+        fusuma.defaultMode = .library
+        fusuma.allowMultipleSelection = true
         fusumaSavesImage = true
 
         self.present(fusuma, animated: true, completion: nil)
@@ -54,10 +55,6 @@ class ViewController: UIViewController, FusumaDelegate {
         }
         
         imageView.image = image
-    }
-    
-    func fusumaShouldAllowMultipleSelection() -> Bool {
-        return true
     }
     
     func fusumaMultipleImageSelected(_ images: [UIImage], source: FusumaMode) {
