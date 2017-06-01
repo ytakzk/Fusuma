@@ -249,7 +249,6 @@ public class FusumaViewController: UIViewController {
             cameraView.croppedAspectRatioConstraint?.isActive = false
         }
         
-        changeMode(defaultMode)
         
     }
     
@@ -275,6 +274,9 @@ public class FusumaViewController: UIViewController {
             videoView.layoutIfNeeded()
             videoView.initialize()
         }
+        
+        changeMode(defaultMode)
+
     }
     
     public override func viewWillDisappear(_ animated: Bool) {
