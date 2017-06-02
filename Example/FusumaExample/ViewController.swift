@@ -59,6 +59,15 @@ class ViewController: UIViewController, FusumaDelegate {
     
     func fusumaMultipleImageSelected(_ images: [UIImage], source: FusumaMode) {
         print("Number of selection images: \(images.count)")
+
+        var count: Double = 0
+        for image in images {
+            DispatchQueue.main.asyncAfter(deadline: .now() + (3.0 * count), execute: {
+                self.imageView.image = image
+                print("w: \(image.size.width) - h: \(image.size.height)")
+            })
+            count += 1
+        }
     }
 
     func fusumaImageSelected(_ image: UIImage, source: FusumaMode, metaData: ImageMetadata) {

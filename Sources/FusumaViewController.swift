@@ -330,46 +330,26 @@ public class FusumaViewController: UIViewController {
             
             let cropRect = CGRect(x: normalizedX, y: normalizedY, width: normalizedWidth, height: normalizedHeight)
             
-            DispatchQueue.global(qos: .default).async(execute: {
+            requestImage(with: self.albumView.phAsset, cropRect: cropRect, completion: { (asset, image) in
+                self.delegate?.fusumaImageSelected(image, source: self.mode)
                 
-                let options = PHImageRequestOptions()
-                options.deliveryMode = .highQualityFormat
-                options.isNetworkAccessAllowed = true
-                options.normalizedCropRect = cropRect
-                options.resizeMode = .exact
+                self.dismiss(animated: true, completion: {
+                    self.delegate?.fusumaDismissedWithImage(image, source: self.mode)
+                })
                 
-                let targetWidth = floor(CGFloat(self.albumView.phAsset.pixelWidth) * cropRect.width)
-                let targetHeight = floor(CGFloat(self.albumView.phAsset.pixelHeight) * cropRect.height)
-                let dimensionW = max(min(targetHeight, targetWidth), 1024 * UIScreen.main.scale)
-                let dimensionH = dimensionW * self.getCropHeightRatio()
+                let metaData = ImageMetadata(
+                    mediaType: self.albumView.phAsset.mediaType,
+                    pixelWidth: self.albumView.phAsset.pixelWidth,
+                    pixelHeight: self.albumView.phAsset.pixelHeight,
+                    creationDate: self.albumView.phAsset.creationDate,
+                    modificationDate: self.albumView.phAsset.modificationDate,
+                    location: self.albumView.phAsset.location,
+                    duration: self.albumView.phAsset.duration,
+                    isFavourite: self.albumView.phAsset.isFavorite,
+                    isHidden: self.albumView.phAsset.isHidden)
                 
-                let targetSize = CGSize(width: dimensionW, height: dimensionH)
-                
-                PHImageManager.default().requestImage(for: self.albumView.phAsset, targetSize: targetSize,
-                    contentMode: .aspectFill, options: options) { result, info in
-                                                        
-                    DispatchQueue.main.async(execute: {
-                        self.delegate?.fusumaImageSelected(result!, source: self.mode)
-                        
-                        self.dismiss(animated: true, completion: {
-                            self.delegate?.fusumaDismissedWithImage(result!, source: self.mode)
-                        })
-                        
-                        let metaData = ImageMetadata(
-                            mediaType: self.albumView.phAsset.mediaType,
-                            pixelWidth: self.albumView.phAsset.pixelWidth,
-                            pixelHeight: self.albumView.phAsset.pixelHeight,
-                            creationDate: self.albumView.phAsset.creationDate,
-                            modificationDate: self.albumView.phAsset.modificationDate,
-                            location: self.albumView.phAsset.location,
-                            duration: self.albumView.phAsset.duration,
-                            isFavourite: self.albumView.phAsset.isFavorite,
-                            isHidden: self.albumView.phAsset.isHidden)
-                        
-                        self.delegate?.fusumaImageSelected(result!, source: self.mode, metaData: metaData)
-                        
-                    })
-                }
+                self.delegate?.fusumaImageSelected(image, source: self.mode, metaData: metaData)
+
             })
         } else {
             print("no image crop ")
@@ -380,13 +360,58 @@ public class FusumaViewController: UIViewController {
             })
         }
     }
- 
-    private func fusumaDidFinishInMultipleMode() {
-        self.dismiss(animated: true, completion: {
-            if let _ = self.delegate?.fusumaMultipleImageSelected {
-                self.delegate?.fusumaMultipleImageSelected(self.albumView.selectedImages, source: self.mode)
+    
+    private func requestImage(with asset: PHAsset, cropRect: CGRect, completion: @escaping (PHAsset, UIImage) -> Void) {
+        DispatchQueue.global(qos: .default).async(execute: {
+            
+            let options = PHImageRequestOptions()
+            options.deliveryMode = .highQualityFormat
+            options.isNetworkAccessAllowed = true
+            options.normalizedCropRect = cropRect
+            options.resizeMode = .exact
+            
+            let targetWidth = floor(CGFloat(asset.pixelWidth) * cropRect.width)
+            let targetHeight = floor(CGFloat(asset.pixelHeight) * cropRect.height)
+            let dimensionW = max(min(targetHeight, targetWidth), 1024 * UIScreen.main.scale)
+            let dimensionH = dimensionW * self.getCropHeightRatio()
+            
+            let targetSize = CGSize(width: dimensionW, height: dimensionH)
+            
+            PHImageManager.default().requestImage(for: asset, targetSize: targetSize,
+                                                  contentMode: .aspectFill, options: options) { result, info in
+                DispatchQueue.main.async(execute: {
+                    completion(asset, result!)
+                })
             }
         })
+        
+    }
+    
+    private func fusumaDidFinishInMultipleMode() {
+        
+        let view = albumView.imageCropView
+        
+        let normalizedX = (view?.contentOffset.x)! / (view?.contentSize.width)!
+        let normalizedY = (view?.contentOffset.y)! / (view?.contentSize.height)!
+        
+        let normalizedWidth = (view?.frame.width)! / (view?.contentSize.width)!
+        let normalizedHeight = (view?.frame.height)! / (view?.contentSize.height)!
+        
+        let cropRect = CGRect(x: normalizedX, y: normalizedY, width: normalizedWidth, height: normalizedHeight)
+        
+        var images = [UIImage]()
+        for asset in albumView.selectedAssets {
+            requestImage(with: asset, cropRect: cropRect, completion: { asset, result in
+                images.append(result)
+                if asset == self.albumView.selectedAssets.last {
+                    self.dismiss(animated: true, completion: {
+                        if let _ = self.delegate?.fusumaMultipleImageSelected {
+                            self.delegate?.fusumaMultipleImageSelected(images, source: self.mode)
+                        }
+                    })
+                }
+            })
+        }
     }
 }
 
