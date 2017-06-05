@@ -36,7 +36,8 @@ class ViewController: UIViewController, FusumaDelegate {
         
         fusuma.delegate = self
         fusuma.cropHeightRatio = 0.6
-        fusuma.defaultMode = .camera
+        fusuma.defaultMode = .library
+        fusuma.allowMultipleSelection = true
         fusumaSavesImage = true
 
         self.present(fusuma, animated: true, completion: nil)
@@ -54,6 +55,19 @@ class ViewController: UIViewController, FusumaDelegate {
         }
         
         imageView.image = image
+    }
+    
+    func fusumaMultipleImageSelected(_ images: [UIImage], source: FusumaMode) {
+        print("Number of selection images: \(images.count)")
+
+        var count: Double = 0
+        for image in images {
+            DispatchQueue.main.asyncAfter(deadline: .now() + (3.0 * count), execute: {
+                self.imageView.image = image
+                print("w: \(image.size.width) - h: \(image.size.height)")
+            })
+            count += 1
+        }
     }
 
     func fusumaImageSelected(_ image: UIImage, source: FusumaMode, metaData: ImageMetadata) {

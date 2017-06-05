@@ -27,12 +27,16 @@ final class FSAlbumView: UIView, UICollectionViewDataSource, UICollectionViewDel
     @IBOutlet weak var imageCropViewConstraintTop: NSLayoutConstraint!
 
     weak var delegate: FSAlbumViewDelegate? = nil
+    var allowMultipleSelection = false
     
     var images: PHFetchResult<PHAsset>!
     var imageManager: PHCachingImageManager?
     var previousPreheatRect: CGRect = .zero
     let cellSize = CGSize(width: 100, height: 100)
     var phAsset: PHAsset!
+    
+    var selectedImages: [UIImage] = []
+    var selectedAssets: [PHAsset] = []
     
     // Variables for calculating the position
     enum Direction {
@@ -86,7 +90,8 @@ final class FSAlbumView: UIView, UICollectionViewDataSource, UICollectionViewDel
         
         collectionView.register(UINib(nibName: "FSAlbumViewCell", bundle: Bundle(for: self.classForCoder)), forCellWithReuseIdentifier: "FSAlbumViewCell")
 		collectionView.backgroundColor = fusumaBackgroundColor
-		
+        collectionView.allowsMultipleSelection = allowMultipleSelection
+        
         // Never load photos Unless the user allows to access to photo album
         checkPhotoAuth()
         
@@ -298,6 +303,19 @@ final class FSAlbumView: UIView, UICollectionViewDataSource, UICollectionViewDel
         collectionView.scrollToItem(at: indexPath, at: .top, animated: true)
     }
     
+    func collectionView(_ collectionView: UICollectionView, shouldDeselectItemAt indexPath: IndexPath) -> Bool {
+        let asset = self.images[(indexPath as NSIndexPath).item]
+        
+        let selectedAsset = selectedAssets.enumerated().filter ({ $1 == asset }).first
+        
+        if let selected = selectedAsset {
+            selectedImages.remove(at: selected.offset)
+            selectedAssets.remove(at: selected.offset)
+        }
+        
+        return true
+    }
+    
     
     // MARK: - ScrollViewDelegate
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
@@ -315,6 +333,9 @@ final class FSAlbumView: UIView, UICollectionViewDataSource, UICollectionViewDel
             
             let collectionChanges = changeInstance.changeDetails(for: self.images)
             if collectionChanges != nil {
+                
+                self.selectedImages.removeAll()
+                self.selectedAssets.removeAll()
                 
                 self.images = collectionChanges!.fetchResultAfterChanges
                 
@@ -397,6 +418,11 @@ private extension FSAlbumView {
                         
                         self.imageCropView.imageSize = CGSize(width: asset.pixelWidth, height: asset.pixelHeight)
                         self.imageCropView.image = result
+                        
+                        if let result = result, !self.selectedAssets.contains(asset) {
+                            self.selectedAssets.append(asset)
+                            self.selectedImages.append(result)
+                        }
                     })
             }
         })
