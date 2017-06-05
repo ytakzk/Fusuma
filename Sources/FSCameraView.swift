@@ -86,7 +86,6 @@ final class FSCameraView: UIView, UIGestureRecognizerDelegate {
                 self.device = device
                 
                 if !device.hasFlash {
-                    
                     flashButton.isHidden = true
                 }
             }
