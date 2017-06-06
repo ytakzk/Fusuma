@@ -65,8 +65,8 @@ final class FSAlbumView: UIView, UICollectionViewDataSource, UICollectionViewDel
             
             return
         }
-		
-		self.isHidden = false
+        
+        self.isHidden = false
 
         // Set Image Crop Ratio
         if let heightRatio = delegate?.getCropHeightRatio() {
@@ -89,7 +89,7 @@ final class FSAlbumView: UIView, UICollectionViewDataSource, UICollectionViewDel
         imageCropViewContainer.layer.shadowOffset  = CGSize.zero
         
         collectionView.register(UINib(nibName: "FSAlbumViewCell", bundle: Bundle(for: self.classForCoder)), forCellWithReuseIdentifier: "FSAlbumViewCell")
-		collectionView.backgroundColor = fusumaBackgroundColor
+        collectionView.backgroundColor = fusumaBackgroundColor
         collectionView.allowsMultipleSelection = allowMultipleSelection
         
         // Never load photos Unless the user allows to access to photo album
@@ -127,7 +127,7 @@ final class FSAlbumView: UIView, UICollectionViewDataSource, UICollectionViewDel
         return true
     }
     
-    func panned(_ sender: UITapGestureRecognizer) {
+    @objc func panned(_ sender: UITapGestureRecognizer) {
         
         if sender.state == UIGestureRecognizerState.began {
             
@@ -306,7 +306,7 @@ final class FSAlbumView: UIView, UICollectionViewDataSource, UICollectionViewDel
     func collectionView(_ collectionView: UICollectionView, shouldDeselectItemAt indexPath: IndexPath) -> Bool {
         let asset = self.images[(indexPath as NSIndexPath).item]
         
-        let selectedAsset = selectedAssets.enumerated().filter ({ $1 == asset }).first
+        let selectedAsset = selectedAssets.enumerated().filter ({ $0.1 == asset }).first
         
         if let selected = selectedAsset {
             selectedImages.remove(at: selected.offset)
