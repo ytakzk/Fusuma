@@ -22,5 +22,9 @@
 	<string>$(CURRENT_PROJECT_VERSION)</string>
 	<key>NSPrincipalClass</key>
 	<string></string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Access needed to photo gallery.</string>
+	<key>NSCameraUsageDescription</key>
+	<string>Access needed to use your camera.</string>
 </dict>
 </plist>
