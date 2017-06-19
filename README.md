@@ -108,10 +108,10 @@ https://github.com/Cheesebaron/Chafu
 
 ## Author
 ytakzk  
- [http://ytakzk.me](http://ytakzk.me)
+ [https://ytakzk.me](https://ytakzk.me)
  
 ## Donation
-Your support is welcome through Bitcoin 16485BTK9EoQUqkMmSecJ9xN6E9nhW8ePd
+Your support is welcome through Bitcoin 3Ps8tBgz4qn6zVUr5D1wcYrrzYjMgEugqv
  
 ## License
 Fusuma is released under the MIT license.  

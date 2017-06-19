@@ -43,10 +43,7 @@ final class FSVideoCameraView: UIView {
     
     func initialize() {
         
-        if session != nil {
-            
-            return
-        }
+        if session != nil { return }
         
         self.backgroundColor = fusumaBackgroundColor
         
@@ -54,6 +51,8 @@ final class FSVideoCameraView: UIView {
         
         // AVCapture
         session = AVCaptureSession()
+        
+        guard let session = session else { return }
         
         for device in AVCaptureDevice.devices() {
             
@@ -92,7 +91,16 @@ final class FSVideoCameraView: UIView {
                 
                 session.startRunning()
                 
+                session.addOutput(videoOutput)
             }
+            
+            let videoLayer = AVCaptureVideoPreviewLayer(session: session)
+            videoLayer?.frame = self.previewViewContainer.bounds
+            videoLayer?.videoGravity = AVLayerVideoGravityResizeAspectFill
+            
+            self.previewViewContainer.layer.addSublayer(videoLayer!)
+            
+            session.startRunning()
             
             // Focus View
             self.focusView         = UIView(frame: CGRect(x: 0, y: 0, width: 90, height: 90))
@@ -103,7 +111,6 @@ final class FSVideoCameraView: UIView {
             
         }
         
-        
         let bundle = Bundle(for: self.classForCoder)
         
         flashOnImage = fusumaFlashOnImage != nil ? fusumaFlashOnImage : UIImage(named: "ic_flash_on", in: bundle, compatibleWith: nil)
@@ -111,9 +118,9 @@ final class FSVideoCameraView: UIView {
         let flipImage = fusumaFlipImage != nil ? fusumaFlipImage : UIImage(named: "ic_loop", in: bundle, compatibleWith: nil)
         videoStartImage = fusumaVideoStartImage != nil ? fusumaVideoStartImage : UIImage(named: "video_button", in: bundle, compatibleWith: nil)
         videoStopImage = fusumaVideoStopImage != nil ? fusumaVideoStopImage : UIImage(named: "video_button_rec", in: bundle, compatibleWith: nil)
-
         
-        if(fusumaTintIcons) {
+        if fusumaTintIcons {
+            
             flashButton.tintColor = fusumaBaseTintColor
             flipButton.tintColor  = fusumaBaseTintColor
             shotButton.tintColor  = fusumaBaseTintColor
@@ -121,7 +128,9 @@ final class FSVideoCameraView: UIView {
             flashButton.setImage(flashOffImage?.withRenderingMode(.alwaysTemplate), for: UIControlState())
             flipButton.setImage(flipImage?.withRenderingMode(.alwaysTemplate), for: UIControlState())
             shotButton.setImage(videoStartImage?.withRenderingMode(.alwaysTemplate), for: UIControlState())
+            
         } else {
+            
             flashButton.setImage(flashOffImage, for: UIControlState())
             flipButton.setImage(flipImage, for: UIControlState())
             shotButton.setImage(videoStartImage, for: UIControlState())
@@ -145,16 +154,20 @@ final class FSVideoCameraView: UIView {
             
             session?.startRunning()
             
-        } else if status == AVAuthorizationStatus.denied || status == AVAuthorizationStatus.restricted {
+        } else if status == AVAuthorizationStatus.denied ||
+            status == AVAuthorizationStatus.restricted {
             
             session?.stopRunning()
         }
     }
     
     func stopCamera() {
+        
         if self.isRecording {
+            
             self.toggleRecording()
         }
+        
         session?.stopRunning()
     }
     
@@ -205,18 +218,25 @@ final class FSVideoCameraView: UIView {
     
     @IBAction func flipButtonPressed(_ sender: UIButton) {
         
-        session?.stopRunning()
+        guard let session = session else { return }
+        
+        session.stopRunning()
         
         do {
             
-            session?.beginConfiguration()
+            session.beginConfiguration()
             
-            if let session = session {
+            for input in session.inputs {
                 
-                for input in session.inputs {
+                if let input = input as? AVCaptureInput {
                     
                     session.removeInput(input )
                 }
+            }
+            
+            let position = videoInput?.device.position == AVCaptureDevicePosition.front ? AVCaptureDevicePosition.back : AVCaptureDevicePosition.front
+            
+            for device in AVCaptureDevice.devices(withMediaType: AVMediaTypeVideo) {
                 
                 let position = (videoInput?.device.position == AVCaptureDevice.Position.front) ? AVCaptureDevice.Position.back : AVCaptureDevice.Position.front
                 
@@ -229,28 +249,33 @@ final class FSVideoCameraView: UIView {
                         
                     }
                 }
-                
             }
             
-            session?.commitConfiguration()
-            
+            session.commitConfiguration()
             
         } catch {
             
         }
         
-        session?.startRunning()
+        session.startRunning()
     }
     
     @IBAction func flashButtonPressed(_ sender: UIButton) {
         
         do {
             
-            if let device = device {
+            guard let device = device else { return }
+            
+            try device.lockForConfiguration()
+            
+            let mode = device.flashMode
+            
+            switch mode {
                 
-                try device.lockForConfiguration()
+            case .off:
                 
-                let mode = device.flashMode
+                device.flashMode = AVCaptureFlashMode.on
+                flashButton.setImage(flashOnImage, for: UIControlState())
                 
                 if mode == AVCaptureDevice.FlashMode.off {
                     
@@ -263,18 +288,19 @@ final class FSVideoCameraView: UIView {
                     flashButton.setImage(flashOffImage, for: UIControlState())
                 }
                 
-                device.unlockForConfiguration()
+            default:
                 
+                break
             }
+            
+            device.unlockForConfiguration()
             
         } catch _ {
             
             flashButton.setImage(flashOffImage, for: UIControlState())
             return
         }
-        
     }
-
 }
 
 extension FSVideoCameraView: AVCaptureFileOutputRecordingDelegate {
@@ -287,22 +313,63 @@ extension FSVideoCameraView: AVCaptureFileOutputRecordingDelegate {
         print("finished recording to: \(outputFileURL)")
         self.delegate?.videoFinished(withFileURL: outputFileURL)
     }
-    
 }
 
-extension FSVideoCameraView {
+fileprivate extension FSVideoCameraView {
+    
+    func toggleRecording() {
+        
+        guard let videoOutput = videoOutput else { return }
+        
+        self.isRecording = !self.isRecording
+        
+        let shotImage = self.isRecording ? videoStopImage : videoStartImage
+        
+        self.shotButton.setImage(shotImage, for: UIControlState())
+        
+        if self.isRecording {
+            
+            let outputPath = "\(NSTemporaryDirectory())output.mov"
+            let outputURL = URL(fileURLWithPath: outputPath)
+            
+            let fileManager = FileManager.default
+            if fileManager.fileExists(atPath: outputPath) {
+                
+                do {
+                    
+                    try fileManager.removeItem(atPath: outputPath)
+                    
+                } catch {
+                    
+                    print("error removing item at path: \(outputPath)")
+                    self.isRecording = false
+                    return
+                }
+            }
+            
+            self.flipButton.isEnabled = false
+            self.flashButton.isEnabled = false
+            videoOutput.startRecording(toOutputFileURL: outputURL, recordingDelegate: self)
+            
+        } else {
+            
+            videoOutput.stopRecording()
+            self.flipButton.isEnabled = true
+            self.flashButton.isEnabled = true
+        }
+    }
     
     @objc func focus(_ recognizer: UITapGestureRecognizer) {
         
-        let point = recognizer.location(in: self)
+        let point    = recognizer.location(in: self)
         let viewsize = self.bounds.size
-        let newPoint = CGPoint(x: point.y/viewsize.height, y: 1.0-point.x/viewsize.width)
+        let newPoint = CGPoint(x: point.y / viewsize.height, y: 1.0-point.x / viewsize.width)
         
         let device = AVCaptureDevice.default(for: AVMediaType.video)
         
         do {
             
-            try device?.lockForConfiguration()
+            try device.lockForConfiguration()
             
         } catch _ {
             
@@ -321,24 +388,33 @@ extension FSVideoCameraView {
             device?.exposurePointOfInterest = newPoint
         }
         
-        device?.unlockForConfiguration()
+        device.unlockForConfiguration()
         
-        self.focusView?.alpha = 0.0
-        self.focusView?.center = point
-        self.focusView?.backgroundColor = UIColor.clear
-        self.focusView?.layer.borderColor = UIColor.white.cgColor
-        self.focusView?.layer.borderWidth = 1.0
-        self.focusView!.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
-        self.addSubview(self.focusView!)
+        guard let focusView = focusView else { return }
         
-        UIView.animate(withDuration: 0.8, delay: 0.0, usingSpringWithDamping: 0.8,
-                                   initialSpringVelocity: 3.0, options: UIViewAnimationOptions.curveEaseIn, // UIViewAnimationOptions.BeginFromCurrentState
+        focusView.alpha  = 0.0
+        focusView.center = point
+        focusView.backgroundColor   = UIColor.clear
+        focusView.layer.borderColor = UIColor.white.cgColor
+        focusView.layer.borderWidth = 1.0
+        focusView.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
+        addSubview(focusView)
+        
+        UIView.animate(
+            withDuration: 0.8,
+            delay: 0.0,
+            usingSpringWithDamping: 0.8,
+            initialSpringVelocity: 3.0,
+            options: UIViewAnimationOptions.curveEaseIn,
             animations: {
-                self.focusView!.alpha = 1.0
-                self.focusView!.transform = CGAffineTransform(scaleX: 0.7, y: 0.7)
-            }, completion: {(finished) in
-                self.focusView!.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
-                self.focusView!.removeFromSuperview()
+                
+                focusView.alpha = 1.0
+                focusView.transform = CGAffineTransform(scaleX: 0.7, y: 0.7)
+        
+        }, completion: {(finished) in
+        
+            focusView.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
+            focusView.removeFromSuperview()
         })
     }
     
