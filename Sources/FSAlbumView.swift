@@ -26,18 +26,17 @@ final class FSAlbumView: UIView, UICollectionViewDataSource, UICollectionViewDel
     @IBOutlet weak var collectionViewConstraintHeight: NSLayoutConstraint!
     @IBOutlet weak var imageCropViewConstraintTop: NSLayoutConstraint!
 
-    weak var delegate: FSAlbumViewDelegate? = nil
-    var allowMultipleSelection = false
+    @objc weak var delegate: FSAlbumViewDelegate? = nil
+    @objc var allowMultipleSelection = false
     
-    fileprivate var images: PHFetchResult<PHAsset>!
-    fileprivate var imageManager: PHCachingImageManager?
-    fileprivate var previousPreheatRect: CGRect = .zero
-    fileprivate let cellSize = CGSize(width: 100, height: 100)
+    @objc var images: PHFetchResult<PHAsset>!
+    @objc var imageManager: PHCachingImageManager?
+    @objc var previousPreheatRect: CGRect = .zero
+    @objc let cellSize = CGSize(width: 100, height: 100)
+    @objc var phAsset: PHAsset!
     
-    var phAsset: PHAsset!
-    
-    var selectedImages: [UIImage] = []
-    var selectedAssets: [PHAsset] = []
+    @objc var selectedImages: [UIImage] = []
+    @objc var selectedAssets: [PHAsset] = []
     
     // Variables for calculating the position
     enum Direction {
@@ -46,27 +45,28 @@ final class FSAlbumView: UIView, UICollectionViewDataSource, UICollectionViewDel
         case up
         case down
     }
+    @objc let imageCropViewOriginalConstraintTop: CGFloat = 50
+    @objc let imageCropViewMinimalVisibleHeight: CGFloat  = 100
+    var dragDirection = Direction.up
+    @objc var imaginaryCollectionViewOffsetStartPosY: CGFloat = 0.0
     
-    fileprivate var dragDirection = Direction.up
-
-    private let imageCropViewOriginalConstraintTop: CGFloat = 50
-    private let imageCropViewMinimalVisibleHeight: CGFloat  = 100
-    private var imaginaryCollectionViewOffsetStartPosY: CGFloat = 0.0
+    @objc var cropBottomY: CGFloat  = 0.0
+    @objc var dragStartPos: CGPoint = CGPoint.zero
+    @objc let dragDiff: CGFloat     = 20.0
     
-    private var cropBottomY: CGFloat  = 0.0
-    private var dragStartPos: CGPoint = CGPoint.zero
-    private let dragDiff: CGFloat     = 20.0
-    
-    static func instance() -> FSAlbumView {
+    @objc static func instance() -> FSAlbumView {
         
         return UINib(nibName: "FSAlbumView", bundle: Bundle(for: self.classForCoder())).instantiate(withOwner: self, options: nil)[0] as! FSAlbumView
     }
     
-    func initialize() {
+    @objc func initialize() {
         
-        if images != nil { return }
-		
-		self.isHidden = false
+        if images != nil {
+            
+            return
+        }
+        
+        self.isHidden = false
 
         // Set Image Crop Ratio
         if let heightRatio = delegate?.getCropHeightRatio() {
@@ -96,7 +96,7 @@ final class FSAlbumView: UIView, UICollectionViewDataSource, UICollectionViewDel
         imageCropViewContainer.layer.shadowOffset  = CGSize.zero
         
         collectionView.register(UINib(nibName: "FSAlbumViewCell", bundle: Bundle(for: self.classForCoder)), forCellWithReuseIdentifier: "FSAlbumViewCell")
-		collectionView.backgroundColor = fusumaBackgroundColor
+        collectionView.backgroundColor = fusumaBackgroundColor
         collectionView.allowsMultipleSelection = allowMultipleSelection
         
         // Never load photos Unless the user allows to access to photo album
@@ -134,7 +134,7 @@ final class FSAlbumView: UIView, UICollectionViewDataSource, UICollectionViewDel
         return true
     }
     
-    func panned(_ sender: UITapGestureRecognizer) {
+    @objc func panned(_ sender: UITapGestureRecognizer) {
         
         if sender.state == UIGestureRecognizerState.began {
             
@@ -293,7 +293,7 @@ final class FSAlbumView: UIView, UICollectionViewDataSource, UICollectionViewDel
         return images == nil ? 0 : images.count
     }
     
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: IndexPath) -> CGSize {
+    @objc func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: IndexPath) -> CGSize {
         
         let width = (collectionView.frame.width - 3) / 4
         return CGSize(width: width, height: width)
@@ -324,7 +324,7 @@ final class FSAlbumView: UIView, UICollectionViewDataSource, UICollectionViewDel
         
         let asset = self.images[(indexPath as NSIndexPath).item]
         
-        let selectedAsset = selectedAssets.enumerated().filter ({ $1 == asset }).first
+        let selectedAsset = selectedAssets.enumerated().filter ({ $0.1 == asset }).first
         
         if let selected = selectedAsset {
             
@@ -399,8 +399,7 @@ final class FSAlbumView: UIView, UICollectionViewDataSource, UICollectionViewDel
 
 internal extension UICollectionView {
     
-    func aapl_indexPathsForElementsInRect(_ rect: CGRect) -> [IndexPath] {
-        
+    @objc func aapl_indexPathsForElementsInRect(_ rect: CGRect) -> [IndexPath] {
         let allLayoutAttributes = self.collectionViewLayout.layoutAttributesForElements(in: rect)
         if (allLayoutAttributes?.count ?? 0) == 0 {return []}
         

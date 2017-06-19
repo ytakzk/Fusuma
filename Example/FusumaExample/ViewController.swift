@@ -43,8 +43,7 @@ class ViewController: UIViewController, FusumaDelegate {
     }
     
     // MARK: FusumaDelegate Protocol
-    func fusumaImageSelected(_ image: UIImage, source: FusumaMode) {
-        
+    @objc func fusumaImageSelected(_ image: UIImage, source: FusumaMode) {
         switch source {
             
         case .camera:
@@ -63,8 +62,7 @@ class ViewController: UIViewController, FusumaDelegate {
         imageView.image = image
     }
     
-    func fusumaMultipleImageSelected(_ images: [UIImage], source: FusumaMode) {
-        
+    @objc func fusumaMultipleImageSelected(_ images: [UIImage], source: FusumaMode) {
         print("Number of selection images: \(images.count)")
 
         var count: Double = 0
@@ -92,14 +90,12 @@ class ViewController: UIViewController, FusumaDelegate {
         print("Location: \(String(describing: metaData.location))")
     }
 
-    func fusumaVideoCompleted(withFileURL fileURL: URL) {
-        
+    @objc func fusumaVideoCompleted(withFileURL fileURL: URL) {
         print("video completed and output to file: \(fileURL)")
         self.fileUrlLabel.text = "file output to: \(fileURL.absoluteString)"
     }
     
-    func fusumaDismissedWithImage(_ image: UIImage, source: FusumaMode) {
-        
+    @objc func fusumaDismissedWithImage(_ image: UIImage, source: FusumaMode) {
         switch source {
         
         case .camera:
@@ -116,7 +112,7 @@ class ViewController: UIViewController, FusumaDelegate {
         }
     }
     
-    func fusumaCameraRollUnauthorized() {
+    @objc func fusumaCameraRollUnauthorized() {
         
         print("Camera roll unauthorized")
         
@@ -139,13 +135,11 @@ class ViewController: UIViewController, FusumaDelegate {
         self.present(alert, animated: true, completion: nil)
     }
     
-    func fusumaClosed() {
-        
+    @objc func fusumaClosed() {
         print("Called when the FusumaViewController disappeared")
     }
     
-    func fusumaWillClosed() {
-        
+    @objc func fusumaWillClosed() {
         print("Called when the close button is pressed")
     }
 

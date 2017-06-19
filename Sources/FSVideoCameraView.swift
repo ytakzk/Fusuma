@@ -56,8 +56,7 @@ final class FSVideoCameraView: UIView {
         
         for device in AVCaptureDevice.devices() {
             
-            if let device = device as? AVCaptureDevice,
-                device.position == AVCaptureDevicePosition.back {
+            if device.position == AVCaptureDevice.Position.back {
                 
                 self.device = device
             }
@@ -65,20 +64,32 @@ final class FSVideoCameraView: UIView {
         
         do {
             
-            videoInput = try AVCaptureDeviceInput(device: device)
-            
-            session.addInput(videoInput)
-            
-            videoOutput = AVCaptureMovieFileOutput()
-            let totalSeconds = 60.0 //Total Seconds of capture time
-            let timeScale: Int32 = 30 //FPS
-            
-            let maxDuration = CMTimeMakeWithSeconds(totalSeconds, timeScale)
-            
-            videoOutput?.maxRecordedDuration = maxDuration
-            videoOutput?.minFreeDiskSpaceLimit = 1024 * 1024 //SET MIN FREE SPACE IN BYTES FOR RECORDING TO CONTINUE ON A VOLUME
-            
-            if session.canAddOutput(videoOutput) {
+            if let session = session {
+                
+                videoInput = try AVCaptureDeviceInput(device: device!)
+                
+                session.addInput(videoInput!)
+                
+                videoOutput = AVCaptureMovieFileOutput()
+                let totalSeconds = 60.0 //Total Seconds of capture time
+                let timeScale: Int32 = 30 //FPS
+                
+                let maxDuration = CMTimeMakeWithSeconds(totalSeconds, timeScale)
+                
+                videoOutput?.maxRecordedDuration = maxDuration
+                videoOutput?.minFreeDiskSpaceLimit = 1024 * 1024 //SET MIN FREE SPACE IN BYTES FOR RECORDING TO CONTINUE ON A VOLUME
+                
+                if session.canAddOutput(videoOutput!) {
+                    session.addOutput(videoOutput!)
+                }
+                
+                let videoLayer = AVCaptureVideoPreviewLayer(session: session)
+                videoLayer.frame = self.previewViewContainer.bounds
+                videoLayer.videoGravity = AVLayerVideoGravity.resizeAspectFill
+                
+                self.previewViewContainer.layer.addSublayer(videoLayer)
+                
+                session.startRunning()
                 
                 session.addOutput(videoOutput)
             }
@@ -137,7 +148,7 @@ final class FSVideoCameraView: UIView {
     
     func startCamera() {
         
-        let status = AVCaptureDevice.authorizationStatus(forMediaType: AVMediaTypeVideo)
+        let status = AVCaptureDevice.authorizationStatus(for: AVMediaType.video)
         
         if status == AVAuthorizationStatus.authorized {
             
@@ -165,6 +176,46 @@ final class FSVideoCameraView: UIView {
         self.toggleRecording()
     }
     
+    fileprivate func toggleRecording() {
+        guard let videoOutput = videoOutput else {
+            return
+        }
+        
+        self.isRecording = !self.isRecording
+        
+        let shotImage: UIImage?
+        if self.isRecording {
+            shotImage = videoStopImage
+        } else {
+            shotImage = videoStartImage
+        }
+        self.shotButton.setImage(shotImage, for: UIControlState())
+        
+        if self.isRecording {
+            let outputPath = "\(NSTemporaryDirectory())output.mov"
+            let outputURL = URL(fileURLWithPath: outputPath)
+            
+            let fileManager = FileManager.default
+            if fileManager.fileExists(atPath: outputPath) {
+                do {
+                    try fileManager.removeItem(atPath: outputPath)
+                } catch {
+                    print("error removing item at path: \(outputPath)")
+                    self.isRecording = false
+                    return
+                }
+            }
+            self.flipButton.isEnabled = false
+            self.flashButton.isEnabled = false
+            videoOutput.startRecording(to: outputURL, recordingDelegate: self)
+        } else {
+            videoOutput.stopRecording()
+            self.flipButton.isEnabled = true
+            self.flashButton.isEnabled = true
+        }
+        return
+    }
+    
     @IBAction func flipButtonPressed(_ sender: UIButton) {
         
         guard let session = session else { return }
@@ -179,7 +230,7 @@ final class FSVideoCameraView: UIView {
                 
                 if let input = input as? AVCaptureInput {
                     
-                    session.removeInput(input)
+                    session.removeInput(input )
                 }
             }
             
@@ -187,11 +238,16 @@ final class FSVideoCameraView: UIView {
             
             for device in AVCaptureDevice.devices(withMediaType: AVMediaTypeVideo) {
                 
-                if let device = device as? AVCaptureDevice,
-                    device.position == position {
+                let position = (videoInput?.device.position == AVCaptureDevice.Position.front) ? AVCaptureDevice.Position.back : AVCaptureDevice.Position.front
+                
+                for device in AVCaptureDevice.devices(for: AVMediaType.video) {
                     
-                    videoInput = try AVCaptureDeviceInput(device: device)
-                    session.addInput(videoInput)
+                    if device.position == position {
+                        
+                        videoInput = try AVCaptureDeviceInput(device: device)
+                        session.addInput(videoInput!)
+                        
+                    }
                 }
             }
             
@@ -221,10 +277,16 @@ final class FSVideoCameraView: UIView {
                 device.flashMode = AVCaptureFlashMode.on
                 flashButton.setImage(flashOnImage, for: UIControlState())
                 
-            case .on:
-                
-                device.flashMode = AVCaptureFlashMode.off
-                flashButton.setImage(flashOffImage, for: UIControlState())
+                if mode == AVCaptureDevice.FlashMode.off {
+                    
+                    device.flashMode = AVCaptureDevice.FlashMode.on
+                    flashButton.setImage(flashOnImage, for: UIControlState())
+                    
+                } else if mode == AVCaptureDevice.FlashMode.on {
+                    
+                    device.flashMode = AVCaptureDevice.FlashMode.off
+                    flashButton.setImage(flashOffImage, for: UIControlState())
+                }
                 
             default:
                 
@@ -243,13 +305,11 @@ final class FSVideoCameraView: UIView {
 
 extension FSVideoCameraView: AVCaptureFileOutputRecordingDelegate {
     
-    func capture(_ captureOutput: AVCaptureFileOutput!, didStartRecordingToOutputFileAt fileURL: URL!, fromConnections connections: [Any]!) {
-        
+    func fileOutput(_ captureOutput: AVCaptureFileOutput, didStartRecordingTo fileURL: URL, from connections: [AVCaptureConnection]) {
         print("started recording to: \(fileURL)")
     }
     
-    func capture(_ captureOutput: AVCaptureFileOutput!, didFinishRecordingToOutputFileAt outputFileURL: URL!, fromConnections connections: [Any]!, error: Error!) {
-        
+    func fileOutput(_ captureOutput: AVCaptureFileOutput, didFinishRecordingTo outputFileURL: URL, from connections: [AVCaptureConnection], error: Error?) {
         print("finished recording to: \(outputFileURL)")
         self.delegate?.videoFinished(withFileURL: outputFileURL)
     }
@@ -305,10 +365,7 @@ fileprivate extension FSVideoCameraView {
         let viewsize = self.bounds.size
         let newPoint = CGPoint(x: point.y / viewsize.height, y: 1.0-point.x / viewsize.width)
         
-        guard let device = AVCaptureDevice.defaultDevice(withMediaType: AVMediaTypeVideo) else {
-            
-            return
-        }
+        let device = AVCaptureDevice.default(for: AVMediaType.video)
         
         do {
             
@@ -319,16 +376,16 @@ fileprivate extension FSVideoCameraView {
             return
         }
         
-        if device.isFocusModeSupported(AVCaptureFocusMode.autoFocus) == true {
+        if device?.isFocusModeSupported(AVCaptureDevice.FocusMode.autoFocus) == true {
             
-            device.focusMode = AVCaptureFocusMode.autoFocus
-            device.focusPointOfInterest = newPoint
+            device?.focusMode = AVCaptureDevice.FocusMode.autoFocus
+            device?.focusPointOfInterest = newPoint
         }
         
-        if device.isExposureModeSupported(AVCaptureExposureMode.continuousAutoExposure) == true {
+        if device?.isExposureModeSupported(AVCaptureDevice.ExposureMode.continuousAutoExposure) == true {
             
-            device.exposureMode = AVCaptureExposureMode.continuousAutoExposure
-            device.exposurePointOfInterest = newPoint
+            device?.exposureMode = AVCaptureDevice.ExposureMode.continuousAutoExposure
+            device?.exposurePointOfInterest = newPoint
         }
         
         device.unlockForConfiguration()
@@ -365,14 +422,16 @@ fileprivate extension FSVideoCameraView {
         
         do {
             
-            guard let device = device else { return }
-            
-            try device.lockForConfiguration()
-            
-            device.flashMode = AVCaptureFlashMode.off
-            flashButton.setImage(flashOffImage, for: UIControlState())
-            
-            device.unlockForConfiguration()
+            if let device = device {
+                
+                try device.lockForConfiguration()
+                
+                device.flashMode = AVCaptureDevice.FlashMode.off
+                flashButton.setImage(flashOffImage, for: UIControlState())
+                
+                device.unlockForConfiguration()
+                
+            }
             
         } catch _ {
             

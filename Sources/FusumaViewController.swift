@@ -97,13 +97,13 @@ public struct ImageMetadata {
 
 public class FusumaViewController: UIViewController {
 
-    public var hasVideo = false
-    public var cropHeightRatio: CGFloat = 1
-    public var allowMultipleSelection: Bool = false
+    @objc public var hasVideo = false
+    @objc public var cropHeightRatio: CGFloat = 1
+    @objc public var allowMultipleSelection: Bool = false
 
-    fileprivate var mode: FusumaMode = .none
-    public var defaultMode: FusumaMode = .library
-    fileprivate var willFilter = true
+    @objc var mode: FusumaMode = .none
+    @objc public var defaultMode: FusumaMode = .library
+    @objc var willFilter = true
 
     @IBOutlet weak var photoLibraryViewerContainer: UIView!
     @IBOutlet weak var cameraShotContainer: UIView!
@@ -120,9 +120,9 @@ public class FusumaViewController: UIViewController {
     @IBOutlet var libraryFirstConstraints: [NSLayoutConstraint]!
     @IBOutlet var cameraFirstConstraints: [NSLayoutConstraint]!
     
-    lazy var albumView  = FSAlbumView.instance()
-    lazy var cameraView = FSCameraView.instance()
-    lazy var videoView  = FSVideoCameraView.instance()
+    @objc lazy var albumView  = FSAlbumView.instance()
+    @objc lazy var cameraView = FSCameraView.instance()
+    @objc lazy var videoView = FSVideoCameraView.instance()
 
     fileprivate var hasGalleryPermission: Bool {
         
