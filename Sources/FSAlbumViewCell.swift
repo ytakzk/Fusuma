@@ -13,7 +13,7 @@ final class FSAlbumViewCell: UICollectionViewCell {
     
     @IBOutlet weak var imageView: UIImageView!
     
-    var image: UIImage? {
+    @objc var image: UIImage? {
         
         didSet {
             
