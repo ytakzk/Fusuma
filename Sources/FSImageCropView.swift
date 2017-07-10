@@ -10,11 +10,11 @@ import UIKit
 
 final class FSImageCropView: UIScrollView, UIScrollViewDelegate {
     
-    var imageView = UIImageView()
+    @objc var imageView = UIImageView()
     
     var imageSize: CGSize?
     
-    var image: UIImage! = nil {
+    @objc var image: UIImage! = nil {
         
         didSet {
             
@@ -96,7 +96,7 @@ final class FSImageCropView: UIScrollView, UIScrollViewDelegate {
     }
     
     
-    func changeScrollable(_ isScrollable: Bool) {
+    @objc func changeScrollable(_ isScrollable: Bool) {
         
         self.isScrollEnabled = isScrollable
     }
