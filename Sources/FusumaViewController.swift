@@ -101,7 +101,7 @@ public struct ImageMetadata {
     public let isHidden: Bool
 }
 
-public class FusumaViewController: UIViewController {
+@objc public class FusumaViewController: UIViewController {
 
     public var hasVideo = false
     public var cropHeightRatio: CGFloat = 1
