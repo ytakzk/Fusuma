@@ -31,7 +31,7 @@ fileprivate func > <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
   }
 }
 
-@objc public protocol FusumaDelegate: class {
+public protocol FusumaDelegate: class {
     
     func fusumaImageSelected(_ image: UIImage, source: FusumaMode)
     func fusumaMultipleImageSelected(_ images: [UIImage], source: FusumaMode)
