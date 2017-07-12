@@ -22,6 +22,11 @@ class ViewController: UIViewController, FusumaDelegate {
         showButton.layer.cornerRadius = 2.0
         self.fileUrlLabel.text = ""
     }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        
+        
+    }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
