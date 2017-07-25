@@ -135,14 +135,13 @@ final class FSAlbumView: UIView, UICollectionViewDataSource, UICollectionViewDel
     
     func panned(_ sender: UITapGestureRecognizer) {
         
+        let view    = sender.view
+        var loc     = sender.location(in: view)
+        let subview = view?.hitTest(loc, with: nil)
+        
         if sender.state == UIGestureRecognizerState.began {
             
-            let view    = sender.view
-            let loc     = sender.location(in: view)
-            let subview = view?.hitTest(loc, with: nil)
-            
             if subview == imageCropView && imageCropViewConstraintTop.constant == imageCropViewOriginalConstraintTop {
-                
                 return
             }
             
@@ -309,7 +308,7 @@ final class FSAlbumView: UIView, UICollectionViewDataSource, UICollectionViewDel
             
             }, completion: nil)
         
-        dragDirection = Direction.up
+        dragDirection = Direction.stop
         collectionView.scrollToItem(at: indexPath, at: .top, animated: true)
     }
     

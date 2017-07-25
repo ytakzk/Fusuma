@@ -36,7 +36,6 @@ class ViewController: UIViewController, FusumaDelegate {
         fusuma.delegate = self
         fusuma.selectedMode = .library
         fusuma.allowedModes = [.library, .video]
-        fusuma.libraryMediaTypes = [.video]
 
         self.present(fusuma, animated: true, completion: nil)
     }
