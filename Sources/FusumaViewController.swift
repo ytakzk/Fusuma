@@ -109,7 +109,6 @@ public struct ImageMetadata {
 
     fileprivate var mode: FusumaMode = .none
     public var defaultMode: FusumaMode = .library
-    fileprivate var willFilter = true
 
     @IBOutlet weak var photoLibraryViewerContainer: UIView!
     @IBOutlet weak var cameraShotContainer: UIView!
