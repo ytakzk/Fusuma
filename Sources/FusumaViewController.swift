@@ -564,7 +564,6 @@ private extension FusumaViewController {
             break
         }
         
-        doneButton.isHidden = !hasGalleryPermission
         self.view.bringSubview(toFront: menuView)
     }
     
