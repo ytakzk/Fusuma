@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11542" systemVersion="16B2555" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13122.19" systemVersion="16E195" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11524"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13104.16"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -16,11 +16,22 @@
             <rect key="frame" x="0.0" y="0.0" width="400" height="600"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="SZ8-Sp-jjd">
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="E8u-8j-7AK">
                     <rect key="frame" x="0.0" y="50" width="400" height="450"/>
-                    <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <subviews>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="SZ8-Sp-jjd">
+                            <rect key="frame" x="0.0" y="-41.5" width="400" height="533"/>
+                            <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <constraints>
+                                <constraint firstAttribute="width" secondItem="SZ8-Sp-jjd" secondAttribute="height" multiplier="3:4" priority="750" id="50d-Ra-Hof"/>
+                            </constraints>
+                        </view>
+                    </subviews>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     <constraints>
-                        <constraint firstAttribute="width" secondItem="SZ8-Sp-jjd" secondAttribute="height" multiplier="3:4" priority="750" id="50d-Ra-Hof"/>
+                        <constraint firstAttribute="trailing" secondItem="SZ8-Sp-jjd" secondAttribute="trailing" id="Qj5-fh-Pbg"/>
+                        <constraint firstItem="SZ8-Sp-jjd" firstAttribute="centerY" secondItem="E8u-8j-7AK" secondAttribute="centerY" id="Z8G-yG-1hL"/>
+                        <constraint firstItem="SZ8-Sp-jjd" firstAttribute="leading" secondItem="E8u-8j-7AK" secondAttribute="leading" id="lXj-nP-wj8"/>
                     </constraints>
                 </view>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="oUi-qP-Neb">
@@ -71,19 +82,19 @@
                         <constraint firstItem="De1-Cg-kBb" firstAttribute="centerY" secondItem="oUi-qP-Neb" secondAttribute="centerY" id="cU7-qe-tJP"/>
                         <constraint firstItem="cf2-eo-TZZ" firstAttribute="centerY" secondItem="oUi-qP-Neb" secondAttribute="centerY" id="dIP-Xc-fVX"/>
                         <constraint firstItem="cf2-eo-TZZ" firstAttribute="leading" secondItem="oUi-qP-Neb" secondAttribute="leading" constant="15" id="qOq-Sy-3cE"/>
-                        <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="100" id="sGm-NU-u2R"/>
+                        <constraint firstAttribute="height" constant="100" id="sGm-NU-u2R"/>
                     </constraints>
                 </view>
             </subviews>
             <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
+                <constraint firstAttribute="trailing" secondItem="E8u-8j-7AK" secondAttribute="trailing" id="25l-cB-kvQ"/>
                 <constraint firstAttribute="bottom" secondItem="oUi-qP-Neb" secondAttribute="bottom" id="7zn-vY-NCd"/>
                 <constraint firstAttribute="trailing" secondItem="oUi-qP-Neb" secondAttribute="trailing" id="HM7-dt-RPz"/>
-                <constraint firstItem="oUi-qP-Neb" firstAttribute="top" secondItem="SZ8-Sp-jjd" secondAttribute="bottom" id="KEj-9P-kyb"/>
                 <constraint firstItem="oUi-qP-Neb" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="Lpo-QC-qmm"/>
-                <constraint firstItem="SZ8-Sp-jjd" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="50" id="XnG-nk-Wcr"/>
-                <constraint firstAttribute="trailing" secondItem="SZ8-Sp-jjd" secondAttribute="trailing" id="bms-F5-8H5"/>
-                <constraint firstItem="SZ8-Sp-jjd" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="x7t-wb-WiH"/>
+                <constraint firstItem="oUi-qP-Neb" firstAttribute="top" secondItem="E8u-8j-7AK" secondAttribute="bottom" id="Mv3-OV-KA6"/>
+                <constraint firstItem="E8u-8j-7AK" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="50" id="QXO-dg-XhL"/>
+                <constraint firstItem="E8u-8j-7AK" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="Qge-ev-jJm"/>
             </constraints>
             <nil key="simulatedStatusBarMetrics"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
