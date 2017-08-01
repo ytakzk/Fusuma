@@ -29,9 +29,12 @@
                     </subviews>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     <constraints>
-                        <constraint firstAttribute="trailing" secondItem="SZ8-Sp-jjd" secondAttribute="trailing" id="Qj5-fh-Pbg"/>
+                        <constraint firstAttribute="bottom" secondItem="SZ8-Sp-jjd" secondAttribute="bottom" priority="999" id="JPM-0F-0Gx"/>
+                        <constraint firstItem="SZ8-Sp-jjd" firstAttribute="centerX" secondItem="E8u-8j-7AK" secondAttribute="centerX" id="Jfr-wl-9Zg"/>
+                        <constraint firstAttribute="trailing" secondItem="SZ8-Sp-jjd" secondAttribute="trailing" priority="999" id="Qj5-fh-Pbg"/>
                         <constraint firstItem="SZ8-Sp-jjd" firstAttribute="centerY" secondItem="E8u-8j-7AK" secondAttribute="centerY" id="Z8G-yG-1hL"/>
-                        <constraint firstItem="SZ8-Sp-jjd" firstAttribute="leading" secondItem="E8u-8j-7AK" secondAttribute="leading" id="lXj-nP-wj8"/>
+                        <constraint firstItem="SZ8-Sp-jjd" firstAttribute="top" secondItem="E8u-8j-7AK" secondAttribute="top" priority="999" id="d7G-JC-BLZ"/>
+                        <constraint firstItem="SZ8-Sp-jjd" firstAttribute="leading" secondItem="E8u-8j-7AK" secondAttribute="leading" priority="999" id="lXj-nP-wj8"/>
                     </constraints>
                 </view>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="oUi-qP-Neb">
