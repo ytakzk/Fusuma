@@ -175,7 +175,7 @@ public struct ImageMetadata {
             let albumImage  = albumImage?.withRenderingMode(.alwaysTemplate)
             let cameraImage = cameraImage?.withRenderingMode(.alwaysTemplate)
             let closeImage  = closeImage?.withRenderingMode(.alwaysTemplate)
-            let videoImage  = closeImage?.withRenderingMode(.alwaysTemplate)
+            let videoImage  = videoImage?.withRenderingMode(.alwaysTemplate)
             let checkImage  = checkImage?.withRenderingMode(.alwaysTemplate)
 
             libraryButton.setImage(albumImage, for: UIControlState())
