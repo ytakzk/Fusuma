@@ -57,6 +57,9 @@ Import Fusuma ```import Fusuma``` then use the following codes in some function 
 let fusuma = FusumaViewController()
 fusuma.delegate = self
 fusuma.hasVideo = true // If you want to let the users allow to use video.
+fusuma.cropHeightRatio = 0.6 // Height-to-width ratio. The default value is 1, which means a squared-size photo.
+fusuma.allowMultipleSelection = true // You can select multiple photos from the camera roll. The default value is false.
+fusuma.defaultMode = .photo // The first choice to show (.camera, .library, .video). The default value is .camera.
 self.presentViewController(fusuma, animated: true, completion: nil)
 ```
 
@@ -64,13 +67,13 @@ self.presentViewController(fusuma, animated: true, completion: nil)
 
 ```Swift
 // Return the image which is selected from camera roll or is taken via the camera.
-func fusumaImageSelected(image: UIImage) {
+func fusumaImageSelected(image: UIImage, source: FusumaMode) {
 
   print("Image selected")
 }
 
 // Return the image but called after is dismissed.
-func fusumaDismissedWithImage(image: UIImage) {
+func fusumaDismissedWithImage(image: UIImage, source: FusumaMode) {
         
   print("Called just after FusumaViewController is dismissed.")
 }
@@ -84,6 +87,16 @@ func fusumaVideoCompleted(withFileURL fileURL: NSURL) {
 func fusumaCameraRollUnauthorized() {
 
   print("Camera roll unauthorized")
+}
+
+// Return selected images when you allow to select multiple photos.
+func fusumaMultipleImageSelected(images: [UIImage], source: FusumaMode) {
+
+}
+
+// Return an image and the detailed information.
+func fusumaImageSelected(_ image: UIImage, source: FusumaMode, metaData: ImageMetadata) {
+
 }
 ```
 
