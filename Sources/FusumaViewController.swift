@@ -99,6 +99,7 @@ public struct ImageMetadata {
     public let duration: TimeInterval
     public let isFavourite: Bool
     public let isHidden: Bool
+    public let asset: PHAsset
 }
 
 @objc public class FusumaViewController: UIViewController {
@@ -376,7 +377,8 @@ public struct ImageMetadata {
                     location: self.albumView.phAsset.location,
                     duration: self.albumView.phAsset.duration,
                     isFavourite: self.albumView.phAsset.isFavorite,
-                    isHidden: self.albumView.phAsset.isHidden)
+                    isHidden: self.albumView.phAsset.isHidden,
+                    asset: self.albumView.phAsset)
                 
                 self.delegate?.fusumaImageSelected(image, source: self.mode, metaData: metaData)
             }
