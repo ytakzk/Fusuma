@@ -458,6 +458,7 @@ extension FusumaViewController: FSAlbumViewDelegate, FSCameraViewDelegate, FSVid
     // MARK: FSAlbumViewDelegate
     public func albumViewCameraRollUnauthorized() {
         
+        self.updateDoneButtonVisibility()
         delegate?.fusumaCameraRollUnauthorized()
     }
     
