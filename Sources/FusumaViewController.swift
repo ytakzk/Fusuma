@@ -57,9 +57,6 @@ public var fusumaBaseTintColor   = UIColor.hex("#c9c7c8", alpha: 1.0)
 public var fusumaTintColor       = UIColor.hex("#424141", alpha: 1.0)
 public var fusumaBackgroundColor = UIColor.hex("#FCFCFC", alpha: 1.0)
 
-public var fusumaAlbumImage: UIImage?
-public var fusumaCameraImage: UIImage?
-public var fusumaVideoImage: UIImage?
 public var fusumaCheckImage: UIImage?
 public var fusumaCloseImage: UIImage?
 public var fusumaFlashOnImage: UIImage?
@@ -74,10 +71,10 @@ public var fusumaCropImage: Bool  = true
 
 public var fusumaSavesImage: Bool = false
 
-public var fusumaCameraRollTitle = "CAMERA ROLL"
-public var fusumaCameraTitle     = "PHOTO"
-public var fusumaVideoTitle      = "VIDEO"
-public var fusumaTitleFont       = UIFont(name: "AvenirNext-DemiBold", size: 15)
+public var fusumaCameraRollTitle    = "Library"
+public var fusumaCameraTitle        = "Photo"
+public var fusumaVideoTitle         = "Video"
+public var fusumaTitleFont          = UIFont(name: "AvenirNext-DemiBold", size: 15)
 
 public var fusumaTintIcons: Bool = true
 
@@ -153,6 +150,10 @@ public struct ImageMetadata {
         cameraView.delegate = self
         albumView.delegate  = self
         videoView.delegate  = self
+        
+        libraryButton.setTitle(fusumaCameraRollTitle, for: .normal)
+        cameraButton.setTitle(fusumaCameraTitle, for: .normal)
+        videoButton.setTitle(fusumaVideoTitle, for: .normal)
 
         menuView.backgroundColor = fusumaBackgroundColor
         menuView.addBottomBorder(UIColor.black, width: 1.0)
@@ -234,7 +235,6 @@ public struct ImageMetadata {
                 attribute: NSLayoutAttribute.width,
                 multiplier: heightRatio,
                 constant: 0)
-
             cameraView.fullAspectRatioConstraint.isActive     = false
             cameraView.croppedAspectRatioConstraint?.isActive = true
             
