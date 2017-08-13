@@ -10,11 +10,11 @@ You can use Fusuma instead of UIImagePickerController. It also has a feature to 
 [![codebeat](https://codebeat.co/badges/287ff7b1-4cda-4384-8780-88e1dbff95cd)](https://codebeat.co/projects/github-com-ytakzk-fusuma)
 
 ## Preview
-<img src="https://raw.githubusercontent.com/wiki/ytakzk/Fusuma/images/fusuma.gif" width="340px">
+<img src="./Demo/fusuma.gif?raw=true" width="340px">
 
 ## Images
-<img src="https://raw.githubusercontent.com/wiki/ytakzk/Fusuma/images/shot1.jpg" width="340px">
-<img src="https://raw.githubusercontent.com/wiki/ytakzk/Fusuma/images/shot2.jpg" width="340px">
+<img src="./Demo/camera_roll.png?raw=true" width="340px">
+<img src="./Demo/photo.png?raw=true" width="340px">
 
 ## Features
 - [x] UIImagePickerController alternative
