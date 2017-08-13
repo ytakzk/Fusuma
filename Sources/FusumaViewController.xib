@@ -51,7 +51,7 @@
                                 <constraint firstAttribute="height" constant="40" id="Ygl-n3-Z0d"/>
                             </constraints>
                             <inset key="contentEdgeInsets" minX="6" minY="6" maxX="6" maxY="6"/>
-                            <state key="normal" title="Close" image="ic_close"/>
+                            <state key="normal" image="ic_check"/>
                             <state key="selected" image="ic_close"/>
                             <state key="highlighted" image="ic_close"/>
                             <connections>
@@ -94,74 +94,82 @@
                         <constraint firstItem="Dx0-Tt-oZs" firstAttribute="top" secondItem="8ba-kc-jlJ" secondAttribute="top" constant="8" id="phx-7N-5Ks"/>
                     </constraints>
                 </view>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cph-QM-jcJ">
-                    <rect key="frame" x="0.0" y="686" width="138" height="50"/>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="RRN-qk-39x" userLabel="Button Container">
+                    <rect key="frame" x="0.0" y="686" width="414" height="50"/>
+                    <subviews>
+                        <button verifyAmbiguity="off" opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cph-QM-jcJ">
+                            <rect key="frame" x="0.0" y="0.0" width="138" height="50"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="50" id="m4l-1T-DT3"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" type="boldSystem" pointSize="16"/>
+                            <inset key="contentEdgeInsets" minX="2" minY="2" maxX="2" maxY="2"/>
+                            <state key="normal" title="Library"/>
+                            <state key="selected" image="ic_insert_photo"/>
+                            <state key="highlighted" image="ic_insert_photo"/>
+                            <connections>
+                                <action selector="libraryButtonPressed:" destination="-1" eventType="touchUpInside" id="4H9-TH-qO3"/>
+                            </connections>
+                        </button>
+                        <button verifyAmbiguity="off" opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8ew-Zi-63G">
+                            <rect key="frame" x="276" y="0.0" width="138" height="50"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="50" id="avw-QR-ZBs"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" type="boldSystem" pointSize="16"/>
+                            <inset key="imageEdgeInsets" minX="2" minY="3" maxX="2" maxY="2"/>
+                            <state key="normal" title="Video"/>
+                            <state key="selected" image="ic_photo_camera"/>
+                            <state key="highlighted" image="ic_photo_camera"/>
+                            <connections>
+                                <action selector="videoButtonPressed:" destination="-1" eventType="touchUpInside" id="jZa-kI-xDJ"/>
+                            </connections>
+                        </button>
+                        <button verifyAmbiguity="off" opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="sCN-QB-mCu">
+                            <rect key="frame" x="138" y="0.0" width="138" height="50"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="50" id="LOu-9w-eqA"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" type="boldSystem" pointSize="16"/>
+                            <inset key="imageEdgeInsets" minX="2" minY="3" maxX="2" maxY="2"/>
+                            <state key="normal" title="Photo"/>
+                            <state key="selected" image="ic_photo_camera"/>
+                            <state key="highlighted" image="ic_photo_camera"/>
+                            <connections>
+                                <action selector="photoButtonPressed:" destination="-1" eventType="touchUpInside" id="798-LR-edY"/>
+                            </connections>
+                        </button>
+                    </subviews>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     <constraints>
-                        <constraint firstAttribute="height" constant="50" id="ef6-hG-yx4"/>
+                        <constraint firstAttribute="bottom" secondItem="cph-QM-jcJ" secondAttribute="bottom" id="0GN-R6-bic"/>
+                        <constraint firstItem="8ew-Zi-63G" firstAttribute="top" secondItem="RRN-qk-39x" secondAttribute="top" id="1Hu-jA-DSq"/>
+                        <constraint firstAttribute="bottom" secondItem="8ew-Zi-63G" secondAttribute="bottom" id="6FO-d3-Bzg"/>
+                        <constraint firstAttribute="bottom" secondItem="sCN-QB-mCu" secondAttribute="bottom" id="NTJ-sM-SFD"/>
+                        <constraint firstItem="cph-QM-jcJ" firstAttribute="top" secondItem="RRN-qk-39x" secondAttribute="top" id="cmL-gA-G4i"/>
+                        <constraint firstItem="sCN-QB-mCu" firstAttribute="top" secondItem="RRN-qk-39x" secondAttribute="top" id="dQK-PT-KSm"/>
+                        <constraint firstAttribute="height" constant="50" id="nc5-7l-kEq"/>
                     </constraints>
-                    <fontDescription key="fontDescription" type="boldSystem" pointSize="16"/>
-                    <inset key="contentEdgeInsets" minX="2" minY="2" maxX="2" maxY="2"/>
-                    <state key="normal" title="Library"/>
-                    <state key="selected" image="ic_insert_photo"/>
-                    <state key="highlighted" image="ic_insert_photo"/>
-                    <connections>
-                        <action selector="libraryButtonPressed:" destination="-1" eventType="touchUpInside" id="4H9-TH-qO3"/>
-                    </connections>
-                </button>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8ew-Zi-63G">
-                    <rect key="frame" x="276" y="686" width="138" height="50"/>
-                    <constraints>
-                        <constraint firstAttribute="height" constant="50" id="vif-4h-eUh"/>
-                    </constraints>
-                    <fontDescription key="fontDescription" type="boldSystem" pointSize="16"/>
-                    <inset key="imageEdgeInsets" minX="2" minY="3" maxX="2" maxY="2"/>
-                    <state key="normal" title="Video"/>
-                    <state key="selected" image="ic_photo_camera"/>
-                    <state key="highlighted" image="ic_photo_camera"/>
-                    <connections>
-                        <action selector="videoButtonPressed:" destination="-1" eventType="touchUpInside" id="jZa-kI-xDJ"/>
-                    </connections>
-                </button>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="sCN-QB-mCu">
-                    <rect key="frame" x="138" y="686" width="138" height="50"/>
-                    <constraints>
-                        <constraint firstAttribute="height" constant="50" id="7VV-4q-BRr"/>
-                    </constraints>
-                    <fontDescription key="fontDescription" type="boldSystem" pointSize="16"/>
-                    <inset key="imageEdgeInsets" minX="2" minY="3" maxX="2" maxY="2"/>
-                    <state key="normal" title="Photo"/>
-                    <state key="selected" image="ic_photo_camera"/>
-                    <state key="highlighted" image="ic_photo_camera"/>
-                    <connections>
-                        <action selector="photoButtonPressed:" destination="-1" eventType="touchUpInside" id="798-LR-edY"/>
-                    </connections>
-                </button>
+                </view>
             </subviews>
             <color key="backgroundColor" red="0.16078431372549018" green="0.16078431372549018" blue="0.16078431372549018" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
                 <constraint firstAttribute="trailing" secondItem="8ba-kc-jlJ" secondAttribute="trailing" id="00c-gY-uy6"/>
+                <constraint firstAttribute="trailing" secondItem="RRN-qk-39x" secondAttribute="trailing" id="0W9-MQ-LcW"/>
                 <constraint firstItem="1Pk-29-mUG" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="0rm-S1-9o9"/>
-                <constraint firstItem="sCN-QB-mCu" firstAttribute="leading" secondItem="cph-QM-jcJ" secondAttribute="trailing" id="8Df-A3-2bv"/>
                 <constraint firstItem="8ba-kc-jlJ" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="ADX-qy-sfu"/>
-                <constraint firstAttribute="bottom" secondItem="sCN-QB-mCu" secondAttribute="bottom" id="Eol-81-9UT"/>
-                <constraint firstItem="sCN-QB-mCu" firstAttribute="top" secondItem="cph-QM-jcJ" secondAttribute="top" id="K1G-U0-Vgk"/>
+                <constraint firstItem="RRN-qk-39x" firstAttribute="top" secondItem="1Pk-29-mUG" secondAttribute="bottom" id="CTA-a4-REs"/>
+                <constraint firstAttribute="bottom" secondItem="RRN-qk-39x" secondAttribute="bottom" id="EEi-0O-xfS"/>
                 <constraint firstItem="CFH-FU-LPW" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="QcH-4o-bGU"/>
-                <constraint firstItem="sCN-QB-mCu" firstAttribute="top" secondItem="8ew-Zi-63G" secondAttribute="top" id="TRC-fO-jAk"/>
+                <constraint firstItem="RRN-qk-39x" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="RAp-ae-Kti"/>
                 <constraint firstItem="8ba-kc-jlJ" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="Tq6-c6-93y"/>
-                <constraint firstItem="sCN-QB-mCu" firstAttribute="width" secondItem="cph-QM-jcJ" secondAttribute="width" id="ZJg-S4-hJ4"/>
                 <constraint firstItem="RIt-Tt-mDz" firstAttribute="leading" secondItem="1Pk-29-mUG" secondAttribute="leading" id="Zh6-JC-yZB"/>
-                <constraint firstAttribute="trailing" secondItem="8ew-Zi-63G" secondAttribute="trailing" id="aK8-hD-s6X"/>
                 <constraint firstAttribute="trailing" secondItem="1Pk-29-mUG" secondAttribute="trailing" id="b0C-4x-heo"/>
-                <constraint firstItem="sCN-QB-mCu" firstAttribute="width" secondItem="8ew-Zi-63G" secondAttribute="width" id="ctQ-Ka-mGj"/>
                 <constraint firstItem="CFH-FU-LPW" firstAttribute="trailing" secondItem="1Pk-29-mUG" secondAttribute="trailing" id="dTI-0B-myd"/>
                 <constraint firstItem="RIt-Tt-mDz" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="gTV-NE-IMv"/>
                 <constraint firstItem="1Pk-29-mUG" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="gbM-f6-jpP"/>
-                <constraint firstItem="8ew-Zi-63G" firstAttribute="leading" secondItem="sCN-QB-mCu" secondAttribute="trailing" id="lX7-Hu-YUi"/>
-                <constraint firstItem="cph-QM-jcJ" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="r6i-pH-gQl"/>
                 <constraint firstItem="RIt-Tt-mDz" firstAttribute="trailing" secondItem="1Pk-29-mUG" secondAttribute="trailing" id="u9n-zf-deV"/>
                 <constraint firstItem="CFH-FU-LPW" firstAttribute="leading" secondItem="1Pk-29-mUG" secondAttribute="leading" id="xYp-HY-RNh"/>
-                <constraint firstItem="sCN-QB-mCu" firstAttribute="top" secondItem="1Pk-29-mUG" secondAttribute="bottom" id="yNf-NX-89v"/>
-                <constraint firstAttribute="bottom" secondItem="cph-QM-jcJ" secondAttribute="bottom" id="yNj-Nn-23m"/>
                 <constraint firstItem="CFH-FU-LPW" firstAttribute="bottom" secondItem="1Pk-29-mUG" secondAttribute="bottom" id="zaw-12-NQW"/>
                 <constraint firstItem="RIt-Tt-mDz" firstAttribute="bottom" secondItem="1Pk-29-mUG" secondAttribute="bottom" id="zev-R6-uK3"/>
             </constraints>

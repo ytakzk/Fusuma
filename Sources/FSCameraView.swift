@@ -58,23 +58,14 @@ final class FSCameraView: UIView, UIGestureRecognizerDelegate {
         let flipImage = fusumaFlipImage != nil ? fusumaFlipImage : UIImage(named: "ic_loop", in: bundle, compatibleWith: nil)
         let shotImage = fusumaShotImage != nil ? fusumaShotImage : UIImage(named: "ic_shutter", in: bundle, compatibleWith: nil)
         
-        if fusumaTintIcons {
-            
-            flashButton.tintColor = fusumaBaseTintColor
-            flipButton.tintColor  = fusumaBaseTintColor
-            shotButton.tintColor  = fusumaBaseTintColor
-            
-            flashButton.setImage(flashOffImage?.withRenderingMode(.alwaysTemplate), for: UIControlState())
-            flipButton.setImage(flipImage?.withRenderingMode(.alwaysTemplate), for: UIControlState())
-            shotButton.setImage(shotImage?.withRenderingMode(.alwaysTemplate), for: UIControlState())
+        flashButton.tintColor = fusumaBaseTintColor
+        flipButton.tintColor  = fusumaBaseTintColor
+        shotButton.tintColor  = fusumaBaseTintColor
         
-        } else {
+        flashButton.setImage(flashOffImage?.withRenderingMode(.alwaysTemplate), for: .normal)
+        flipButton.setImage(flipImage?.withRenderingMode(.alwaysTemplate), for: .normal)
+        shotButton.setImage(shotImage?.withRenderingMode(.alwaysTemplate), for: .normal)
         
-            flashButton.setImage(flashOffImage, for: UIControlState())
-            flipButton.setImage(flipImage, for: UIControlState())
-            shotButton.setImage(shotImage, for: UIControlState())
-        }
-
         self.isHidden = false
         
         // AVCapture

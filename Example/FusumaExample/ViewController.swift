@@ -39,9 +39,9 @@ class ViewController: UIViewController, FusumaDelegate {
         let fusuma = FusumaViewController()
         
         fusuma.delegate = self
-        fusuma.cropHeightRatio = 0.6
-        fusuma.defaultMode     = .library
+        fusuma.cropHeightRatio = 1.0
         fusuma.allowMultipleSelection = true
+//        fusuma.availableModes = [.video]
         fusumaSavesImage = true
 
         self.present(fusuma, animated: true, completion: nil)
