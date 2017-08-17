@@ -56,10 +56,9 @@ Import Fusuma ```import Fusuma``` then use the following codes in some function 
 ```Swift
 let fusuma = FusumaViewController()
 fusuma.delegate = self
-fusuma.hasVideo = true // If you want to let the users allow to use video.
+fusuma.availableModes = [.library, .camera, .video] // The default value is [.library, .camera].
 fusuma.cropHeightRatio = 0.6 // Height-to-width ratio. The default value is 1, which means a squared-size photo.
 fusuma.allowMultipleSelection = true // You can select multiple photos from the camera roll. The default value is false.
-fusuma.defaultMode = .photo // The first choice to show (.camera, .library, .video). The default value is .camera.
 self.presentViewController(fusuma, animated: true, completion: nil)
 ```
 
