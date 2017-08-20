@@ -31,20 +31,21 @@ fileprivate func > <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
   }
 }
 
-public protocol FusumaDelegate: class {
-    
-    func fusumaImageSelected(_ image: UIImage, source: FusumaMode)
-    func fusumaMultipleImageSelected(_ images: [UIImage], source: FusumaMode)
-    func fusumaVideoCompleted(withFileURL fileURL: URL)
-    func fusumaCameraRollUnauthorized()
+
+public protocol FusumaViewControllerDelegate: class {
+    func fusumaViewController(vc: FusumaViewController, didSelectImages details: [FusumaImageDetails], andSource source: FusumaMode)
+    func fusumaViewController(vc: FusumaViewController, videoCompletedWithFileUrl url: URL)
+    func fusumaViewControllerCameraRollUnauthorized(vc: FusumaViewController)
+    func fusumaViewControllerDidDismiss(vc: FusumaViewController)
+    func fusumaViewControllerDidClose(vc: FusumaViewController)
+    func fusumaViewControllerWillClose(vc: FusumaViewController)
 }
 
-public extension FusumaDelegate {
-    
-    func fusumaImageSelected(_ image: UIImage, source: FusumaMode, metaData: ImageMetadata) {}
-    func fusumaDismissedWithImage(_ image: UIImage, source: FusumaMode) {}
-    func fusumaClosed() {}
-    func fusumaWillClosed() {}
+public extension FusumaViewControllerDelegate {
+    func fusumaViewController(vc: FusumaViewController, videoCompletedWithFileUrl url: URL) { }
+    func fusumaViewControllerDidDismiss(vc: FusumaViewController) { }
+    func fusumaViewControllerDidClose(vc: FusumaViewController) { }
+    func fusumaViewControllerWillClose(vc: FusumaViewController) { }
 }
 
 public var fusumaBaseTintColor   = UIColor.hex("#FFFFFF", alpha: 1.0)
@@ -95,6 +96,8 @@ public struct ImageMetadata {
     public let isHidden: Bool
 }
 
+public typealias FusumaImageDetails = (image: UIImage, url: URL, metadata: ImageMetadata)
+
 public class FusumaViewController: UIViewController {
 
     @objc public var hasVideo = false
@@ -129,7 +132,7 @@ public class FusumaViewController: UIViewController {
         return PHPhotoLibrary.authorizationStatus() == .authorized
     }
     
-    public weak var delegate: FusumaDelegate? = nil
+    public weak var delegate: FusumaViewControllerDelegate?
     
     override public func loadView() {
         
@@ -310,11 +313,11 @@ public class FusumaViewController: UIViewController {
     
     @IBAction func closeButtonPressed(_ sender: UIButton) {
         
-        self.delegate?.fusumaWillClosed()
+        self.delegate?.fusumaViewControllerWillClose(vc: self)
         
         self.dismiss(animated: true) {
         
-            self.delegate?.fusumaClosed()
+            self.delegate?.fusumaViewControllerDidClose(vc: self)
         }
     }
     
@@ -341,6 +344,8 @@ public class FusumaViewController: UIViewController {
     private func fusumaDidFinishInSingleMode() {
         
         guard let view = albumView.imageCropView else { return }
+      
+        var size = view.frame
         
         if fusumaCropImage {
             
@@ -350,45 +355,33 @@ public class FusumaViewController: UIViewController {
             let normalizedWidth  = view.frame.width / view.contentSize.width
             let normalizedHeight = view.frame.height / view.contentSize.height
             
-            let cropRect = CGRect(x: normalizedX, y: normalizedY,
+           size = CGRect(x: normalizedX, y: normalizedY,
                                   width: normalizedWidth, height: normalizedHeight)
+        }
             
-            requestImage(with: self.albumView.phAsset, cropRect: cropRect) { (asset, image) in
-                
-                self.delegate?.fusumaImageSelected(image, source: self.mode)
-                
-                self.dismiss(animated: true, completion: {
-                    
-                    self.delegate?.fusumaDismissedWithImage(image, source: self.mode)
-                })
-                
-                let metaData = ImageMetadata(
-                    mediaType: self.albumView.phAsset.mediaType,
-                    pixelWidth: self.albumView.phAsset.pixelWidth,
-                    pixelHeight: self.albumView.phAsset.pixelHeight,
-                    creationDate: self.albumView.phAsset.creationDate,
-                    modificationDate: self.albumView.phAsset.modificationDate,
-                    location: self.albumView.phAsset.location,
-                    duration: self.albumView.phAsset.duration,
-                    isFavourite: self.albumView.phAsset.isFavorite,
-                    isHidden: self.albumView.phAsset.isHidden)
-                
-                self.delegate?.fusumaImageSelected(image, source: self.mode, metaData: metaData)
-            }
+        requestImage(with: self.albumView.phAsset, cropRect: size) { (asset, image, url) in
             
-        } else {
-            
-            print("no image crop ")
-            delegate?.fusumaImageSelected(view.image, source: mode)
-            
-            self.dismiss(animated: true) {
-            
-                self.delegate?.fusumaDismissedWithImage(view.image, source: self.mode)
-            }
+            let metaData = ImageMetadata(
+                mediaType: self.albumView.phAsset.mediaType,
+                pixelWidth: self.albumView.phAsset.pixelWidth,
+                pixelHeight: self.albumView.phAsset.pixelHeight,
+                creationDate: self.albumView.phAsset.creationDate,
+                modificationDate: self.albumView.phAsset.modificationDate,
+                location: self.albumView.phAsset.location,
+                duration: self.albumView.phAsset.duration,
+                isFavourite: self.albumView.phAsset.isFavorite,
+                isHidden: self.albumView.phAsset.isHidden)
+          
+            self.dismiss(animated: true, completion: {
+                self.delegate?.fusumaViewControllerDidDismiss(vc: self)
+            })
+          
+            let details = FusumaImageDetails(image: image, url: url, metaData)
+            self.delegate?.fusumaViewController(vc: self, didSelectImages: [details], andSource: self.mode)
         }
     }
     
-    private func requestImage(with asset: PHAsset, cropRect: CGRect, completion: @escaping (PHAsset, UIImage) -> Void) {
+    private func requestImage(with asset: PHAsset, cropRect: CGRect, completion: @escaping (PHAsset, UIImage, URL) -> Void) {
         
         DispatchQueue.global(qos: .default).async(execute: {
             
@@ -408,13 +401,15 @@ public class FusumaViewController: UIViewController {
             PHImageManager.default().requestImage(
                 for: asset, targetSize: targetSize,
                 contentMode: .aspectFill, options: options) { result, info in
-
-                guard let result = result else { return }
-                    
-                DispatchQueue.main.async(execute: {
-                    
-                    completion(asset, result)
-                })
+                  
+                    asset.requestContentEditingInput(with: PHContentEditingInputRequestOptions()) { (input, _) in
+                        guard let url = input?.fullSizeImageURL,
+                          let result = result else { return }
+                      
+                        DispatchQueue.main.async(execute: {
+                          completion(asset, result, url)
+                        })
+                    }
             }
         })
     }
@@ -432,22 +427,31 @@ public class FusumaViewController: UIViewController {
         let cropRect = CGRect(x: normalizedX, y: normalizedY,
                               width: normalizedWidth, height: normalizedHeight)
         
-        var images = [UIImage]()
+        var multipleDetails = [FusumaImageDetails]()
         
         for asset in albumView.selectedAssets {
             
-            requestImage(with: asset, cropRect: cropRect) { asset, result in
+            requestImage(with: asset, cropRect: cropRect) { asset, result, url in
                 
-                images.append(result)
+                let metaData = ImageMetadata(
+                    mediaType: self.albumView.phAsset.mediaType,
+                    pixelWidth: self.albumView.phAsset.pixelWidth,
+                    pixelHeight: self.albumView.phAsset.pixelHeight,
+                    creationDate: self.albumView.phAsset.creationDate,
+                    modificationDate: self.albumView.phAsset.modificationDate,
+                    location: self.albumView.phAsset.location,
+                    duration: self.albumView.phAsset.duration,
+                    isFavourite: self.albumView.phAsset.isFavorite,
+                    isHidden: self.albumView.phAsset.isHidden)
+                
+                let details = FusumaImageDetails(image: result, url: url, metaData)
+                
+                multipleDetails.append(details)
                 
                 if asset == self.albumView.selectedAssets.last {
                     
                     self.dismiss(animated: true) {
-                     
-                        if let _ = self.delegate?.fusumaMultipleImageSelected {
-                        
-                            self.delegate?.fusumaMultipleImageSelected(images, source: self.mode)
-                        }
+                            self.delegate?.fusumaViewController(vc: self, didSelectImages: multipleDetails, andSource: self.mode)
                     }
                 }
             }
@@ -463,13 +467,25 @@ extension FusumaViewController: FSAlbumViewDelegate, FSCameraViewDelegate, FSVid
     }
     
     // MARK: FSCameraViewDelegate
-    func cameraShotFinished(_ image: UIImage) {
-        
-        delegate?.fusumaImageSelected(image, source: mode)
-        
+    func cameraShotFinished(_ image: UIImage, asset: PHAsset, url: URL) {
+      
+      let metaData = ImageMetadata(
+        mediaType: asset.mediaType,
+        pixelWidth: asset.pixelWidth,
+        pixelHeight: asset.pixelHeight,
+        creationDate: asset.creationDate,
+        modificationDate: asset.modificationDate,
+        location: asset.location,
+        duration: asset.duration,
+        isFavourite: asset.isFavorite,
+        isHidden: asset.isHidden)
+      
+      let details = FusumaImageDetails(image: image, url: url, metaData)
+      
+      delegate?.fusumaViewController(vc: self, didSelectImages: [details], andSource: self.mode)
+      
         self.dismiss(animated: true) {
-            
-            self.delegate?.fusumaDismissedWithImage(image, source: self.mode)
+            self.delegate?.fusumaViewControllerDidDismiss(vc: self)
         }
     }
     
@@ -482,13 +498,11 @@ extension FusumaViewController: FSAlbumViewDelegate, FSCameraViewDelegate, FSVid
     
     // MARK: FSAlbumViewDelegate
     public func albumViewCameraRollUnauthorized() {
-        
-        delegate?.fusumaCameraRollUnauthorized()
+        delegate?.fusumaViewControllerCameraRollUnauthorized(vc: self)
     }
     
     func videoFinished(withFileURL fileURL: URL) {
-        
-        delegate?.fusumaVideoCompleted(withFileURL: fileURL)
+        delegate?.fusumaViewController(vc: self, videoCompletedWithFileUrl: fileURL)
         self.dismiss(animated: true, completion: nil)
     }
     

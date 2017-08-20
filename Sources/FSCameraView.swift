@@ -12,7 +12,7 @@ import CoreMotion
 import Photos
 
 @objc protocol FSCameraViewDelegate: class {
-    func cameraShotFinished(_ image: UIImage)
+    func cameraShotFinished(_ image: UIImage, asset: PHAsset, url: URL)
 }
 
 final class FSCameraView: UIView, UIGestureRecognizerDelegate {
@@ -264,12 +264,9 @@ final class FSCameraView: UIView, UIGestureRecognizerDelegate {
                     
                     let image = fusumaCropImage ? UIImage(cgImage: imageRef, scale: sw/iw, orientation: image.imageOrientation) : image
                     
-                    delegate.cameraShotFinished(image)
-                    
-                    if fusumaSavesImage {
-                        
-                        self.saveImageToCameraRoll(image: image)
-                    }
+                    self.saveImageToCameraRoll(image: image, completion: { (asset, image, url) in
+                        self.delegate?.cameraShotFinished(image, asset: asset, url: url)
+                    })
                     
                     self.session       = nil
                     self.device        = nil
@@ -362,13 +359,26 @@ final class FSCameraView: UIView, UIGestureRecognizerDelegate {
 
 fileprivate extension FSCameraView {
     
-    func saveImageToCameraRoll(image: UIImage) {
-        
+    func saveImageToCameraRoll(image: UIImage, completion: @escaping (PHAsset, UIImage, URL) -> Void) {
+        var localId: String?
         PHPhotoLibrary.shared().performChanges({
             
-            PHAssetChangeRequest.creationRequestForAsset(from: image)
+            let request = PHAssetChangeRequest.creationRequestForAsset(from: image)
+            localId = request.placeholderForCreatedAsset?.localIdentifier
             
-        }, completionHandler: nil)
+        }, completionHandler: { (success, error) -> Void in
+            DispatchQueue.main.async {
+                if let localId = localId, let asset = PHAsset.fetchAssets(withLocalIdentifiers: [localId], options: nil).firstObject {
+                    
+                    asset.requestContentEditingInput(with: PHContentEditingInputRequestOptions()) { (input, _) in
+                        guard let url = input?.fullSizeImageURL else { return }
+                    
+                        completion(asset, image, url)
+                    }
+                    
+                }
+            }
+        })
     }
     
     @objc func focus(_ recognizer: UITapGestureRecognizer) {
