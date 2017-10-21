@@ -109,6 +109,7 @@ public struct ImageMetadata {
     fileprivate var mode: FusumaMode = .library
     
     public var availableModes: [FusumaMode] = [.library, .camera]
+    public var cameraPosition = AVCaptureDevicePosition.back
 
     @IBOutlet weak var photoLibraryViewerContainer: UIView!
     @IBOutlet weak var cameraShotContainer: UIView!
@@ -293,7 +294,7 @@ public struct ImageMetadata {
             cameraView.fullAspectRatioConstraint.isActive     = true
             cameraView.croppedAspectRatioConstraint?.isActive = false
         }
-        
+        cameraView.initialCaptureDevicePosition = cameraPosition
     }
     
     override public func viewWillAppear(_ animated: Bool) {
