@@ -99,20 +99,35 @@ func fusumaImageSelected(_ image: UIImage, source: FusumaMode, metaData: ImageMe
 }
 ```
 
-#### Colors
+#### How To Customize
 
 ```Swift
+let fusuma = FusumaViewController()
+fusuma.delegate = self
+// ...
+fusumaCameraRollTitle = "CustomizeCameraRollTitle"
+fusumaCameraTitle = "CustomizeCameraTitle" // Camera Title
 fusumaTintColor: UIColor // tint color
+// ...
+self.presentViewController(fusuma, animated: true, completion: nil)
 
-fusumaBackgroundColor: UIColor // background color
 ```
 
-#### Customize Image Output 
-You can deselect image crop mode with: 
+### Properties
 
-```Swift
-fusumaCropImage:Bool // default is true for cropping the image 
-```
+| Prop | Type | Description | Default |
+|---|---|---|---|
+|**`fusumaBaseTintColor `**|UIColor|Base tint color.|`UIColor.hex("#c9c7c8", alpha: 1.0)`|
+|**`fusumaTintColor `**|UIColor|Tint color.|`UIColor.hex("#FCFCFC", alpha: 1.0)`|
+|**`fusumaBackgroundColor `**|UIColor|Background color.|`UIColor.hex("#c9c7c8", alpha: 1.0)`|
+|**`fusumaCheckImage `**| UIImage | Image of check button.|![](./Sources/Assets.xcassets/ic_check.imageset/ic_check_white_48pt.png)|
+|**`fusumaCloseImage `**| UIImage |Image of close button.|![](./Sources/Assets.xcassets/ic_close.imageset/ic_close_white_48pt.png)|
+|**`fusumaCropImage `**| Bool |Whether to crop the taken image.| `true` |
+|**`fusumaSavesImage `**| Bool |Whether to save the taken image.| `false` |
+|**`fusumaCameraRollTitle `**| String |Text of camera roll title.| `"Library"` |
+|**`fusumaCameraTitle `**| String |Text of carmera title text.| `Photo` |
+|**`fusumaVideoTitle `**| String |Text of video title.| `Video` |
+|**`fusumaTitleFont `**| UIFont |Whether to save the taken image.| `UIFont(name: "AvenirNext-DemiBold", size: 15)` |
 
 ## Fusuma for Xamarin
 Cheesebaron developed Chafu for Xamarin.  
