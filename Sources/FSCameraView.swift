@@ -23,6 +23,7 @@ final class FSCameraView: UIView, UIGestureRecognizerDelegate {
     @IBOutlet weak var flipButton: UIButton!
     @IBOutlet weak var fullAspectRatioConstraint: NSLayoutConstraint!
     var croppedAspectRatioConstraint: NSLayoutConstraint?
+    var initialCaptureDevicePosition: AVCaptureDevicePosition = .back
     
     weak var delegate: FSCameraViewDelegate? = nil
     
@@ -76,7 +77,7 @@ final class FSCameraView: UIView, UIGestureRecognizerDelegate {
         for device in AVCaptureDevice.devices() {
             
             if let device = device as? AVCaptureDevice,
-                device.position == AVCaptureDevicePosition.back {
+                device.position == initialCaptureDevicePosition {
                 
                 self.device = device
                 
