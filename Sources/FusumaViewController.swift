@@ -76,6 +76,8 @@ public var fusumaCameraTitle     = "Photo"
 public var fusumaVideoTitle      = "Video"
 public var fusumaTitleFont       = UIFont(name: "AvenirNext-DemiBold", size: 15)
 
+public var autoDismiss: Bool = true
+
 @objc public enum FusumaMode: Int {
     
     case camera
@@ -341,8 +343,8 @@ public struct ImageMetadata {
         
         self.delegate?.fusumaWillClosed()
         
-        self.dismiss(animated: true) {
-        
+        self.doDismiss {
+
             self.delegate?.fusumaClosed()
         }
     }
@@ -367,6 +369,21 @@ public struct ImageMetadata {
         allowMultipleSelection ? fusumaDidFinishInMultipleMode() : fusumaDidFinishInSingleMode()
     }
     
+    fileprivate func doDismiss(completion: (() -> Void)?) {
+        
+        if autoDismiss {
+            
+            self.dismiss(animated: true) {
+                
+                completion?()
+            }
+        
+        } else {
+           
+            completion?()
+        }
+    }
+    
     private func fusumaDidFinishInSingleMode() {
         
         guard let view = albumView.imageCropView else { return }
@@ -386,10 +403,10 @@ public struct ImageMetadata {
                 
                 self.delegate?.fusumaImageSelected(image, source: self.mode)
                 
-                self.dismiss(animated: true, completion: {
-                    
+                self.doDismiss {
+
                     self.delegate?.fusumaDismissedWithImage(image, source: self.mode)
-                })
+                }
                 
                 let metaData = ImageMetadata(
                     mediaType: self.albumView.phAsset.mediaType,
@@ -411,8 +428,8 @@ public struct ImageMetadata {
             print("no image to crop")
             delegate?.fusumaImageSelected(view.image, source: mode)
             
-            self.dismiss(animated: true) {
-            
+            self.doDismiss {
+
                 self.delegate?.fusumaDismissedWithImage(view.image, source: self.mode)
             }
         }
@@ -472,12 +489,9 @@ public struct ImageMetadata {
                 
                 if asset == self.albumView.selectedAssets.last {
                     
-                    self.dismiss(animated: true) {
-                     
-                        if let _ = self.delegate?.fusumaMultipleImageSelected {
-                        
-                            self.delegate?.fusumaMultipleImageSelected(images, source: self.mode)
-                        }
+                    self.doDismiss {
+
+                        self.delegate?.fusumaMultipleImageSelected(images, source: self.mode)
                     }
                 }
             }
@@ -497,8 +511,8 @@ extension FusumaViewController: FSAlbumViewDelegate, FSCameraViewDelegate, FSVid
         
         delegate?.fusumaImageSelected(image, source: mode)
         
-        self.dismiss(animated: true) {
-            
+        self.doDismiss {
+
             self.delegate?.fusumaDismissedWithImage(image, source: self.mode)
         }
     }
@@ -520,7 +534,7 @@ extension FusumaViewController: FSAlbumViewDelegate, FSCameraViewDelegate, FSVid
     func videoFinished(withFileURL fileURL: URL) {
         
         delegate?.fusumaVideoCompleted(withFileURL: fileURL)
-        self.dismiss(animated: true, completion: nil)
+        self.doDismiss(completion: nil)
     }
     
 }
