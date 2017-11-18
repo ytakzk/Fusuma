@@ -186,7 +186,7 @@ public struct ImageMetadata {
         titleLabel.textColor = fusumaTintColor
         titleLabel.font      = fusumaTitleFont
         
-        if availableModes.count == 0 || availableModes.count >= 3 {
+        if availableModes.count == 0 || availableModes.count >= 4 {
             
             fatalError("the number of items in the variable of availableModes is incorrect.")
         }
