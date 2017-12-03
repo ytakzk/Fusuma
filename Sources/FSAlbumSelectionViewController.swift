@@ -34,6 +34,10 @@ typealias AssetCollectionTuple = (collection: PHAssetCollectionType, subType: PH
     }
 }
 
+@objc enum FSAlbumAssetType: Int {
+    case photos, videos, both
+}
+
 @objc class AlbumModel: NSObject {
     let collection: PHAssetCollection
     var asset: PHAsset
@@ -56,7 +60,7 @@ typealias AssetCollectionTuple = (collection: PHAssetCollectionType, subType: PH
 class FSAlbumSelectionViewController: UIViewController {
 
     lazy var tableView: UITableView = {
-        let tableView = BPTableView(frame: .zero, style: .plain)
+        let tableView = UITableView(frame: .zero, style: .plain)
         tableView.separatorStyle = .none
         tableView.backgroundColor = .white
         tableView.dataSource = self
@@ -74,10 +78,12 @@ class FSAlbumSelectionViewController: UIViewController {
     fileprivate lazy var assetFetchOptions: PHFetchOptions = {
         let fetchOptions = PHFetchOptions()
         fetchOptions.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: false)]
-        fetchOptions.fetchLimit = 1
+        if #available(iOS 9.0, *) {
+            fetchOptions.fetchLimit = 1
+        }
         return fetchOptions
     }()
-
+    
     public var assetType: FSAlbumAssetType = .both
 
     override func viewDidLoad() {
@@ -116,14 +122,24 @@ class FSAlbumSelectionViewController: UIViewController {
 extension FSAlbumSelectionViewController {
     func prepareViews() {
 
-        if #available(iOS 11.0, *) {
-            tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
+        if #available(iOS 9.0, *) {
+            if #available(iOS 11.0, *) {
+                tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
+            } else {
+                tableView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
+            }
+            tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+            tableView.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
+            tableView.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
         } else {
-            tableView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
+            tableView.addConstraints([
+                NSLayoutConstraint(item: tableView, attribute: .left, relatedBy: .equal, toItem: view, attribute: .left, multiplier: 1.0, constant: 0),
+                NSLayoutConstraint(item: tableView, attribute: .right, relatedBy: .equal, toItem: view, attribute: .right, multiplier: 1.0, constant: 0),
+                NSLayoutConstraint(item: tableView, attribute: .bottom, relatedBy: .equal, toItem: view, attribute: .bottom, multiplier: 1.0, constant: 0),
+                NSLayoutConstraint(item: tableView, attribute: .top, relatedBy: .equal, toItem: view, attribute: .top, multiplier: 1.0, constant: 0),
+                ])
         }
-        tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
-        tableView.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
-        tableView.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
+        
         imageManager = PHCachingImageManager()
 
         //        let closeButton = UIBarButtonItem(barButtonSystemItem: .stop, target: self, action: #selector(closeViewController))
@@ -194,7 +210,12 @@ extension FSAlbumSelectionViewController {
             var assetArray: [PHAsset] = [PHAsset]()
 
             let options = PHFetchOptions()
-            options.includeAssetSourceTypes = .typeUserLibrary
+            if #available(iOS 9.0, *) {
+                options.includeAssetSourceTypes = .typeUserLibrary
+            } else {
+                // Fallback on earlier versions
+                
+            }
 
             for item in self.albumTypeArray {
                 let collectionTuple = item.getPHAssetCollectionType()
