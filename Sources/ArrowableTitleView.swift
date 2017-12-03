@@ -8,18 +8,22 @@
 
 import UIKit
 
-protocol ArrowableTitleViewDelegate: NSObjectProtocol {
+@objc public protocol ArrowableTitleViewDelegate: NSObjectProtocol {
     func viewDidTapped(_ view: ArrowableTitleView, state: Bool)
 }
 
-class ArrowableTitleView: UIView {
+final public class ArrowableTitleView: UIView {
 
     var delegate: ArrowableTitleViewDelegate!
     var selectedState: Bool = false
 
     lazy var titleLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.BPMediumFont(17.0)
+        if #available(iOS 8.2, *) {
+            label.font = UIFont.systemFont(ofSize:17, weight: UIFontWeightMedium)
+        } else {
+            label.font = UIFont(name: "HelveticaNeue-Medium", size: 17)
+        }
         label.textAlignment = .center
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textColor = .white
@@ -28,16 +32,19 @@ class ArrowableTitleView: UIView {
 
     lazy var chevronView: ArrowImageView = {
         let imageV = ArrowImageView(template: true)
-        imageV.setContentHuggingPriority(UILayoutPriority.required, for: .horizontal)
-        imageV.setContentCompressionResistancePriority(UILayoutPriority.required, for: .horizontal)
+        
+        
+        imageV.setContentHuggingPriority(UILayoutPriorityRequired, for: .horizontal)
+        imageV.setContentCompressionResistancePriority(UILayoutPriorityRequired, for: .horizontal)
         imageV.tintColor = .white
         imageV.translatesAutoresizingMaskIntoConstraints = false
         imageV.isHidden = true
         return imageV
     }()
 
+    @available(iOS 9, *)
     lazy var stack: UIStackView = {
-        let stack = UIStackView(arrangedSubviews: [titleLabel, chevronView])
+        let stack = UIStackView(arrangedSubviews: [self.titleLabel, self.chevronView])
         stack.axis = .horizontal
         stack.spacing = 8.0
         stack.distribution = .fill
@@ -53,21 +60,37 @@ class ArrowableTitleView: UIView {
         self.delegate = delegate
     }
 
-    required init?(coder aDecoder: NSCoder) {
+    required public init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         setupViews()
     }
 
     func setupViews() {
         translatesAutoresizingMaskIntoConstraints = false
+        
+        
+        if #available(iOS 9, *) {
         heightAnchor.constraint(equalToConstant: 40.0).isActive = true
-
         stack.leftAnchor.constraint(equalTo: leftAnchor).isActive = true
         stack.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
         stack.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
+        } else {
+            titleLabel.addConstraints([
+                NSLayoutConstraint(item: titleLabel, attribute: .left, relatedBy: .equal, toItem: self, attribute: .left, multiplier: 1.0, constant: 0),
+                NSLayoutConstraint(item: titleLabel, attribute: .centerY, relatedBy: .equal, toItem: self, attribute: .centerY, multiplier: 1.0, constant: 0),
+                NSLayoutConstraint(item: titleLabel, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: 40.0)
+                ])
+            chevronView.addConstraints([
+                NSLayoutConstraint(item: chevronView, attribute: .left, relatedBy: .equal, toItem: titleLabel, attribute: .right, multiplier: 1.0, constant: 8.0),
+                NSLayoutConstraint(item: chevronView, attribute: .right, relatedBy: .equal, toItem: self, attribute: .right, multiplier: 1.0, constant: 0),
+                NSLayoutConstraint(item: titleLabel, attribute: .centerY, relatedBy: .equal, toItem: self, attribute: .centerY, multiplier: 1.0, constant: 0),
+                NSLayoutConstraint(item: titleLabel, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: 40.0)
+                ])
+        }
 
         let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(selected))
         addGestureRecognizer(tap)
+        // there is some resizing issue if do not set this back to true
         translatesAutoresizingMaskIntoConstraints = true
         sizeToFit()
     }

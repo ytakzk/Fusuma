@@ -8,16 +8,17 @@
 
 import UIKit
 
-@objc class ArrowImageView: UIImageView, Rotatable {
+@objc final class ArrowImageView: UIImageView, Rotatable {
 
     var duration: Double = 0.3
 
     func setup() {
         translatesAutoresizingMaskIntoConstraints = false
-        setContentCompressionResistancePriority(UILayoutPriority.required, for: .horizontal)
-        setContentHuggingPriority(UILayoutPriority.required, for: .horizontal)
-        setContentCompressionResistancePriority(UILayoutPriority.required, for: .vertical)
-        setContentHuggingPriority(UILayoutPriority.required, for: .vertical)
+        setContentCompressionResistancePriority(UILayoutPriorityRequired, for: .horizontal)
+        setContentCompressionResistancePriority(UILayoutPriorityRequired, for: .horizontal)
+        setContentHuggingPriority(UILayoutPriorityRequired, for: .horizontal)
+        setContentCompressionResistancePriority(UILayoutPriorityRequired, for: .vertical)
+        setContentHuggingPriority(UILayoutPriorityRequired, for: .vertical)
         transform = CGAffineTransform(rotationAngle: CGFloat(Double.pi / 2))
     }
 
@@ -41,7 +42,7 @@ import UIKit
         setup()
     }
 
-    func upsideDown(_ animation: Bool) {
+    public func upsideDown(_ animation: Bool) {
         let angle = CGFloat(3 * Double.pi / 2) // Upside down
         if animation == false {
             transform = CGAffineTransform(rotationAngle: angle)
@@ -52,7 +53,7 @@ import UIKit
         }
     }
 
-    func normal(_ animation: Bool) {
+    public func normal(_ animation: Bool) {
         let angle: CGFloat = CGFloat(Double.pi / 2) // Normal direction
 
         // The rotation transform will rotate in the direction of shortest angle change
