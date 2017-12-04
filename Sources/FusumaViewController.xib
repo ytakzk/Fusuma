@@ -27,15 +27,15 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="RIt-Tt-mDz" userLabel="Video View">
-                    <rect key="frame" x="0.0" y="20" width="414" height="666"/>
+                    <rect key="frame" x="0.0" y="0.0" width="414" height="686"/>
                     <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                 </view>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="CFH-FU-LPW" userLabel="Camera View">
-                    <rect key="frame" x="0.0" y="20" width="414" height="666"/>
+                    <rect key="frame" x="0.0" y="0.0" width="414" height="686"/>
                     <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                 </view>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="1Pk-29-mUG" userLabel="Library View">
-                    <rect key="frame" x="0.0" y="20" width="414" height="666"/>
+                    <rect key="frame" x="0.0" y="0.0" width="414" height="686"/>
                     <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                 </view>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="RRN-qk-39x" userLabel="Button Container">
@@ -99,16 +99,17 @@
             <color key="backgroundColor" red="0.16078431372549018" green="0.16078431372549018" blue="0.16078431372549018" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
                 <constraint firstAttribute="trailing" secondItem="RRN-qk-39x" secondAttribute="trailing" id="0W9-MQ-LcW"/>
-                <constraint firstItem="1Pk-29-mUG" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="topMargin" id="0rm-S1-9o9"/>
+                <constraint firstAttribute="top" secondItem="1Pk-29-mUG" secondAttribute="top" id="93p-je-1rX"/>
                 <constraint firstItem="RRN-qk-39x" firstAttribute="top" secondItem="1Pk-29-mUG" secondAttribute="bottom" id="CTA-a4-REs"/>
                 <constraint firstAttribute="bottomMargin" secondItem="RRN-qk-39x" secondAttribute="bottom" id="EEi-0O-xfS"/>
-                <constraint firstItem="CFH-FU-LPW" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="topMargin" id="QcH-4o-bGU"/>
                 <constraint firstItem="RRN-qk-39x" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="RAp-ae-Kti"/>
                 <constraint firstItem="RIt-Tt-mDz" firstAttribute="leading" secondItem="1Pk-29-mUG" secondAttribute="leading" id="Zh6-JC-yZB"/>
                 <constraint firstAttribute="trailing" secondItem="1Pk-29-mUG" secondAttribute="trailing" id="b0C-4x-heo"/>
                 <constraint firstItem="CFH-FU-LPW" firstAttribute="trailing" secondItem="1Pk-29-mUG" secondAttribute="trailing" id="dTI-0B-myd"/>
-                <constraint firstItem="RIt-Tt-mDz" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="topMargin" id="gTV-NE-IMv"/>
+                <constraint firstItem="CFH-FU-LPW" firstAttribute="top" secondItem="1Pk-29-mUG" secondAttribute="top" id="fhA-23-aNP"/>
                 <constraint firstItem="1Pk-29-mUG" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="gbM-f6-jpP"/>
+                <constraint firstItem="CFH-FU-LPW" firstAttribute="top" secondItem="RIt-Tt-mDz" secondAttribute="top" id="o0c-Ah-lhg"/>
+                <constraint firstItem="RRN-qk-39x" firstAttribute="bottom" secondItem="i5M-Pr-FkT" secondAttribute="bottom" id="thi-ds-Kdo"/>
                 <constraint firstItem="RIt-Tt-mDz" firstAttribute="trailing" secondItem="1Pk-29-mUG" secondAttribute="trailing" id="u9n-zf-deV"/>
                 <constraint firstItem="CFH-FU-LPW" firstAttribute="leading" secondItem="1Pk-29-mUG" secondAttribute="leading" id="xYp-HY-RNh"/>
                 <constraint firstItem="CFH-FU-LPW" firstAttribute="bottom" secondItem="1Pk-29-mUG" secondAttribute="bottom" id="zaw-12-NQW"/>

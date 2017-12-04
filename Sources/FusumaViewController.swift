@@ -132,21 +132,23 @@ public struct ImageMetadata {
     lazy var arrowableTitleView: ArrowableTitleView = {
         let x = UIScreen.main.bounds.width / 2 - 120
         let view = ArrowableTitleView(frame: CGRect(x: x, y: 0, width: 120, height: 40), delegate: self)
+        view.setTitleColor(color: .black)
         view.accessibilityIdentifier = "SelectAlbumButton"
         return view
     }()
     
     lazy var closeButton: UIBarButtonItem = {
-        let button = UIBarButtonItem(image: UIImage(named: "icon_delete_sign"), style: .plain, target: self, action: #selector(FusumaViewController.closeButtonPressed(_:)))
+        let button = UIBarButtonItem(title: "", style: .plain, target: self, action: #selector(FusumaViewController.closeButtonPressed(_:)))
         button.accessibilityIdentifier = NSLocalizedString("Close", comment: "Close")
         button.accessibilityIdentifier = "CloseButton"
         return button
     }()
     
     lazy var doneButton: UIBarButtonItem = {
-        let button = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(FusumaViewController.doneButtonPressed(_:)))
+        let button = UIBarButtonItem(title: "", style: .plain, target: self, action: #selector(FusumaViewController.doneButtonPressed(_:)))
         button.accessibilityLabel = NSLocalizedString("Done", comment: "Done")
         button.accessibilityIdentifier = "DoneButton"
+        
         return button
     }()
 
