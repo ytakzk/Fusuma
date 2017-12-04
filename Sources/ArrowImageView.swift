@@ -13,13 +13,14 @@ import UIKit
     var duration: Double = 0.3
 
     func setup() {
+        transform = CGAffineTransform(rotationAngle: CGFloat(Double.pi / 2))
         translatesAutoresizingMaskIntoConstraints = false
         setContentCompressionResistancePriority(UILayoutPriorityRequired, for: .horizontal)
         setContentCompressionResistancePriority(UILayoutPriorityRequired, for: .horizontal)
         setContentHuggingPriority(UILayoutPriorityRequired, for: .horizontal)
         setContentCompressionResistancePriority(UILayoutPriorityRequired, for: .vertical)
         setContentHuggingPriority(UILayoutPriorityRequired, for: .vertical)
-        transform = CGAffineTransform(rotationAngle: CGFloat(Double.pi / 2))
+        self.addConstraint(NSLayoutConstraint(item: self, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: 12.0))
     }
 
     init() {

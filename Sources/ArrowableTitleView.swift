@@ -24,20 +24,21 @@ final public class ArrowableTitleView: UIView {
         } else {
             label.font = UIFont(name: "HelveticaNeue-Medium", size: 17)
         }
+        label.addConstraint(NSLayoutConstraint(item: label, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: 40.0))
         label.textAlignment = .center
-        label.translatesAutoresizingMaskIntoConstraints = false
+        label.translatesAutoresizingMaskIntoConstraints = true
         label.textColor = .white
+        label.setContentHuggingPriority(UILayoutPriorityRequired, for: .horizontal)
+        label.setContentCompressionResistancePriority(UILayoutPriorityRequired, for: .horizontal)
+        label.setContentHuggingPriority(UILayoutPriorityRequired, for: .vertical)
+        label.setContentCompressionResistancePriority(UILayoutPriorityRequired, for: .vertical)
         return label
     }()
 
     lazy var chevronView: ArrowImageView = {
         let imageV = ArrowImageView(template: true)
         
-        
-        imageV.setContentHuggingPriority(UILayoutPriorityRequired, for: .horizontal)
-        imageV.setContentCompressionResistancePriority(UILayoutPriorityRequired, for: .horizontal)
         imageV.tintColor = .white
-        imageV.translatesAutoresizingMaskIntoConstraints = false
         imageV.isHidden = true
         return imageV
     }()
@@ -67,8 +68,6 @@ final public class ArrowableTitleView: UIView {
 
     func setupViews() {
         translatesAutoresizingMaskIntoConstraints = false
-        
-        
         if #available(iOS 9, *) {
         heightAnchor.constraint(equalToConstant: 40.0).isActive = true
         stack.leftAnchor.constraint(equalTo: leftAnchor).isActive = true
@@ -83,15 +82,15 @@ final public class ArrowableTitleView: UIView {
             chevronView.addConstraints([
                 NSLayoutConstraint(item: chevronView, attribute: .left, relatedBy: .equal, toItem: titleLabel, attribute: .right, multiplier: 1.0, constant: 8.0),
                 NSLayoutConstraint(item: chevronView, attribute: .right, relatedBy: .equal, toItem: self, attribute: .right, multiplier: 1.0, constant: 0),
-                NSLayoutConstraint(item: titleLabel, attribute: .centerY, relatedBy: .equal, toItem: self, attribute: .centerY, multiplier: 1.0, constant: 0),
-                NSLayoutConstraint(item: titleLabel, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: 40.0)
+                NSLayoutConstraint(item: chevronView, attribute: .centerY, relatedBy: .equal, toItem: self, attribute: .centerY, multiplier: 1.0, constant: 0),
+                NSLayoutConstraint(item: chevronView, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: 40.0)
                 ])
         }
 
         let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(selected))
         addGestureRecognizer(tap)
         // there is some resizing issue if do not set this back to true
-        translatesAutoresizingMaskIntoConstraints = true
+//        translatesAutoresizingMaskIntoConstraints = true
         sizeToFit()
     }
 
@@ -106,7 +105,7 @@ final public class ArrowableTitleView: UIView {
         }
     }
 
-    func setTitle(text: String, hideArrow: Bool) {
+    public func setTitle(text: String, hideArrow: Bool) {
         translatesAutoresizingMaskIntoConstraints = false
         titleLabel.text = text
         titleLabel.sizeToFit()
@@ -117,6 +116,10 @@ final public class ArrowableTitleView: UIView {
         } else {
             translatesAutoresizingMaskIntoConstraints = true
         }
+    }
+    
+    public func setTitleColor(color: UIColor) {
+        titleLabel.textColor = color
     }
 
     @objc func selected() {
