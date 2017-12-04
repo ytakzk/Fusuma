@@ -43,8 +43,8 @@ class ViewController: UIViewController, FusumaDelegate {
         fusuma.allowMultipleSelection = true
 //        fusuma.availableModes = [.video]
         fusumaSavesImage = true
-
-        self.present(fusuma, animated: true, completion: nil)
+        let nav = UINavigationController(rootViewController: fusuma)
+        self.present(nav, animated: true, completion: nil)
     }
     
     // MARK: FusumaDelegate Protocol

@@ -89,6 +89,12 @@ class FSAlbumSelectionViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         prepareViews()
+        if let navController = navigationController {
+            navController.navigationBar.barStyle = .default
+            navController.navigationBar.isTranslucent = false
+            navController.navigationBar.barTintColor = .white
+        }
+        
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -110,7 +116,6 @@ class FSAlbumSelectionViewController: UIViewController {
     init(delegate: FSAlbumSelectionViewControllerDelegate) {
         super.init(nibName: nil, bundle: nil)
         self.delegate = delegate
-        view.backgroundColor = .clear
         modalPresentationStyle = .overCurrentContext
     }
 
@@ -142,10 +147,16 @@ extension FSAlbumSelectionViewController {
         
         imageManager = PHCachingImageManager()
 
+        
+        let cButton = UIButton(frame: CGRect(x: 0, y: 0, width: 35, height: 35))
+        cButton.setBackgroundImage(UIImage(named: "ic_close")?.withRenderingMode(.alwaysTemplate), for: .normal)
+        cButton.tintColor = fusumaTintColor
+        cButton.addTarget(self, action: #selector(closeViewController), for: .touchUpInside)
+        navigationItem.setLeftBarButton(UIBarButtonItem(customView: cButton), animated: false)
         //        let closeButton = UIBarButtonItem(barButtonSystemItem: .stop, target: self, action: #selector(closeViewController))
-        let image = UIImage(named: "icon_delete_sign")
-        let closeButton = UIBarButtonItem(image: image, style: .plain, target: self, action: #selector(closeViewController))
-        navigationItem.setLeftBarButton(closeButton, animated: false)
+//        let image = UIImage(named: "ic_close")?.withRenderingMode(.alwaysTemplate)
+//        let closeButton = UIBarButtonItem(image: image, style: .plain, target: self, action: #selector(closeViewController))
+//        navigationItem.setLeftBarButton(closeButton, animated: false)
         navigationItem.title = NSLocalizedString("Choose Album", comment: "Navigation title to choose album")
     }
 

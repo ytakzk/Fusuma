@@ -194,7 +194,6 @@ public struct ImageMetadata {
         let bundle     = Bundle(for: self.classForCoder)
         let checkImage = fusumaCheckImage != nil ? fusumaCheckImage : UIImage(named: "ic_check", in: bundle, compatibleWith: nil)
         let closeImage = fusumaCloseImage != nil ? fusumaCloseImage : UIImage(named: "ic_close", in: bundle, compatibleWith: nil)
-        
         closeButton.setBackgroundImage(closeImage?.withRenderingMode(.alwaysTemplate), for: .normal, barMetrics: UIBarMetrics.default)
         
         doneButton.setBackgroundImage(checkImage?.withRenderingMode(.alwaysTemplate), for: .normal, barMetrics: UIBarMetrics.default)
@@ -214,6 +213,11 @@ public struct ImageMetadata {
         NotificationCenter.default.addObserver(self, selector: #selector(FusumaViewController.stopLoadingIndicator), name: NSNotification.Name.photoLibraryReloaded, object: nil)
         startLoadingIndicator()
         
+        if let navController = navigationController {
+            navController.navigationBar.barStyle = .default
+            navController.navigationBar.isTranslucent = false
+            
+        }
         navigationItem.titleView = arrowableTitleView
         navigationItem.leftBarButtonItem = closeButton
         navigationItem.rightBarButtonItem = doneButton
