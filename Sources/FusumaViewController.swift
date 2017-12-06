@@ -111,7 +111,7 @@ public struct ImageMetadata {
     fileprivate var mode: FusumaMode = .library
     
     public var availableModes: [FusumaMode] = [.library, .camera]
-    public var cameraPosition = AVCaptureDevicePosition.back
+    public var cameraPosition = AVCaptureDevice.Position.back
 
     @IBOutlet weak var photoLibraryViewerContainer: UIView!
     @IBOutlet weak var cameraShotContainer: UIView!
