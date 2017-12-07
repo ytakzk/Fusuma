@@ -137,7 +137,7 @@ extension FSAlbumSelectionViewController {
             tableView.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
             tableView.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
         } else {
-            tableView.addConstraints([
+            view.addConstraints([
                 NSLayoutConstraint(item: tableView, attribute: .left, relatedBy: .equal, toItem: view, attribute: .left, multiplier: 1.0, constant: 0),
                 NSLayoutConstraint(item: tableView, attribute: .right, relatedBy: .equal, toItem: view, attribute: .right, multiplier: 1.0, constant: 0),
                 NSLayoutConstraint(item: tableView, attribute: .bottom, relatedBy: .equal, toItem: view, attribute: .bottom, multiplier: 1.0, constant: 0),

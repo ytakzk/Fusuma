@@ -24,9 +24,8 @@ final public class ArrowableTitleView: UIView {
         } else {
             label.font = UIFont(name: "HelveticaNeue-Medium", size: 17)
         }
-        label.addConstraint(NSLayoutConstraint(item: label, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: 40.0))
         label.textAlignment = .center
-        label.translatesAutoresizingMaskIntoConstraints = true
+        label.translatesAutoresizingMaskIntoConstraints = false
         label.textColor = .white
         label.setContentHuggingPriority(UILayoutPriorityRequired, for: .horizontal)
         label.setContentCompressionResistancePriority(UILayoutPriorityRequired, for: .horizontal)
@@ -37,7 +36,6 @@ final public class ArrowableTitleView: UIView {
 
     lazy var chevronView: ArrowImageView = {
         let imageV = ArrowImageView(template: true)
-        
         imageV.tintColor = .white
         imageV.isHidden = true
         return imageV
@@ -49,6 +47,7 @@ final public class ArrowableTitleView: UIView {
         stack.axis = .horizontal
         stack.spacing = 8.0
         stack.distribution = .fill
+        stack.alignment = .center
         stack.translatesAutoresizingMaskIntoConstraints = false
         self.addSubview(stack)
         return stack
@@ -69,22 +68,21 @@ final public class ArrowableTitleView: UIView {
     func setupViews() {
         translatesAutoresizingMaskIntoConstraints = false
         if #available(iOS 9, *) {
-        heightAnchor.constraint(equalToConstant: 40.0).isActive = true
-        stack.leftAnchor.constraint(equalTo: leftAnchor).isActive = true
-        stack.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
-        stack.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
+            heightAnchor.constraint(equalToConstant: 40.0).isActive = true
+            stack.leftAnchor.constraint(equalTo: leftAnchor).isActive = true
+            stack.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
+            stack.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
         } else {
-            titleLabel.addConstraints([
-                NSLayoutConstraint(item: titleLabel, attribute: .left, relatedBy: .equal, toItem: self, attribute: .left, multiplier: 1.0, constant: 0),
-                NSLayoutConstraint(item: titleLabel, attribute: .centerY, relatedBy: .equal, toItem: self, attribute: .centerY, multiplier: 1.0, constant: 0),
-                NSLayoutConstraint(item: titleLabel, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: 40.0)
-                ])
-            chevronView.addConstraints([
-                NSLayoutConstraint(item: chevronView, attribute: .left, relatedBy: .equal, toItem: titleLabel, attribute: .right, multiplier: 1.0, constant: 8.0),
-                NSLayoutConstraint(item: chevronView, attribute: .right, relatedBy: .equal, toItem: self, attribute: .right, multiplier: 1.0, constant: 0),
-                NSLayoutConstraint(item: chevronView, attribute: .centerY, relatedBy: .equal, toItem: self, attribute: .centerY, multiplier: 1.0, constant: 0),
-                NSLayoutConstraint(item: chevronView, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: 40.0)
-                ])
+            self.addSubview(titleLabel)
+            self.addSubview(chevronView)
+            
+            
+            self.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|[label]-(horizontalPadding)-[arrow(12)]-|", options: [.alignAllCenterY], metrics: ["horizontalPadding": 15.0], views: ["label": titleLabel, "arrow" : chevronView]))
+            
+            titleLabel.addConstraint(NSLayoutConstraint(item: titleLabel, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: 40.0))
+            self.addConstraint(NSLayoutConstraint(item: titleLabel, attribute: .centerY, relatedBy: .equal, toItem: self, attribute: .centerY, multiplier: 1.0, constant: 0))
+            chevronView.addConstraint(NSLayoutConstraint(item: chevronView, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: 12.0))
+            self.addConstraint(NSLayoutConstraint(item: chevronView, attribute: .centerY, relatedBy: .equal, toItem: self, attribute: .centerY, multiplier: 1.0, constant: 0))
         }
 
         let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(selected))

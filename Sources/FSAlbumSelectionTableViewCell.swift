@@ -92,21 +92,21 @@ final class FSAlbumSelectionTableViewCell: UITableViewCell {
                 NSLayoutConstraint(item: mainimageView, attribute: .left, relatedBy: .equal, toItem: contentView, attribute: .left, multiplier: 1.0, constant: 12.0),
                 NSLayoutConstraint(item: mainimageView, attribute: .centerY, relatedBy: .equal, toItem: contentView, attribute: .centerY, multiplier: 1.0, constant: 0),
             ]
-            mainimageView.addConstraints(mainImageViewConstraints)
+            contentView.addConstraints(mainImageViewConstraints)
             
             let mainLabelConstraints = [
                 NSLayoutConstraint(item: mainLabel, attribute: .left, relatedBy: .equal, toItem: mainLabel, attribute: .right, multiplier: 1.0, constant: 15.0),
                 NSLayoutConstraint(item: mainLabel, attribute: .right, relatedBy: .equal, toItem: contentView, attribute: .right, multiplier: 1.0, constant: -5.0),
                 NSLayoutConstraint(item: mainLabel, attribute: .centerY, relatedBy: .equal, toItem: contentView, attribute: .centerY, multiplier: 1.0, constant: -10.0),
                 ]
-            mainLabel.addConstraints(mainLabelConstraints)
+            contentView.addConstraints(mainLabelConstraints)
             
             let subLabelConstraints = [
                 NSLayoutConstraint(item: subLabel, attribute: .left, relatedBy: .equal, toItem: mainLabel, attribute: .left, multiplier: 1.0, constant: 0.0),
                 NSLayoutConstraint(item: subLabel, attribute: .right, relatedBy: .equal, toItem: mainLabel, attribute: .right, multiplier: 1.0, constant: 0.0),
                 NSLayoutConstraint(item: subLabel, attribute: .centerY, relatedBy: .equal, toItem: contentView, attribute: .centerY, multiplier: 1.0, constant: 10.0),
                 ]
-            subLabel.addConstraints(subLabelConstraints)
+            contentView.addConstraints(subLabelConstraints)
         }
     }
 

@@ -138,17 +138,32 @@ public struct ImageMetadata {
     }()
     
     lazy var closeButton: UIBarButtonItem = {
-        let button = UIBarButtonItem(title: "", style: .plain, target: self, action: #selector(FusumaViewController.closeButtonPressed(_:)))
+        let bundle = Bundle(for: self.classForCoder)
+        let closeImage = fusumaCloseImage != nil ? fusumaCloseImage : UIImage(named: "ic_close", in: bundle, compatibleWith: nil)?.withRenderingMode(.alwaysTemplate)
+        let cButton = UIButton(frame: CGRect(x: 0, y: 0, width: 35, height: 35))
+        cButton.setBackgroundImage(closeImage, for: .normal)
+        cButton.setBackgroundImage(closeImage, for: .selected)
+        cButton.setBackgroundImage(closeImage, for: .highlighted)
+        cButton.tintColor = fusumaTintColor
+        cButton.addTarget(self, action: #selector(FusumaViewController.closeButtonPressed(_:)), for: .touchUpInside)
+        let button = UIBarButtonItem(customView: cButton)
         button.accessibilityIdentifier = NSLocalizedString("Close", comment: "Close")
         button.accessibilityIdentifier = "CloseButton"
         return button
     }()
     
     lazy var doneButton: UIBarButtonItem = {
-        let button = UIBarButtonItem(title: "", style: .plain, target: self, action: #selector(FusumaViewController.doneButtonPressed(_:)))
+        let bundle = Bundle(for: self.classForCoder)
+        let checkImage = fusumaCheckImage != nil ? fusumaCheckImage : UIImage(named: "ic_check", in: bundle, compatibleWith: nil)?.withRenderingMode(.alwaysTemplate)
+        let dButton = UIButton(frame: CGRect(x: 0, y: 0, width: 35, height: 35))
+        dButton.setBackgroundImage(checkImage, for: .normal)
+        dButton.setBackgroundImage(checkImage, for: .selected)
+        dButton.setBackgroundImage(checkImage, for: .highlighted)
+        dButton.tintColor = fusumaTintColor
+        dButton.addTarget(self, action: #selector(FusumaViewController.doneButtonPressed(_:)), for: .touchUpInside)
+        let button = UIBarButtonItem(customView: dButton)
         button.accessibilityLabel = NSLocalizedString("Done", comment: "Done")
         button.accessibilityIdentifier = "DoneButton"
-        
         return button
     }()
 
@@ -191,16 +206,6 @@ public struct ImageMetadata {
         closeButton.tintColor   = fusumaTintColor
         doneButton.tintColor    = fusumaTintColor
         
-        let bundle     = Bundle(for: self.classForCoder)
-        let checkImage = fusumaCheckImage != nil ? fusumaCheckImage : UIImage(named: "ic_check", in: bundle, compatibleWith: nil)
-        let closeImage = fusumaCloseImage != nil ? fusumaCloseImage : UIImage(named: "ic_close", in: bundle, compatibleWith: nil)
-        closeButton.setBackgroundImage(closeImage?.withRenderingMode(.alwaysTemplate), for: .normal, barMetrics: UIBarMetrics.default)
-        
-        doneButton.setBackgroundImage(checkImage?.withRenderingMode(.alwaysTemplate), for: .normal, barMetrics: UIBarMetrics.default)
-        closeButton.setBackgroundImage(closeImage?.withRenderingMode(.alwaysTemplate), for: .selected, barMetrics: UIBarMetrics.default)
-        doneButton.setBackgroundImage(checkImage?.withRenderingMode(.alwaysTemplate), for: .selected, barMetrics: UIBarMetrics.default)
-        closeButton.setBackgroundImage(closeImage?.withRenderingMode(.alwaysTemplate), for: .highlighted, barMetrics: UIBarMetrics.default)
-        doneButton.setBackgroundImage(checkImage?.withRenderingMode(.alwaysTemplate), for: .highlighted, barMetrics: UIBarMetrics.default)
 
         photoLibraryViewerContainer.addSubview(albumView)
         cameraShotContainer.addSubview(cameraView)
