@@ -76,8 +76,7 @@ final class FSCameraView: UIView, UIGestureRecognizerDelegate {
         
         for device in AVCaptureDevice.devices() {
             
-            if let device = device as? AVCaptureDevice,
-                device.position == initialCaptureDevicePosition {
+            if device.position == initialCaptureDevicePosition {
                 
                 self.device = device
                 
@@ -88,34 +87,30 @@ final class FSCameraView: UIView, UIGestureRecognizerDelegate {
             }
         }
         
-        do {
-            
-            videoInput = try AVCaptureDeviceInput(device: device!)
-            
+  
+        if let _device = device, let _videoInput = try? AVCaptureDeviceInput(device: _device) {
+            videoInput = _videoInput
             session.addInput(videoInput!)
-            
+          
             imageOutput = AVCaptureStillImageOutput()
-            
+          
             session.addOutput(imageOutput!)
-            
+          
             videoLayer = AVCaptureVideoPreviewLayer(session: session)
             videoLayer?.frame = self.previewViewContainer.bounds
             videoLayer?.videoGravity = AVLayerVideoGravity.resizeAspectFill
-            
+          
             self.previewViewContainer.layer.addSublayer(videoLayer!)
-            
+          
             session.sessionPreset = AVCaptureSession.Preset.photo
-            
+          
             session.startRunning()
-
+          
             // Focus View
             self.focusView         = UIView(frame: CGRect(x: 0, y: 0, width: 90, height: 90))
             let tapRecognizer      = UITapGestureRecognizer(target: self, action:#selector(FSCameraView.focus(_:)))
             tapRecognizer.delegate = self
             self.previewViewContainer.addGestureRecognizer(tapRecognizer)
-            
-        } catch {
-            
         }
         
         flashConfiguration()
@@ -257,7 +252,7 @@ final class FSCameraView: UIView, UIGestureRecognizerDelegate {
 
                 for device in AVCaptureDevice.devices(for: AVMediaType.video) {
 
-                    if let device = device as? AVCaptureDevice , device.position == position {
+                    if device.position == position {
                  
                         videoInput = try AVCaptureDeviceInput(device: device)
                         session.addInput(videoInput!)

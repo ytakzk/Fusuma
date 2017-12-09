@@ -9,7 +9,7 @@
 import UIKit
 import Photos
 
-@objc public protocol FSAlbumViewDelegate: class {
+public protocol FSAlbumViewDelegate: class {
     // Returns height ratio of crop image. e.g) 4:3 -> 7.5
     func getCropHeightRatio() -> CGFloat
 
@@ -293,7 +293,7 @@ final class FSAlbumView: UIView, UICollectionViewDataSource, UICollectionViewDel
         return images == nil ? 0 : images.count
     }
     
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: IndexPath) -> CGSize {
+    @objc func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: IndexPath) -> CGSize {
         
         let width = (collectionView.frame.width - 3) / 4
         return CGSize(width: width, height: width)

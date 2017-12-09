@@ -56,8 +56,7 @@ final class FSVideoCameraView: UIView {
         
         for device in AVCaptureDevice.devices() {
             
-            if let device = device as? AVCaptureDevice,
-                device.position == AVCaptureDevice.Position.back {
+            if device.position == AVCaptureDevice.Position.back {
                 
                 self.device = device
             }
@@ -168,18 +167,14 @@ final class FSVideoCameraView: UIView {
             
             for input in session.inputs {
                 
-                if let input = input as? AVCaptureInput {
-                    
-                    session.removeInput(input)
-                }
+                session.removeInput(input)
             }
             
             let position = videoInput?.device.position == AVCaptureDevice.Position.front ? AVCaptureDevice.Position.back : AVCaptureDevice.Position.front
             
             for device in AVCaptureDevice.devices(for: AVMediaType.video) {
                 
-                if let device = device as? AVCaptureDevice,
-                    device.position == position {
+                if device.position == position {
                     
                     videoInput = try AVCaptureDeviceInput(device: device)
                     session.addInput(videoInput!)
