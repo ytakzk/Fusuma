@@ -1,10 +1,10 @@
 language: objective-c
-osx_image: xcode8
+osx_image: xcode9.2
 script:
   - set -o pipefail
   - xcodebuild -version
   - xcodebuild -showsdks
-  - xcodebuild -workspace Fusuma.xcworkspace -scheme FusumaExample -sdk iphonesimulator -destination 'OS=10.0,name=iPhone 6S Plus' ONLY_ACTIVE_ARCH=NO build
+  - xcodebuild test -workspace Fusuma.xcworkspace -scheme FusumaExample -sdk iphonesimulator -destination 'platform=iOS Simulator,name=iPhone 8' ONLY_ACTIVE_ARCH=NO build
 
 #before_install:
 #  - brew update
