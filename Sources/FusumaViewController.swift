@@ -116,14 +116,9 @@ public struct ImageMetadata {
     @IBOutlet weak var photoLibraryViewerContainer: UIView!
     @IBOutlet weak var cameraShotContainer: UIView!
     @IBOutlet weak var videoShotContainer: UIView!
-
-//    @IBOutlet weak var titleLabel: UILabel!
-//    @IBOutlet weak var menuView: UIView!
-//    @IBOutlet weak var closeButton: UIButton!
     @IBOutlet weak var libraryButton: UIButton!
     @IBOutlet weak var cameraButton: UIButton!
     @IBOutlet weak var videoButton: UIButton!
-//    @IBOutlet weak var doneButton: UIButton!
     
     lazy var albumView  = FSAlbumView.instance()
     lazy var cameraView = FSCameraView.instance()
@@ -146,6 +141,9 @@ public struct ImageMetadata {
         cButton.setBackgroundImage(closeImage, for: .highlighted)
         cButton.tintColor = fusumaTintColor
         cButton.addTarget(self, action: #selector(FusumaViewController.closeButtonPressed(_:)), for: .touchUpInside)
+        cButton.translatesAutoresizingMaskIntoConstraints = false
+        cButton.addConstraint(NSLayoutConstraint(item: cButton, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: 35.0))
+        cButton.addConstraint(NSLayoutConstraint(item: cButton, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: 35.0))
         let button = UIBarButtonItem(customView: cButton)
         button.accessibilityIdentifier = NSLocalizedString("Close", comment: "Close")
         button.accessibilityIdentifier = "CloseButton"
@@ -161,6 +159,9 @@ public struct ImageMetadata {
         dButton.setBackgroundImage(checkImage, for: .highlighted)
         dButton.tintColor = fusumaTintColor
         dButton.addTarget(self, action: #selector(FusumaViewController.doneButtonPressed(_:)), for: .touchUpInside)
+        dButton.translatesAutoresizingMaskIntoConstraints = false
+        dButton.addConstraint(NSLayoutConstraint(item: dButton, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: 35.0))
+        dButton.addConstraint(NSLayoutConstraint(item: dButton, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: 35.0))
         let button = UIBarButtonItem(customView: dButton)
         button.accessibilityLabel = NSLocalizedString("Done", comment: "Done")
         button.accessibilityIdentifier = "DoneButton"
@@ -194,10 +195,7 @@ public struct ImageMetadata {
         libraryButton.setTitle(fusumaCameraRollTitle, for: .normal)
         cameraButton.setTitle(fusumaCameraTitle, for: .normal)
         videoButton.setTitle(fusumaVideoTitle, for: .normal)
-
-//        menuView.backgroundColor = fusumaBackgroundColor
-//        menuView.addBottomBorder(UIColor.black, width: 1.0)
-
+        
         albumView.allowMultipleSelection = allowMultipleSelection
         
         libraryButton.tintColor = fusumaTintColor
@@ -210,9 +208,6 @@ public struct ImageMetadata {
         photoLibraryViewerContainer.addSubview(albumView)
         cameraShotContainer.addSubview(cameraView)
         videoShotContainer.addSubview(videoView)
-        
-//        titleLabel.textColor = fusumaTintColor
-//        titleLabel.font      = fusumaTitleFont
         
         // start loading indicator
         NotificationCenter.default.addObserver(self, selector: #selector(FusumaViewController.stopLoadingIndicator), name: NSNotification.Name.photoLibraryReloaded, object: nil)
@@ -646,7 +641,6 @@ private extension FusumaViewController {
             videoView.startCamera()
         }
         
-//        self.view.bringSubview(toFront: menuView)
     }
     
     func updateDoneButtonVisibility() {
@@ -735,11 +729,9 @@ extension FusumaViewController: FSAlbumSelectionViewControllerDelegate {
 extension FusumaViewController {
     @objc open func stopLoadingIndicator() {
         // create your own indicator
-        // BPProgressHUD.dismiss()
     }
     
     @objc open func startLoadingIndicator() {
         // create your own indicator
-        // BPProgressHUD.showDark()
     }
 }

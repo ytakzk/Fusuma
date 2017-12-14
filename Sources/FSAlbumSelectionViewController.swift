@@ -70,6 +70,20 @@ class FSAlbumSelectionViewController: UIViewController {
         self.view.addSubview(tableView)
         return tableView
     }()
+    
+    lazy var closeButton: UIBarButtonItem = {
+        let cButton = UIButton(frame: CGRect(x: 0, y: 0, width: 35, height: 35))
+        cButton.setBackgroundImage(UIImage(named: "ic_close")?.withRenderingMode(.alwaysTemplate), for: .normal)
+        cButton.tintColor = fusumaTintColor
+        cButton.addTarget(self, action: #selector(closeViewController), for: .touchUpInside)
+        cButton.translatesAutoresizingMaskIntoConstraints = false
+        cButton.addConstraint(NSLayoutConstraint(item: cButton, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: 35.0))
+        cButton.addConstraint(NSLayoutConstraint(item: cButton, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: 35.0))
+        let button = UIBarButtonItem(customView: cButton)
+        button.accessibilityIdentifier = NSLocalizedString("Close", comment: "Close")
+        button.accessibilityIdentifier = "CloseButton"
+        return button
+    }()
 
     var album: [AlbumModel] = [AlbumModel]()
     fileprivate var imageManager: PHCachingImageManager?
@@ -147,16 +161,7 @@ extension FSAlbumSelectionViewController {
         
         imageManager = PHCachingImageManager()
 
-        
-        let cButton = UIButton(frame: CGRect(x: 0, y: 0, width: 35, height: 35))
-        cButton.setBackgroundImage(UIImage(named: "ic_close")?.withRenderingMode(.alwaysTemplate), for: .normal)
-        cButton.tintColor = fusumaTintColor
-        cButton.addTarget(self, action: #selector(closeViewController), for: .touchUpInside)
-        navigationItem.setLeftBarButton(UIBarButtonItem(customView: cButton), animated: false)
-        //        let closeButton = UIBarButtonItem(barButtonSystemItem: .stop, target: self, action: #selector(closeViewController))
-//        let image = UIImage(named: "ic_close")?.withRenderingMode(.alwaysTemplate)
-//        let closeButton = UIBarButtonItem(image: image, style: .plain, target: self, action: #selector(closeViewController))
-//        navigationItem.setLeftBarButton(closeButton, animated: false)
+        navigationItem.setLeftBarButton(closeButton, animated: false)
         navigationItem.title = NSLocalizedString("Choose Album", comment: "Navigation title to choose album")
     }
 

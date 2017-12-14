@@ -87,8 +87,6 @@ final public class ArrowableTitleView: UIView {
 
         let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(selected))
         addGestureRecognizer(tap)
-        // there is some resizing issue if do not set this back to true
-//        translatesAutoresizingMaskIntoConstraints = true
         sizeToFit()
     }
 
