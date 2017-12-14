@@ -141,9 +141,13 @@ public struct ImageMetadata {
         cButton.setBackgroundImage(closeImage, for: .highlighted)
         cButton.tintColor = fusumaTintColor
         cButton.addTarget(self, action: #selector(FusumaViewController.closeButtonPressed(_:)), for: .touchUpInside)
-        cButton.translatesAutoresizingMaskIntoConstraints = false
-        cButton.addConstraint(NSLayoutConstraint(item: cButton, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: 35.0))
-        cButton.addConstraint(NSLayoutConstraint(item: cButton, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: 35.0))
+        
+        if #available(iOS 9.0, *) {
+            cButton.translatesAutoresizingMaskIntoConstraints = false
+            cButton.addConstraint(NSLayoutConstraint(item: cButton, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: 35.0))
+            cButton.addConstraint(NSLayoutConstraint(item: cButton, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: 35.0))
+        }
+        
         let button = UIBarButtonItem(customView: cButton)
         button.accessibilityIdentifier = NSLocalizedString("Close", comment: "Close")
         button.accessibilityIdentifier = "CloseButton"
@@ -153,15 +157,19 @@ public struct ImageMetadata {
     lazy var doneButton: UIBarButtonItem = {
         let bundle = Bundle(for: self.classForCoder)
         let checkImage = fusumaCheckImage != nil ? fusumaCheckImage : UIImage(named: "ic_check", in: bundle, compatibleWith: nil)?.withRenderingMode(.alwaysTemplate)
-        let dButton = UIButton(frame: CGRect(x: 0, y: 0, width: 35, height: 35))
+        let dButton = UIButton(frame: CGRect(x: 20, y: 0, width: 35, height: 35))
         dButton.setBackgroundImage(checkImage, for: .normal)
         dButton.setBackgroundImage(checkImage, for: .selected)
         dButton.setBackgroundImage(checkImage, for: .highlighted)
         dButton.tintColor = fusumaTintColor
         dButton.addTarget(self, action: #selector(FusumaViewController.doneButtonPressed(_:)), for: .touchUpInside)
-        dButton.translatesAutoresizingMaskIntoConstraints = false
-        dButton.addConstraint(NSLayoutConstraint(item: dButton, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: 35.0))
-        dButton.addConstraint(NSLayoutConstraint(item: dButton, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: 35.0))
+        
+        if #available(iOS 9.0, *) {
+            dButton.translatesAutoresizingMaskIntoConstraints = false
+            dButton.addConstraint(NSLayoutConstraint(item: dButton, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: 35.0))
+            dButton.addConstraint(NSLayoutConstraint(item: dButton, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: 35.0))
+        }
+        
         let button = UIBarButtonItem(customView: dButton)
         button.accessibilityLabel = NSLocalizedString("Done", comment: "Done")
         button.accessibilityIdentifier = "DoneButton"

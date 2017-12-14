@@ -76,9 +76,12 @@ class FSAlbumSelectionViewController: UIViewController {
         cButton.setBackgroundImage(UIImage(named: "ic_close")?.withRenderingMode(.alwaysTemplate), for: .normal)
         cButton.tintColor = fusumaTintColor
         cButton.addTarget(self, action: #selector(closeViewController), for: .touchUpInside)
-        cButton.translatesAutoresizingMaskIntoConstraints = false
-        cButton.addConstraint(NSLayoutConstraint(item: cButton, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: 35.0))
-        cButton.addConstraint(NSLayoutConstraint(item: cButton, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: 35.0))
+        
+        if #available(iOS 9.0, *) {
+            cButton.translatesAutoresizingMaskIntoConstraints = false
+            cButton.addConstraint(NSLayoutConstraint(item: cButton, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: 35.0))
+            cButton.addConstraint(NSLayoutConstraint(item: cButton, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: 35.0))
+        }
         let button = UIBarButtonItem(customView: cButton)
         button.accessibilityIdentifier = NSLocalizedString("Close", comment: "Close")
         button.accessibilityIdentifier = "CloseButton"

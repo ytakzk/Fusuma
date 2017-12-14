@@ -15,12 +15,16 @@ import UIKit
     func setup() {
         transform = CGAffineTransform(rotationAngle: CGFloat(Double.pi / 2))
         translatesAutoresizingMaskIntoConstraints = false
-        setContentCompressionResistancePriority(UILayoutPriorityRequired, for: .horizontal)
-        setContentCompressionResistancePriority(UILayoutPriorityRequired, for: .horizontal)
-        setContentHuggingPriority(UILayoutPriorityRequired, for: .horizontal)
-        setContentCompressionResistancePriority(UILayoutPriorityRequired, for: .vertical)
-        setContentHuggingPriority(UILayoutPriorityRequired, for: .vertical)
-        self.addConstraint(NSLayoutConstraint(item: self, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: 12.0))
+        setContentCompressionResistancePriority(UILayoutPriority.required, for: .horizontal)
+        setContentCompressionResistancePriority(UILayoutPriority.required, for: .horizontal)
+        setContentHuggingPriority(UILayoutPriority.required, for: .horizontal)
+        setContentCompressionResistancePriority(UILayoutPriority.required, for: .vertical)
+        setContentHuggingPriority(UILayoutPriority.required, for: .vertical)
+        
+        if #available(iOS 9.0, *) {
+            self.addConstraint(NSLayoutConstraint(item: self, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: 12.0))
+            self.addConstraint(NSLayoutConstraint(item: self, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: 6.0))
+        }
     }
 
     init() {

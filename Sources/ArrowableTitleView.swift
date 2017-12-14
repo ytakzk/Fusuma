@@ -20,17 +20,17 @@ final public class ArrowableTitleView: UIView {
     lazy var titleLabel: UILabel = {
         let label = UILabel()
         if #available(iOS 8.2, *) {
-            label.font = UIFont.systemFont(ofSize:17, weight: UIFontWeightMedium)
+            label.font = UIFont.systemFont(ofSize:17, weight: UIFont.Weight.medium)
         } else {
             label.font = UIFont(name: "HelveticaNeue-Medium", size: 17)
         }
         label.textAlignment = .center
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textColor = .white
-        label.setContentHuggingPriority(UILayoutPriorityRequired, for: .horizontal)
-        label.setContentCompressionResistancePriority(UILayoutPriorityRequired, for: .horizontal)
-        label.setContentHuggingPriority(UILayoutPriorityRequired, for: .vertical)
-        label.setContentCompressionResistancePriority(UILayoutPriorityRequired, for: .vertical)
+        label.setContentHuggingPriority(UILayoutPriority.required, for: .horizontal)
+        label.setContentCompressionResistancePriority(UILayoutPriority.required, for: .horizontal)
+        label.setContentHuggingPriority(UILayoutPriority.required, for: .vertical)
+        label.setContentCompressionResistancePriority(UILayoutPriority.required, for: .vertical)
         return label
     }()
 
@@ -77,11 +77,10 @@ final public class ArrowableTitleView: UIView {
             self.addSubview(chevronView)
             
             
-            self.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|[label]-(horizontalPadding)-[arrow(12)]-|", options: [.alignAllCenterY], metrics: ["horizontalPadding": 15.0], views: ["label": titleLabel, "arrow" : chevronView]))
+            self.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|[label]-(horizontalPadding)-[arrow]-|", options: [.alignAllCenterY], metrics: ["horizontalPadding": 15.0], views: ["label": titleLabel, "arrow" : chevronView]))
             
             titleLabel.addConstraint(NSLayoutConstraint(item: titleLabel, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: 40.0))
             self.addConstraint(NSLayoutConstraint(item: titleLabel, attribute: .centerY, relatedBy: .equal, toItem: self, attribute: .centerY, multiplier: 1.0, constant: 0))
-            chevronView.addConstraint(NSLayoutConstraint(item: chevronView, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: 12.0))
             self.addConstraint(NSLayoutConstraint(item: chevronView, attribute: .centerY, relatedBy: .equal, toItem: self, attribute: .centerY, multiplier: 1.0, constant: 0))
         }
 

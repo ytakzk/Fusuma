@@ -41,7 +41,7 @@ final class FSAlbumView: UIView, UICollectionViewDataSource, UICollectionViewDel
         let noImageTitleLabel: UILabel = {
             let label = UILabel()
             label.text = NSLocalizedString("No Photos Found", comment: "No Photos Found")
-            label.font = UIFont.systemFont(ofSize:22, weight: UIFontWeightBold)
+            label.font = UIFont.systemFont(ofSize:22, weight: UIFont.Weight.bold)
             label.textColor = UIColor(red: 153.0 / 255.0, green: 153.0 / 255.0, blue: 153.0 / 255.0, alpha: 1.0)
             label.alpha = 0.6
             label.textAlignment = .center
@@ -51,7 +51,7 @@ final class FSAlbumView: UIView, UICollectionViewDataSource, UICollectionViewDel
         let noImageDescriptionLabel: UILabel = {
             let label = UILabel()
             label.text = NSLocalizedString("Use camera to take a photo or choose a different album to write a review", comment: "Description text when no photo found in current album")
-            label.font = UIFont.systemFont(ofSize:15, weight: UIFontWeightRegular)
+            label.font = UIFont.systemFont(ofSize:15, weight: UIFont.Weight.regular)
             label.textColor = UIColor.white
             label.textAlignment = .center
             label.preferredMaxLayoutWidth = 280

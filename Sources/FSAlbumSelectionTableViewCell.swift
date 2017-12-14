@@ -88,25 +88,12 @@ final class FSAlbumSelectionTableViewCell: UITableViewCell {
             subLabel.rightAnchor.constraint(equalTo: mainLabel.rightAnchor).isActive = true
             subLabel.centerYAnchor.constraint(equalTo: contentView.centerYAnchor, constant: 10.0).isActive = true
         } else {
-            let mainImageViewConstraints = [
-                NSLayoutConstraint(item: mainimageView, attribute: .left, relatedBy: .equal, toItem: contentView, attribute: .left, multiplier: 1.0, constant: 12.0),
-                NSLayoutConstraint(item: mainimageView, attribute: .centerY, relatedBy: .equal, toItem: contentView, attribute: .centerY, multiplier: 1.0, constant: 0),
-            ]
-            contentView.addConstraints(mainImageViewConstraints)
+            NSLayoutConstraint(item: mainLabel, attribute: .centerY, relatedBy: .equal, toItem: contentView, attribute: .centerY, multiplier: 1.0, constant: -10).isActive = true
+            NSLayoutConstraint(item: mainimageView, attribute: .centerY, relatedBy: .equal, toItem: contentView, attribute: .centerY, multiplier: 1.0, constant: 0).isActive = true
+            NSLayoutConstraint(item: subLabel, attribute: .centerY, relatedBy: .equal, toItem: contentView, attribute: .centerY, multiplier: 1.0, constant: 10).isActive = true
             
-            let mainLabelConstraints = [
-                NSLayoutConstraint(item: mainLabel, attribute: .left, relatedBy: .equal, toItem: mainLabel, attribute: .right, multiplier: 1.0, constant: 15.0),
-                NSLayoutConstraint(item: mainLabel, attribute: .right, relatedBy: .equal, toItem: contentView, attribute: .right, multiplier: 1.0, constant: -5.0),
-                NSLayoutConstraint(item: mainLabel, attribute: .centerY, relatedBy: .equal, toItem: contentView, attribute: .centerY, multiplier: 1.0, constant: -10.0),
-                ]
-            contentView.addConstraints(mainLabelConstraints)
-            
-            let subLabelConstraints = [
-                NSLayoutConstraint(item: subLabel, attribute: .left, relatedBy: .equal, toItem: mainLabel, attribute: .left, multiplier: 1.0, constant: 0.0),
-                NSLayoutConstraint(item: subLabel, attribute: .right, relatedBy: .equal, toItem: mainLabel, attribute: .right, multiplier: 1.0, constant: 0.0),
-                NSLayoutConstraint(item: subLabel, attribute: .centerY, relatedBy: .equal, toItem: contentView, attribute: .centerY, multiplier: 1.0, constant: 10.0),
-                ]
-            contentView.addConstraints(subLabelConstraints)
+            self.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-12-[mainimageView]-(horizontalPadding)-[mainLabel]-5-|", options: NSLayoutFormatOptions(rawValue: 0), metrics: ["horizontalPadding": 15.0], views: ["mainLabel": mainLabel, "mainimageView" : mainimageView, "subLabel" : subLabel]))
+            self.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-12-[mainimageView]-(horizontalPadding)-[subLabel]-5-|", options: NSLayoutFormatOptions(rawValue: 0), metrics: ["horizontalPadding": 15.0], views: ["mainLabel": mainLabel, "mainimageView" : mainimageView, "subLabel" : subLabel]))
         }
     }
 
