@@ -116,18 +116,65 @@ public struct ImageMetadata {
     @IBOutlet weak var photoLibraryViewerContainer: UIView!
     @IBOutlet weak var cameraShotContainer: UIView!
     @IBOutlet weak var videoShotContainer: UIView!
-
-    @IBOutlet weak var titleLabel: UILabel!
-    @IBOutlet weak var menuView: UIView!
-    @IBOutlet weak var closeButton: UIButton!
     @IBOutlet weak var libraryButton: UIButton!
     @IBOutlet weak var cameraButton: UIButton!
     @IBOutlet weak var videoButton: UIButton!
-    @IBOutlet weak var doneButton: UIButton!
     
     lazy var albumView  = FSAlbumView.instance()
     lazy var cameraView = FSCameraView.instance()
     lazy var videoView  = FSVideoCameraView.instance()
+    
+    lazy var arrowableTitleView: ArrowableTitleView = {
+        let x = UIScreen.main.bounds.width / 2 - 120
+        let view = ArrowableTitleView(frame: CGRect(x: x, y: 0, width: 120, height: 40), delegate: self)
+        view.setTitleColor(color: .black)
+        view.accessibilityIdentifier = "SelectAlbumButton"
+        return view
+    }()
+    
+    lazy var closeButton: UIBarButtonItem = {
+        let bundle = Bundle(for: self.classForCoder)
+        let closeImage = fusumaCloseImage != nil ? fusumaCloseImage : UIImage(named: "ic_close", in: bundle, compatibleWith: nil)?.withRenderingMode(.alwaysTemplate)
+        let cButton = UIButton(frame: CGRect(x: 0, y: 0, width: 35, height: 35))
+        cButton.setBackgroundImage(closeImage, for: .normal)
+        cButton.setBackgroundImage(closeImage, for: .selected)
+        cButton.setBackgroundImage(closeImage, for: .highlighted)
+        cButton.tintColor = fusumaTintColor
+        cButton.addTarget(self, action: #selector(FusumaViewController.closeButtonPressed(_:)), for: .touchUpInside)
+        
+        if #available(iOS 9.0, *) {
+            cButton.translatesAutoresizingMaskIntoConstraints = false
+            cButton.addConstraint(NSLayoutConstraint(item: cButton, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: 35.0))
+            cButton.addConstraint(NSLayoutConstraint(item: cButton, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: 35.0))
+        }
+        
+        let button = UIBarButtonItem(customView: cButton)
+        button.accessibilityIdentifier = NSLocalizedString("Close", comment: "Close")
+        button.accessibilityIdentifier = "CloseButton"
+        return button
+    }()
+    
+    lazy var doneButton: UIBarButtonItem = {
+        let bundle = Bundle(for: self.classForCoder)
+        let checkImage = fusumaCheckImage != nil ? fusumaCheckImage : UIImage(named: "ic_check", in: bundle, compatibleWith: nil)?.withRenderingMode(.alwaysTemplate)
+        let dButton = UIButton(frame: CGRect(x: 20, y: 0, width: 35, height: 35))
+        dButton.setBackgroundImage(checkImage, for: .normal)
+        dButton.setBackgroundImage(checkImage, for: .selected)
+        dButton.setBackgroundImage(checkImage, for: .highlighted)
+        dButton.tintColor = fusumaTintColor
+        dButton.addTarget(self, action: #selector(FusumaViewController.doneButtonPressed(_:)), for: .touchUpInside)
+        
+        if #available(iOS 9.0, *) {
+            dButton.translatesAutoresizingMaskIntoConstraints = false
+            dButton.addConstraint(NSLayoutConstraint(item: dButton, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: 35.0))
+            dButton.addConstraint(NSLayoutConstraint(item: dButton, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: 35.0))
+        }
+        
+        let button = UIBarButtonItem(customView: dButton)
+        button.accessibilityLabel = NSLocalizedString("Done", comment: "Done")
+        button.accessibilityIdentifier = "DoneButton"
+        return button
+    }()
 
     fileprivate var hasGalleryPermission: Bool {
         
@@ -146,7 +193,7 @@ public struct ImageMetadata {
     
     override public func viewDidLoad() {
         super.viewDidLoad()
-    
+        
         self.view.backgroundColor = fusumaBackgroundColor
         
         cameraView.delegate = self
@@ -156,10 +203,7 @@ public struct ImageMetadata {
         libraryButton.setTitle(fusumaCameraRollTitle, for: .normal)
         cameraButton.setTitle(fusumaCameraTitle, for: .normal)
         videoButton.setTitle(fusumaVideoTitle, for: .normal)
-
-        menuView.backgroundColor = fusumaBackgroundColor
-        menuView.addBottomBorder(UIColor.black, width: 1.0)
-
+        
         albumView.allowMultipleSelection = allowMultipleSelection
         
         libraryButton.tintColor = fusumaTintColor
@@ -168,23 +212,24 @@ public struct ImageMetadata {
         closeButton.tintColor   = fusumaTintColor
         doneButton.tintColor    = fusumaTintColor
         
-        let bundle     = Bundle(for: self.classForCoder)
-        let checkImage = fusumaCheckImage != nil ? fusumaCheckImage : UIImage(named: "ic_check", in: bundle, compatibleWith: nil)
-        let closeImage = fusumaCloseImage != nil ? fusumaCloseImage : UIImage(named: "ic_close", in: bundle, compatibleWith: nil)
-        
-        closeButton.setImage(closeImage?.withRenderingMode(.alwaysTemplate), for: .normal)
-        doneButton.setImage(checkImage?.withRenderingMode(.alwaysTemplate), for: .normal)
-        closeButton.setImage(closeImage?.withRenderingMode(.alwaysTemplate), for: .selected)
-        doneButton.setImage(checkImage?.withRenderingMode(.alwaysTemplate), for: .selected)
-        closeButton.setImage(closeImage?.withRenderingMode(.alwaysTemplate), for: .highlighted)
-        doneButton.setImage(checkImage?.withRenderingMode(.alwaysTemplate), for: .highlighted)
 
         photoLibraryViewerContainer.addSubview(albumView)
         cameraShotContainer.addSubview(cameraView)
         videoShotContainer.addSubview(videoView)
         
-        titleLabel.textColor = fusumaTintColor
-        titleLabel.font      = fusumaTitleFont
+        // start loading indicator
+        NotificationCenter.default.addObserver(self, selector: #selector(FusumaViewController.stopLoadingIndicator), name: NSNotification.Name.photoLibraryReloaded, object: nil)
+        startLoadingIndicator()
+        
+        if let navController = navigationController {
+            navController.navigationBar.barStyle = .default
+            navController.navigationBar.isTranslucent = false
+            
+        }
+        navigationItem.titleView = arrowableTitleView
+        navigationItem.leftBarButtonItem = closeButton
+        navigationItem.rightBarButtonItem = doneButton
+        
         
         if availableModes.count == 0 || availableModes.count >= 4 {
             
@@ -339,7 +384,7 @@ public struct ImageMetadata {
         return true
     }
     
-    @IBAction func closeButtonPressed(_ sender: UIButton) {
+    @IBAction func closeButtonPressed(_ sender: UIBarButtonItem) {
         
         self.delegate?.fusumaWillClosed()
         
@@ -349,7 +394,7 @@ public struct ImageMetadata {
         }
     }
     
-    @IBAction func libraryButtonPressed(_ sender: UIButton) {
+    @IBAction func libraryButtonPressed(_ sender: UIBarButtonItem) {
         
         changeMode(FusumaMode.library)
     }
@@ -582,33 +627,35 @@ private extension FusumaViewController {
             
         case .library:
             
-            titleLabel.text = NSLocalizedString(fusumaCameraRollTitle, comment: fusumaCameraRollTitle)
+            let title = albumView.getAssetCollectionTitle() ?? NSLocalizedString(fusumaCameraRollTitle, comment: fusumaCameraRollTitle)
+            arrowableTitleView.setTitle(text: title, hideArrow: false)
+            arrowableTitleView.isHidden = false
             highlightButton(libraryButton)
             self.view.bringSubview(toFront: photoLibraryViewerContainer)
         
         case .camera:
 
-            titleLabel.text = NSLocalizedString(fusumaCameraTitle, comment: fusumaCameraTitle)
+            arrowableTitleView.setTitle(text: NSLocalizedString(fusumaCameraTitle, comment: fusumaCameraTitle), hideArrow: true)
             highlightButton(cameraButton)
             self.view.bringSubview(toFront: cameraShotContainer)
             cameraView.startCamera()
             
         case .video:
             
-            titleLabel.text = NSLocalizedString(fusumaVideoTitle, comment: fusumaVideoTitle)
+            arrowableTitleView.setTitle(text: fusumaVideoTitle, hideArrow: true)
+            arrowableTitleView.isHidden = false
             highlightButton(videoButton)
             self.view.bringSubview(toFront: videoShotContainer)
             videoView.startCamera()
         }
         
-        self.view.bringSubview(toFront: menuView)
     }
     
     func updateDoneButtonVisibility() {
 
         if !hasGalleryPermission {
             
-            self.doneButton.isHidden = true
+            self.doneButton.isEnabled = false
             return
         }
 
@@ -616,11 +663,11 @@ private extension FusumaViewController {
             
         case .library:
             
-            self.doneButton.isHidden = false
+            self.doneButton.isEnabled = true
             
         default:
             
-            self.doneButton.isHidden = true
+            self.doneButton.isEnabled = false
         }
     }
     
@@ -660,5 +707,39 @@ private extension FusumaViewController {
             
             return videoButton
         }
+    }
+}
+
+extension FusumaViewController: ArrowableTitleViewDelegate {
+    public func viewDidTapped(_ view: ArrowableTitleView, state: Bool) {
+        guard mode == .library else { return }
+        let albumListVC = FSAlbumSelectionViewController(delegate: self)
+        let nav = UINavigationController(rootViewController: albumListVC)
+        present(nav, animated: true, completion: nil)
+    }
+}
+
+extension FusumaViewController: FSAlbumSelectionViewControllerDelegate {
+    func didSelectAlbum(sender: FSAlbumSelectionViewController, albumSelected: AlbumModel) {
+        dismiss(animated: true, completion: nil)
+        
+        albumView.updateAssetCollection(assetCollection: albumSelected.collection)
+        arrowableTitleView.setTitle(text: albumSelected.collection.localizedTitle!, hideArrow: false)
+        arrowableTitleView.toggle()
+    }
+    
+    func didSelectCancel(sender: FSAlbumSelectionViewController) {
+        dismiss(animated: true, completion: nil)
+        arrowableTitleView.toggle()
+    }
+}
+
+extension FusumaViewController {
+    @objc open func stopLoadingIndicator() {
+        // create your own indicator
+    }
+    
+    @objc open func startLoadingIndicator() {
+        // create your own indicator
     }
 }

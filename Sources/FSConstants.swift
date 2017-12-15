@@ -39,3 +39,7 @@ extension UIView {
     }
 
 }
+
+extension Notification.Name {
+    static let photoLibraryReloaded = Notification.Name("photoLibraryReloaded")
+}

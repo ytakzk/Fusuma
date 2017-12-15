@@ -7,6 +7,16 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4786CC771FD1B56900B6A97C /* FSAlbumSelectionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4786CC741FD1B56700B6A97C /* FSAlbumSelectionTableViewCell.swift */; };
+		4786CC781FD1B56900B6A97C /* ArrowableTitleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4786CC751FD1B56800B6A97C /* ArrowableTitleView.swift */; };
+		4786CC791FD1B56900B6A97C /* FSAlbumSelectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4786CC761FD1B56800B6A97C /* FSAlbumSelectionViewController.swift */; };
+		4786CC7B1FD1B68800B6A97C /* ArrowImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4786CC7A1FD1B68800B6A97C /* ArrowImageView.swift */; };
+		4786CC7C1FD1C15800B6A97C /* ArrowableTitleView.swift in Resources */ = {isa = PBXBuildFile; fileRef = 4786CC751FD1B56800B6A97C /* ArrowableTitleView.swift */; };
+		4786CC7D1FD1C15800B6A97C /* ArrowImageView.swift in Resources */ = {isa = PBXBuildFile; fileRef = 4786CC7A1FD1B68800B6A97C /* ArrowImageView.swift */; };
+		4786CC7E1FD1C15800B6A97C /* FSAlbumSelectionTableViewCell.swift in Resources */ = {isa = PBXBuildFile; fileRef = 4786CC741FD1B56700B6A97C /* FSAlbumSelectionTableViewCell.swift */; };
+		4786CC7F1FD1C15800B6A97C /* FSAlbumSelectionViewController.swift in Resources */ = {isa = PBXBuildFile; fileRef = 4786CC761FD1B56800B6A97C /* FSAlbumSelectionViewController.swift */; };
+		4786CC811FD1C22000B6A97C /* Rotatable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4786CC801FD1C22000B6A97C /* Rotatable.swift */; };
+		4786CC821FD1C37400B6A97C /* Rotatable.swift in Resources */ = {isa = PBXBuildFile; fileRef = 4786CC801FD1C22000B6A97C /* Rotatable.swift */; };
 		52412A971CA6114A0073C4BE /* Fusuma.h in Headers */ = {isa = PBXBuildFile; fileRef = 52412A961CA6114A0073C4BE /* Fusuma.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		EDDC0B3E1D04F53E009135DB /* FSVideoCameraView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDDC0B3C1D04F53E009135DB /* FSVideoCameraView.swift */; };
 		EDDC0B3F1D04F53E009135DB /* FSVideoCameraView.xib in Resources */ = {isa = PBXBuildFile; fileRef = EDDC0B3D1D04F53E009135DB /* FSVideoCameraView.xib */; };
@@ -24,6 +34,11 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		4786CC741FD1B56700B6A97C /* FSAlbumSelectionTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FSAlbumSelectionTableViewCell.swift; sourceTree = "<group>"; };
+		4786CC751FD1B56800B6A97C /* ArrowableTitleView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArrowableTitleView.swift; sourceTree = "<group>"; };
+		4786CC761FD1B56800B6A97C /* FSAlbumSelectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FSAlbumSelectionViewController.swift; sourceTree = "<group>"; };
+		4786CC7A1FD1B68800B6A97C /* ArrowImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArrowImageView.swift; sourceTree = "<group>"; };
+		4786CC801FD1C22000B6A97C /* Rotatable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Rotatable.swift; sourceTree = "<group>"; };
 		52412A931CA6114A0073C4BE /* Fusuma.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Fusuma.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		52412A961CA6114A0073C4BE /* Fusuma.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Fusuma.h; sourceTree = "<group>"; };
 		52412A981CA6114A0073C4BE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -87,6 +102,11 @@
 				EDDC0B5C1D051245009135DB /* Assets.xcassets */,
 				EDDC0B481D0511E7009135DB /* FusumaViewController.swift */,
 				EDDC0B491D0511E7009135DB /* FusumaViewController.xib */,
+				4786CC751FD1B56800B6A97C /* ArrowableTitleView.swift */,
+				4786CC7A1FD1B68800B6A97C /* ArrowImageView.swift */,
+				4786CC801FD1C22000B6A97C /* Rotatable.swift */,
+				4786CC741FD1B56700B6A97C /* FSAlbumSelectionTableViewCell.swift */,
+				4786CC761FD1B56800B6A97C /* FSAlbumSelectionViewController.swift */,
 				EDDC0B4C1D0511F2009135DB /* FSAlbumView.swift */,
 				EDDC0B4D1D0511F2009135DB /* FSAlbumView.xib */,
 				EDDC0B4E1D0511F2009135DB /* FSAlbumViewCell.swift */,
@@ -139,7 +159,7 @@
 		52412A8A1CA6114A0073C4BE /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0800;
+				LastUpgradeCheck = 0920;
 				ORGANIZATIONNAME = ytakzk;
 				TargetAttributes = {
 					52412A921CA6114A0073C4BE = {
@@ -171,6 +191,11 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4786CC821FD1C37400B6A97C /* Rotatable.swift in Resources */,
+				4786CC7C1FD1C15800B6A97C /* ArrowableTitleView.swift in Resources */,
+				4786CC7D1FD1C15800B6A97C /* ArrowImageView.swift in Resources */,
+				4786CC7E1FD1C15800B6A97C /* FSAlbumSelectionTableViewCell.swift in Resources */,
+				4786CC7F1FD1C15800B6A97C /* FSAlbumSelectionViewController.swift in Resources */,
 				EDDC0B3F1D04F53E009135DB /* FSVideoCameraView.xib in Resources */,
 				EDDC0B571D0511F2009135DB /* FSAlbumViewCell.xib in Resources */,
 				EDDC0B591D0511F2009135DB /* FSCameraView.xib in Resources */,
@@ -188,7 +213,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				EDDC0B3E1D04F53E009135DB /* FSVideoCameraView.swift in Sources */,
+				4786CC771FD1B56900B6A97C /* FSAlbumSelectionTableViewCell.swift in Sources */,
+				4786CC791FD1B56900B6A97C /* FSAlbumSelectionViewController.swift in Sources */,
 				EDDC0B581D0511F2009135DB /* FSCameraView.swift in Sources */,
+				4786CC811FD1C22000B6A97C /* Rotatable.swift in Sources */,
+				4786CC781FD1B56900B6A97C /* ArrowableTitleView.swift in Sources */,
+				4786CC7B1FD1B68800B6A97C /* ArrowImageView.swift in Sources */,
 				EDDC0B4A1D0511E7009135DB /* FusumaViewController.swift in Sources */,
 				EDDC0B541D0511F2009135DB /* FSAlbumView.swift in Sources */,
 				EDDC0B5A1D0511F2009135DB /* FSConstants.swift in Sources */,
@@ -209,14 +239,20 @@
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
@@ -261,14 +297,20 @@
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
@@ -303,7 +345,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				CODE_SIGN_STYLE = Manual;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = "";
@@ -327,7 +369,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				CODE_SIGN_STYLE = Manual;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = "";

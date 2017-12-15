@@ -31,8 +31,42 @@ final class FSAlbumView: UIView, UICollectionViewDataSource, UICollectionViewDel
     
     fileprivate var images: PHFetchResult<PHAsset>!
     fileprivate var imageManager: PHCachingImageManager?
+    fileprivate var selectedAssetCollection: PHAssetCollection?
     fileprivate var previousPreheatRect: CGRect = .zero
     fileprivate let cellSize = CGSize(width: 100, height: 100)
+    
+    // For now add no image view indicator for iOS 9 and above
+    @available(iOS 9, *)
+    fileprivate lazy var noImageLabelsView: UIStackView = {
+        let noImageTitleLabel: UILabel = {
+            let label = UILabel()
+            label.text = NSLocalizedString("No Photos Found", comment: "No Photos Found")
+            label.font = UIFont.systemFont(ofSize:22, weight: UIFont.Weight.bold)
+            label.textColor = UIColor(red: 153.0 / 255.0, green: 153.0 / 255.0, blue: 153.0 / 255.0, alpha: 1.0)
+            label.alpha = 0.6
+            label.textAlignment = .center
+            return label
+        }()
+        
+        let noImageDescriptionLabel: UILabel = {
+            let label = UILabel()
+            label.text = NSLocalizedString("Use camera to take a photo or choose a different album to write a review", comment: "Description text when no photo found in current album")
+            label.font = UIFont.systemFont(ofSize:15, weight: UIFont.Weight.regular)
+            label.textColor = UIColor.white
+            label.textAlignment = .center
+            label.preferredMaxLayoutWidth = 280
+            label.numberOfLines = 0
+            label.alpha = 0.5
+            return label
+        }()
+        
+        let subviews = [noImageTitleLabel, noImageDescriptionLabel]
+        let stackView = UIStackView(arrangedSubviews: subviews)
+        stackView.axis = UILayoutConstraintAxis.vertical
+        stackView.spacing = 20
+        return stackView
+    }()
+    
     
     var phAsset: PHAsset!
     
@@ -49,7 +83,7 @@ final class FSAlbumView: UIView, UICollectionViewDataSource, UICollectionViewDel
     
     fileprivate var dragDirection = Direction.up
 
-    private let imageCropViewOriginalConstraintTop: CGFloat = 50
+    private let imageCropViewOriginalConstraintTop: CGFloat = 0.0
     private let imageCropViewMinimalVisibleHeight: CGFloat  = 100
     private var imaginaryCollectionViewOffsetStartPosY: CGFloat = 0.0
     
@@ -87,7 +121,7 @@ final class FSAlbumView: UIView, UICollectionViewDataSource, UICollectionViewDel
         self.addGestureRecognizer(panGesture)
         
         collectionViewConstraintHeight.constant = self.frame.height - imageCropViewContainer.frame.height - imageCropViewOriginalConstraintTop
-        imageCropViewConstraintTop.constant = 50
+        imageCropViewConstraintTop.constant = 0
         dragDirection = Direction.up
         
         imageCropViewContainer.layer.shadowColor   = UIColor.black.cgColor
@@ -366,6 +400,7 @@ final class FSAlbumView: UIView, UICollectionViewDataSource, UICollectionViewDel
                 collectionChanges.hasMoves {
                 
                 collectionView.reloadData()
+                NotificationCenter.default.post(name: NSNotification.Name.photoLibraryReloaded, object: nil)
                 
             } else {
                 
@@ -390,11 +425,70 @@ final class FSAlbumView: UIView, UICollectionViewDataSource, UICollectionViewDel
                     }
                     
                 }, completion: nil)
+                
+                NotificationCenter.default.post(name: NSNotification.Name.photoLibraryReloaded, object: nil)
             }
             
             self.resetCachedAssets()
         }
     }
+    
+    // MARK: - Update PHAssetCollection
+    internal func updateAssetCollection(assetCollection: PHAssetCollection) {
+        selectedAssetCollection = assetCollection
+        updateCollectionContent()
+    }
+    
+    internal func getAssetCollectionTitle() -> String? {
+        if let collection = selectedAssetCollection {
+            return collection.localizedTitle
+        }
+        return nil
+    }
+    
+    private func updateCollectionContent() {
+        // Sorting condition
+        let options = PHFetchOptions()
+        options.sortDescriptors = [
+            // Editing a photo, e.g. in VSCO, and saving it back to camera roll
+            // will have the same creation date as original photo
+            // but different modification date
+            // If we sort by creation date, this edited photo will appear somewhere below side by side to the original photo,
+            // which might make it difficult to find if the original photo is taken long time ago
+            NSSortDescriptor(key: "modificationDate", ascending: false),
+        ]
+        
+        if let collection = selectedAssetCollection {
+            images = PHAsset.fetchAssets(in: collection, options: nil)
+        } else {
+            images = PHAsset.fetchAssets(with: .image, options: nil)
+        }
+        
+        if images.count > 0 {
+            changeImage(assetAtIndex(0))
+            collectionView.reloadData()
+            collectionView.selectItem(at: IndexPath(row: 0, section: 0), animated: false, scrollPosition: .top)
+            if #available(iOS 9, *) {
+                noImageLabelsView.isHidden = true
+            } else {
+                // Fallback on earlier versions
+            }
+        } else {
+            if #available(iOS 9, *) {
+                noImageLabelsView.isHidden = false
+            } else {
+                // Fallback on earlier versions
+            }
+        }
+        
+        NotificationCenter.default.post(name: NSNotification.Name.photoLibraryReloaded, object: nil)
+    }
+    
+    func assetAtIndex(_ index: Int) -> PHAsset {
+        // Return results in reverse order
+        return images[images.count - index - 1]
+    }
+    
 }
 
 internal extension UICollectionView {
