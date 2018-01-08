@@ -76,11 +76,11 @@ final class FSCameraView: UIView, UIGestureRecognizerDelegate {
         
         for device in AVCaptureDevice.devices() {
             
-            if device.position == initialCaptureDevicePosition {
+            if (device as AnyObject).position == initialCaptureDevicePosition {
                 
-                self.device = device
+                self.device = device as! AVCaptureDevice
                 
-                if !device.hasFlash {
+                if !(device as AnyObject).hasFlash {
                     
                     flashButton.isHidden = true
                 }
@@ -98,11 +98,11 @@ final class FSCameraView: UIView, UIGestureRecognizerDelegate {
           
             videoLayer = AVCaptureVideoPreviewLayer(session: session)
             videoLayer?.frame = self.previewViewContainer.bounds
-            videoLayer?.videoGravity = AVLayerVideoGravity.resizeAspectFill
+            videoLayer?.videoGravity = AVLayerVideoGravityResizeAspectFill
           
             self.previewViewContainer.layer.addSublayer(videoLayer!)
           
-            session.sessionPreset = AVCaptureSession.Preset.photo
+            session.sessionPreset = AVCaptureSessionPresetPhoto
           
             session.startRunning()
           
@@ -132,7 +132,7 @@ final class FSCameraView: UIView, UIGestureRecognizerDelegate {
     
     func startCamera() {
         
-        switch AVCaptureDevice.authorizationStatus(for: AVMediaType.video) {
+        switch AVCaptureDevice.authorizationStatus(forMediaType: AVMediaTypeVideo) {
             
         case .authorized:
             
@@ -181,7 +181,7 @@ final class FSCameraView: UIView, UIGestureRecognizerDelegate {
         
         DispatchQueue.global(qos: .default).async(execute: { () -> Void in
 
-            let videoConnection = imageOutput.connection(with: AVMediaType.video)
+            let videoConnection = imageOutput.connection(withMediaType: AVMediaTypeVideo)
             
             imageOutput.captureStillImageAsynchronously(from: videoConnection!) { (buffer, error) -> Void in
                 
@@ -196,7 +196,7 @@ final class FSCameraView: UIView, UIGestureRecognizerDelegate {
                         return
                 }
                 
-                let rect   = videoLayer.metadataOutputRectConverted(fromLayerRect: videoLayer.bounds)
+                let rect   = videoLayer.metadataOutputRectOfInterest(for: videoLayer.bounds)
                 let width  = CGFloat(cgImage.width)
                 let height = CGFloat(cgImage.height)
                 
@@ -245,16 +245,16 @@ final class FSCameraView: UIView, UIGestureRecognizerDelegate {
                 
                 for input in session.inputs {
                     
-                    session.removeInput(input )
+                    session.removeInput(input as! AVCaptureInput )
                 }
 
                 let position = (videoInput?.device.position == AVCaptureDevice.Position.front) ? AVCaptureDevice.Position.back : AVCaptureDevice.Position.front
 
-                for device in AVCaptureDevice.devices(for: AVMediaType.video) {
+                for device in AVCaptureDevice.devices(withMediaType: AVMediaTypeVideo) {
 
-                    if device.position == position {
+                    if (device as AnyObject).position == position {
                  
-                        videoInput = try AVCaptureDeviceInput(device: device)
+                        videoInput = try AVCaptureDeviceInput(device: device as! AVCaptureDevice)
                         session.addInput(videoInput!)
                     }
                 }
@@ -326,7 +326,7 @@ fileprivate extension FSCameraView {
         let viewsize = self.bounds.size
         let newPoint = CGPoint(x: point.y/viewsize.height, y: 1.0-point.x/viewsize.width)
         
-        guard let device = AVCaptureDevice.default(for: AVMediaType.video) else {
+        guard let device = AVCaptureDevice.defaultDevice(withMediaType: AVMediaTypeVideo) else {
             
             return
         }
@@ -406,7 +406,7 @@ fileprivate extension FSCameraView {
 
     var cameraIsAvailable: Bool {
 
-        let status = AVCaptureDevice.authorizationStatus(for: AVMediaType.video)
+        let status = AVCaptureDevice.authorizationStatus(forMediaType: AVMediaTypeVideo)
 
         if status == AVAuthorizationStatus.authorized {
 
