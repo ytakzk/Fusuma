@@ -107,6 +107,7 @@ public struct ImageMetadata {
 
     public var cropHeightRatio: CGFloat = 1
     public var allowMultipleSelection: Bool = false
+    public var tabbarWidth: CGFloat = UIScreen.main.bounds.width
 
     fileprivate var mode: FusumaMode = .library
     
@@ -249,7 +250,7 @@ public struct ImageMetadata {
                 relatedBy: .equal, toItem: nil,
                 attribute: .width,
                 multiplier: 1.0,
-                constant: UIScreen.main.bounds.width / CGFloat(availableModes.count)
+                constant: tabbarWidth / CGFloat(availableModes.count)
             ))
             
             sortedButtons.append(button)
@@ -496,6 +497,14 @@ public struct ImageMetadata {
                 }
             }
         }
+    }
+    
+    override public var supportedInterfaceOrientations: UIInterfaceOrientationMask {
+        return UIInterfaceOrientationMask.portrait
+    }
+    
+    override public var shouldAutorotate: Bool {
+        return false
     }
 }
 
