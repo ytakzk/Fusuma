@@ -28,6 +28,7 @@ final class FSAlbumView: UIView, UICollectionViewDataSource, UICollectionViewDel
 
     weak var delegate: FSAlbumViewDelegate? = nil
     var allowMultipleSelection = false
+    var photoSelectionLimit = 1
     
     fileprivate var images: PHFetchResult<PHAsset>!
     fileprivate var imageManager: PHCachingImageManager?
@@ -301,23 +302,27 @@ final class FSAlbumView: UIView, UICollectionViewDataSource, UICollectionViewDel
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
-        changeImage(images[(indexPath as NSIndexPath).row])
-        
-        imageCropView.changeScrollable(true)
-        
-        imageCropViewConstraintTop.constant = imageCropViewOriginalConstraintTop
-        collectionViewConstraintHeight.constant = self.frame.height - imageCropViewOriginalConstraintTop - imageCropViewContainer.frame.height
-        
-        UIView.animate(withDuration: 0.2,
-                       delay: 0.0,
-                       options: UIViewAnimationOptions.curveEaseOut,
-                       animations: {
-                        
-                        self.layoutIfNeeded()
-        }, completion: nil)
-        
-        dragDirection = Direction.up
-        collectionView.scrollToItem(at: indexPath, at: .top, animated: true)
+        if photoSelectionLimit > 0 && selectedImages.count + 1 <= photoSelectionLimit {
+            changeImage(images[(indexPath as NSIndexPath).row])
+            
+            imageCropView.changeScrollable(true)
+            
+            imageCropViewConstraintTop.constant = imageCropViewOriginalConstraintTop
+            collectionViewConstraintHeight.constant = self.frame.height - imageCropViewOriginalConstraintTop - imageCropViewContainer.frame.height
+            
+            UIView.animate(withDuration: 0.2,
+                           delay: 0.0,
+                           options: UIViewAnimationOptions.curveEaseOut,
+                           animations: {
+                            
+                            self.layoutIfNeeded()
+            }, completion: nil)
+            
+            dragDirection = Direction.up
+            collectionView.scrollToItem(at: indexPath, at: .top, animated: true)
+        } else {
+            collectionView.deselectItem(at: indexPath, animated: true)
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView, shouldDeselectItemAt indexPath: IndexPath) -> Bool {

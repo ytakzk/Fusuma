@@ -107,6 +107,7 @@ public struct ImageMetadata {
 
     public var cropHeightRatio: CGFloat = 1
     public var allowMultipleSelection: Bool = false
+    public var photoSelectionLimit: Int = 1
 
     fileprivate var mode: FusumaMode = .library
     
@@ -161,6 +162,7 @@ public struct ImageMetadata {
         menuView.addBottomBorder(UIColor.black, width: 1.0)
 
         albumView.allowMultipleSelection = allowMultipleSelection
+        albumView.photoSelectionLimit = photoSelectionLimit
         
         libraryButton.tintColor = fusumaTintColor
         cameraButton.tintColor  = fusumaTintColor

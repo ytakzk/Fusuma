@@ -41,6 +41,7 @@ class ViewController: UIViewController, FusumaDelegate {
         fusuma.delegate = self
         fusuma.cropHeightRatio = 1.0
         fusuma.allowMultipleSelection = true
+//        fusuma.photoSelectionLimit = 4
 //        fusuma.availableModes = [.video]
         fusumaSavesImage = true
 
