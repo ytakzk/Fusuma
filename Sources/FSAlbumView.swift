@@ -15,6 +15,7 @@ public protocol FSAlbumViewDelegate: class {
 
     func albumViewCameraRollUnauthorized()
     func albumViewCameraRollAuthorized()
+    func albumbSelectionLimitReached()
 }
 
 final class FSAlbumView: UIView, UICollectionViewDataSource, UICollectionViewDelegate, PHPhotoLibraryChangeObserver, UIGestureRecognizerDelegate {
@@ -29,6 +30,7 @@ final class FSAlbumView: UIView, UICollectionViewDataSource, UICollectionViewDel
     weak var delegate: FSAlbumViewDelegate? = nil
     var allowMultipleSelection = false
     var photoSelectionLimit = 1
+    var autoSelectFirstImage = false
     
     fileprivate var images: PHFetchResult<PHAsset>!
     fileprivate var imageManager: PHCachingImageManager?
@@ -115,7 +117,9 @@ final class FSAlbumView: UIView, UICollectionViewDataSource, UICollectionViewDel
             
             changeImage(images[0])
             collectionView.reloadData()
-            collectionView.selectItem(at: IndexPath(row: 0, section: 0), animated: false, scrollPosition: UICollectionViewScrollPosition())
+            if autoSelectFirstImage == true {
+                collectionView.selectItem(at: IndexPath(row: 0, section: 0), animated: false, scrollPosition: UICollectionViewScrollPosition())
+            }
         }
         
         PHPhotoLibrary.shared().register(self)
@@ -321,6 +325,7 @@ final class FSAlbumView: UIView, UICollectionViewDataSource, UICollectionViewDel
             dragDirection = Direction.up
             collectionView.scrollToItem(at: indexPath, at: .top, animated: true)
         } else {
+            self.delegate?.albumbSelectionLimitReached()
             collectionView.deselectItem(at: indexPath, animated: true)
         }
     }

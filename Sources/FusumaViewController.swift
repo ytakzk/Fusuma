@@ -108,6 +108,7 @@ public struct ImageMetadata {
     public var cropHeightRatio: CGFloat = 1
     public var allowMultipleSelection: Bool = false
     public var photoSelectionLimit: Int = 1
+    public var autoSelectFirstImage: Bool = false
 
     fileprivate var mode: FusumaMode = .library
     
@@ -163,6 +164,7 @@ public struct ImageMetadata {
 
         albumView.allowMultipleSelection = allowMultipleSelection
         albumView.photoSelectionLimit = photoSelectionLimit
+        albumView.autoSelectFirstImage = autoSelectFirstImage
         
         libraryButton.tintColor = fusumaTintColor
         cameraButton.tintColor  = fusumaTintColor
@@ -502,6 +504,9 @@ public struct ImageMetadata {
 }
 
 extension FusumaViewController: FSAlbumViewDelegate, FSCameraViewDelegate, FSVideoCameraViewDelegate {
+    public func albumbSelectionLimitReached() {
+        print("LIMIT REACHED")
+    }
     
     public func getCropHeightRatio() -> CGFloat {
         
