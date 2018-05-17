@@ -43,6 +43,7 @@ public protocol FusumaDelegate: class {
     func fusumaDismissedWithImage(_ image: UIImage, source: FusumaMode)
     func fusumaClosed()
     func fusumaWillClosed()
+    func fusumaLimitReached()
 }
 
 public extension FusumaDelegate {
@@ -51,6 +52,7 @@ public extension FusumaDelegate {
     func fusumaDismissedWithImage(_ image: UIImage, source: FusumaMode) {}
     func fusumaClosed() {}
     func fusumaWillClosed() {}
+    func fusumaLimitReached() {}
 }
 
 public var fusumaBaseTintColor   = UIColor.hex("#c9c7c8", alpha: 1.0)
@@ -505,7 +507,7 @@ public struct ImageMetadata {
 
 extension FusumaViewController: FSAlbumViewDelegate, FSCameraViewDelegate, FSVideoCameraViewDelegate {
     public func albumbSelectionLimitReached() {
-        print("LIMIT REACHED")
+        self.delegate?.fusumaLimitReached()
     }
     
     public func getCropHeightRatio() -> CGFloat {

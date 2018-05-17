@@ -114,11 +114,12 @@ final class FSAlbumView: UIView, UICollectionViewDataSource, UICollectionViewDel
         images = PHAsset.fetchAssets(with: .image, options: options)
         
         if images.count > 0 {
-            
-            changeImage(images[0])
-            collectionView.reloadData()
             if autoSelectFirstImage == true {
-                collectionView.selectItem(at: IndexPath(row: 0, section: 0), animated: false, scrollPosition: UICollectionViewScrollPosition())
+                changeImage(images[0])
+                collectionView.reloadData()
+                 collectionView.selectItem(at: IndexPath(row: 0, section: 0), animated: false, scrollPosition: UICollectionViewScrollPosition())
+            } else {
+                collectionView.reloadData()
             }
         }
         
