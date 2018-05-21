@@ -75,6 +75,8 @@ public var fusumaTitleFont       = UIFont(name: "AvenirNext-DemiBold", size: 15)
 
 public var fusumaTintIcons: Bool = true
 
+public var fusumaAutoSelectFirstAssert = true
+
 @objc public enum FusumaMode: Int {
     
     case camera

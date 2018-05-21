@@ -30,6 +30,7 @@ class ViewController: UIViewController, FusumaDelegate {
     
     @IBAction func showButtonPressed(_ sender: AnyObject) {
         
+        fusumaAutoSelectFirstAssert = false
         // Show Fusuma
         let fusuma = FusumaViewController()
         
@@ -37,6 +38,7 @@ class ViewController: UIViewController, FusumaDelegate {
         fusuma.cropHeightRatio = 0.6
         fusuma.defaultMode     = .library
         fusuma.allowMultipleSelection = true
+        
         fusumaSavesImage = true
 
         self.present(fusuma, animated: true, completion: nil)
