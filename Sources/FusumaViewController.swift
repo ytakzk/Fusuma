@@ -371,7 +371,7 @@ public struct ImageMetadata {
     }
     
     @IBAction func doneButtonPressed(_ sender: UIButton) {
-        
+        self.doneButton.isEnabled = false
         allowMultipleSelection ? fusumaDidFinishInMultipleMode() : fusumaDidFinishInSingleMode()
     }
     
@@ -496,7 +496,7 @@ public struct ImageMetadata {
                 if asset == self.albumView.selectedAssets.last {
                     
                     self.doDismiss {
-
+                        self.doneButton.isEnabled = true
                         self.delegate?.fusumaMultipleImageSelected(images, source: self.mode)
                     }
                 }
