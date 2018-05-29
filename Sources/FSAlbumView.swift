@@ -117,8 +117,9 @@ final class FSAlbumView: UIView, UICollectionViewDataSource, UICollectionViewDel
             if autoSelectFirstImage == true {
                 changeImage(images[0])
                 collectionView.reloadData()
-                 collectionView.selectItem(at: IndexPath(row: 0, section: 0), animated: false, scrollPosition: UICollectionViewScrollPosition())
+                collectionView.selectItem(at: IndexPath(row: 0, section: 0), animated: false, scrollPosition: UICollectionViewScrollPosition())
             } else {
+                self.updateImageViewOnly(images[0])
                 collectionView.reloadData()
             }
         }
@@ -474,6 +475,22 @@ private extension FSAlbumView {
                             self.selectedImages.append(result)
                         }
                     })
+            }
+        })
+    }
+    
+    func updateImageViewOnly(_ asset: PHAsset) {
+        self.imageCropView.image = nil
+        
+        DispatchQueue.global(qos: .default).async(execute: {
+            let options = PHImageRequestOptions()
+            options.isNetworkAccessAllowed = true
+            
+            self.imageManager?.requestImage(for: asset, targetSize: CGSize(width: asset.pixelWidth, height: asset.pixelHeight), contentMode: .aspectFill, options: options) { result, info in
+                DispatchQueue.main.async(execute: {
+                    self.imageCropView.imageSize = CGSize(width: asset.pixelWidth, height: asset.pixelHeight)
+                    self.imageCropView.image = result
+                })
             }
         })
     }

@@ -339,6 +339,14 @@ public struct ImageMetadata {
         super.viewWillDisappear(animated)
         self.stopAll()
     }
+    
+    override public var shouldAutorotate: Bool {
+        return false
+    }
+    
+    override public var supportedInterfaceOrientations: UIInterfaceOrientationMask {
+        return .portrait
+    }
 
     override public var prefersStatusBarHidden : Bool {
         
