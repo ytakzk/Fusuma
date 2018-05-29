@@ -303,6 +303,7 @@ public struct ImageMetadata {
             cameraView.croppedAspectRatioConstraint?.isActive = false
         }
         cameraView.initialCaptureDevicePosition = cameraPosition
+        self.doneButton.isEnabled = false
     }
     
     override public func viewWillAppear(_ animated: Bool) {
@@ -379,7 +380,6 @@ public struct ImageMetadata {
     }
     
     @IBAction func doneButtonPressed(_ sender: UIButton) {
-        self.doneButton.isEnabled = false
         allowMultipleSelection ? fusumaDidFinishInMultipleMode() : fusumaDidFinishInSingleMode()
     }
     
@@ -504,7 +504,6 @@ public struct ImageMetadata {
                 if asset == self.albumView.selectedAssets.last {
                     
                     self.doDismiss {
-                        self.doneButton.isEnabled = true
                         self.delegate?.fusumaMultipleImageSelected(images, source: self.mode)
                     }
                 }
@@ -516,6 +515,10 @@ public struct ImageMetadata {
 extension FusumaViewController: FSAlbumViewDelegate, FSCameraViewDelegate, FSVideoCameraViewDelegate {
     public func albumbSelectionLimitReached() {
         self.delegate?.fusumaLimitReached()
+    }
+    
+    public func albumShouldEnableDoneButton(isEnabled: Bool) {
+        self.doneButton.isEnabled = isEnabled
     }
     
     public func getCropHeightRatio() -> CGFloat {

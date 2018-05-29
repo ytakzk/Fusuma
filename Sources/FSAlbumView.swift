@@ -16,6 +16,7 @@ public protocol FSAlbumViewDelegate: class {
     func albumViewCameraRollUnauthorized()
     func albumViewCameraRollAuthorized()
     func albumbSelectionLimitReached()
+    func albumShouldEnableDoneButton(isEnabled: Bool)
 }
 
 final class FSAlbumView: UIView, UICollectionViewDataSource, UICollectionViewDelegate, PHPhotoLibraryChangeObserver, UIGestureRecognizerDelegate {
@@ -325,6 +326,7 @@ final class FSAlbumView: UIView, UICollectionViewDataSource, UICollectionViewDel
             }, completion: nil)
             
             dragDirection = Direction.up
+            self.delegate?.albumShouldEnableDoneButton(isEnabled: true)
             collectionView.scrollToItem(at: indexPath, at: .top, animated: true)
         } else {
             self.delegate?.albumbSelectionLimitReached()
@@ -342,6 +344,12 @@ final class FSAlbumView: UIView, UICollectionViewDataSource, UICollectionViewDel
             
             selectedImages.remove(at: selected.offset)
             selectedAssets.remove(at: selected.offset)
+        }
+        
+        if self.selectedImages.count > 0 {
+            self.delegate?.albumShouldEnableDoneButton(isEnabled: true)
+        } else {
+            self.delegate?.albumShouldEnableDoneButton(isEnabled: false)
         }
         
         return true
