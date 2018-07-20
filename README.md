@@ -66,18 +66,18 @@ self.presentViewController(fusuma, animated: true, completion: nil)
 
 ```Swift
 // Return the image which is selected from camera roll or is taken via the camera.
-func fusumaImageSelected(image: UIImage, source: FusumaMode) {
+func fusumaImageSelected(_ image: UIImage, source: FusumaMode) {
 
   print("Image selected")
 }
 
 // Return the image but called after is dismissed.
-func fusumaDismissedWithImage(image: UIImage, source: FusumaMode) {
+func fusumaDismissedWithImage(_ image: UIImage, source: FusumaMode) {
         
   print("Called just after FusumaViewController is dismissed.")
 }
 
-func fusumaVideoCompleted(withFileURL fileURL: NSURL) {
+func fusumaVideoCompleted(withFileURL fileURL: URL) {
 
   print("Called just after a video has been selected.")
 }
@@ -89,7 +89,7 @@ func fusumaCameraRollUnauthorized() {
 }
 
 // Return selected images when you allow to select multiple photos.
-func fusumaMultipleImageSelected(images: [UIImage], source: FusumaMode) {
+func fusumaMultipleImageSelected(_ images: [UIImage], source: FusumaMode) {
 
 }
 
