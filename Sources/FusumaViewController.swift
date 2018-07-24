@@ -138,7 +138,8 @@ public struct ImageMetadata {
     
     override open func loadView() {
         
-        if let view = UINib(nibName: "FusumaViewController", bundle: Bundle(for: self.classForCoder)).instantiate(withOwner: self, options: nil).first as? UIView {
+        let bundle = Bundle(for: FusumaViewController.self)
+        if let view = UINib(nibName: "FusumaViewController", bundle: bundle).instantiate(withOwner: self, options: nil).first as? UIView {
             
             self.view = view
         }
