@@ -103,7 +103,7 @@ public struct ImageMetadata {
     public let asset: PHAsset
 }
 
-@objc open public class FusumaViewController: UIViewController {
+@objc open class FusumaViewController: UIViewController {
 
     public var cropHeightRatio: CGFloat = 1
     public var allowMultipleSelection: Bool = false
@@ -136,7 +136,7 @@ public struct ImageMetadata {
     
     public weak var delegate: FusumaDelegate? = nil
     
-    override public func loadView() {
+    override open func loadView() {
         
         if let view = UINib(nibName: "FusumaViewController", bundle: Bundle(for: self.classForCoder)).instantiate(withOwner: self, options: nil).first as? UIView {
             
@@ -144,7 +144,7 @@ public struct ImageMetadata {
         }
     }
     
-    override public func viewDidLoad() {
+    override open func viewDidLoad() {
         super.viewDidLoad()
     
         self.view.backgroundColor = fusumaBackgroundColor
@@ -299,11 +299,11 @@ public struct ImageMetadata {
         cameraView.initialCaptureDevicePosition = cameraPosition
     }
     
-    override public func viewWillAppear(_ animated: Bool) {
+    override open func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
     }
 
-    override public func viewDidAppear(_ animated: Bool) {
+    override open func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
         if availableModes.contains(.camera) {
@@ -328,13 +328,13 @@ public struct ImageMetadata {
         }        
     }
     
-    public override func viewWillDisappear(_ animated: Bool) {
+    open override func viewWillDisappear(_ animated: Bool) {
         
         super.viewWillDisappear(animated)
         self.stopAll()
     }
 
-    override public var prefersStatusBarHidden : Bool {
+    override open var prefersStatusBarHidden : Bool {
         
         return true
     }
