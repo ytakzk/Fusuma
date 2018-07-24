@@ -103,7 +103,7 @@ public struct ImageMetadata {
     public let asset: PHAsset
 }
 
-@objc public class FusumaViewController: UIViewController {
+@objc open public class FusumaViewController: UIViewController {
 
     public var cropHeightRatio: CGFloat = 1
     public var allowMultipleSelection: Bool = false
