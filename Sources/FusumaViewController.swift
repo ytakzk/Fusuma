@@ -75,6 +75,7 @@ public var fusumaCameraRollTitle = "Library"
 public var fusumaCameraTitle     = "Photo"
 public var fusumaVideoTitle      = "Video"
 public var fusumaTitleFont       = UIFont(name: "AvenirNext-DemiBold", size: 15)
+public var fusumaButtonFont      = UIFont(name: "AvenirNext-DemiBold", size: 15)
 
 public var autoDismiss: Bool = true
 
@@ -157,6 +158,9 @@ public struct ImageMetadata {
         libraryButton.setTitle(fusumaCameraRollTitle, for: .normal)
         cameraButton.setTitle(fusumaCameraTitle, for: .normal)
         videoButton.setTitle(fusumaVideoTitle, for: .normal)
+        
+        libraryButton.titleLabel?.font = fusumaButtonFont
+        cameraButton.titleLabel?.font = fusumaButtonFont
 
         menuView.backgroundColor = fusumaBackgroundColor
         menuView.addBottomBorder(UIColor.black, width: 1.0)
