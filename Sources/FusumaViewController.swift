@@ -169,7 +169,7 @@ public struct ImageMetadata {
         closeButton.tintColor   = fusumaTintColor
         doneButton.tintColor    = fusumaTintColor
         
-        let bundle     = Bundle(for: self.classForCoder)
+        let bundle = Bundle(for: FusumaViewController.self)
         let checkImage = fusumaCheckImage != nil ? fusumaCheckImage : UIImage(named: "ic_check", in: bundle, compatibleWith: nil)
         let closeImage = fusumaCloseImage != nil ? fusumaCloseImage : UIImage(named: "ic_close", in: bundle, compatibleWith: nil)
         
