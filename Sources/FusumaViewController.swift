@@ -306,7 +306,7 @@ public struct ImageMetadata {
     override public func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
-        if availableModes.contains(.camera) {
+        if availableModes.contains(.library) {
             
             albumView.frame = CGRect(origin: CGPoint.zero, size: photoLibraryViewerContainer.frame.size)
             albumView.layoutIfNeeded()
