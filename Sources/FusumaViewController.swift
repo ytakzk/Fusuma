@@ -288,10 +288,10 @@ public struct ImageMetadata {
             
             cameraView.croppedAspectRatioConstraint = NSLayoutConstraint(
                 item: cameraView.previewViewContainer,
-                attribute: NSLayoutAttribute.height,
-                relatedBy: NSLayoutRelation.equal,
+                attribute: NSLayoutConstraint.Attribute.height,
+                relatedBy: NSLayoutConstraint.Relation.equal,
                 toItem: cameraView.previewViewContainer,
-                attribute: NSLayoutAttribute.width,
+                attribute: NSLayoutConstraint.Attribute.width,
                 multiplier: heightRatio,
                 constant: 0)
             cameraView.fullAspectRatioConstraint.isActive     = false
@@ -604,24 +604,24 @@ private extension FusumaViewController {
             
             titleLabel.text = NSLocalizedString(fusumaCameraRollTitle, comment: fusumaCameraRollTitle)
             highlightButton(libraryButton)
-            self.view.bringSubview(toFront: photoLibraryViewerContainer)
+            self.view.bringSubviewToFront(photoLibraryViewerContainer)
         
         case .camera:
 
             titleLabel.text = NSLocalizedString(fusumaCameraTitle, comment: fusumaCameraTitle)
             highlightButton(cameraButton)
-            self.view.bringSubview(toFront: cameraShotContainer)
+            self.view.bringSubviewToFront(cameraShotContainer)
             cameraView.startCamera()
             
         case .video:
             
             titleLabel.text = NSLocalizedString(fusumaVideoTitle, comment: fusumaVideoTitle)
             highlightButton(videoButton)
-            self.view.bringSubview(toFront: videoShotContainer)
+            self.view.bringSubviewToFront(videoShotContainer)
             videoView.startCamera()
         }
         
-        self.view.bringSubview(toFront: menuView)
+        self.view.bringSubviewToFront(menuView)
     }
     
     func updateDoneButtonVisibility() {
