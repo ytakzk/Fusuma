@@ -362,6 +362,9 @@ final class FSAlbumView: UIView, UICollectionViewDataSource, UICollectionViewDel
             self.selectedAssets.removeAll()
             
             self.images = collectionChanges.fetchResultAfterChanges
+            if self.imageCropView.image == nil {
+                self.changeImage(self.images[0])
+            }
             
             let collectionView = self.collectionView!
             
