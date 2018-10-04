@@ -163,7 +163,6 @@ public struct ImageMetadata {
         cameraButton.titleLabel?.font = fusumaButtonFont
 
         menuView.backgroundColor = fusumaBackgroundColor
-        menuView.addBottomBorder(UIColor.black, width: 1.0)
 
         albumView.allowMultipleSelection = allowMultipleSelection
         
