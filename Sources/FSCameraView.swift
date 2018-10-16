@@ -179,22 +179,20 @@ final class FSCameraView: UIView, UIGestureRecognizerDelegate {
             return
         }
         
-        DispatchQueue.global(qos: .default).async(execute: { () -> Void in
+        DispatchQueue.global(qos: .default).async {
 
-            let videoConnection = imageOutput.connection(with: AVMediaType.video)
+            guard let videoConnection = imageOutput.connection(with: AVMediaType.video) else { return }
             
-            imageOutput.captureStillImageAsynchronously(from: videoConnection!) { (buffer, error) -> Void in
+            imageOutput.captureStillImageAsynchronously(from: videoConnection) { buffer, error in
                 
                 self.stopCamera()
                 
-                guard let data = AVCaptureStillImageOutput.jpegStillImageNSDataRepresentation(buffer!),
-                    let image = UIImage(data: data),
-                    let cgImage = image.cgImage,
-                    let delegate = self.delegate,
-                    let videoLayer = self.videoLayer else {
-                        
-                        return
-                }
+                guard let buffer = buffer,
+                      let data = AVCaptureStillImageOutput.jpegStillImageNSDataRepresentation(buffer),
+                      let image = UIImage(data: data),
+                      let cgImage = image.cgImage,
+                      let delegate = self.delegate,
+                      let videoLayer = self.videoLayer else { return }
                 
                 let rect   = videoLayer.metadataOutputRectConverted(fromLayerRect: videoLayer.bounds)
                 let width  = CGFloat(cgImage.width)
@@ -212,7 +210,7 @@ final class FSCameraView: UIView, UIGestureRecognizerDelegate {
                 
                 let croppedUIImage = UIImage(cgImage: img, scale: 1.0, orientation: image.imageOrientation)
                 
-                DispatchQueue.main.async(execute: { () -> Void in
+                DispatchQueue.main.async {
                     
                     delegate.cameraShotFinished(croppedUIImage)
                     
@@ -226,9 +224,9 @@ final class FSCameraView: UIView, UIGestureRecognizerDelegate {
                     self.device        = nil
                     self.imageOutput   = nil
                     self.motionManager = nil
-                })
+                }
             }
-        })
+        }
     }
     
     @IBAction func flipButtonPressed(_ sender: UIButton) {
