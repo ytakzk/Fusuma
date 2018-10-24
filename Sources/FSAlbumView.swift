@@ -477,11 +477,15 @@ private extension FSAlbumView {
                                                               height: asset.pixelHeight)
                         self.imageCropView.image = result
                         
-                        if let result = result,
-                            !self.selectedAssets.contains(asset) {
+                        if let result = result {
                             
-                            self.selectedAssets.append(asset)
-                            self.selectedImages.append(result)
+                            if !self.selectedAssets.contains(asset) {
+                                self.selectedAssets.append(asset)
+                            }
+                            
+                            if !self.selectedImages.contains(result) {
+                                self.selectedImages.append(result)
+                            }
                         }
                     })
             }
