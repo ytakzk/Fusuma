@@ -28,7 +28,7 @@ final class FSAlbumView: UIView, UICollectionViewDataSource, UICollectionViewDel
 
     weak var delegate: FSAlbumViewDelegate? = nil
     var allowMultipleSelection = false
-    var isUserSelectedImage = false
+    var isFirstImageSelection = false
     
     fileprivate var images: PHFetchResult<PHAsset>!
     fileprivate var imageManager: PHCachingImageManager?
@@ -51,7 +51,8 @@ final class FSAlbumView: UIView, UICollectionViewDataSource, UICollectionViewDel
     fileprivate var dragDirection = Direction.up
 
     private let imageCropViewOriginalConstraintTop: CGFloat = 50
-    private let imageCropViewMinimalVisibleHeight: CGFloat  = 100
+    private let imageCropViewMinimalVisibleHeight: CGFloat  = 0
+    private let topPositionRevealLimit: CGFloat = 50
     private var imaginaryCollectionViewOffsetStartPosY: CGFloat = 0.0
     
     private var cropBottomY: CGFloat  = 0.0
@@ -115,7 +116,8 @@ final class FSAlbumView: UIView, UICollectionViewDataSource, UICollectionViewDel
             
             changeImage(images[0])
             collectionView.reloadData()
-           // collectionView.selectItem(at: IndexPath(row: 0, section: 0), animated: false, scrollPosition: UICollectionViewScrollPosition())
+            collectionView.selectItem(at: IndexPath(row: 0, section: 0), animated: false, scrollPosition: UICollectionViewScrollPosition())
+            isFirstImageSelection = true
         }
         
         PHPhotoLibrary.shared().register(self)
@@ -144,7 +146,7 @@ final class FSAlbumView: UIView, UICollectionViewDataSource, UICollectionViewDel
             let subview = view?.hitTest(loc, with: nil)
             
             if subview == imageCropView && imageCropViewConstraintTop.constant == imageCropViewOriginalConstraintTop {
-                
+                print("0")
                 return
             }
             
@@ -161,13 +163,13 @@ final class FSAlbumView: UIView, UICollectionViewDataSource, UICollectionViewDel
             // Scroll event of CollectionView is preferred.
             if (dragDirection == Direction.up   && dragStartPos.y < cropBottomY + dragDiff) ||
                 (dragDirection == Direction.down && dragStartPos.y > cropBottomY) {
-                    
+                    print("0.5")
                     dragDirection = Direction.stop
                     
                     imageCropView.changeScrollable(false)
                     
             } else {
-                
+                print("0.6")
                 imageCropView.changeScrollable(true)
             }
             
@@ -177,11 +179,15 @@ final class FSAlbumView: UIView, UICollectionViewDataSource, UICollectionViewDel
             
             if dragDirection == Direction.up && currentPos.y < cropBottomY - dragDiff {
                 
+                print("1")
+                
                 imageCropViewConstraintTop.constant = max(imageCropViewMinimalVisibleHeight - self.imageCropViewContainer.frame.height, currentPos.y + dragDiff - imageCropViewContainer.frame.height)
                 
                 collectionViewConstraintHeight.constant = min(self.frame.height - imageCropViewMinimalVisibleHeight, self.frame.height - imageCropViewConstraintTop.constant - imageCropViewContainer.frame.height)
                 
             } else if dragDirection == Direction.down && currentPos.y > cropBottomY {
+                
+                print("2")
                 
                 imageCropViewConstraintTop.constant = min(imageCropViewOriginalConstraintTop, currentPos.y - imageCropViewContainer.frame.height)
                 
@@ -189,10 +195,14 @@ final class FSAlbumView: UIView, UICollectionViewDataSource, UICollectionViewDel
                 
             } else if dragDirection == Direction.stop && collectionView.contentOffset.y < 0 {
                 
+                print("3")
+                
                 dragDirection = Direction.scroll
                 imaginaryCollectionViewOffsetStartPosY = currentPos.y
                 
             } else if dragDirection == Direction.scroll {
+                
+                print("4")
                 
                 imageCropViewConstraintTop.constant = imageCropViewMinimalVisibleHeight - self.imageCropViewContainer.frame.height + currentPos.y - imaginaryCollectionViewOffsetStartPosY
                 
@@ -301,8 +311,6 @@ final class FSAlbumView: UIView, UICollectionViewDataSource, UICollectionViewDel
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        
-        isUserSelectedImage = true
         
         changeImage(images[(indexPath as NSIndexPath).row])
         
@@ -442,6 +450,11 @@ private extension FSAlbumView {
     
     func changeImage(_ asset: PHAsset) {
         
+        if isFirstImageSelection {
+            collectionView.deselectItem(at: IndexPath(item: 0, section: 0), animated: true)
+            isFirstImageSelection = false
+        }
+        
         self.imageCropView.image = nil
         self.phAsset = asset
         
@@ -463,7 +476,7 @@ private extension FSAlbumView {
                         self.imageCropView.image = result
                         
                         if let result = result,
-                            !self.selectedAssets.contains(asset) && self.isUserSelectedImage {
+                            !self.selectedAssets.contains(asset) {
                             
                             self.selectedAssets.append(asset)
                             self.selectedImages.append(result)
