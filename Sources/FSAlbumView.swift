@@ -449,13 +449,11 @@ internal extension IndexSet {
 private extension FSAlbumView {
     
     func changeImage(_ asset: PHAsset) {
-        
-        var skipAddingAsset = false
+
         if isFirstImageSelection {
             collectionView.deselectItem(at: IndexPath(item: 0, section: 0), animated: true)
             selectedAssets.removeAll()
             selectedImages.removeAll()
-            skipAddingAsset = true
             isFirstImageSelection = false
         }
         
@@ -481,11 +479,11 @@ private extension FSAlbumView {
                         
                         if let result = result {
                             
-                            if !self.selectedAssets.contains(asset) && !skipAddingAsset {
+                            if !self.selectedAssets.contains(asset) {
                                 self.selectedAssets.append(asset)
                             }
                             
-                            if !self.selectedImages.contains(result) && !skipAddingAsset {
+                            if !self.selectedImages.contains(result) {
                                 self.selectedImages.append(result)
                             }
                         }

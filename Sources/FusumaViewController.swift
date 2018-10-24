@@ -485,6 +485,7 @@ public struct ImageMetadata {
         
         var images = [UIImage]()
         
+        print("ASSETS: \(albumView.selectedAssets.count)")
         for asset in albumView.selectedAssets {
             
             requestImage(with: asset, cropRect: cropRect) { asset, result in
