@@ -452,6 +452,8 @@ private extension FSAlbumView {
         
         if isFirstImageSelection {
             collectionView.deselectItem(at: IndexPath(item: 0, section: 0), animated: true)
+            selectedAssets.removeAll()
+            selectedImages.removeAll()
             isFirstImageSelection = false
         }
         
