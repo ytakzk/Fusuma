@@ -114,7 +114,7 @@ final class FSAlbumView: UIView, UICollectionViewDataSource, UICollectionViewDel
         
         if images.count > 0 {
             
-            changeImage(images[0])
+            //changeImage(images[0])
             collectionView.reloadData()
             collectionView.selectItem(at: IndexPath(row: 0, section: 0), animated: false, scrollPosition: UICollectionViewScrollPosition())
             isFirstImageSelection = true
@@ -450,10 +450,12 @@ private extension FSAlbumView {
     
     func changeImage(_ asset: PHAsset) {
         
+        var skipAddingAsset = false
         if isFirstImageSelection {
             collectionView.deselectItem(at: IndexPath(item: 0, section: 0), animated: true)
             selectedAssets.removeAll()
             selectedImages.removeAll()
+            skipAddingAsset = true
             isFirstImageSelection = false
         }
         
@@ -479,11 +481,11 @@ private extension FSAlbumView {
                         
                         if let result = result {
                             
-                            if !self.selectedAssets.contains(asset) {
+                            if !self.selectedAssets.contains(asset) && !skipAddingAsset {
                                 self.selectedAssets.append(asset)
                             }
                             
-                            if !self.selectedImages.contains(result) {
+                            if !self.selectedImages.contains(result) && !skipAddingAsset {
                                 self.selectedImages.append(result)
                             }
                         }
