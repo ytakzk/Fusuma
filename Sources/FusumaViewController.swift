@@ -40,6 +40,7 @@ public protocol FusumaDelegate: class {
     
     // optional
     func fusumaImageSelected(_ image: UIImage, source: FusumaMode, metaData: ImageMetadata)
+    func fusumaMultipleImageSelected(_ images: [UIImage], source: FusumaMode, metaData: [ImageMetadata])
     func fusumaDismissedWithImage(_ image: UIImage, source: FusumaMode)
     func fusumaClosed()
     func fusumaWillClosed()
@@ -48,6 +49,7 @@ public protocol FusumaDelegate: class {
 public extension FusumaDelegate {
     
     func fusumaImageSelected(_ image: UIImage, source: FusumaMode, metaData: ImageMetadata) {}
+    func fusumaMultipleImageSelected(_ images: [UIImage], source: FusumaMode, metaData: [ImageMetadata]) {}
     func fusumaDismissedWithImage(_ image: UIImage, source: FusumaMode) {}
     func fusumaClosed() {}
     func fusumaWillClosed() {}
@@ -407,19 +409,9 @@ public struct ImageMetadata {
 
                     self.delegate?.fusumaDismissedWithImage(image, source: self.mode)
                 }
-                
-                let metaData = ImageMetadata(
-                    mediaType: self.albumView.phAsset.mediaType,
-                    pixelWidth: self.albumView.phAsset.pixelWidth,
-                    pixelHeight: self.albumView.phAsset.pixelHeight,
-                    creationDate: self.albumView.phAsset.creationDate,
-                    modificationDate: self.albumView.phAsset.modificationDate,
-                    location: self.albumView.phAsset.location,
-                    duration: self.albumView.phAsset.duration,
-                    isFavourite: self.albumView.phAsset.isFavorite,
-                    isHidden: self.albumView.phAsset.isHidden,
-                    asset: self.albumView.phAsset)
-                
+
+                let metaData = self.getMetaData(asset: asset)
+
                 self.delegate?.fusumaImageSelected(image, source: self.mode, metaData: metaData)
             }
             
@@ -480,22 +472,38 @@ public struct ImageMetadata {
                               width: normalizedWidth, height: normalizedHeight)
         
         var images = [UIImage]()
-        
+        var metaData = [ImageMetadata]()
+
         for asset in albumView.selectedAssets {
             
             requestImage(with: asset, cropRect: cropRect) { asset, result in
                 
                 images.append(result)
-                
+                metaData.append(self.getMetaData(asset: asset))
+
                 if asset == self.albumView.selectedAssets.last {
                     
                     self.doDismiss {
-
+                        self.delegate?.fusumaMultipleImageSelected(images, source: self.mode, metaData: metaData)
                         self.delegate?.fusumaMultipleImageSelected(images, source: self.mode)
                     }
                 }
             }
         }
+    }
+
+    private func getMetaData(asset: PHAsset) -> ImageMetadata {
+        let data = ImageMetadata(mediaType: asset.mediaType ,
+                                 pixelWidth: asset.pixelWidth,
+                                 pixelHeight: asset.pixelHeight,
+                                 creationDate: asset.creationDate,
+                                 modificationDate: asset.modificationDate,
+                                 location: asset.location,
+                                 duration: asset.duration,
+                                 isFavourite: asset.isFavorite,
+                                 isHidden: asset.isHidden,
+                                 asset: asset)
+        return data
     }
 }
 
