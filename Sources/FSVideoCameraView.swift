@@ -352,6 +352,7 @@ fileprivate extension FSVideoCameraView {
         do {
             
             guard let device = device else { return }
+            guard device.hasFlash else { return }
             
             try device.lockForConfiguration()
             
