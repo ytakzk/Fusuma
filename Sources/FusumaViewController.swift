@@ -110,7 +110,7 @@ public struct ImageMetadata {
     public var cropHeightRatio: CGFloat = 1
     public var allowMultipleSelection: Bool = false
 
-    fileprivate var mode: FusumaMode = .library
+    private var mode: FusumaMode = .library
     
     public var availableModes: [FusumaMode] = [.library, .camera]
     public var cameraPosition = AVCaptureDevice.Position.back

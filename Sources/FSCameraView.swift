@@ -27,19 +27,19 @@ final class FSCameraView: UIView, UIGestureRecognizerDelegate {
     
     weak var delegate: FSCameraViewDelegate? = nil
     
-    fileprivate var session: AVCaptureSession?
-    fileprivate var device: AVCaptureDevice?
-    fileprivate var videoInput: AVCaptureDeviceInput?
-    fileprivate var imageOutput: AVCaptureStillImageOutput?
-    fileprivate var videoLayer: AVCaptureVideoPreviewLayer?
+    private var session: AVCaptureSession?
+    private var device: AVCaptureDevice?
+    private var videoInput: AVCaptureDeviceInput?
+    private var imageOutput: AVCaptureStillImageOutput?
+    private var videoLayer: AVCaptureVideoPreviewLayer?
 
-    fileprivate var focusView: UIView?
+    private var focusView: UIView?
 
-    fileprivate var flashOffImage: UIImage?
-    fileprivate var flashOnImage: UIImage?
+    private var flashOffImage: UIImage?
+    private var flashOnImage: UIImage?
     
-    fileprivate var motionManager: CMMotionManager?
-    fileprivate var currentDeviceOrientation: UIDeviceOrientation?
+    private var motionManager: CMMotionManager?
+    private var currentDeviceOrientation: UIDeviceOrientation?
     
     static func instance() -> FSCameraView {
         

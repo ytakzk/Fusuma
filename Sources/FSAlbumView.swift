@@ -29,10 +29,10 @@ final class FSAlbumView: UIView, UICollectionViewDataSource, UICollectionViewDel
     weak var delegate: FSAlbumViewDelegate? = nil
     var allowMultipleSelection = false
     
-    fileprivate var images: PHFetchResult<PHAsset>!
-    fileprivate var imageManager: PHCachingImageManager?
-    fileprivate var previousPreheatRect: CGRect = .zero
-    fileprivate let cellSize = CGSize(width: 100, height: 100)
+    private var images: PHFetchResult<PHAsset>!
+    private var imageManager: PHCachingImageManager?
+    private var previousPreheatRect: CGRect = .zero
+    private let cellSize = CGSize(width: 100, height: 100)
     
     var phAsset: PHAsset!
     

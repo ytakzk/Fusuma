@@ -34,7 +34,7 @@ final class FSVideoCameraView: UIView {
     var videoStopImage: UIImage?
 
     
-    fileprivate var isRecording = false
+    private var isRecording = false
     
     static func instance() -> FSVideoCameraView {
         
