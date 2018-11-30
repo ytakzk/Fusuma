@@ -33,7 +33,7 @@ final class FSVideoCameraView: UIView {
     var videoStartImage: UIImage?
     var videoStopImage: UIImage?
 
-    
+    private var zoomFactor: CGFloat = 1.0
     private var isRecording = false
     
     static func instance() -> FSVideoCameraView {
@@ -116,12 +116,13 @@ final class FSVideoCameraView: UIView {
         shotButton.setImage(videoStartImage?.withRenderingMode(.alwaysTemplate), for: .normal)
         
         flashConfiguration()
-        
-        self.startCamera()
+        startCamera()
+
+        let pinchGestureRecognizer = UIPinchGestureRecognizer(target: self, action: #selector(handlePinchToZoom))
+        previewViewContainer.addGestureRecognizer(pinchGestureRecognizer)
     }
     
     deinit {
-        
         NotificationCenter.default.removeObserver(self)
     }
     
@@ -223,6 +224,35 @@ final class FSVideoCameraView: UIView {
             
             flashButton.setImage(flashOffImage, for: UIControl.State())
             return
+        }
+    }
+
+    @objc private func handlePinchToZoom(_ pinch: UIPinchGestureRecognizer) {
+        guard let device = device else { return }
+
+        func minMaxZoom(_ factor: CGFloat) -> CGFloat {
+            return min(max(factor, 1.0), device.activeFormat.videoMaxZoomFactor)
+        }
+
+        func update(scale factor: CGFloat) {
+            do {
+                try device.lockForConfiguration()
+                defer { device.unlockForConfiguration() }
+                device.videoZoomFactor = factor
+            } catch {
+                debugPrint(error)
+            }
+        }
+
+        let newScaleFactor = minMaxZoom(pinch.scale * zoomFactor)
+
+        switch pinch.state {
+        case .began: fallthrough
+        case .changed: update(scale: newScaleFactor)
+        case .ended:
+            zoomFactor = minMaxZoom(newScaleFactor)
+            update(scale: zoomFactor)
+        default: break
         }
     }
 }

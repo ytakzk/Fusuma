@@ -40,6 +40,7 @@ final class FSCameraView: UIView, UIGestureRecognizerDelegate {
     
     private var motionManager: CMMotionManager?
     private var currentDeviceOrientation: UIDeviceOrientation?
+    private var zoomFactor: CGFloat = 1.0
     
     static func instance() -> FSCameraView {
         
@@ -115,18 +116,19 @@ final class FSCameraView: UIView, UIGestureRecognizerDelegate {
         
         flashConfiguration()
         
-        self.startCamera()
+        startCamera()
         
         NotificationCenter.default.addObserver(self, selector: #selector(FSCameraView.willEnterForegroundNotification(_:)), name: UIApplication.willEnterForegroundNotification, object: nil)
+
+        let pinchGestureRecognizer = UIPinchGestureRecognizer(target: self, action: #selector(handlePinchToZoom))
+        previewViewContainer.addGestureRecognizer(pinchGestureRecognizer)
     }
     
     @objc func willEnterForegroundNotification(_ notification: Notification) {
-        
         startCamera()
     }
     
     deinit {
-        
         NotificationCenter.default.removeObserver(self)
     }
     
@@ -306,6 +308,35 @@ final class FSCameraView: UIView, UIGestureRecognizerDelegate {
             return
         }
  
+    }
+
+    @objc private func handlePinchToZoom(_ pinch: UIPinchGestureRecognizer) {
+        guard let device = device else { return }
+
+        func minMaxZoom(_ factor: CGFloat) -> CGFloat {
+            return min(max(factor, 1.0), device.activeFormat.videoMaxZoomFactor)
+        }
+
+        func update(scale factor: CGFloat) {
+            do {
+                try device.lockForConfiguration()
+                defer { device.unlockForConfiguration() }
+                device.videoZoomFactor = factor
+            } catch {
+                debugPrint(error)
+            }
+        }
+
+        let newScaleFactor = minMaxZoom(pinch.scale * zoomFactor)
+
+        switch pinch.state {
+        case .began: fallthrough
+        case .changed: update(scale: newScaleFactor)
+        case .ended:
+            zoomFactor = minMaxZoom(newScaleFactor)
+            update(scale: zoomFactor)
+        default: break
+        }
     }
 }
 
