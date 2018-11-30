@@ -42,13 +42,9 @@ use_frameworks!
 pod 'Fusuma'
 ```
 
-#### Using [Carthage](https://github.com/Carthage/Carthage)
+#### Swift 3
 
-Add `github "ytakzk/Fusuma"` to your `Cartfile` and run `carthage update`. If unfamiliar with Carthage then checkout their [Getting Started section](https://github.com/Carthage/Carthage#getting-started).
-
-```
-github "ytakzk/Fusuma"
-```
+`pod 'Fusuma', github: 'git@github.com:ytakzk/Fusuma.git', branch: 'swift-3'`
 
 ## Fusuma Usage
 Import Fusuma ```import Fusuma``` then use the following codes in some function except for viewDidLoad and give FusumaDelegate to the view controller.  
