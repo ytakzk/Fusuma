@@ -127,7 +127,7 @@ self.presentViewController(fusuma, animated: true, completion: nil)
 |**`fusumaCameraRollTitle `**| String |Text of camera roll title.| `"Library"` |
 |**`fusumaCameraTitle `**| String |Text of carmera title text.| `Photo` |
 |**`fusumaVideoTitle `**| String |Text of video title.| `Video` |
-|**`fusumaTitleFont `**| UIFont |Whether to save the taken image.| `UIFont(name: "AvenirNext-DemiBold", size: 15)` |
+|**`fusumaTitleFont `**| UIFont |Font for title text.| `UIFont(name: "AvenirNext-DemiBold", size: 15)` |
 
 ## Fusuma for Xamarin
 Cheesebaron developed Chafu for Xamarin.  
