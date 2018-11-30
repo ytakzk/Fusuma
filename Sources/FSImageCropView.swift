@@ -13,7 +13,7 @@ final class FSImageCropView: UIScrollView, UIScrollViewDelegate {
     var imageSize: CGSize?
     var image: UIImage! = nil {
         didSet {
-            guard image == nil else {
+            guard image != nil else {
                 imageView.image = nil
                 return
             }

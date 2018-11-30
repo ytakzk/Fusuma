@@ -57,8 +57,10 @@ final class FSVideoCameraView: UIView {
             }
         }
 
+        guard let device = device else { return }
+
         do {
-            videoInput = try AVCaptureDeviceInput(device: device!)
+            videoInput = try AVCaptureDeviceInput(device: device)
 
             session.addInput(videoInput!)
 
