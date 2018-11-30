@@ -15,6 +15,8 @@ public protocol FSAlbumViewDelegate: class {
 
     func albumViewCameraRollUnauthorized()
     func albumViewCameraRollAuthorized()
+    func albumbSelectionLimitReached()
+    func albumShouldEnableDoneButton(isEnabled: Bool)
 }
 
 final class FSAlbumView: UIView, UICollectionViewDataSource, UICollectionViewDelegate, PHPhotoLibraryChangeObserver, UIGestureRecognizerDelegate {
@@ -28,6 +30,8 @@ final class FSAlbumView: UIView, UICollectionViewDataSource, UICollectionViewDel
 
     weak var delegate: FSAlbumViewDelegate? = nil
     var allowMultipleSelection = false
+    var photoSelectionLimit = 1
+    var autoSelectFirstImage = false
     
     private var images: PHFetchResult<PHAsset>!
     private var imageManager: PHCachingImageManager?
@@ -111,10 +115,14 @@ final class FSAlbumView: UIView, UICollectionViewDataSource, UICollectionViewDel
         images = PHAsset.fetchAssets(with: .image, options: options)
         
         if images.count > 0 {
-            
-            changeImage(images[0])
-            collectionView.reloadData()
-            collectionView.selectItem(at: IndexPath(row: 0, section: 0), animated: false, scrollPosition: UICollectionView.ScrollPosition())
+            if autoSelectFirstImage == true {
+                changeImage(images[0])
+                collectionView.reloadData()
+                collectionView.selectItem(at: IndexPath(row: 0, section: 0), animated: false, scrollPosition: UICollectionView.ScrollPosition())
+            } else {
+                updateImageViewOnly(images[0])
+                collectionView.reloadData()
+            }
         }
         
         PHPhotoLibrary.shared().register(self)
@@ -300,24 +308,29 @@ final class FSAlbumView: UIView, UICollectionViewDataSource, UICollectionViewDel
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        
-        changeImage(images[(indexPath as NSIndexPath).row])
-        
-        imageCropView.changeScrollable(true)
-        
-        imageCropViewConstraintTop.constant = imageCropViewOriginalConstraintTop
-        collectionViewConstraintHeight.constant = self.frame.height - imageCropViewOriginalConstraintTop - imageCropViewContainer.frame.height
-        
-        UIView.animate(withDuration: 0.2,
-                       delay: 0.0,
-                       options: UIView.AnimationOptions.curveEaseOut,
-                       animations: {
-                        
-                        self.layoutIfNeeded()
-        }, completion: nil)
-        
-        dragDirection = Direction.up
-        collectionView.scrollToItem(at: indexPath, at: .top, animated: true)
+        if photoSelectionLimit > 0 && selectedImages.count + 1 <= photoSelectionLimit {
+            changeImage(images[(indexPath as NSIndexPath).row])
+            
+            imageCropView.changeScrollable(true)
+            
+            imageCropViewConstraintTop.constant = imageCropViewOriginalConstraintTop
+            collectionViewConstraintHeight.constant = self.frame.height - imageCropViewOriginalConstraintTop - imageCropViewContainer.frame.height
+            
+            UIView.animate(withDuration: 0.2,
+                           delay: 0.0,
+                           options: UIView.AnimationOptions.curveEaseOut,
+                           animations: {
+                            
+                            self.layoutIfNeeded()
+            }, completion: nil)
+            
+            dragDirection = Direction.up
+            self.delegate?.albumShouldEnableDoneButton(isEnabled: true)
+            collectionView.scrollToItem(at: indexPath, at: .top, animated: true)
+        } else {
+            self.delegate?.albumbSelectionLimitReached()
+            collectionView.deselectItem(at: indexPath, animated: true)
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView, shouldDeselectItemAt indexPath: IndexPath) -> Bool {
@@ -330,6 +343,12 @@ final class FSAlbumView: UIView, UICollectionViewDataSource, UICollectionViewDel
             
             selectedImages.remove(at: selected.offset)
             selectedAssets.remove(at: selected.offset)
+        }
+        
+        if self.selectedImages.count > 0 {
+            self.delegate?.albumShouldEnableDoneButton(isEnabled: true)
+        } else {
+            self.delegate?.albumShouldEnableDoneButton(isEnabled: false)
         }
         
         return true
@@ -463,6 +482,22 @@ private extension FSAlbumView {
                             self.selectedImages.append(result)
                         }
                     })
+            }
+        })
+    }
+    
+    func updateImageViewOnly(_ asset: PHAsset) {
+        self.imageCropView.image = nil
+        
+        DispatchQueue.global(qos: .default).async(execute: {
+            let options = PHImageRequestOptions()
+            options.isNetworkAccessAllowed = true
+            
+            self.imageManager?.requestImage(for: asset, targetSize: CGSize(width: asset.pixelWidth, height: asset.pixelHeight), contentMode: .aspectFill, options: options) { result, info in
+                DispatchQueue.main.async(execute: {
+                    self.imageCropView.imageSize = CGSize(width: asset.pixelWidth, height: asset.pixelHeight)
+                    self.imageCropView.image = result
+                })
             }
         })
     }

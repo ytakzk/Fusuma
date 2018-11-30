@@ -42,6 +42,7 @@ class ViewController: UIViewController, FusumaDelegate {
         fusuma.cropHeightRatio = 1.0
         fusuma.allowMultipleSelection = true
         fusuma.availableModes = [.library, .video, .camera]
+        fusuma.photoSelectionLimit = 4
         fusumaSavesImage = true
 
         self.present(fusuma, animated: true, completion: nil)
@@ -131,7 +132,11 @@ class ViewController: UIViewController, FusumaDelegate {
         
         alert.addAction(UIAlertAction(title: "Settings", style: .default) { (action) -> Void in
             
+<<<<<<< HEAD
             if let url = URL(string: UIApplication.openSettingsURLString) {
+=======
+            if let url = URL(string:UIApplication.openSettingsURLString) {
+>>>>>>> e3bd093d24e541214a149631326127dd94841f01
                 
                 UIApplication.shared.openURL(url)
             }

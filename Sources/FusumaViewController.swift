@@ -44,6 +44,7 @@ public protocol FusumaDelegate: class {
     func fusumaDismissedWithImage(_ image: UIImage, source: FusumaMode)
     func fusumaClosed()
     func fusumaWillClosed()
+    func fusumaLimitReached()
 }
 
 public extension FusumaDelegate {
@@ -53,6 +54,7 @@ public extension FusumaDelegate {
     func fusumaDismissedWithImage(_ image: UIImage, source: FusumaMode) {}
     func fusumaClosed() {}
     func fusumaWillClosed() {}
+    func fusumaLimitReached() {}
 }
 
 public var fusumaBaseTintColor   = UIColor.hex("#c9c7c8", alpha: 1.0)
@@ -109,6 +111,8 @@ public struct ImageMetadata {
 
     public var cropHeightRatio: CGFloat = 1
     public var allowMultipleSelection: Bool = false
+    public var photoSelectionLimit: Int = 1
+    public var autoSelectFirstImage: Bool = false
 
     private var mode: FusumaMode = .library
     
@@ -163,6 +167,8 @@ public struct ImageMetadata {
         menuView.addBottomBorder(UIColor.black, width: 1.0)
 
         albumView.allowMultipleSelection = allowMultipleSelection
+        albumView.photoSelectionLimit = photoSelectionLimit
+        albumView.autoSelectFirstImage = autoSelectFirstImage
         
         libraryButton.tintColor = fusumaTintColor
         cameraButton.tintColor  = fusumaTintColor
@@ -299,6 +305,7 @@ public struct ImageMetadata {
             cameraView.croppedAspectRatioConstraint?.isActive = false
         }
         cameraView.initialCaptureDevicePosition = cameraPosition
+        self.doneButton.isEnabled = false
     }
     
     override public func viewWillAppear(_ animated: Bool) {
@@ -335,6 +342,14 @@ public struct ImageMetadata {
         super.viewWillDisappear(animated)
         self.stopAll()
     }
+    
+    override public var shouldAutorotate: Bool {
+        return false
+    }
+    
+    override public var supportedInterfaceOrientations: UIInterfaceOrientationMask {
+        return .portrait
+    }
 
     override public var prefersStatusBarHidden : Bool {
         
@@ -367,7 +382,6 @@ public struct ImageMetadata {
     }
     
     @IBAction func doneButtonPressed(_ sender: UIButton) {
-        
         allowMultipleSelection ? fusumaDidFinishInMultipleMode() : fusumaDidFinishInSingleMode()
     }
     
@@ -485,7 +499,6 @@ public struct ImageMetadata {
                     
                     self.doDismiss {
                         self.delegate?.fusumaMultipleImageSelected(images, source: self.mode, metaData: metaData)
-                        self.delegate?.fusumaMultipleImageSelected(images, source: self.mode)
                     }
                 }
             }
@@ -508,6 +521,13 @@ public struct ImageMetadata {
 }
 
 extension FusumaViewController: FSAlbumViewDelegate, FSCameraViewDelegate, FSVideoCameraViewDelegate {
+    public func albumbSelectionLimitReached() {
+        self.delegate?.fusumaLimitReached()
+    }
+    
+    public func albumShouldEnableDoneButton(isEnabled: Bool) {
+        self.doneButton.isEnabled = isEnabled
+    }
     
     public func getCropHeightRatio() -> CGFloat {
         

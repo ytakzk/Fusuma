@@ -12,19 +12,21 @@ import Photos
 final class FSAlbumViewCell: UICollectionViewCell {
     
     @IBOutlet weak var imageView: UIImageView!
+    @IBOutlet weak var checkmarkImageView: UIImageView! {
+        didSet {
+            self.checkmarkImageView.isHidden = true
+        }
+    }
     
     var selectedLayer = CALayer()
     
     var image: UIImage? {
-        
         didSet {
-            
             self.imageView.image = image            
         }
     }
     
     override func awakeFromNib() {
-        
         super.awakeFromNib()
         self.isSelected = false
         
@@ -32,20 +34,17 @@ final class FSAlbumViewCell: UICollectionViewCell {
     }
     
     override var isSelected : Bool {
-        
         didSet {
-
             if selectedLayer.superlayer == self.layer {
-
                 selectedLayer.removeFromSuperlayer()
+                self.checkmarkImageView.isHidden = true
             }
             
             if isSelected {
-
                 selectedLayer.frame = self.bounds
                 self.layer.addSublayer(selectedLayer)
+                self.checkmarkImageView.isHidden = false
             }
         }
-    }
-    
+    }    
 }
