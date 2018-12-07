@@ -284,7 +284,7 @@ final class FSAlbumView: UIView, UICollectionViewDataSource, UICollectionViewDel
 
             dragDirection = Direction.up
             delegate?.albumShouldEnableDoneButton(isEnabled: true)
-            collectionView.selectItem(at: indexPath, animated: true, scrollPosition: .top)
+            collectionView.scrollToItem(at: indexPath, at: .top, animated: true)
         } else {
             delegate?.albumbSelectionLimitReached()
             collectionView.deselectItem(at: indexPath, animated: true)
