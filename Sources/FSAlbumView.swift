@@ -262,6 +262,12 @@ final class FSAlbumView: UIView, UICollectionViewDataSource, UICollectionViewDel
     }
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        
+        if !allowMultipleSelection {
+            self.selectedImages.removeAll()
+            self.selectedAssets.removeAll()
+        }
+        
         if photoSelectionLimit > 0 && selectedImages.count + 1 <= photoSelectionLimit {
             changeImage(images[(indexPath as NSIndexPath).row])
 
@@ -278,7 +284,7 @@ final class FSAlbumView: UIView, UICollectionViewDataSource, UICollectionViewDel
 
             dragDirection = Direction.up
             delegate?.albumShouldEnableDoneButton(isEnabled: true)
-            collectionView.scrollToItem(at: indexPath, at: .top, animated: true)
+            collectionView.selectItem(at: indexPath, animated: true, scrollPosition: .top)
         } else {
             delegate?.albumbSelectionLimitReached()
             collectionView.deselectItem(at: indexPath, animated: true)
