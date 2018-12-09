@@ -262,6 +262,11 @@ final class FSAlbumView: UIView, UICollectionViewDataSource, UICollectionViewDel
     }
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        if !allowMultipleSelection {
+            selectedImages.removeAll()
+            selectedAssets.removeAll()
+        }
+
         if photoSelectionLimit > 0 && selectedImages.count + 1 <= photoSelectionLimit {
             changeImage(images[(indexPath as NSIndexPath).row])
 
