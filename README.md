@@ -43,6 +43,7 @@ pod 'Fusuma'
 ```
 
 #### Swift 3
+The latest version does support Swift 4.2. If you're still using Swift 3, you can install Fusuma as follows:
 
 `pod 'Fusuma', github: 'git@github.com:ytakzk/Fusuma.git', branch: 'swift-3'`
 
