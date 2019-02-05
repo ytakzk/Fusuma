@@ -257,33 +257,29 @@ public struct ImageMetadata {
             libraryButton.removeFromSuperview()
             cameraButton.removeFromSuperview()
             videoButton.removeFromSuperview()
-
-            return
         }
-
-        if !availableModes.contains(.camera) {
-            return
+        
+        if availableModes.contains(.camera) {
+            if fusumaCropImage {
+                let heightRatio = getCropHeightRatio()
+                cameraView.croppedAspectRatioConstraint = NSLayoutConstraint(
+                    item: cameraView.previewViewContainer,
+                    attribute: NSLayoutConstraint.Attribute.height,
+                    relatedBy: NSLayoutConstraint.Relation.equal,
+                    toItem: cameraView.previewViewContainer,
+                    attribute: NSLayoutConstraint.Attribute.width,
+                    multiplier: heightRatio,
+                    constant: 0)
+                
+                cameraView.fullAspectRatioConstraint.isActive     = false
+                cameraView.croppedAspectRatioConstraint?.isActive = true
+                
+            } else {
+                cameraView.fullAspectRatioConstraint.isActive     = true
+                cameraView.croppedAspectRatioConstraint?.isActive = false
+            }
+            cameraView.initialCaptureDevicePosition = cameraPosition
         }
-
-        if fusumaCropImage {
-            let heightRatio = getCropHeightRatio()
-            cameraView.croppedAspectRatioConstraint = NSLayoutConstraint(
-                item: cameraView.previewViewContainer,
-                attribute: NSLayoutConstraint.Attribute.height,
-                relatedBy: NSLayoutConstraint.Relation.equal,
-                toItem: cameraView.previewViewContainer,
-                attribute: NSLayoutConstraint.Attribute.width,
-                multiplier: heightRatio,
-                constant: 0)
-
-            cameraView.fullAspectRatioConstraint.isActive     = false
-            cameraView.croppedAspectRatioConstraint?.isActive = true
-
-        } else {
-            cameraView.fullAspectRatioConstraint.isActive     = true
-            cameraView.croppedAspectRatioConstraint?.isActive = false
-        }
-        cameraView.initialCaptureDevicePosition = cameraPosition
 
         doneButton.isEnabled = false
     }
