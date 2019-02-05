@@ -31,6 +31,7 @@ final class FSAlbumView: UIView, UICollectionViewDataSource, UICollectionViewDel
     var allowMultipleSelection = false
     var photoSelectionLimit = 1
     var autoSelectFirstImage = false
+    var disableLibraryGesture = false
 
     private var images: PHFetchResult<PHAsset>!
     private var imageManager: PHCachingImageManager?
@@ -85,7 +86,7 @@ final class FSAlbumView: UIView, UICollectionViewDataSource, UICollectionViewDel
         let panGesture = UIPanGestureRecognizer(target: self, action: #selector(FSAlbumView.panned(_:)))
         panGesture.delegate = self
 
-        addGestureRecognizer(panGesture)
+        if !disableLibraryGesture { addGestureRecognizer(panGesture) }
 
         collectionViewConstraintHeight.constant = self.frame.height - imageCropViewContainer.frame.height - imageCropViewOriginalConstraintTop
         imageCropViewConstraintTop.constant = 50

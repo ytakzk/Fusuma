@@ -30,6 +30,7 @@ class ViewController: UIViewController, FusumaDelegate {
         fusuma.availableModes = [.library, .video, .camera]
         fusuma.photoSelectionLimit = 4
         fusumaSavesImage = true
+        fusuma.disableLibraryGesture = true
 
         present(fusuma, animated: true, completion: nil)
     }

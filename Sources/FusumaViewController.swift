@@ -111,12 +111,14 @@ public struct ImageMetadata {
 
     public var availableModes: [FusumaMode] = [.library, .camera]
     public var cameraPosition = AVCaptureDevice.Position.back
-
+    public var disableLibraryGesture = false
+    
     @IBOutlet weak var photoLibraryViewerContainer: UIView!
     @IBOutlet weak var cameraShotContainer: UIView!
     @IBOutlet weak var videoShotContainer: UIView!
 
     @IBOutlet weak var titleLabel: UILabel!
+    @IBOutlet weak var statusBarView: UIView!
     @IBOutlet weak var menuView: UIView!
     @IBOutlet weak var closeButton: UIButton!
     @IBOutlet weak var libraryButton: UIButton!
@@ -154,12 +156,15 @@ public struct ImageMetadata {
         cameraButton.setTitle(fusumaCameraTitle, for: .normal)
         videoButton.setTitle(fusumaVideoTitle, for: .normal)
 
+        statusBarView.backgroundColor = fusumaBackgroundColor
+        statusBarView.addBottomBorder(UIColor.hex("#f1f1f1", alpha: 1.0), width: 1.0)
         menuView.backgroundColor = fusumaBackgroundColor
         menuView.addBottomBorder(UIColor.black, width: 1.0)
 
         albumView.allowMultipleSelection = allowMultipleSelection
         albumView.photoSelectionLimit = photoSelectionLimit
         albumView.autoSelectFirstImage = autoSelectFirstImage
+        albumView.disableLibraryGesture = disableLibraryGesture
 
         libraryButton.tintColor = fusumaTintColor
         cameraButton.tintColor  = fusumaTintColor
@@ -545,6 +550,7 @@ private extension FusumaViewController {
             videoView.startCamera()
         }
 
+        view.bringSubviewToFront(statusBarView)
         view.bringSubviewToFront(menuView)
     }
 
