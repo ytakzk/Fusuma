@@ -157,9 +157,8 @@ public struct ImageMetadata {
         videoButton.setTitle(fusumaVideoTitle, for: .normal)
 
         statusBarView.backgroundColor = fusumaBackgroundColor
-        statusBarView.addBottomBorder(UIColor.hex("#f1f1f1", alpha: 1.0), width: 1.0)
         menuView.backgroundColor = fusumaBackgroundColor
-        menuView.addBottomBorder(UIColor.black, width: 1.0)
+        menuView.addBottomBorder(UIColor.hex("#f1f1f1", alpha: 1.0), width: 1.0)
 
         albumView.allowMultipleSelection = allowMultipleSelection
         albumView.photoSelectionLimit = photoSelectionLimit
