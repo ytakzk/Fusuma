@@ -121,6 +121,7 @@ public struct ImageMetadata {
     @IBOutlet weak var statusBarView: UIView!
     @IBOutlet weak var menuView: UIView!
     @IBOutlet weak var closeButton: UIButton!
+    @IBOutlet weak var buttonContainerHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var libraryButton: UIButton!
     @IBOutlet weak var cameraButton: UIButton!
     @IBOutlet weak var videoButton: UIButton!
@@ -261,6 +262,7 @@ public struct ImageMetadata {
             libraryButton.removeFromSuperview()
             cameraButton.removeFromSuperview()
             videoButton.removeFromSuperview()
+            buttonContainerHeightConstraint.constant = 0
         }
         
         if availableModes.contains(.camera) {

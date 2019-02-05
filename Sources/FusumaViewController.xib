@@ -11,6 +11,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="FusumaViewController" customModule="Fusuma" customModuleProvider="target">
             <connections>
+                <outlet property="buttonContainerHeightConstraint" destination="nc5-7l-kEq" id="7s2-6x-8rn"/>
                 <outlet property="cameraButton" destination="sCN-QB-mCu" id="tC3-i4-xpG"/>
                 <outlet property="cameraShotContainer" destination="CFH-FU-LPW" id="gvI-wh-cln"/>
                 <outlet property="closeButton" destination="Dx0-Tt-oZs" id="ci8-ub-48f"/>
