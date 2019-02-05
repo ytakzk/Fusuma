@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = "Fusuma"
-  s.version          = "1.3.1"
+  s.version          = "1.3.2"
   s.summary          = "Instagram-like photo browser with a few line of code written in Swift"
   s.homepage         = "https://github.com/ytakzk/Fusuma"
   s.license          = 'MIT'
