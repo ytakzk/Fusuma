@@ -21,6 +21,8 @@ final class FSVideoCameraView: UIView {
 
     weak var delegate: FSVideoCameraViewDelegate? = nil
 
+    var recordedOrientation = UIDeviceOrientation.portrait
+    
     var session: AVCaptureSession?
     var device: AVCaptureDevice?
     var videoInput: AVCaptureDeviceInput?
@@ -54,24 +56,42 @@ final class FSVideoCameraView: UIView {
         for device in AVCaptureDevice.devices() {
             if device.position == AVCaptureDevice.Position.back {
                 self.device = device
+                break
             }
         }
 
         guard let device = device else { return }
 
-        do {
+       do {
             videoInput = try AVCaptureDeviceInput(device: device)
 
             session.addInput(videoInput!)
 
             videoOutput = AVCaptureMovieFileOutput()
-            let totalSeconds = 60.0 //Total Seconds of capture time
-            let timeScale: Int32 = 30 //FPS
 
+            // add audio conditionally
+            if let audioDevice = AVCaptureDevice.default(for: .audio) {
+                if let audioInput = try? AVCaptureDeviceInput(device: audioDevice) {
+                    if session.canAddInput(audioInput) {
+                        session.addInput(audioInput)
+                    }
+                }
+            }
+
+
+            let totalSeconds = 10.0 //Total Seconds of capture time
+            let timeScale: Int32 = 30 //FPS
+//
+////            if videoOutput!.availableVideoCodecTypes.contains(.h264) {
+//                // Use the H.264 codec to encode the video.
+//            videoOutput!.setOutputSettings([AVVideoCodecKey:  AVVideoCodecType.h264], for: videoOutput!.connection(with: AVMediaType.video)!)
+////            }
+//
             let maxDuration = CMTimeMakeWithSeconds(totalSeconds, preferredTimescale: timeScale)
 
             videoOutput?.maxRecordedDuration = maxDuration
-            videoOutput?.minFreeDiskSpaceLimit = 1024 * 1024 //SET MIN FREE SPACE IN BYTES FOR RECORDING TO CONTINUE ON A VOLUME
+            // 35 mb
+            videoOutput?.minFreeDiskSpaceLimit = 35 * 1024 * 1024 //SET MIN FREE SPACE IN BYTES FOR RECORDING TO CONTINUE ON A VOLUME
 
             if session.canAddOutput(videoOutput!) {
                 session.addOutput(videoOutput!)
@@ -226,14 +246,166 @@ final class FSVideoCameraView: UIView {
     }
 }
 
+extension AVAsset {
+    
+    var g_size: CGSize {
+        return tracks(withMediaType: AVMediaType.video).first?.naturalSize ?? .zero
+    }
+    
+    var g_orientation: UIInterfaceOrientation {
+        
+        guard let transform = tracks(withMediaType: AVMediaType.video).first?.preferredTransform else {
+            return .portrait
+        }
+        
+        switch (transform.tx, transform.ty) {
+        case (0, 0):
+            return .landscapeRight
+        case (g_size.width, g_size.height):
+            return .landscapeLeft
+        case (0, g_size.width):
+            return .portraitUpsideDown
+        default:
+            return .portrait
+        }
+    }
+}
+
 extension FSVideoCameraView: AVCaptureFileOutputRecordingDelegate {
+    
+    
     func fileOutput(_ captureOutput: AVCaptureFileOutput, didStartRecordingTo fileURL: URL, from connections: [AVCaptureConnection]) {
         print("started recording to: \(fileURL)")
+        recordedOrientation = UIDevice.current.orientation
+    }
+
+    func replaceMovURL(u: URL) -> URL {
+        return u.deletingPathExtension().appendingPathExtension("mp4")
+    }
+    func _getDataFor(_ item: AVPlayerItem, completion: @escaping (URL?) -> ()) {
+
+        guard item.asset.isExportable else {
+            completion(nil)
+            return
+        }
+
+        let composition = AVMutableComposition()
+        let compositionVideoTrack = composition.addMutableTrack(withMediaType: AVMediaType.video, preferredTrackID: CMPersistentTrackID(kCMPersistentTrackID_Invalid))
+        let compositionAudioTrack = composition.addMutableTrack(withMediaType: AVMediaType.audio, preferredTrackID: CMPersistentTrackID(kCMPersistentTrackID_Invalid))
+
+        let sourceVideoTrack = item.asset.tracks(withMediaType: AVMediaType.video).first!
+        let sourceAudioTrack = item.asset.tracks(withMediaType: AVMediaType.audio).first!
+        
+        do {
+            try compositionVideoTrack!.insertTimeRange(CMTimeRangeMake(start: CMTime.zero, duration: item.asset.duration), of: sourceVideoTrack, at: CMTime.zero)
+            try compositionAudioTrack!.insertTimeRange(CMTimeRangeMake(start: CMTime.zero, duration: item.asset.duration), of: sourceAudioTrack, at: CMTime.zero)
+        } catch let error1 as NSError {
+            print(error1)
+//            error = error1
+            completion(nil)
+            return
+        } catch {
+            print(error)
+            completion(nil)
+            return
+        }
+
+        // rotate if necessary
+        if recordedOrientation == .portrait || recordedOrientation == .portraitUpsideDown {
+            let rotationTransform = CGAffineTransform(rotationAngle: CGFloat(Double.pi / 2));
+            compositionVideoTrack!.preferredTransform = rotationTransform;
+        } else if recordedOrientation == .landscapeRight {
+            let rotationTransform = CGAffineTransform(rotationAngle: CGFloat(Double.pi));
+            compositionVideoTrack!.preferredTransform = rotationTransform;
+
+        }
+        
+        
+        
+        let compatiblePresets = AVAssetExportSession.exportPresets(compatibleWith: composition)
+        var preset: String = AVAssetExportPresetPassthrough
+        if compatiblePresets.contains(AVAssetExportPreset1920x1080) { preset = AVAssetExportPreset1920x1080 }
+
+        guard
+            let exportSession = AVAssetExportSession(asset: composition, presetName: preset),
+            exportSession.supportedFileTypes.contains(AVFileType.mp4) else {
+                completion(nil)
+                return
+        }
+
+        var tempFileUrl = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0].appendingPathComponent("temp_video_data.mp4", isDirectory: false)
+        tempFileUrl = URL(fileURLWithPath: tempFileUrl.path)
+
+        exportSession.outputURL = tempFileUrl
+        exportSession.outputFileType = AVFileType.mp4
+        let startTime = CMTimeMake(value: 0, timescale: 1)
+        let timeRange = CMTimeRangeMake(start: startTime, duration: item.duration)
+        exportSession.timeRange = timeRange
+
+        do { // delete old video
+            try FileManager.default.removeItem(at: tempFileUrl)
+        } catch { print(error.localizedDescription) }
+
+        exportSession.exportAsynchronously {
+            print("\(tempFileUrl)")
+            print("\(String(describing: exportSession.error))")
+            _ = try? Data(contentsOf: tempFileUrl)
+//            _ = try? FileManager.default.removeItem(at: tempFileUrl)
+            completion(tempFileUrl)
+        }
     }
 
     func fileOutput(_ captureOutput: AVCaptureFileOutput, didFinishRecordingTo outputFileURL: URL, from connections: [AVCaptureConnection], error: Error?) {
         print("finished recording to: \(outputFileURL)")
-        delegate?.videoFinished(withFileURL: outputFileURL)
+
+        let asset = AVURLAsset(url: outputFileURL)
+        let item = AVPlayerItem(asset: asset)
+
+        self._getDataFor(item, completion: ({ (url) in
+            
+            DispatchQueue.main.async {
+                if let u = url {
+                    self.delegate?.videoFinished(withFileURL: u)
+                }
+            }
+
+        }))
+
+
+//        // These settings will encode using H.264.
+//        let preset = AVAssetExportPreset1920x1080
+//        let outFileType = AVFileType.mp4
+//
+//        let anAsset = AVAsset(url: outputFileURL)
+//
+//        AVAssetExportSession.determineCompatibility(ofExportPreset: preset, with: anAsset, outputFileType: outFileType, completionHandler: { (isCompatible) in
+//            if !isCompatible {
+//                return
+//            }
+//            guard let export = AVAssetExportSession(asset: anAsset, presetName: preset) else {
+//                return
+//            }
+//
+//            let newurl = self.replaceMovURL(u: outputFileURL)
+//
+//            DispatchQueue.main.async {
+//
+//                export.outputFileType = outFileType
+//                export.outputURL = newurl
+//                export.exportAsynchronously { () -> Void in
+//                    // Handle export results.
+//                    if let err = export.error {
+//
+//                    } else {
+//                        DispatchQueue.main.async {
+//                             self.delegate?.videoFinished(withFileURL: newurl)
+//                        }
+//                    }
+//                }
+//            }
+//        })
+
+
     }
 }
 
