@@ -73,10 +73,10 @@ final class FSCameraView: UIView, UIGestureRecognizerDelegate {
         guard let session = session else { return }
 
         for device in AVCaptureDevice.devices() {
-            if let captureDevice = device as? AVCaptureDevice, captureDevice.position == initialCaptureDevicePosition {
-                self.device = captureDevice
+            if device.position == initialCaptureDevicePosition {
+                self.device = device
 
-                if !captureDevice.hasFlash {
+                if !device.hasFlash {
                     flashButton.isHidden = true
                 }
             }
@@ -92,11 +92,11 @@ final class FSCameraView: UIView, UIGestureRecognizerDelegate {
 
             videoLayer = AVCaptureVideoPreviewLayer(session: session)
             videoLayer?.frame = previewViewContainer.bounds
-            videoLayer?.videoGravity = AVLayerVideoGravityResizeAspectFill
+            videoLayer?.videoGravity = AVLayerVideoGravity(rawValue: convertFromAVLayerVideoGravity(AVLayerVideoGravity.resizeAspectFill))
 
             previewViewContainer.layer.addSublayer(videoLayer!)
 
-            session.sessionPreset = AVCaptureSessionPresetPhoto
+            session.sessionPreset = AVCaptureSession.Preset(rawValue: convertFromAVCaptureSessionPreset(AVCaptureSession.Preset.photo))
 
             session.startRunning()
 
@@ -110,7 +110,7 @@ final class FSCameraView: UIView, UIGestureRecognizerDelegate {
         flashConfiguration()
         startCamera()
 
-        NotificationCenter.default.addObserver(self, selector: #selector(FSCameraView.willEnterForegroundNotification(_:)), name: NSNotification.Name.UIApplicationWillEnterForeground, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(FSCameraView.willEnterForegroundNotification(_:)), name: UIApplication.willEnterForegroundNotification, object: nil)
 
         let pinchGestureRecognizer = UIPinchGestureRecognizer(target: self, action: #selector(handlePinchToZoom))
         previewViewContainer.addGestureRecognizer(pinchGestureRecognizer)
@@ -125,7 +125,7 @@ final class FSCameraView: UIView, UIGestureRecognizerDelegate {
     }
 
     func startCamera() {
-        switch AVCaptureDevice.authorizationStatus(forMediaType: AVMediaTypeVideo) {
+        switch AVCaptureDevice.authorizationStatus(for: AVMediaType(rawValue: convertFromAVMediaType(AVMediaType.video))) {
         case .authorized:
             session?.startRunning()
 
@@ -159,7 +159,7 @@ final class FSCameraView: UIView, UIGestureRecognizerDelegate {
         }
 
         DispatchQueue.global(qos: .default).async(execute: { () -> Void in
-            guard let videoConnection = imageOutput.connection(withMediaType: AVMediaTypeVideo) else { return }
+            guard let videoConnection = imageOutput.connection(with: AVMediaType(rawValue: convertFromAVMediaType(AVMediaType.video))) else { return }
 
             imageOutput.captureStillImageAsynchronously(from: videoConnection) { (buffer, error) -> Void in
                 self.stopCamera()
@@ -174,7 +174,7 @@ final class FSCameraView: UIView, UIGestureRecognizerDelegate {
                     return
                 }
 
-                let rect   = videoLayer.metadataOutputRectOfInterest(for: videoLayer.bounds)
+                let rect   = videoLayer.metadataOutputRectConverted(fromLayerRect: videoLayer.bounds)
                 let width  = CGFloat(cgImage.width)
                 let height = CGFloat(cgImage.height)
 
@@ -216,14 +216,14 @@ final class FSCameraView: UIView, UIGestureRecognizerDelegate {
 
             if let session = session {
                 for input in session.inputs {
-                    session.removeInput(input as! AVCaptureInput)
+                    session.removeInput(input )
                 }
 
                 let position = (videoInput?.device.position == AVCaptureDevice.Position.front) ? AVCaptureDevice.Position.back : AVCaptureDevice.Position.front
 
-                for device in AVCaptureDevice.devices(withMediaType: AVMediaTypeVideo) {
-                    if let captureDevice = device as? AVCaptureDevice, captureDevice.position == position {
-                        videoInput = try AVCaptureDeviceInput(device: captureDevice)
+                for device in AVCaptureDevice.devices(for: AVMediaType(rawValue: convertFromAVMediaType(AVMediaType.video))) {
+                    if device.position == position {
+                        videoInput = try AVCaptureDeviceInput(device: device)
                         session.addInput(videoInput!)
                     }
                 }
@@ -306,7 +306,7 @@ fileprivate extension FSCameraView {
         let viewsize = self.bounds.size
         let newPoint = CGPoint(x: point.y/viewsize.height, y: 1.0-point.x/viewsize.width)
 
-        guard let device = AVCaptureDevice.defaultDevice(withMediaType: AVMediaTypeVideo) else {
+        guard let device = AVCaptureDevice.default(for: AVMediaType(rawValue: convertFromAVMediaType(AVMediaType.video))) else {
             return
         }
 
@@ -370,7 +370,7 @@ fileprivate extension FSCameraView {
     }
 
     var cameraIsAvailable: Bool {
-        let status = AVCaptureDevice.authorizationStatus(forMediaType: AVMediaTypeVideo)
+        let status = AVCaptureDevice.authorizationStatus(for: AVMediaType(rawValue: convertFromAVMediaType(AVMediaType.video)))
 
         if status == AVAuthorizationStatus.authorized {
             return true
@@ -378,4 +378,19 @@ fileprivate extension FSCameraView {
 
         return false
     }
+}
+
+// Helper function inserted by Swift 4.2 migrator.
+fileprivate func convertFromAVLayerVideoGravity(_ input: AVLayerVideoGravity) -> String {
+	return input.rawValue
+}
+
+// Helper function inserted by Swift 4.2 migrator.
+fileprivate func convertFromAVCaptureSessionPreset(_ input: AVCaptureSession.Preset) -> String {
+	return input.rawValue
+}
+
+// Helper function inserted by Swift 4.2 migrator.
+fileprivate func convertFromAVMediaType(_ input: AVMediaType) -> String {
+	return input.rawValue
 }

@@ -131,7 +131,7 @@ class ViewController: UIViewController, FusumaDelegate {
         
         alert.addAction(UIAlertAction(title: "Settings", style: .default) { (action) -> Void in
             
-            if let url = URL(string:UIApplicationOpenSettingsURLString) {
+            if let url = URL(string:UIApplication.openSettingsURLString) {
                 
                 UIApplication.shared.openURL(url)
             }
