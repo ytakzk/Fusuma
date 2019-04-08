@@ -19,10 +19,11 @@
 		D77CA29D1CBBDEB300C4BAC4 /* FSAlbumViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D77CA2921CBBDEB300C4BAC4 /* FSAlbumViewCell.xib */; };
 		D77CA29E1CBBDEB300C4BAC4 /* FSCameraView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D77CA2931CBBDEB300C4BAC4 /* FSCameraView.swift */; };
 		D77CA29F1CBBDEB300C4BAC4 /* FSCameraView.xib in Resources */ = {isa = PBXBuildFile; fileRef = D77CA2941CBBDEB300C4BAC4 /* FSCameraView.xib */; };
-		D77CA2A01CBBDEB300C4BAC4 /* FSConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = D77CA2951CBBDEB300C4BAC4 /* FSConstants.swift */; };
 		D77CA2A11CBBDEB300C4BAC4 /* FSImageCropView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D77CA2961CBBDEB300C4BAC4 /* FSImageCropView.swift */; };
 		D77CA2A21CBBDEB300C4BAC4 /* FusumaViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D77CA2971CBBDEB300C4BAC4 /* FusumaViewController.swift */; };
 		D77CA2A31CBBDEB300C4BAC4 /* FusumaViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = D77CA2981CBBDEB300C4BAC4 /* FusumaViewController.xib */; };
+		EADB82FA225BF6360013D028 /* UIViewExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = EADB82F8225BF6360013D028 /* UIViewExtensions.swift */; };
+		EADB82FB225BF6360013D028 /* UIColorExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = EADB82F9225BF6360013D028 /* UIColorExtensions.swift */; };
 		EDDC0B421D04FA14009135DB /* FSVideoCameraView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDDC0B401D04FA14009135DB /* FSVideoCameraView.swift */; };
 		EDDC0B431D04FA14009135DB /* FSVideoCameraView.xib in Resources */ = {isa = PBXBuildFile; fileRef = EDDC0B411D04FA14009135DB /* FSVideoCameraView.xib */; };
 /* End PBXBuildFile section */
@@ -42,10 +43,11 @@
 		D77CA2921CBBDEB300C4BAC4 /* FSAlbumViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FSAlbumViewCell.xib; sourceTree = "<group>"; };
 		D77CA2931CBBDEB300C4BAC4 /* FSCameraView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FSCameraView.swift; sourceTree = "<group>"; };
 		D77CA2941CBBDEB300C4BAC4 /* FSCameraView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FSCameraView.xib; sourceTree = "<group>"; };
-		D77CA2951CBBDEB300C4BAC4 /* FSConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FSConstants.swift; sourceTree = "<group>"; };
 		D77CA2961CBBDEB300C4BAC4 /* FSImageCropView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FSImageCropView.swift; sourceTree = "<group>"; };
 		D77CA2971CBBDEB300C4BAC4 /* FusumaViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FusumaViewController.swift; sourceTree = "<group>"; };
 		D77CA2981CBBDEB300C4BAC4 /* FusumaViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FusumaViewController.xib; sourceTree = "<group>"; };
+		EADB82F8225BF6360013D028 /* UIViewExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIViewExtensions.swift; sourceTree = "<group>"; };
+		EADB82F9225BF6360013D028 /* UIColorExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIColorExtensions.swift; sourceTree = "<group>"; };
 		EDDC0B401D04FA14009135DB /* FSVideoCameraView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FSVideoCameraView.swift; sourceTree = "<group>"; };
 		EDDC0B411D04FA14009135DB /* FSVideoCameraView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FSVideoCameraView.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -94,6 +96,7 @@
 		D77CA28D1CBBDEB300C4BAC4 /* Sources */ = {
 			isa = PBXGroup;
 			children = (
+				EADB82F7225BF6360013D028 /* Extensions */,
 				D77CA28E1CBBDEB300C4BAC4 /* Assets.xcassets */,
 				D77CA28F1CBBDEB300C4BAC4 /* FSAlbumView.swift */,
 				D77CA2901CBBDEB300C4BAC4 /* FSAlbumView.xib */,
@@ -101,7 +104,6 @@
 				D77CA2921CBBDEB300C4BAC4 /* FSAlbumViewCell.xib */,
 				D77CA2931CBBDEB300C4BAC4 /* FSCameraView.swift */,
 				D77CA2941CBBDEB300C4BAC4 /* FSCameraView.xib */,
-				D77CA2951CBBDEB300C4BAC4 /* FSConstants.swift */,
 				D77CA2961CBBDEB300C4BAC4 /* FSImageCropView.swift */,
 				D77CA2971CBBDEB300C4BAC4 /* FusumaViewController.swift */,
 				D77CA2981CBBDEB300C4BAC4 /* FusumaViewController.xib */,
@@ -110,6 +112,15 @@
 			);
 			name = Sources;
 			path = ../../Sources;
+			sourceTree = "<group>";
+		};
+		EADB82F7225BF6360013D028 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				EADB82F8225BF6360013D028 /* UIViewExtensions.swift */,
+				EADB82F9225BF6360013D028 /* UIColorExtensions.swift */,
+			);
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -139,11 +150,12 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0730;
-				LastUpgradeCheck = 0910;
+				LastUpgradeCheck = 1010;
 				ORGANIZATIONNAME = ytakzk;
 				TargetAttributes = {
 					52412ABF1CA61C9F0073C4BE = {
 						CreatedOnToolsVersion = 7.3;
+						DevelopmentTeam = 8RDPEL799A;
 					};
 				};
 			};
@@ -194,10 +206,11 @@
 				D77CA29E1CBBDEB300C4BAC4 /* FSCameraView.swift in Sources */,
 				D77CA29C1CBBDEB300C4BAC4 /* FSAlbumViewCell.swift in Sources */,
 				D77CA29A1CBBDEB300C4BAC4 /* FSAlbumView.swift in Sources */,
-				D77CA2A01CBBDEB300C4BAC4 /* FSConstants.swift in Sources */,
 				D77CA2A21CBBDEB300C4BAC4 /* FusumaViewController.swift in Sources */,
 				52412AC41CA61C9F0073C4BE /* AppDelegate.swift in Sources */,
+				EADB82FA225BF6360013D028 /* UIViewExtensions.swift in Sources */,
 				D77CA2A11CBBDEB300C4BAC4 /* FSImageCropView.swift in Sources */,
+				EADB82FB225BF6360013D028 /* UIColorExtensions.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -236,12 +249,14 @@
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
@@ -291,12 +306,14 @@
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
@@ -331,6 +348,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = 8RDPEL799A;
 				INFOPLIST_FILE = FusumaExample/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				ONLY_ACTIVE_ARCH = YES;
@@ -344,6 +362,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = 8RDPEL799A;
 				INFOPLIST_FILE = FusumaExample/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = me.ytakzk.FusumaExample;
