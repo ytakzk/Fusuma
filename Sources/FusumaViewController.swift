@@ -344,7 +344,11 @@ public struct ImageMetadata {
     }
 
     @IBAction func doneButtonPressed(_ sender: UIButton) {
-        allowMultipleSelection ? fusumaDidFinishInMultipleMode() : fusumaDidFinishInSingleMode()
+        if allowMultipleSelection {
+            fusumaDidFinishInMultipleMode()
+        } else {
+            fusumaDidFinishInSingleMode()
+        }
     }
 
     fileprivate func doDismiss(completion: (() -> Void)?) {
@@ -407,9 +411,9 @@ public struct ImageMetadata {
             PHImageManager.default().requestImage(for: asset, targetSize: targetSize, contentMode: .aspectFill, options: options) { result, info in
                 guard let result = result else { return }
 
-                DispatchQueue.main.async(execute: {
+                DispatchQueue.main.async {
                     completion(asset, result)
-                })
+                }
             }
         })
     }
@@ -436,6 +440,7 @@ public struct ImageMetadata {
                 metaData.append(self.getMetaData(asset: asset))
 
                 if asset == self.albumView.selectedAssets.last {
+                    self.delegate?.fusumaMultipleImageSelected(images, source: self.mode, metaData: metaData)
                     self.doDismiss {
                         self.delegate?.fusumaMultipleImageSelected(images, source: self.mode, metaData: metaData)
                     }

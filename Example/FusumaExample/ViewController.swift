@@ -40,8 +40,7 @@ class ViewController: UIViewController, FusumaDelegate {
         
         fusuma.delegate = self
         fusuma.cropHeightRatio = 1.0
-        fusuma.allowMultipleSelection = true
-//        fusuma.availableModes = [.video]
+        fusuma.allowMultipleSelection = false
         fusumaSavesImage = true
 
         self.present(fusuma, animated: true, completion: nil)
@@ -73,7 +72,12 @@ class ViewController: UIViewController, FusumaDelegate {
         print("Number of selection images: \(images.count)")
 
         var count: Double = 0
-        
+        guard images.count > 1 else {
+            if let image = images.first {
+                imageView.image = image
+            }
+            return
+        }
         for image in images {
         
             DispatchQueue.main.asyncAfter(deadline: .now() + (3.0 * count)) {
