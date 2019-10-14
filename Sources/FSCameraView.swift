@@ -159,12 +159,13 @@ final class FSCameraView: UIView, UIGestureRecognizerDelegate {
         }
 
         DispatchQueue.global(qos: .default).async(execute: { () -> Void in
-            let videoConnection = imageOutput.connection(with: AVMediaType.video)
+            guard let videoConnection = imageOutput.connection(with: AVMediaType.video) else { return }
 
-            imageOutput.captureStillImageAsynchronously(from: videoConnection!) { (buffer, error) -> Void in
+            imageOutput.captureStillImageAsynchronously(from: videoConnection) { (buffer, error) -> Void in
                 self.stopCamera()
 
-                guard let data = AVCaptureStillImageOutput.jpegStillImageNSDataRepresentation(buffer!),
+                guard let buffer = buffer,
+                    let data = AVCaptureStillImageOutput.jpegStillImageNSDataRepresentation(buffer),
                     let image = UIImage(data: data),
                     let cgImage = image.cgImage,
                     let delegate = self.delegate,

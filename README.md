@@ -1,3 +1,7 @@
+# NOTE: This project is no longer maintained.
+
+We highly recommend [YPImagePicker](https://github.com/Yummypets/YPImagePicker).
+
 ## Fusuma
 
 Fusuma is a Swift library that provides an Instagram-like photo browser with a camera feature using only a few lines of code.  
@@ -43,8 +47,9 @@ pod 'Fusuma'
 ```
 
 #### Swift 3
+The latest version does support Swift 4.2. If you're still using Swift 3, you can install Fusuma as follows:
 
-`pod 'Fusuma', github: 'git@github.com:ytakzk/Fusuma.git', branch: 'swift-3'`
+`pod 'Fusuma', git: 'git@github.com:ytakzk/Fusuma.git', branch: 'swift-3'`
 
 ## Fusuma Usage
 Import Fusuma ```import Fusuma``` then use the following codes in some function except for viewDidLoad and give FusumaDelegate to the view controller.  
@@ -52,17 +57,17 @@ Import Fusuma ```import Fusuma``` then use the following codes in some function 
 ```Swift
 let fusuma = FusumaViewController()
 fusuma.delegate = self
-fusuma.hasVideo = true //To allow for video capturing with .library and .camera available by default
+fusuma.availableModes = [FusumaMode.library, FusumaMode.camera, FusumaMode.video] // Add .video capturing mode to the default .library and .camera modes
 fusuma.cropHeightRatio = 0.6 // Height-to-width ratio. The default value is 1, which means a squared-size photo.
 fusuma.allowMultipleSelection = true // You can select multiple photos from the camera roll. The default value is false.
-self.presentViewController(fusuma, animated: true, completion: nil)
+self.present(fusuma, animated: true, completion: nil)
 ```
 
 #### Delegate methods
 
 ```Swift
 // Return the image which is selected from camera roll or is taken via the camera.
-func fusumaImageSelected(image: UIImage, source: FusumaMode) {
+func fusumaImageSelected(_ image: UIImage, source: FusumaMode) {
 
   print("Image selected")
 }
@@ -73,7 +78,7 @@ func fusumaDismissedWithImage(image: UIImage, source: FusumaMode) {
   print("Called just after FusumaViewController is dismissed.")
 }
 
-func fusumaVideoCompleted(withFileURL fileURL: NSURL) {
+func fusumaVideoCompleted(withFileURL fileURL: URL) {
 
   print("Called just after a video has been selected.")
 }
@@ -85,7 +90,7 @@ func fusumaCameraRollUnauthorized() {
 }
 
 // Return selected images when you allow to select multiple photos.
-func fusumaMultipleImageSelected(images: [UIImage], source: FusumaMode) {
+func fusumaMultipleImageSelected(_ images: [UIImage], source: FusumaMode) {
 
 }
 
@@ -105,7 +110,7 @@ fusumaCameraRollTitle = "CustomizeCameraRollTitle"
 fusumaCameraTitle = "CustomizeCameraTitle" // Camera Title
 fusumaTintColor: UIColor // tint color
 // ...
-self.presentViewController(fusuma, animated: true, completion: nil)
+self.present(fusuma, animated: true, completion: nil)
 
 ```
 
